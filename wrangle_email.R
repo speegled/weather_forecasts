@@ -36,18 +36,18 @@ extract_data_from_email <- function(email) {
     }
   }
   
+  # initialize time and date variables
   time <- ""
   date <- ""
+  
+  # format information and then add it to data frame
   for (line in v) {
-    # print(line)
-    if (str_detect(line, "\\.\\.")) { }
+    if (str_detect(line, "\\.\\.|FORECAST|CITY")) { }
     else if (str_detect(line, "EDT")) {
       split <- str_split_fixed(v[2], "EDT", n = 2)
-      time <- paste(split[1], "EDT")
-      date <- str_trim(split[2])
+      time <- split[1]
+      date <- str_split_fixed(str_trim(split[2]), " ", n = 2)[2]
     }
-    else if (str_detect(line, "FORECAST")) { }
-    else if (str_detect(line, "CITY")) { }
     else {
       # split once on "MM" or first number to retrieve city
       first_mm_or_num <- str_locate(line, "[0-9]|MM")[1, 1]
@@ -55,11 +55,16 @@ extract_data_from_email <- function(email) {
       remaining <- substr(line, first_mm_or_num, nchar(line))
       
       # split twice on whitespace to retrieve previous hi and lo
+      # doesn't consider case where only one of previous hi, previous lo is missing
       split <- str_split_fixed(remaining, "\\s+", n = 3)
-      if (split[1] != "MM") { previous_hi <- split[1] }
-      else { previous_hi <- NA }
-      if (split[2] != "MM") { previous_lo <- split[2] }
-      else { previous_lo <- NA }
+      if (split[1] != "MM" && split[2] != "MM") {
+        previous_hi <- max(split[1], split[2])
+        previous_lo <- min(split[1], split[2])
+      }
+      else {
+        previous_hi <- NA
+        previous_lo <- NA
+      }
       remaining <- split[3]
       
       # split once on whitespace to retrieve previous precipitation
@@ -82,13 +87,14 @@ extract_data_from_email <- function(email) {
       split <- str_split_fixed(remaining, "\\s+", 5)
       today_outlook <- split[1]
       today_temps <- str_split_fixed(split[2], "/", 2)
-      today_hi <- today_temps[1]
-      today_lo <- today_temps[2]
+      today_hi <- max(today_temps[1], today_temps[2])
+      today_lo <- min(today_temps[1], today_temps[2])
       tomorrow_outlook <- split[3]
       tomorrow_temps <- str_split_fixed(split[4], "/", 2)
-      tomorrow_hi <- tomorrow_temps[1]
-      tomorrow_lo <- tomorrow_temps[2]
+      tomorrow_hi <- max(tomorrow_temps[1], tomorrow_temps[2])
+      tomorrow_lo <- min(tomorrow_temps[1], tomorrow_temps[2])
       
+      # add new row to data frame
       row <- c(date, time, city, previous_lo, previous_hi, previous_precip,
                today_lo, today_hi,  today_outlook,
                tomorrow_lo, tomorrow_hi, tomorrow_outlook)
@@ -96,6 +102,17 @@ extract_data_from_email <- function(email) {
     }
   }
   
+  df$previous_lo <- as.integer(df$previous_lo)
+  df$previous_hi <- as.integer(df$previous_hi)
+  df$previous_precip <- as.numeric(df$previous_precip)
+  df$today_lo <- as.integer(df$today_lo)
+  df$today_hi <- as.integer(df$today_hi)
+  df$today_outlook <- as.factor(df$today_outlook)
+  df$tomorrow_lo <- as.integer(df$tomorrow_lo)
+  df$tomorrow_hi <- as.integer(df$tomorrow_hi)
+  df$tomorrow_outlook <- as.factor(df$tomorrow_outlook)
+  
+  # return data frame
   return(df)
 }
 
