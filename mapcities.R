@@ -13,9 +13,10 @@ key <- fromJSON(file = "creds.json")
 register_google(key)
 has_google_key()
 
+png("citiesMap.png")
 map <- ggplot() + borders('world', xlim = c(-125,-65), ylim = c(20, 50), color ='black', fill='lightblue')
-cities_map <- map + geom_point(data = cities, mapping = aes(x=LON, y=LAT), color = 'black')
-cities_map
+map + geom_point(data = cities, mapping = aes(x=LON, y=LAT), color = 'black')
+dev.off()
 
 # check outliers:
 # cities[which(cities$LAT < 26),]
