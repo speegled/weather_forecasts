@@ -44,7 +44,7 @@ extract_data_from_email <- function(email) {
   for (line in v) {
     if (str_detect(line, "\\.\\.|FORECAST|CITY")) { }
     else if (str_detect(line, "EDT")) {
-      split <- str_split_fixed(v[2], "EDT", n = 2)
+      split <- str_split_fixed(line, "EDT", n = 2)
       time <- split[1]
       date <- str_split_fixed(str_trim(split[2]), " ", n = 2)[2]
     }
