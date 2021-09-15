@@ -56,10 +56,11 @@ extract_data_from_email <- function(email) {
       
       # split twice on whitespace to retrieve previous hi and lo
       # doesn't consider case where only one of previous hi, previous lo is missing
+      # doesn't consider below zero case
       split <- str_split_fixed(remaining, "\\s+", n = 3)
       if (split[1] != "MM" && split[2] != "MM") {
-        previous_hi <- max(split[1], split[2])
-        previous_lo <- min(split[1], split[2])
+        previous_hi <- max(as.integer(split[1]), as.integer(split[2]))
+        previous_lo <- min(as.integer(split[1]), as.integer(split[2]))
       }
       else {
         previous_hi <- NA
@@ -84,15 +85,16 @@ extract_data_from_email <- function(email) {
       # split once on whitespace to retrieve tomorrow outlook
       # split once on whitespace to retrieve tomorrow hi and lo
       # missing values not considered here
+      # doesn't consider below zero case
       split <- str_split_fixed(remaining, "\\s+", 5)
       today_outlook <- split[1]
       today_temps <- str_split_fixed(split[2], "/", 2)
-      today_hi <- max(today_temps[1], today_temps[2])
-      today_lo <- min(today_temps[1], today_temps[2])
+      today_hi <- max(as.integer(today_temps[1]), as.integer(today_temps[2]))
+      today_lo <- min(as.integer(today_temps[1]), as.integer(today_temps[2]))
       tomorrow_outlook <- split[3]
       tomorrow_temps <- str_split_fixed(split[4], "/", 2)
-      tomorrow_hi <- max(tomorrow_temps[1], tomorrow_temps[2])
-      tomorrow_lo <- min(tomorrow_temps[1], tomorrow_temps[2])
+      tomorrow_hi <- max(as.integer(tomorrow_temps[1]), as.integer(tomorrow_temps[2]))
+      tomorrow_lo <- min(as.integer(tomorrow_temps[1]), as.integer(tomorrow_temps[2]))
       
       # add new row to data frame
       row <- c(date, time, city, previous_lo, previous_hi, previous_precip,
