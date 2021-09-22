@@ -1,7 +1,11 @@
 library(rvest)
+
+a <- read.csv("missingCities.csv")
+a
 # Sys.sleep(10)
 rn  = c("city", "state", "climate")
 df <- data.frame(matrix(ncol = 3, nrow = 0))
+df
 b = c()
 for (i in 1:nrow(a)) {
   url <- 'https://www.wikipedia.org/'
@@ -54,4 +58,8 @@ for (i in 1:nrow(a)) {
     }
   }
 }
+df
 
+missing_cities$CLIMATE <- df$climate
+missing_cities
+write.csv(missing_cities, file = "missingCities.csv", row.names = F)
