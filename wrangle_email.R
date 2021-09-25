@@ -3,6 +3,7 @@
 
 library(stringr)
 library(lubridate)
+library(purrr)
 
 find_hi_lo <- function(temps){
   if (temps[1] != "MM" && temps[2] != "MM") {
@@ -26,25 +27,25 @@ check_negative <- function(temps) {
   return(temps)
 }
 
-# import data for testing
-email = readLines("data/wx-natnl Digest Thu, 12 Aug 2021 (1_2).eml[1].eml")
-
-extract_data_from_email <- function(email) {
+extract_data_from_email <- function(email_file) {
+  email <- readLines(email_file)
+  
   # initiate empty vector and boolean variable
   v <-  c()
   b <- FALSE
   
-  # initialize data frame
+  # initialize data frame with 11 columns
   df <- data.frame(matrix(ncol = 11, nrow = 0))
   colnames(df) = c("date_and_time", "city",
                    "previous_lo", "previous_hi", "previous_precip",
                    "today_lo", "today_hi", "today_outlook",
                    "tomorrow_lo", "tomorrow_hi", "tomorrow_outlook")
   
-  # keep lines that are between "SELECTED CITIES" and "$$" then repeat for entire email
+  # keep lines that are between "SELECTED CITIES" and
+  # "$$" or "NATIONAL TEMPERATURE EXTREMES" then repeat for entire email
   for (line in email){
     if (grepl("SELECTED CITIES", line, ignore.case=FALSE, fixed=TRUE)){
-      b <-  TRUE 
+      b <-  TRUE
     }
     
     if (b == TRUE && line != "") {
@@ -64,7 +65,7 @@ extract_data_from_email <- function(email) {
   
   # initialize date and time variable
   date_and_time <- ""
-  print(v)
+
   # format information and then add it to data frame
   for (line in v) {
     if (str_detect(line, "\\.\\.|FORECAST|WEA|PCPN")) { }
@@ -157,4 +158,6 @@ extract_data_from_email <- function(email) {
   return(df)
 }
 
-df <- extract_data_from_email(email)
+files <- list.files(path = "data", pattern = "*.eml", full.names = TRUE, recursive = FALSE)
+df <- map_df(files, extract_data_from_email)
+write.csv(df, file = "email_data.csv")
