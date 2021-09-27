@@ -105,5 +105,6 @@ func = function(fcast) {
   df_temp
 }
 
-write.csv(df, file = "weather_data.csv", row.names = F)
+write.table(df, "weather_data.csv" , append = TRUE, sep = "," , col.names = !file.exists("weather_data.csv"), row.names = FALSE)
+
 
