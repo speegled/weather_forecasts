@@ -160,4 +160,4 @@ extract_data_from_email <- function(email_file) {
 
 files <- list.files(path = "data", pattern = "*.eml", full.names = TRUE, recursive = FALSE)
 df <- map_df(files, extract_data_from_email)
-write.csv(df, file = "email_data.csv")
+write.csv(df, file = "email_data.csv", row.names = FALSE)
