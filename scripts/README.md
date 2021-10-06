@@ -41,7 +41,7 @@ Also note that
 The reorganized data has a row for each unique (`date`, `city`) pair that includes all of the relevant temperature observations/forecasts for that pair.
 This script creates a new R data frame and writes it to the file `email_data_reorganized.csv`.
 
-`email_data_reorganized.R` has 14 columns:
+`email_data_reorganized.csv` has 14 columns:
 
 1. `date`: the date to which the observations/forecasts apply (format: "%Y-%m-%d")`
 
