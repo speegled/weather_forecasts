@@ -68,7 +68,7 @@ extract_data_from_email <- function(email_file) {
 
   # format information and then add it to data frame
   for (line in v) {
-    if (str_detect(line, "\\.\\.|FORECAST|WEA|PCPN")) { }
+    if (str_detect(line, "\\.\\.|FORECAST|PCPN")) { }
     else if (str_detect(line, " EDT | EST ")) {
       split <- str_split_fixed(line, "EDT|EST", n = 2)
       time <- split[1]
@@ -158,6 +158,8 @@ extract_data_from_email <- function(email_file) {
   return(df)
 }
 
-files <- list.files(path = "data", pattern = "*.eml", full.names = TRUE, recursive = FALSE)
+files <- list.files(path = "data", pattern = "*.eml",
+                    full.names = TRUE, recursive = FALSE)
 df <- map_df(files, extract_data_from_email)
-write.csv(df, file = "email_data.csv", row.names = FALSE)
+df <- df %>% dplyr::arrange(date_and_time)
+write.csv(df, file = "scripts/email_data.csv", row.names = FALSE)
