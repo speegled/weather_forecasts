@@ -91,4 +91,4 @@ colnames(new_df) <- c("date", "city", "forecast_lo_2_prev_PM", "forecast_hi_2_pr
                       "actual_lo_current_PM", "actual_hi_current_PM", "actual_lo_next_AM",
                       "actual_hi_next_AM")
 new_df <- new_df %>% arrange(date)
-write.csv(df, file = "scripts/email_data_reorganized.csv", row.names = FALSE)
+write.csv(new_df, file = "scripts/email_data_reorganized.csv", row.names = FALSE)

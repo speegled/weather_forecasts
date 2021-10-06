@@ -30,11 +30,11 @@ The data frame is written to the file `email_data.csv`.
 
 Also note that
 
-* `previous` = day before email date if AM, day of email date if PM
+* `previous` = day before email date if AM, day of email date if PM,
 
-* `today` = day of email date if AM, day after email date if PM
+* `today` = day of email date if AM, day after email date if PM, and 
 
-* `tomorrow` = day after email date if AM, two days after email date if PM
+* `tomorrow` = day after email date if AM, two days after email date if PM.
 
 
 `reorganize_email_data.R` reorganizes the data in `email_data.csv` into a more convenient format.
