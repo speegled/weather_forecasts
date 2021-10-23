@@ -1,7 +1,8 @@
 library(rvest)
 
 #cities <- read.csv("cities.csv")
-cities <- read.csv("missingCities.csv")
+#cities <- read.csv("missingCities.csv")
+cities <- read.csv("new_cities.csv")
 cities <- data.frame(lapply(cities, as.character), stringsAsFactors=FALSE)
 cities
 latList <- list()
@@ -33,10 +34,11 @@ cities["Lat"] <- lats
 cities["Lon"] <- lons
 cities
 #write.csv(cities, file = "cities.csv", row.names = F)
-write.csv(cities, file = "missingCities.csv", row.names = F)
+#write.csv(cities, file = "missingCities.csv", row.names = F)
+write.csv(cities, file = "new_cities.csv", row.names = F)
 
-which(is.na(lats))
-which(is.na(lons))
+which(is.na(cities["LAT"]))
+which(is.na(cities["LON"]))
 
 navalues <- which(is.na(lats))
 cities[navalues,1]
