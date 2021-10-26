@@ -1,7 +1,11 @@
 library(rvest)
 
-a <- read.csv("missingCities.csv")
+a <- read.csv("new_cities.csv")
 a
+b <- read.csv("email_cities.csv")
+b
+a[is.na(a$CLIMATE),]
+
 # Sys.sleep(10)
 rn  = c("city", "state", "climate")
 df <- data.frame(matrix(ncol = 3, nrow = 0))
@@ -60,6 +64,6 @@ for (i in 1:nrow(a)) {
 }
 df
 
-missing_cities$CLIMATE <- df$climate
-missing_cities
-write.csv(missing_cities, file = "missingCities.csv", row.names = F)
+a$CLIMATE <- df$climate
+a
+write.csv(a, file = "new_cities.csv", row.names = F)
