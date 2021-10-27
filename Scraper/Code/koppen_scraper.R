@@ -1,7 +1,15 @@
 library(rvest)
+
+a <- read.csv("new_cities.csv")
+a
+b <- read.csv("email_cities.csv")
+b
+a[is.na(a$CLIMATE),]
+
 # Sys.sleep(10)
 rn  = c("city", "state", "climate")
 df <- data.frame(matrix(ncol = 3, nrow = 0))
+df
 b = c()
 for (i in 1:nrow(a)) {
   url <- 'https://www.wikipedia.org/'
@@ -54,4 +62,8 @@ for (i in 1:nrow(a)) {
     }
   }
 }
+df
 
+a$CLIMATE <- df$climate
+a
+write.csv(a, file = "new_cities.csv", row.names = F)
