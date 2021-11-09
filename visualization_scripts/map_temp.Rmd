@@ -14,7 +14,7 @@ library(ggthemes)
 library(tibble)
 library(viridis)
 library(dplyr)
-df = read.csv("vis_dat.csv")
+df = read.csv("data/vis_data/vis_dat.csv")
 
 df = df %>% 
   filter(Lon > -150 & Lon < -50 & Lat > 20 & Lat< 50)
@@ -65,6 +65,7 @@ ggplot()+
   geom_map(data=state, map=state,
            aes(long, lat, map_id=region),
            color="black", fill=NA, size=0.2)+
+    
   geom_map(data=usa, map=usa,
            aes(long, lat, map_id=region),
            color="black", fill=NA, size=.01)+
@@ -101,8 +102,6 @@ ggplot() +
            aes(long, lat, map_id=region),
            color="black", fill=NA, size=0.2)+  # stat_contour() +
     scale_fill_continuous(name = "Temp (F)",low = "yellow", high = "red") +
-
-  coord_map("polyconic")+
     xlab("Longitude") +
   ylab("Latitude") +
   theme(panel.background = element_rect(fill = 'lightblue'),
@@ -112,4 +111,74 @@ ggplot() +
 ```
 
 
+```{r}
+can = map_data("world", c("canada"))
+mex = map_data("world", c("mexico"))
+
+library(ggplot2)
+library(reshape2)
+library(akima)
+# prepare data in long format
+fld <- with(df, interp(x = Lon, y = Lat, z = D2_Lo))
+df2 <- melt(fld$z, na.rm = TRUE)
+names(df2) <- c("x", "y", "temp")
+df2$Lon <- fld$x[df2$x]
+df2$Lat <- fld$y[df2$y]
+
+
+
+ggplot() +
+  geom_map(data=usa, map=usa,
+           aes(long, lat, map_id=region),
+           color="black", fill="white", size=.01)+
+    geom_tile(data = df2, aes(x = Lon, y = Lat, fill = temp)) +
+  geom_map(data=can, map=can,
+           aes(long, lat, map_id=region),
+           color="black", fill="white", size=.01)+
+    geom_tile(data = df2, aes(x = Lon, y = Lat, fill = temp)) +
+  geom_map(data=mex, map=mex,
+           aes(long, lat, map_id=region),
+           color="black", fill="white", size=.01)+
+    geom_tile(data = df2, aes(x = Lon, y = Lat, fill = temp))+
+  geom_map(data=state, map=state,
+           aes(long, lat, map_id=region),
+           color="black", fill=NA, size=0.2)+  # stat_contour() +
+    scale_fill_continuous(name = "Temp (F)",low = "yellow", high = "red") +
+    xlab("Longitude") +
+  ylab("Latitude") +
+  ylim(c(25,50))+
+    xlim(c(-125,-70))+
+  # geom_polygon(aes(outline$x, outline$y, col = "Red"))+
+
+  theme(panel.background = element_rect(fill = 'lightblue'),
+            panel.grid.major = element_blank())
+
+```
+
+```{r}
+library(grid)
+outline <- map("usa", plot=FALSE) # returns a list of x/y coords
+xrange <- range(outline$x, na.rm=TRUE) # get bounding box
+yrange <- range(outline$y, na.rm=TRUE)
+xbox <- xrange + c(-2, 2)
+ybox <- yrange + c(-2, 2)
+# create the grid path in the current device
+polypath(c(outline$x, NA, c(xbox, rev(xbox))),
+         c(outline$y, NA, rep(ybox, each=2)),
+         col="light blue", rule="evenodd")
+```
+
+```{r}
+library(raster)
+dat <- data.frame(x = df$Lon, y = $Lat, z = $D2_Lo))
+r <- raster(ncol=10, nrow=20)
+r[] <- 1:ncell(r)
+extent(r) <- extent(c(-20, 20, -20, 20))
+
+r=disaggregate(r,10)
+r=mask(r,wrld_simpl)
+
+#plotting
+var_df <- as.data.frame(rasterToPoints(r))
+```
 
