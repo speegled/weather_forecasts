@@ -313,10 +313,10 @@ ggsave("plots/mean_error_hi_diff_days.png", plot = plot_hi_diff_days,
        width = unit(14, "in"), height = unit(10, "in"))
 
 
-abs_hi_current_AM <- plot_mean_errors(FALSE, FALSE, n, 1)
-abs_hi_prev_PM <- plot_mean_errors(FALSE, FALSE, n, 2)
-abs_hi_prev_AM <- plot_mean_errors(FALSE, FALSE, n, 3)
-abs_hi_2_prev_PM <- plot_mean_errors(FALSE, FALSE, n, 4)
+abs_hi_current_AM <- plot_mean_errors(FALSE, TRUE, n, 1)
+abs_hi_prev_PM <- plot_mean_errors(FALSE, TRUE, n, 2)
+abs_hi_prev_AM <- plot_mean_errors(FALSE, TRUE, n, 3)
+abs_hi_2_prev_PM <- plot_mean_errors(FALSE, TRUE, n, 4)
 
 plot_abs_hi_diff_days <- ggarrange(abs_hi_current_AM, abs_hi_prev_PM,
                                    abs_hi_prev_AM, abs_hi_2_prev_PM,
