@@ -1,0 +1,1822 @@
+Delivered-To: darrinmspeegle@gmail.com
+Received: by 2002:a05:6402:30b6:0:0:0:0 with SMTP id df22csp1198874edb;
+        Sun, 26 Sep 2021 04:00:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzhBz62ivWILobmkdzenPBy6qiBMSvk7QyYfruXMqE3oXYlCy1mvyuEvUoGoSKALG1/XF3V
+X-Received: by 2002:a25:d157:: with SMTP id i84mr378036ybg.434.1632654017258;
+        Sun, 26 Sep 2021 04:00:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1632654017; cv=none;
+        d=google.com; s=arc-20160816;
+        b=y3EsZjrNaGy8/K7IEFtvm849vpxFE6y6Ucaua3RAjfjlE06Tx1JUXnQF18IrKzGjZI
+         CrWcVfDmlwvrRpI48veoD2ViqDmuZatWAfBocp6VsD4rYT9aOffyBDzpfQR9xMdcXVcX
+         lMh8rapyKHUnGBgZoG1AQXuD3RgcEG8wUOcQyZuOLsNVhKwSOMARpTGfkonnDfJdC71Y
+         VEZs6v8VC8CYKCrHGE+zFPVN7y7uKYWD7nbbdc0122NKwqlMdRPJdCdEsLD0t4b+ydYA
+         KwlbbrugWX7Tu3+it6M4xwBVzQ1ITI8rmmAHvl3nS2+8wCxg7pphO9SMtsYVZe/XIPFq
+         9aJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:reply-to:to:from:auto-submitted:content-transfer-encoding
+         :mime-version:date:message-id:dkim-signature;
+        bh=sAuapFyMwrhycG0z4N9aODfmVGtqttZ2cwzlhD7F/gA=;
+        b=LqNwmAzhOsVLHlK0Nm+jw2J0o0BfRT7HgF4DCPn7Ezb2zKH3paBrrdB6IDkoU0VNgj
+         n2vWHYgj3TEfAO8fii6hkrCT9kZcvlxOczgpISiqpaEk+cKmy3iPbl9uSbk3r4TzdtIE
+         nDkWkaT2AAU3EkZbpUKjuqwRegfR5PKi7J6BDUit4JphDXXzSbZBAAsYR/yL2CTNR76a
+         LFwf3XIqT0jLh93e+XAgXPwi91FvVtF8ODH8OCGOBYgIavQC4EtfiS/KSbvLBB+nOh6Z
+         YC7s72sE8pgPukD62v0j0reopAsKhDD/kIHWgeSY4RTeI3z1Kj64LDDs9zlQTbhjh6hc
+         t+WQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=AAH+V6no;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Return-Path: <wx-natnl-owner@lists.illinois.edu>
+Received: from mx0b-00007101.pphosted.com (mx0b-00007101.pphosted.com. [148.163.139.28])
+        by mx.google.com with ESMTPS id y7si14721364ybb.57.2021.09.26.04.00.16
+        for <darrinmspeegle@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 26 Sep 2021 04:00:17 -0700 (PDT)
+Received-SPF: pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) client-ip=148.163.139.28;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=AAH+V6no;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Received: from pps.filterd (m0166258.ppops.net [127.0.0.1])
+	by mx0b-00007101.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18Q7HqNU008407
+	for <darrinmspeegle@gmail.com>; Sun, 26 Sep 2021 11:00:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=message-id : date :
+ mime-version : content-type : content-transfer-encoding : from : to :
+ reply-to : subject; s=campusrelays;
+ bh=sAuapFyMwrhycG0z4N9aODfmVGtqttZ2cwzlhD7F/gA=;
+ b=AAH+V6no6iVKZskJlWMktAXHs87orrNlnecKcqvY1RfyeIEGu7bbI+QnJ66vJvq1cANj
+ eWdZA8Cj8Ih6b7m7nJT4ICaPrU/UPdL1NpgVriXhKYHkQVGfqaDHv2HvwEvBdSnwxVZd
+ A/jqJvy72YIKYl5ZUJJeSamGcVgCCXLql0g/Ju4N53qzvctuIkSxl9rNIBdchc5PAJXY
+ a6LfwjDDpfNZtdl4KYnhUNsVXoDOPERCOztrI9sGyQGXAR4yahBpAU59Lbu2jUEEki1L
+ IQi9jeAfZyaHHlj00J9WA0Q53tz+fips4yyMuhC5HaQiMmA6b2D6yBfjRMoBc5U5Hqh2 Kg== 
+Received: from lists.illinois.edu (lists.illinois.edu [192.17.172.63])
+	by mx0b-00007101.pphosted.com with ESMTP id 3b9t4sqf4g-2
+	for <darrinmspeegle@gmail.com>; Sun, 26 Sep 2021 11:00:16 +0000
+Received: by lists.illinois.edu (Postfix, from userid 50033)
+	id EE4DAE2B2F; Sun, 26 Sep 2021 06:00:15 -0500 (CDT)
+Message-Id: <sympa.1632654012.91550.402@lists.illinois.edu>
+Date: Sun, 26 Sep 2021 06:00:12 -0500
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7BIT
+Auto-Submitted: auto-forwarded
+From: wx-natnl-request@lists.illinois.edu
+To: wx-natnl@lists.illinois.edu
+Reply-to: wx-natnl-request@lists.illinois.edu
+Subject: wx-natnl Digest Sun, 26 Sep 2021
+X-Mailer: Sympa 6.1.23
+X-Proofpoint-ORIG-GUID: ztJWhGL35zLb-xaL0ORWTtYV43gDCQ5f
+X-Proofpoint-GUID: ztJWhGL35zLb-xaL0ORWTtYV43gDCQ5f
+X-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0 mlxscore=0
+ suspectscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
+ adultscore=0 bulkscore=0 phishscore=0 spamscore=0 clxscore=1031
+ malwarescore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2109230001 definitions=main-2109260077
+X-Spam-Score: 0
+X-Spam-OrigSender: wx-natnl-owner@lists.illinois.edu
+X-Spam-Bar:
+MIME-Version: 1.0
+
+wx-natnl Digest Sun, 26 Sep 2021
+
+Table of contents:
+
+* 1 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 2 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 3 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 4 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 5 - FIRE: Day 1 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 6 - OUTLOOK: Nws Climate Prediction Center College Park Md  - COD Weather
+  Processor <ldm@weather.cod.edu>
+* 7 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 8 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 9 - FIRE: Day 2 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 10 - LONGRANGE: 6-10 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 11 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 12 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 13 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 14 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 15 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 16 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 17 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 18 - FIRE: Day 1 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 19 - FIRE: Day 2 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 20 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+
+----------------------------------------------------------------------
+
+Message-ID: <1>
+Date: Sat, 25 Sep 2021 12:50:35 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+823
+FPUS20 KWBN 251250
+SCS01
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 1 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+850 AM EDT SAT SEP 25 2021
+
+TEMPERATURES INDICATE DAYTIME HIGH...NIGHTTIME LOW
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 8 AM EDT
+
+                                FORECAST        FORECAST
+                 FRI...SEP 24   SAT....SEP 25   SUN....SEP 26
+CITY             HI/LO   PCPN   WEA     HI/LO   WEA     HI/LO
+
+ABILENE TX       86  58         SUNNY   90/60   SUNNY   90/61
+AKRON CANTON     73  52         RAIN    68/46   SUNNY   72/55
+ALBANY NY        70  46         PTCLDY  70/51   PTCLDY  66/49
+ALBUQUERQUE      83  61         TSTRMS  82/60   TSTRMS  80/57
+ALLENTOWN        70  47         PTCLDY  74/53   SUNNY   71/51
+AMARILLO         89  52         SUNNY   87/59   PTCLDY  88/62
+ANCHORAGE        40  35   .24   RAIN    45/31   SUNNY   45/28
+ASHEVILLE        71  45         SUNNY   71/49   SUNNY   74/49
+ATLANTA          76  57         PTCLDY  78/59   SUNNY   79/59
+ATLANTIC CITY    75  50         PTCLDY  77/56   SUNNY   74/56
+AUSTIN           87  53         SUNNY   88/58   PTCLDY  88/65
+BALTIMORE        75  50         PTCLDY  77/56   SUNNY   75/56
+BATON ROUGE      79  53         SUNNY   82/58   SUNNY   85/61
+BILLINGS         73  53         SUNNY   87/54   SUNNY   88/53
+BIRMINGHAM       77  53         SUNNY   80/57   SUNNY   81/59
+BISMARCK         67  33         SUNNY   82/49   SUNNY   87/51
+BOISE            83  58         SUNNY   85/60   SUNNY   83/57
+BOSTON           80  65         SHWRS   71/63   MOCLDY  74/56
+BRIDGEPORT       75  56   .17   SUNNY   74/58   SUNNY   74/56
+BROWNSVILLE      88  68    MM   SUNNY   90/70   PTCLDY  92/74
+BUFFALO          67  52   .07   SHWRS   71/50   SHWRS   67/58
+BURLINGTON VT    72  52   .17   PTCLDY  74/55   SHWRS   69/54
+CARIBOU          74  56   .86   SHWRS   68/60   RAIN    66/50
+CASPER           74  36         SUNNY   83/47   SUNNY   85/45
+CHARLESTON SC    78  54         SUNNY   80/60   SUNNY   83/62
+CHARLESTON WV    72  47         SHWRS   71/49   SUNNY   71/51
+CHARLOTTE        76  48         PTCLDY  78/55   SUNNY   80/54
+CHATTANOOGA      74  50         SUNNY   79/56   SUNNY   78/56
+CHEYENNE         71  43         SUNNY   81/51   SUNNY   82/49
+CHICAGO          79  50   .12   SUNNY   70/53   PTCLDY  80/62
+CINCINNATI       74  54         SHWRS   69/48   SUNNY   74/56
+CLEVELAND        74  57         RAIN    68/48   PTCLDY  71/57
+COLORADO SPGS    78  45         SUNNY   82/50   SUNNY   87/54
+COLUMBIA SC      78  50         SUNNY   80/55   SUNNY   82/57
+COLUMBUS GA      80  55         PTCLDY  80/58   SUNNY   84/60
+COLUMBUS OH      73  54         SHWRS   67/47   SUNNY   73/56
+
+
+$$
+
+
+------------------------------
+Message-ID: <2>
+Date: Sat, 25 Sep 2021 12:50:35 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+824
+FPUS20 KWBN 251250
+SCS04
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 4 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+850 AM EDT SAT SEP 25 2021
+
+TEMPERATURES INDICATE DAYTIME HIGH...NIGHTTIME LOW
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 8 AM EDT
+
+                                FORECAST        FORECAST
+                 FRI...SEP 24   SAT....SEP 25   SUN....SEP 26
+CITY             HI/LO   PCPN   WEA     HI/LO   WEA     HI/LO
+
+SALEM OR         90  57         SUNNY   83/54   RAIN    74/58
+SALT LAKE CITY   80  56         SUNNY   85/59   SUNNY   86/59
+SAN ANGELO       89  51         SUNNY   88/57   SUNNY   89/61
+SAN ANTONIO      88  60         SUNNY   89/63   SUNNY   91/67
+SAN DIEGO        76  67   .50   TSTRMS  74/66   PTCLDY  74/65
+SAN FRANCISCO    72  57         MOCLDY  70/55   PTCLDY  67/56
+SAN JOSE         85  57         PTCLDY  79/56   PTCLDY  74/55
+SAN JUAN PR      92  79    MM   SUNNY   92/80   SHWRS   91/78
+SANTA FE         84  48         PTCLDY  82/51   TSTRMS  78/51
+ST STE MARIE     68  52   .20   SHWRS   61/49   SHWRS   62/47
+SAVANNAH         79  55         SUNNY   81/58   SUNNY   85/60
+SEATTLE          76  53         PTCLDY  76/53   RAIN    64/55
+SHREVEPORT       86  56         SUNNY   88/63   SUNNY   90/63
+SIOUX CITY       71  34         SUNNY   78/53   SUNNY   87/54
+SIOUX FALLS      70  39   .03   SUNNY   75/53   SUNNY   85/55
+SOUTH BEND       77  52   .36   SUNNY   66/48   SUNNY   75/59
+SPOKANE          77  57         SUNNY   80/53   PTCLDY  77/53
+SPRINGFIELD IL   80  46   .09   SUNNY   73/50   SUNNY   83/64
+SPRINGFIELD MO   82  52         SUNNY   76/53   SUNNY   87/64
+SYRACUSE         70  49         MOCLDY  76/55   SHWRS   69/56
+TALLAHASSEE      83  62         SUNNY   86/61   SUNNY   87/62
+TAMPA            93  76         SUNNY   91/75   SUNNY   90/73
+TOLEDO           76  59   .03   MOCLDY  68/49   SUNNY   74/57
+TOPEKA           79  45         SUNNY   79/58   SUNNY   90/67
+TUCSON           90  70         TSTRMS  89/66   TSTRMS  85/62
+TULSA            85  55         SUNNY   88/62   SUNNY   95/67
+TUPELO           79  56         SUNNY   82/56   SUNNY   82/59
+WACO             87  60         PTCLDY  90/62   MOCLDY  90/64
+WASHINGTON DC    75  57         PTCLDY  78/59   SUNNY   74/58
+W PALM BEACH     89  76         SHWRS   88/74   TSTRMS  87/74
+WICHITA          86  48         SUNNY   82/61   WINDY   94/65
+WICHITA FALLS    88  53         SUNNY   91/59   PTCLDY  92/61
+WILKES BARRE     68  49         PTCLDY  74/53   SUNNY   69/53
+WILMINGTON DE    74  50         PTCLDY  76/57   SUNNY   74/55
+YAKIMA           82  44         SUNNY   84/53   PTCLDY  78/56
+YOUNGSTOWN       72  52         RAIN    69/46   PTCLDY  70/54
+YUMA             92  68         TSTRMS  95/76   SHWRS   93/74
+
+NATIONAL TEMPERATURE EXTREMES
+
+HIGH FRI...110 AT DEATH VALLEY CA
+
+LOW  SAT...15 AT PETER SINKS UT
+
+
+$$
+
+
+------------------------------
+Message-ID: <3>
+Date: Sat, 25 Sep 2021 12:50:35 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+825
+FPUS20 KWBN 251250
+SCS03
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 3 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+850 AM EDT SAT SEP 25 2021
+
+TEMPERATURES INDICATE DAYTIME HIGH...NIGHTTIME LOW
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 8 AM EDT
+
+                                FORECAST        FORECAST
+                 FRI...SEP 24   SAT....SEP 25   SUN....SEP 26
+CITY             HI/LO   PCPN   WEA     HI/LO   WEA     HI/LO
+
+LINCOLN          71  37   .01   SUNNY   80/56   SUNNY   89/56
+LITTLE ROCK      83  56         SUNNY   85/56   SUNNY   87/63
+LOS ANGELES      76  61         PTCLDY  79/61   MOCLDY  75/61
+LOUISVILLE       75  58         SHWRS   73/50   SUNNY   76/57
+LUBBOCK          87  51         SUNNY   87/57   SUNNY   88/62
+MACON            80  52         PTCLDY  80/55   SUNNY   84/56
+MADISON          79  48   .03   PTCLDY  67/49   PTCLDY  78/54
+MEDFORD          95  57         SUNNY   89/51   SUNNY   83/54
+MEMPHIS          79  59         SUNNY   81/58   SUNNY   84/64
+MIAMI BEACH      89  75   .21   SHWRS   88/75   TSTRMS  86/74
+MIDLAND ODESSA   87  55         SUNNY   86/58   SUNNY   88/65
+MILWAUKEE        80  51   .12   PTCLDY  68/53   MOCLDY  77/58
+MPLS ST PAUL     61  44   .04   MOCLDY  65/51   PTCLDY  78/54
+MISSOULA         76  43         SUNNY   81/47   SUNNY   80/46
+MOBILE           78  53         SUNNY   82/57   SUNNY   85/61
+MONTGOMERY       80  52         PTCLDY  81/57   SUNNY   85/60
+NASHVILLE        76  53         PTCLDY  77/53   SUNNY   78/55
+NEW ORLEANS      79  61         SUNNY   81/65   SUNNY   84/67
+NEW YORK CITY    72  57         SUNNY   75/59   SUNNY   73/58
+NEWARK           76  58         SUNNY   79/61   SUNNY   77/59
+NORFOLK VA       73  66         SUNNY   75/60   SUNNY   77/59
+NORTH PLATTE     71  39         SUNNY   85/51   SUNNY   92/51
+OKLAHOMA CITY    85  58         SUNNY   86/60   SUNNY   92/62
+OMAHA            69  44   .03   SUNNY   78/55   SUNNY   89/59
+ORLANDO          88  73         PTCLDY  90/71   PTCLDY  90/69
+PADUCAH          76  59         PTCLDY  75/47   SUNNY   80/59
+PENDLETON        83  50         SUNNY   84/51   SUNNY   79/50
+PEORIA           81  49   .14   SUNNY   72/50   SUNNY   82/63
+PHILADELPHIA     74  55         SUNNY   77/60   SUNNY   74/57
+PHOENIX          91  76   .07   MOCLDY  94/75   SHWRS   87/72
+PITTSBURGH       70  47         SHWRS   70/47   SUNNY   69/54
+POCATELLO        78  40         SUNNY   82/45   SMOKE   82/43
+PORTLAND ME      73  61   .20   SHWRS   71/60   SHWRS   72/53
+PORTLAND OR      89  58         SUNNY   83/56   RAIN    73/59
+PROVIDENCE       76  62   .12   SHWRS   74/62   PTCLDY  76/56
+PUEBLO           81  44         SUNNY   86/49   SUNNY   93/54
+RALEIGH DURHAM   76  49         PTCLDY  77/54   SUNNY   77/53
+RAPID CITY       70  39         SUNNY   85/52   SUNNY   89/51
+RENO             85  53         SUNNY   88/51   SUNNY   86/50
+RICHMOND         77  53         PTCLDY  77/55   SUNNY   76/54
+ROANOKE          73  48         MOCLDY  75/51   SUNNY   77/51
+ROCHESTER NY     68  49         PTCLDY  73/51   SHWRS   68/57
+ROCKFORD         83  46   .17   PTCLDY  69/47   PTCLDY  82/57
+SACRAMENTO       95  59         SUNNY   88/55   SUNNY   82/53
+ST LOUIS         82  55   .06   SUNNY   76/56   SUNNY   84/67
+ST PETERSBURG    89  79         SUNNY   89/76   SUNNY   88/75
+ST THOMAS VI     87  78         SHWRS   89/79   SHWRS   89/78
+
+
+$$
+
+
+------------------------------
+Message-ID: <4>
+Date: Sat, 25 Sep 2021 12:50:35 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+826
+FPUS20 KWBN 251250
+SCS02
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 2 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+850 AM EDT SAT SEP 25 2021
+
+TEMPERATURES INDICATE DAYTIME HIGH...NIGHTTIME LOW
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 8 AM EDT
+
+                                FORECAST        FORECAST
+                 FRI...SEP 24   SAT....SEP 25   SUN....SEP 26
+CITY             HI/LO   PCPN   WEA     HI/LO   WEA     HI/LO
+
+CONCORD NH       73  49    MM   PTCLDY  73/56   SHWRS   71/51
+CORPUS CHRISTI   87  67         SUNNY   90/64   SUNNY   90/72
+DALLAS FT WORTH  87  60         PTCLDY  90/65   MOCLDY  90/66
+DAYTON           74  58         SHWRS   69/48   SUNNY   74/57
+DAYTONA BEACH    86  73         SUNNY   86/69   PTCLDY  86/68
+DENVER           74  52         SUNNY   85/52   SUNNY   88/52
+DES MOINES       76  42   .03   SUNNY   76/57   SUNNY   88/61
+DETROIT          73  57         SHWRS   67/49   PTCLDY  72/56
+DULUTH           60  43   .20   MOCLDY  62/48   MOCLDY  68/48
+EL PASO          86  69         TSTRMS  85/64   TSTRMS  83/65
+ELKINS           68  41         MOCLDY  69/46   SUNNY   67/47
+ERIE             70  57         RAIN    69/52   SHWRS   68/59
+EUGENE           85  55         SUNNY   82/50   PTCLDY  76/56
+EVANSVILLE       77  59   .13   PTCLDY  73/48   SUNNY   80/59
+FAIRBANKS        36  30   .12   SNOW    38/22   PTCLDY  38/21
+FARGO            64  41         MOCLDY  74/51   SUNNY   80/51
+FLAGSTAFF        74  47         TSTRMS  72/45   SHWRS   64/42
+FLINT            72  57   .21   SHWRS   65/47   SHWRS   69/54
+FORT SMITH       87  54         SUNNY   88/59   SUNNY   92/64
+FORT WAYNE       75  55   .41   PTCLDY  66/46   SUNNY   73/56
+FRESNO           92  70         SUNNY   94/66   PTCLDY  92/62
+GOODLAND         79  47         WINDY   83/51   SUNNY   93/53
+GRAND JUNCTION   84  52         SUNNY   84/55   PTCLDY  84/54
+GRAND RAPIDS     73  52   .15   PTCLDY  65/50   PTCLDY  72/57
+GREAT FALLS      77  53         MOCLDY  84/50   SUNNY   86/48
+GREEN BAY        77  46   .12   PTCLDY  66/47   MOCLDY  72/52
+GREENSBORO       72  48         MOCLDY  75/52   SUNNY   76/52
+HARRISBURG       72  53         PTCLDY  74/56   SUNNY   72/54
+HARTFORD SPGFLD  74  48   .24   PTCLDY  75/57   SUNNY   72/52
+HELENA           79  46         SUNNY   84/47   SUNNY   86/46
+HONOLULU         87  75   .04   PTCLDY  87/75   SHWRS   88/75
+HOUSTON INTCNTL  84  59         SUNNY   87/63   SUNNY   88/68
+HUNTSVILLE AL    77  52         SUNNY   78/53   SUNNY   78/56
+INDIANAPOLIS     73  56   .18   SUNNY   69/47   SUNNY   76/60
+JACKSON MS       79  50         SUNNY   83/58   SUNNY   86/61
+JACKSONVILLE     83  63         SUNNY   85/60   SUNNY   86/64
+JUNEAU           58  44   .53   SHWRS   50/40   RAIN    50/41
+KANSAS CITY      77  46   .01   SUNNY   78/58   SUNNY   88/67
+KEY WEST         87  81         SHWRS   89/80   SHWRS   88/79
+KNOXVILLE        73  50         PTCLDY  75/53   SUNNY   75/53
+LAKE CHARLES     82  58         SUNNY   84/60   SUNNY   85/64
+LANSING          73  54   .28   PTCLDY  66/50   MOCLDY  72/56
+LAS VEGAS        94  72         SUNNY   95/74   PTCLDY  92/71
+LEXINGTON        71  50         SHWRS   67/45   SUNNY   73/53
+
+
+$$
+
+
+------------------------------
+Message-ID: <5>
+Date: Sat, 25 Sep 2021 16:32:25 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 1 Fire Weather Outlook
+
+FNUS21 KWNS 251632
+FWDDY1
+
+Day 1 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+1131 AM CDT Sat Sep 25 2021
+
+Valid 251700Z - 261200Z
+
+...NO CRITICAL AREAS...
+
+No changes necessary to the ongoing forecast.
+
+..Wendt.. 09/25/2021
+
+.PREV DISCUSSION... /ISSUED 0201 AM CDT Sat Sep 25 2021/
+
+...Synopsis...
+A strong upper trough across the Great Lakes will continue to deepen
+as it moves eastward into the northeastern US and southeastern
+Canada today. To the west, weak ridging is forecast to become
+established within the northern branch of split mid-level flow
+across the northern and central Rockies. At the same time, a closed
+low will meander eastward off Baja California, as a strong trough
+approaches the Pacific Northwest. The increase in mid-level ridging
+will support warm and dry conditions across the central Rockies.
+
+...Montana and Wyoming...
+Beneath the aforementioned ridge, warm temperatures and dry
+conditions are expected across much of Montana and Wyoming through
+the afternoon. The dry airmass will support surface relative
+humidity values below 20% in the lee of the Rockies. Although,
+locally higher RH appears likely over western Montana where
+temperatures are expected to be cooler. With relatively weak
+mid-level flow in place due to the shortwave ridging, surface winds
+are not expected to support of widespread fire weather conditions.
+However, local enhancement to near 20 mph from terrain and the
+development of a weak lee trough may support a few hours of locally
+elevated fire weather conditions across portions of Wyoming and
+Montana.
+
+...Southern Plains...
+Broad but weak high pressure over the southern half of the CONUS
+will support warm and dry conditions across much of the southern
+Plains this afternoon/evening. Widespread surface humidity values
+below 20% are expected across portions of western Oklahoma, Kansas
+and into the Texas Panhandle. Here, fuels remain dry and favorable
+for fire spread. However, winds generally below 15 mph should limit
+the spatial extent of any sustained fire weather conditions.
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!uDxdXRMxuiExDo6w-RHTDCZZEAutMRRsJK5hIG1rlrDPNODBfhSjpMV4uTDSY9Q6cKNDLJ42$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <6>
+Date: Sat, 25 Sep 2021 17:35:42 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Nws Climate Prediction Center College Park Md
+
+AEUS41 KWBC 251735
+UVICAC
+
+NOAA/EPA ULTRAVIOLET INDEX /UVI/ FORECAST
+NWS CLIMATE PREDICTION CENTER COLLEGE PARK MD
+534 PM  SAT SEP 25 2021
+
+VALID SEP 26 2021 AT SOLAR NOON /APPROXIMATELY NOON
+LOCAL STANDARD TIME OR 100 PM LOCAL DAYLIGHT TIME/
+
+THE UV INDEX IS CATEGORIZED BY THE WORLD HEALTH ORGANIZATION
+AS FOLLOWS:
+           UVI             EXPOSURE LEVEL
+           0 1 2              LOW
+           3 4 5              MODERATE
+           6 7                HIGH
+           8 9 10             VERY HIGH
+           11 AND GREATER     EXTREME
+
+FOR HEALTH RELATED ISSUES GO TO
+https://urldefense.com/v3/__http://WWW.EPA.GOV/SUNSAFETY__;!!DZ3fjg!pAWLZBfEBWM6z1uW8Qlx1b4GgE2Mvkgkmi3EJhWgT4MPYQW8eW0DiFup1YfIh4UqZjioQevU$
+FOR TECHNICAL INFORMATION ABOUT THE UV INDEX....
+GO TO THE NATIONAL WEATHER SERVICE UV INDEX WEB PAGE:
+https://urldefense.com/v3/__http://WWW.CPC.NCEP.NOAA.GOV/PRODUCTS/STRATOSPHERE/UV_INDEX__;!!DZ3fjg!pAWLZBfEBWM6z1uW8Qlx1b4GgE2Mvkgkmi3EJhWgT4MPYQW8eW0DiFup1YfIh4UqZs2qRo1u$
+
+CITY               STATE  UVI       CITY               STATE  UVI
+ALBUQUERQUE          NM     7       LITTLE ROCK          AR     7
+ANCHORAGE            AK     1       LOS ANGELES          CA     7
+ATLANTIC CITY        NJ     5       LOUISVILLE           KY     6
+ATLANTA              GA     7       MEMPHIS              TN     6
+BALTIMORE            MD     5       MIAMI                FL     9
+BILLINGS             MT     5       MILWAUKEE            WI     4
+BISMARCK             ND     4       MINNEAPOLIS          MN     4
+BOISE                ID     5       MOBILE               AL     8
+BOSTON               MA     4       NEW ORLEANS          LA     8
+BUFFALO              NY     4       NEW YORK             NY     5
+BURLINGTON           VT     3       NORFOLK              VA     6
+CHARLESTON           WV     5       OKLAHOMA CITY        OK     6
+CHARLESTON           SC     7       OMAHA                NE     5
+CHEYENNE             WY     6       PHILADELPHIA         PA     5
+CHICAGO              IL     5       PHOENIX              AZ     3
+CLEVELAND            OH     4       PITTSBURGH           PA     5
+CONCORD              NH     4       PORTLAND             ME     1
+DALLAS               TX     7       PORTLAND             OR     5
+DENVER               CO     6       PROVIDENCE           RI     5
+DES MOINES           IA     5       RALEIGH              NC     6
+DETROIT              MI     4       SALT LAKE CITY       UT     6
+DOVER                DE     5       SAN FRANCISCO        CA     6
+HARTFORD             CT     4       SAN JUAN             PU    10
+HONOLULU             HI    10       SEATTLE              WA     2
+HOUSTON              TX     8       SIOUX FALLS          SD     5
+INDIANAPOLIS         IN     5       ST. LOUIS            MO     6
+JACKSON              MS     7       TAMPA                FL     8
+JACKSONVILLE         FL     8       WASHINGTON           DC     5
+LAS VEGAS            NV     6       WICHITA              KS     6
+
+
+------------------------------
+Message-ID: <7>
+Date: Sat, 25 Sep 2021 18:58:37 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+158
+FXUS02 KWBC 251858
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+257 PM EDT Sat Sep 25 2021
+
+Valid 12Z Tue Sep 28 2021 - 12Z Sat Oct 02 2021
+
+...Overview...
+
+Guidance agrees upon an amplified upper pattern during the period.
+Expect a strong mean ridge to become established over the
+east-central U.S. and north/northeast into Canada while a
+downstream trough settles over or near the East Coast. Another
+mean trough over the West will consist of multiple pieces of
+energy and generally become more diffuse with time as a deeper
+trough reaches the Northeast Pacific. The most prominent forecast
+issues involve details of a potential southwestern U.S. upper low
+whose interaction with a Plains front could produce heavy rainfall
+over the southern Rockies/High Plains toward the end of the week,
+as well as specifics of an upper low likely to be embedded within
+the East Coast trough.
+
+
+...Guidance Evaluation/Preferences...
+
+Confidence remains in the lower half of the spectrum for details
+of an upper low which most operational models suggest will be
+within the East Coast trough. Through the 00Z run, ECMWF runs over
+the past couple days have trended dramatically
+northward/northeastward for the upper low center while the GFS has
+adjusted northward from prior runs but from a less extreme
+starting point. The earlier ECMWF runs that had an upper low
+reaching the Southeast led to some 500mb height anomalies reaching
+3-4 standard deviations below normal. Latest CMC runs are showing
+the low over New England, which is where the ECMWF mean has
+finally started to close off a low. GEFS means are lagging a bit
+as it took until the 06Z/12Z runs to provide at least a hint at a
+closed low and with a position north/northeast of the ECMWF mean
+and operational models. The new 12Z UKMET is now farthest south
+(close to Cape Hatteras by early Friday) which reflects the ideas
+from some earlier runs of other models. The new 12Z ECMWF actually
+ejects the Thursday New England upper low and then digs trailing
+trough energy into another farther south upper low whose center
+also reaches near Cape Hatteras by Saturday.
+
+There is general agreement that a shortwave moving into the West
+through midweek will separate, with an upper low closing off near
+the western U.S.-Mexico border and remaining energy continuing
+into the Northern Plains and southern Canada. Model/ensemble mean
+clustering for the upper low is decent, with typical spread for
+exact strength/track but models vary considerably for the details
+of the northern energy. The relatively small scale of the latter
+keeps predictability low. Another shortwave will likely reach the
+Northwest by Friday but it should be fairly weak to start with and
+then weaken further.
+
+The updated forecast started with a 00Z/06Z model composite during
+the first half of the period. This blend reflected the improving
+signal for an upper low to reach at least into New England, along
+with refinement of the western trough separation that should occur
+by early Thursday. With detail uncertainties rapidly increasing
+after early day 5 Thursday the forecast quickly trended to a
+nearly half model (06Z GFS/00Z ECMWF/00Z CMC) / half mean (06Z
+GEFS/00Z ECens) blend for days 6-7 Friday-Saturday. Ensemble input
+tilted more toward the ECens due to its better
+depiction/persistence of the New England upper low versus the GEFS.
+
+
+...Weather and Potential Hazards...
+
+Through at least midweek the central U.S. will see an expanding
+area of showers and thunderstorms as shortwave energy ejects
+northward from the southern Rockies/High Plains and low level flow
+brings in Gulf moisture that will interact with a front moving
+from the West into the Plains. Best potential for some locally
+moderate to heavy rainfall will be over parts of the central and
+southern Plains. Then expect rainfall to become heavier and more
+focused over and near the southern High Plains by Friday-Saturday
+with an upper low currently forecast to track over the
+Southwest/Four Corners region and low level flow continuing to
+bring moisture into a stationary front. There will be periods of
+lighter precipitation early-mid period over parts of the
+Southwest, eastern Great Basin, and southern Rockies. Over the
+Northwest expect light to moderate precipitation on Tuesday with
+snow possible over high elevations followed by a brief episode of
+rain over the Pacific Northwest around Thursday. Highest totals
+with the latter event should be confined to the Olympics. Much of
+the East will tend to be dry most of the period but a front
+dropping south through the region early in the period could
+produce some areas of light rain and the upper low/trough near the
+East Coast could produce some scattered rain, most likely over the
+Northeast.
+
+The upper ridge settling over east-central North America will
+bring the most persistent warmth to the Northern Plains and
+Upper/Mid Mississippi Valley through the period. The Northern
+Plains in particular may see some plus 20-25F or so anomalies for
+daytime highs on Tuesday and morning lows on Wednesday. Otherwise
+temperatures will generally be 5-15F above normal. Meanwhile upper
+troughing should bring below normal temperatures across much of
+the West, with greatest coverage of minus 10-20F anomalies for
+highs likely to be from the Northwest and parts of California into
+the Great Basin and north-central Rockies Tuesday-Wednesday. By
+late week into the weekend the West Coast states and Great Basin
+will see a moderating trend while below normal highs focus over
+and just west of the southern Rockies. Central/southern parts of
+the East will see above normal temperatures Tuesday-Wednesday
+ahead of an advancing cold front. Cooler air behind the front will
+bring highs down to near normal, and perhaps slightly below normal
+along parts of the East Coast.
+
+Rausch/Tate
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!o_pdxFHmZL9sE5XHmhE5Q7V9zGDClmuC6dVnJCiTwcm8OoKKzOKfE0uPDPvaA0COFFXqUuAe$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!o_pdxFHmZL9sE5XHmhE5Q7V9zGDClmuC6dVnJCiTwcm8OoKKzOKfE0uPDPvaA0COFJQZiWYg$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!o_pdxFHmZL9sE5XHmhE5Q7V9zGDClmuC6dVnJCiTwcm8OoKKzOKfE0uPDPvaA0COFCr748Oa$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!o_pdxFHmZL9sE5XHmhE5Q7V9zGDClmuC6dVnJCiTwcm8OoKKzOKfE0uPDPvaA0COFO0XRHGK$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!o_pdxFHmZL9sE5XHmhE5Q7V9zGDClmuC6dVnJCiTwcm8OoKKzOKfE0uPDPvaA0COFKb45YbE$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!o_pdxFHmZL9sE5XHmhE5Q7V9zGDClmuC6dVnJCiTwcm8OoKKzOKfE0uPDPvaA0COFIdGfTmo$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!o_pdxFHmZL9sE5XHmhE5Q7V9zGDClmuC6dVnJCiTwcm8OoKKzOKfE0uPDPvaA0COFEuxbyo1$
+
+$$
+
+
+------------------------------
+Message-ID: <8>
+Date: Sat, 25 Sep 2021 18:58:37 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 251858
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+257 PM EDT Sat Sep 25 2021
+
+Valid 12Z Tue Sep 28 2021 - 12Z Sat Oct 02 2021
+
+...Overview...
+
+Guidance agrees upon an amplified upper pattern during the period.
+Expect a strong mean ridge to become established over the
+east-central U.S. and north/northeast into Canada while a
+downstream trough settles over or near the East Coast. Another
+mean trough over the West will consist of multiple pieces of
+energy and generally become more diffuse with time as a deeper
+trough reaches the Northeast Pacific. The most prominent forecast
+issues involve details of a potential southwestern U.S. upper low
+whose interaction with a Plains front could produce heavy rainfall
+over the southern Rockies/High Plains toward the end of the week,
+as well as specifics of an upper low likely to be embedded within
+the East Coast trough.
+
+
+...Guidance Evaluation/Preferences...
+
+Confidence remains in the lower half of the spectrum for details
+of an upper low which most operational models suggest will be
+within the East Coast trough. Through the 00Z run, ECMWF runs over
+the past couple days have trended dramatically
+northward/northeastward for the upper low center while the GFS has
+adjusted northward from prior runs but from a less extreme
+starting point. The earlier ECMWF runs that had an upper low
+reaching the Southeast led to some 500mb height anomalies reaching
+3-4 standard deviations below normal. Latest CMC runs are showing
+the low over New England, which is where the ECMWF mean has
+finally started to close off a low. GEFS means are lagging a bit
+as it took until the 06Z/12Z runs to provide at least a hint at a
+closed low and with a position north/northeast of the ECMWF mean
+and operational models. The new 12Z UKMET is now farthest south
+(close to Cape Hatteras by early Friday) which reflects the ideas
+from some earlier runs of other models. The new 12Z ECMWF actually
+ejects the Thursday New England upper low and then digs trailing
+trough energy into another farther south upper low whose center
+also reaches near Cape Hatteras by Saturday.
+
+There is general agreement that a shortwave moving into the West
+through midweek will separate, with an upper low closing off near
+the western U.S.-Mexico border and remaining energy continuing
+into the Northern Plains and southern Canada. Model/ensemble mean
+clustering for the upper low is decent, with typical spread for
+exact strength/track but models vary considerably for the details
+of the northern energy. The relatively small scale of the latter
+keeps predictability low. Another shortwave will likely reach the
+Northwest by Friday but it should be fairly weak to start with and
+then weaken further.
+
+The updated forecast started with a 00Z/06Z model composite during
+the first half of the period. This blend reflected the improving
+signal for an upper low to reach at least into New England, along
+with refinement of the western trough separation that should occur
+by early Thursday. With detail uncertainties rapidly increasing
+after early day 5 Thursday the forecast quickly trended to a
+nearly half model (06Z GFS/00Z ECMWF/00Z CMC) / half mean (06Z
+GEFS/00Z ECens) blend for days 6-7 Friday-Saturday. Ensemble input
+tilted more toward the ECens due to its better
+depiction/persistence of the New England upper low versus the GEFS.
+
+
+...Weather and Potential Hazards...
+
+Through at least midweek the central U.S. will see an expanding
+area of showers and thunderstorms as shortwave energy ejects
+northward from the southern Rockies/High Plains and low level flow
+brings in Gulf moisture that will interact with a front moving
+from the West into the Plains. Best potential for some locally
+moderate to heavy rainfall will be over parts of the central and
+southern Plains. Then expect rainfall to become heavier and more
+focused over and near the southern High Plains by Friday-Saturday
+with an upper low currently forecast to track over the
+Southwest/Four Corners region and low level flow continuing to
+bring moisture into a stationary front. There will be periods of
+lighter precipitation early-mid period over parts of the
+Southwest, eastern Great Basin, and southern Rockies. Over the
+Northwest expect light to moderate precipitation on Tuesday with
+snow possible over high elevations followed by a brief episode of
+rain over the Pacific Northwest around Thursday. Highest totals
+with the latter event should be confined to the Olympics. Much of
+the East will tend to be dry most of the period but a front
+dropping south through the region early in the period could
+produce some areas of light rain and the upper low/trough near the
+East Coast could produce some scattered rain, most likely over the
+Northeast.
+
+The upper ridge settling over east-central North America will
+bring the most persistent warmth to the Northern Plains and
+Upper/Mid Mississippi Valley through the period. The Northern
+Plains in particular may see some plus 20-25F or so anomalies for
+daytime highs on Tuesday and morning lows on Wednesday. Otherwise
+temperatures will generally be 5-15F above normal. Meanwhile upper
+troughing should bring below normal temperatures across much of
+the West, with greatest coverage of minus 10-20F anomalies for
+highs likely to be from the Northwest and parts of California into
+the Great Basin and north-central Rockies Tuesday-Wednesday. By
+late week into the weekend the West Coast states and Great Basin
+will see a moderating trend while below normal highs focus over
+and just west of the southern Rockies. Central/southern parts of
+the East will see above normal temperatures Tuesday-Wednesday
+ahead of an advancing cold front. Cooler air behind the front will
+bring highs down to near normal, and perhaps slightly below normal
+along parts of the East Coast.
+
+Rausch/Tate
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!rZCswgK8vx6oical51BnxL1AXD10lGlYKmmf23l8lLctwn0zS6oSygujXcTtJJfaSejUmlln$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!rZCswgK8vx6oical51BnxL1AXD10lGlYKmmf23l8lLctwn0zS6oSygujXcTtJJfaSdRz6xC6$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!rZCswgK8vx6oical51BnxL1AXD10lGlYKmmf23l8lLctwn0zS6oSygujXcTtJJfaSbgBoXP5$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!rZCswgK8vx6oical51BnxL1AXD10lGlYKmmf23l8lLctwn0zS6oSygujXcTtJJfaSRxT-wCD$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!rZCswgK8vx6oical51BnxL1AXD10lGlYKmmf23l8lLctwn0zS6oSygujXcTtJJfaSQnf-KGu$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!rZCswgK8vx6oical51BnxL1AXD10lGlYKmmf23l8lLctwn0zS6oSygujXcTtJJfaSZjx5pAd$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!rZCswgK8vx6oical51BnxL1AXD10lGlYKmmf23l8lLctwn0zS6oSygujXcTtJJfaSbo5rhVh$
+
+$$
+
+
+------------------------------
+Message-ID: <9>
+Date: Sat, 25 Sep 2021 18:59:25 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 2 Fire Weather Outlook
+
+FNUS22 KWNS 251859
+FWDDY2
+
+Day 2 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0158 PM CDT Sat Sep 25 2021
+
+Valid 261200Z - 271200Z
+
+...CRITICAL FIRE WEATHER AREA FOR NORTHWEST OKLAHOMA INTO
+SOUTH-CENTRAL KANSAS...
+
+Critical fire weather appears likely from northwestern Oklahoma into
+south-central Kansas. Above normal temperatures into the 90s F will
+support RH of 15-20% in some areas along with the expected strong
+winds. The northeastward and southwestward extent of critical
+meteorological conditions has some uncertainty. Some guidance does
+show similar conditions into northeast Kansas and the Texas
+Panhandle. Mid-level clouds are increasing and less receptive fuels
+in the Panhandle and marginal RH in northeastern Kansas will keep
+concerns elevated. The forecast remains unchanged elsewhere.
+
+..Wendt.. 09/25/2021
+
+.PREV DISCUSSION... /ISSUED 0202 AM CDT Sat Sep 25 2021/
+
+...Synopsis...
+Across the western US, southwesterly mid-level flow will begin to
+increase ahead of a strong Pacific trough moving onshore across the
+Northwest. To the south, a cutoff low will move eastward, rejoining
+broad westerly flow across the Southwest. At the surface, a lee low
+will move southeastward across the central Plains, trailing a weak
+cold front. Dry and windy conditions are expected ahead of the low
+through much of the southern Plains and across the Great Basin where
+fuels are dry.
+
+...Southern Plains...
+As the previously mentioned lee low develops and moves southeastward
+across the Plains early Sunday, increasing surface pressure
+gradients will bolster low-level southwesterly flow across portions
+of the southern Plains. Aided by the development of a low-level jet,
+widespread surface winds of 20-25 mph are expected with higher gusts
+possible nearer the low in eastern Kansas. Model soundings show a
+dry airmass in place with surface RH below 20% likely across western
+Oklahoma and portions of the Texas Panhandle. Increasing cloud cover
+and greater surface moisture in eastern Kansas will favor slightly
+higher humidity values generally below 30%. With regional fuels near
+the 80th percentile of dryness, widespread elevated to locally
+critical fire weather conditions appear likely. More widespread
+critical conditions may develop should the corridor of stronger
+winds become better aligned with drier surface conditions across
+portions of Oklahoma and Texas.
+
+...Northern Great Basin...
+As southwesterly flow from the approaching Pacific trough begins to
+spread inland, low-level winds are projected to increase to near
+15-20 mph across portions of northern California and northwestern
+Nevada. Here, persistent warm and dry conditions with surface RH
+below 15%, along with mostly dry fuels will support elevated fire
+weather conditions through the afternoon.
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!sarCEVXNeH7IHlQkjymGWy4f-BGpUy3DbadRzBEZucMZzEuMwtFznpjXZ6_iVpkBIlduOOo4$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <10>
+Date: Sat, 25 Sep 2021 19:02:30 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 6-10 Day Outlook (Automatic)
+
+892
+FXUS06 KWBC 251902
+PMDMRD
+Prognostic Discussions for 6 to 10 and 8 to 14 day outlooks.
+NWS Climate Prediction Center, College Park, MD
+300 PM EDT Sat September 25 2021
+
+There is no forecaster message written on weekends.
+
+Notes:
+
+Automated forecasts are issued on Saturday and Sunday. Occasionally manual
+intervention is necessary to address quality control and consistency issues.
+In
+these cases, forecasts are manually drawn but a full discussion is not issued.
+
+The notation for the categorical forecast indicated on the maps is the same as
+that in the tables: A-above   N-near normal   B-below
+
+The temperature map shows regions with > 33% chance of being warmer (orange,
+"A"), colder (blue, "B"), or close to (unshaded, "N"). Historical average
+values for the calendar period of the forecast (dashes, "f").  Labels on the
+shaded lines give the probability (> 33%) of the more likely category (B or
+A).
+ Probability of N is always < 40%.
+
+The precipitation map shows regions with > 33% chance of being wetter (green,
+"A"), drier (tan, "B"), or close to (unshaded, "n"). Historical median values
+for the calendar period of the forecast (dashes, "inches").  Labels on the
+shaded lines give the probability (> 33%) of the more likely category (B or
+A).
+Probability of N is always < 40%.
+
+In the southwest and other climatologically dry regions - there will be a
+greater than 33.3% chance of no precipitation and occasionally even a normal
+(i.e. Median) value of zero - especially during the dry seasons.  In such
+cases
+a forecast of near normal is effectively a forecast of little or no
+precipitation.
+
+The climate prediction center uses 1981-2010 base period means for
+temperature...precipitation...and 500-hpa heights as reference in the climate
+outlooks.
+
+
+Analogs to the 5 day mean observed pattern centered 3 days ago (D-3)
+for the region from 20N to 70N latitude and 175E to 60W longitude
+include the 5 day periods centered on the following dates:
+19680924 - 19870911 - 20030920 - 19640921 - 20051008
+
+
+Analogs to the 7 day mean observed pattern centered 4 days ago (D-4)
+for the region from 20N to 70N latitude and 175E to 60W longitude
+include the 7 day periods centered on the following dates:
+20030921 - 19870911 - 19680925 - 19990906 - 19940924
+
+6 TO 10 DAY OUTLOOK TABLE
+Outlook for Oct 01 - 05, 2021
+
+STATE      TEMP PCPN   STATE      TEMP PCPN   STATE      TEMP PCPN
+WASHINGTON  A    B     OREGON      A    B     NRN CALIF   A    B
+SRN CALIF   A    N     IDAHO       A    B     NEVADA      A    B
+W MONTANA   A    B     E MONTANA   A    B     WYOMING     A    B
+UTAH        A    N     ARIZONA     N    A     COLORADO    A    A
+NEW MEXICO  B    A     N DAKOTA    A    B     S DAKOTA    A    A
+NEBRASKA    A    A     KANSAS      A    A     OKLAHOMA    A    A
+N TEXAS     A    A     S TEXAS     A    A     W TEXAS     A    A
+MINNESOTA   A    N     IOWA        A    N     MISSOURI    A    B
+ARKANSAS    A    B     LOUISIANA   A    B     WISCONSIN   A    B
+ILLINOIS    A    B     MISSISSIPPI A    B     MICHIGAN    A    B
+INDIANA     A    B     OHIO        A    B     KENTUCKY    A    B
+TENNESSEE   A    B     ALABAMA     A    B     NEW YORK    A    B
+VERMONT     A    B     NEW HAMP    A    B     MAINE       A    B
+MASS        A    B     CONN        A    B     RHODE IS    A    B
+PENN        A    B     NEW JERSEY  N    B     W VIRGINIA  N    B
+MARYLAND    N    B     DELAWARE    N    B     VIRGINIA    N    B
+N CAROLINA  N    B     S CAROLINA  N    B     GEORGIA     N    B
+FL PNHDL    N    B     FL PENIN    B    B     AK N SLOPE  B    N
+AK ALEUTIAN B    B     AK WESTERN  B    B     AK INT BSN  B    A
+AK S INT    B    B     AK SO COAST B    B     AK PNHDL    B    A
+
+
+8 TO 14 DAY OUTLOOK TABLE
+Outlook for Oct 03 - 09, 2021
+
+STATE      TEMP PCPN   STATE      TEMP PCPN   STATE      TEMP PCPN
+WASHINGTON  A    N     OREGON      A    N     NRN CALIF   A    N
+SRN CALIF   A    N     IDAHO       A    B     NEVADA      A    B
+W MONTANA   A    B     E MONTANA   A    B     WYOMING     A    B
+UTAH        A    N     ARIZONA     A    A     COLORADO    A    N
+NEW MEXICO  A    A     N DAKOTA    A    B     S DAKOTA    A    N
+NEBRASKA    A    N     KANSAS      A    N     OKLAHOMA    A    B
+N TEXAS     A    B     S TEXAS     A    N     W TEXAS     A    A
+MINNESOTA   A    B     IOWA        A    B     MISSOURI    A    B
+ARKANSAS    A    B     LOUISIANA   A    B     WISCONSIN   A    B
+ILLINOIS    A    B     MISSISSIPPI A    B     MICHIGAN    A    B
+INDIANA     A    B     OHIO        A    B     KENTUCKY    A    B
+TENNESSEE   A    B     ALABAMA     A    B     NEW YORK    A    B
+VERMONT     A    B     NEW HAMP    A    B     MAINE       A    B
+MASS        A    B     CONN        A    B     RHODE IS    A    N
+PENN        A    B     NEW JERSEY  A    B     W VIRGINIA  A    B
+MARYLAND    A    B     DELAWARE    A    B     VIRGINIA    A    B
+N CAROLINA  A    B     S CAROLINA  A    B     GEORGIA     A    B
+FL PNHDL    N    B     FL PENIN    B    N     AK N SLOPE  B    N
+AK ALEUTIAN B    N     AK WESTERN  B    N     AK INT BSN  B    N
+AK S INT    B    N     AK SO COAST B    N     AK PNHDL    B    A
+
+                           LEGEND
+TEMPS WITH RESPECT TO NORMAL     PCPN WITH RESPECT TO MEDIAN
+A - ABOVE   N  - NEAR NORMAL     A - ABOVE   N - NEAR MEDIAN
+B - BELOW                        B - BELOW
+
+THE FORECAST CLASSES REPRESENT AVERAGES FOR EACH STATE. NORMAL
+VALUES - WHICH MAY VARY WIDELY ACROSS SOME STATES - ARE
+AVAILABLE FROM YOUR LOCAL WEATHER SERVICE FORECAST OFFICE.
+
+FOR ADDITIONAL INFORMATION SEE MESSAGE FXUS06 - ON AFOS AS
+NFDPMDMRD.
+
+$$
+
+
+------------------------------
+Message-ID: <11>
+Date: Sat, 25 Sep 2021 19:36:35 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 251936
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+336 PM EDT Sat Sep 25 2021
+
+Valid 00Z Sun Sep 26 2021 - 00Z Tue Sep 28 2021
+
+...There is a Marginal Risk of excessive rainfall over parts of
+the Southwest and the Northeast through Sunday morning...
+
+...Temperatures will be 10 to 20 degrees above average over parts
+of the Northern/Central Plains, Great Basin, and Northern
+Rockies...
+
+A front extending from the parts of the Northeast to Florida will
+remain quasi-stationary until Sunday when upper-level energy aid
+invigorates the boundary while moving eastward off the Northeast
+Coast. The moisture axis associated with the front will also move
+eastward over the Atlantic Sunday evening. Showers and
+thunderstorms will develop along and ahead of the front through
+Sunday morning.  There is an isolated threat of excessive rainfall
+with these storms through Sunday. Therefore, the WPC has issued a
+Marginal Risk of excessive rainfall over parts of the Northeast
+through Sunday morning.  The associated heavy rain will create
+localized areas of flash flooding, affecting areas that experience
+rapid runoff with heavy rain.
+
+Meanwhile, upper-level low and moisture over the Southwest will
+aid in producing widely scattered showers and thunderstorms over
+the area through Monday. Some of the thunderstorms will produce
+heavy rain, but this will be isolated.  Therefore, the WPC has
+issued a Marginal Risk of excessive rainfall over parts of the
+Southwest through Monday morning.  The associated heavy rain will
+create localized areas of flash flooding, affecting areas that
+experience rapid runoff with heavy rain. However, the excessive
+rainfall threat is minimal yet will continue over the region
+through Monday.
+
+Furthermore, another front over the Lower Great Lakes roughly
+southwestward to the Southern High Plains will move eastward to
+the Northeast on Sunday and dissipate. Showers will develop along
+and ahead of the boundary over parts of the Lower Great Lakes into
+the Central Appalachians/Ohio Valley through Saturday evening.
+The rain will move into the Northeast on Sunday and weaken.
+
+Additionally, upper-level ridging over the Northern Rockies and
+weak high pressure at the surface over California will create
+light wind over the San Joaquin Valley provide stagnant airflow.
+Therefore, Air Quality alerts are over parts of California due to
+wildfire smoke through Monday. In the meantime, temperatures will
+be 10 to 20 degrees above average over parts of the
+Northern/Central Plains, Great Basin, and Northern Rockies.
+
+
+Ziegenfelder
+
+
+Graphics are available at
+https://urldefense.com/v3/__http://www.wpc.ncep.noaa.gov/basicwx/basicwx_ndfd.php__;!!DZ3fjg!t0BLXBf12vcr4XmnM4RIG2YKGWhLvTZ5j9Ntw1kO-xJ-kxWHZhPrZIuIrnlym5mOEnD8maXn$
+
+
+$$
+
+
+------------------------------
+Message-ID: <12>
+Date: Sun, 26 Sep 2021 00:50:29 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+780
+FPUS20 KWBN 260050
+SCS01
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 1 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+850 PM EDT SAT SEP 25 2021
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 8 PM EDT
+
+                                FORECAST        FORECAST
+                 SAT...SEP 25   SUN....SEP 26   MON....SEP 27
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+ABILENE TX       58  90         SUNNY   58/89   PTCLDY  61/90
+AKRON CANTON     52  67         SUNNY   46/69   PTCLDY  55/79
+ALBANY NY        46  70         SUNNY   52/66   PTCLDY  48/69
+ALBUQUERQUE      60  81   .03   TSTRMS  58/80   TSTRMS  56/77
+ALLENTOWN        47  75         SUNNY   54/71   SUNNY   50/75
+AMARILLO         52  90         PTCLDY  59/88   MOCLDY  63/87
+ANCHORAGE        35  43   .09   SUNNY   31/45   SUNNY   28/43
+ASHEVILLE        45  70         PTCLDY  49/74   SUNNY   49/79
+ATLANTA          57  78         SUNNY   58/81   SUNNY   60/83
+ATLANTIC CITY    50  77         SUNNY   58/74   SUNNY   55/79
+AUSTIN           53  89         PTCLDY  56/90   TSTRMS  64/91
+BALTIMORE        50  78         SUNNY   58/75   SUNNY   56/82
+BATON ROUGE      53  83         SUNNY   56/84   SUNNY   59/86
+BILLINGS         53  87         SUNNY   54/87   SUNNY   54/87
+BIRMINGHAM       53  79         SUNNY   56/81   SUNNY   58/84
+BISMARCK         33  86         SUNNY   52/87   SUNNY   51/90
+BOISE            54  86         SUNNY   58/84   SUNNY   55/81
+BOSTON           65  75   .01   RAIN    63/73   SUNNY   56/74
+BRIDGEPORT       56  74         SUNNY   57/74   SUNNY   54/76
+BROWNSVILLE      68  90    MM   SUNNY   68/91   PTCLDY  73/94
+BUFFALO          52  72   .04   PTCLDY  50/68   SHWRS   58/70
+BURLINGTON VT    52  73         PTCLDY  55/69   SHWRS   52/67
+CARIBOU          56  69   .82   RAIN    60/66   SHWRS   46/64
+CASPER           36  85         SUNNY   45/84   SUNNY   44/84
+CHARLESTON SC    54  80         SUNNY   58/83   SUNNY   62/83
+CHARLESTON WV    47  71         SUNNY   50/71   SUNNY   51/81
+CHARLOTTE        48  79         SUNNY   54/80   SUNNY   55/83
+CHATTANOOGA      50  79         SUNNY   56/78   SUNNY   55/82
+CHEYENNE         43  82         SUNNY   51/83   SUNNY   50/82
+CHICAGO          50  69   .10   PTCLDY  53/81   SUNNY   61/85
+CINCINNATI       54  71         SUNNY   48/75   SUNNY   56/81
+CLEVELAND        57  66         PTCLDY  49/70   PTCLDY  59/78
+COLORADO SPGS    45  82         SUNNY   52/87   PTCLDY  54/85
+COLUMBIA SC      50  79         SUNNY   56/81   SUNNY   57/84
+COLUMBUS GA      55  82         SUNNY   58/84   SUNNY   60/86
+COLUMBUS OH      54  69         SUNNY   46/75   SUNNY   55/80
+
+
+$$
+
+
+------------------------------
+Message-ID: <13>
+Date: Sun, 26 Sep 2021 00:50:29 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+776
+FPUS20 KWBN 260050
+SCS03
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 3 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+850 PM EDT SAT SEP 25 2021
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 8 PM EDT
+
+                                FORECAST        FORECAST
+                 SAT...SEP 25   SUN....SEP 26   MON....SEP 27
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+LINCOLN          37  81         SUNNY   57/90   SUNNY   57/91
+LITTLE ROCK      56  86         SUNNY   56/87   SUNNY   63/89
+LOS ANGELES      61  74         PTCLDY  61/75   PTCLDY  59/73
+LOUISVILLE       58  74   .07   SUNNY   49/77   SUNNY   57/84
+LUBBOCK          51  88         PTCLDY  57/87   TSTRMS  62/87
+MACON            52  82         SUNNY   55/84   SUNNY   57/86
+MADISON          48  66   .03   PTCLDY  49/78   SUNNY   54/80
+MEDFORD          54  90         SUNNY   50/81   RAIN    54/69
+MEMPHIS          59  84         SUNNY   58/84   SUNNY   63/86
+MIAMI BEACH      75  91  1.52   TSTRMS  75/86   SUNNY   75/87
+MIDLAND ODESSA   53  85         SUNNY   57/86   TSTRMS  62/87
+MILWAUKEE        51  71   .12   PTCLDY  53/79   SUNNY   59/75
+MPLS ST PAUL     44  69         PTCLDY  53/79   SUNNY   55/77
+MISSOULA         43  84         SUNNY   47/81   SUNNY   45/78
+MOBILE           53  81         SUNNY   57/84   SUNNY   62/85
+MONTGOMERY       52  83         SUNNY   56/85   SUNNY   59/86
+NASHVILLE        53  78         SUNNY   53/81   SUNNY   56/83
+NEW ORLEANS      61  82         SUNNY   64/84   PTCLDY  66/86
+NEW YORK CITY    57  75         SUNNY   60/73   SUNNY   57/77
+NEWARK           58  79         SUNNY   59/77   SUNNY   56/80
+NORFOLK VA       66  75         SUNNY   60/76   SUNNY   58/81
+NORTH PLATTE     39  87         SUNNY   50/93   SUNNY   49/91
+OKLAHOMA CITY    58  87         SUNNY   59/92   PTCLDY  62/91
+OMAHA            44  80         SUNNY   57/87   SUNNY   59/90
+ORLANDO          73  92         PTCLDY  71/90   SUNNY   70/90
+PADUCAH          59  78         SUNNY   49/79   SUNNY   59/86
+PENDLETON        50  87         SUNNY   53/80   RAIN    54/72
+PEORIA           49  72   .14   SUNNY   50/83   SUNNY   64/89
+PHILADELPHIA     55  76         SUNNY   59/74   SUNNY   57/79
+PHOENIX          75  95   .07   SHWRS   73/84   SHWRS   69/88
+PITTSBURGH       47  70         SUNNY   47/69   PTCLDY  55/75
+POCATELLO        38  84         SUNNY   44/82   SUNNY   44/82
+PORTLAND ME      61  72   .19   SHWRS   61/72   SUNNY   52/71
+PORTLAND OR      57  84         RAIN    56/73   RAIN    59/67
+PROVIDENCE       62  76         RAIN    62/75   SUNNY   55/75
+PUEBLO           44  86         SUNNY   50/93   PTCLDY  53/90
+RALEIGH DURHAM   49  78         SUNNY   54/77   SUNNY   54/81
+RAPID CITY       39  86         SUNNY   53/89   SUNNY   52/90
+RENO             51  89         SUNNY   52/86   SUNNY   49/81
+RICHMOND         53  78         SUNNY   55/76   SUNNY   54/80
+ROANOKE          48  75         SUNNY   52/74   SUNNY   51/82
+ROCHESTER NY     49  73         PTCLDY  49/69   SHWRS   57/71
+ROCKFORD         46  71   .17   PTCLDY  49/81   SUNNY   56/86
+SACRAMENTO       58  87         SUNNY   54/82   SUNNY   52/79
+ST LOUIS         55  77   .06   SUNNY   57/83   SUNNY   67/91
+ST PETERSBURG    79  91   .41   SUNNY   78/89   SUNNY   75/88
+ST THOMAS VI     78  88         SHWRS   79/89   SHWRS   78/89
+
+
+$$
+
+
+------------------------------
+Message-ID: <14>
+Date: Sun, 26 Sep 2021 00:50:29 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+775
+FPUS20 KWBN 260050
+SCS02
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 2 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+850 PM EDT SAT SEP 25 2021
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 8 PM EDT
+
+                                FORECAST        FORECAST
+                 SAT...SEP 25   SUN....SEP 26   MON....SEP 27
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+CONCORD NH       49  76         PTCLDY  55/73   PTCLDY  49/72
+CORPUS CHRISTI   67  88         PTCLDY  65/90   TSTRMS  71/92
+DALLAS FT WORTH  60  91         SUNNY   65/91   PTCLDY  66/90
+DAYTON           58  70         SUNNY   47/75   SUNNY   57/82
+DAYTONA BEACH    73  84         SUNNY   70/86   SUNNY   69/86
+DENVER           52  87         SUNNY   52/89   SUNNY   52/87
+DES MOINES       42  76         SUNNY   56/86   SUNNY   60/89
+DETROIT          56  66   .18   PTCLDY  49/73   PTCLDY  56/79
+DULUTH           43  63         MOCLDY  49/73   SUNNY   48/66
+EL PASO          68  81   .04   TSTRMS  66/84   TSTRMS  63/82
+ELKINS           41  69         SUNNY   46/66   SUNNY   46/78
+ERIE             57  72         PTCLDY  54/66   MOCLDY  61/76
+EUGENE           52  83         RAIN    51/77   RAIN    57/66
+EVANSVILLE       59  75   .13   SUNNY   49/78   SUNNY   59/86
+FAIRBANKS        30  36   .06   PTCLDY  22/38   PTCLDY  22/40
+FARGO            41  77         SUNNY   53/80   SUNNY   50/78
+FLAGSTAFF        47  69         TSTRMS  45/63   TSTRMS  42/64
+FLINT            56  64   .37   MOCLDY  47/70   PTCLDY  54/76
+FORT SMITH       54  89         SUNNY   57/92   SUNNY   64/92
+FORT WAYNE       55  68   .42   SUNNY   46/74   SUNNY   56/81
+FRESNO           69  91         SUNNY   66/90   SUNNY   62/87
+GOODLAND         47  84         SUNNY   50/97   SUNNY   54/93
+GRAND JUNCTION   50  85         SUNNY   55/84   PTCLDY  54/82
+GRAND RAPIDS     52  66   .15   MOCLDY  49/73   PTCLDY  60/77
+GREAT FALLS      53  85         SUNNY   50/84   SUNNY   48/83
+GREEN BAY        46  66   .12   MOCLDY  47/73   PTCLDY  52/72
+GREENSBORO       48  76         SUNNY   53/75   SUNNY   51/79
+HARRISBURG       53  76         SUNNY   56/72   SUNNY   56/77
+HARTFORD SPGFLD  48  76         SUNNY   57/71   SUNNY   52/74
+HELENA           46  86         SUNNY   46/85   SUNNY   46/84
+HONOLULU         73  88   .04   SHWRS   75/88   SHWRS   75/87
+HOUSTON INTCNTL  59  86         SUNNY   64/87   SHWRS   68/88
+HUNTSVILLE AL    52  79         SUNNY   53/79   SUNNY   55/83
+INDIANAPOLIS     56  70   .18   SUNNY   48/74   SUNNY   58/82
+JACKSON MS       50  82         SUNNY   55/86   SUNNY   59/87
+JACKSONVILLE     63  85         SUNNY   62/86   SUNNY   62/87
+JUNEAU           44  52   .02   MOCLDY  39/54   RAIN    43/53
+KANSAS CITY      46  75   .01   SUNNY   58/88   SUNNY   68/91
+KEY WEST         81  90         SHWRS   79/89   SHWRS   79/88
+KNOXVILLE        50  75         SUNNY   54/76   SUNNY   52/79
+LAKE CHARLES     58  85         SUNNY   60/85   SHWRS   65/87
+LANSING          53  66   .28   MOCLDY  49/74   PTCLDY  60/77
+LAS VEGAS        72  94         SUNNY   74/93   SUNNY   71/93
+LEXINGTON        50  69   .03   SUNNY   46/73   SUNNY   53/79
+
+
+$$
+
+
+------------------------------
+Message-ID: <15>
+Date: Sun, 26 Sep 2021 00:50:29 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+777
+FPUS20 KWBN 260050
+SCS04
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 4 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+850 PM EDT SAT SEP 25 2021
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 8 PM EDT
+
+                                FORECAST        FORECAST
+                 SAT...SEP 25   SUN....SEP 26   MON....SEP 27
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+SALEM OR         56  83         RAIN    54/74   RAIN    58/67
+SALT LAKE CITY   56  87         SUNNY   57/87   SMOKE   59/88
+SAN ANGELO       51  89         SUNNY   54/88   PTCLDY  60/90
+SAN ANTONIO      60  89         SUNNY   62/90   PTCLDY  67/91
+SAN DIEGO        67  74   .02   PTCLDY  65/73   MOCLDY  63/72
+SAN FRANCISCO    57  67         PTCLDY  55/66   MOCLDY  56/69
+SAN JOSE         57  74         SUNNY   56/74   PTCLDY  55/73
+SAN JUAN PR      79  90         SHWRS   80/91   SHWRS   78/90
+SANTA FE         48  83         TSTRMS  51/78   TSTRMS  50/75
+ST STE MARIE     52  62   .41   PTCLDY  49/63   PTCLDY  47/65
+SAVANNAH         55  80         SUNNY   57/83   SUNNY   61/85
+SEATTLE          53  77         RAIN    52/65   RAIN    55/63
+SHREVEPORT       56  89         SUNNY   60/91   PTCLDY  63/90
+SIOUX CITY       34  78         SUNNY   53/87   SUNNY   54/87
+SIOUX FALLS      39  80         SUNNY   53/85   SUNNY   55/84
+SOUTH BEND       52  69   .36   SUNNY   47/76   SUNNY   58/84
+SPOKANE          54  79         PTCLDY  53/77   RAIN    55/69
+SPRINGFIELD IL   46  73   .09   SUNNY   50/84   SUNNY   64/90
+SPRINGFIELD MO   52  77         SUNNY   53/87   SUNNY   63/89
+SYRACUSE         49  78         PTCLDY  53/68   SHWRS   55/73
+TALLAHASSEE      62  86         SUNNY   61/87   SUNNY   61/88
+TAMPA            76  92         SUNNY   75/89   SUNNY   73/90
+TOLEDO           56  68   .18   SUNNY   47/73   PTCLDY  58/81
+TOPEKA           45  78         SUNNY   58/92   SUNNY   67/91
+TUCSON           69  92         SHWRS   66/85   TSTRMS  62/85
+TULSA            55  86         SUNNY   62/95   PTCLDY  68/95
+TUPELO           56  83         SUNNY   55/84   SUNNY   59/86
+WACO             60  90         SUNNY   60/91   PTCLDY  63/90
+WASHINGTON DC    57  77         SUNNY   59/74   SUNNY   58/81
+W PALM BEACH     76  89   .53   TSTRMS  75/87   PTCLDY  74/87
+WICHITA          48  82         WINDY   61/94   PTCLDY  64/93
+WICHITA FALLS    53  93         SUNNY   60/92   PTCLDY  60/91
+WILKES BARRE     49  73         PTCLDY  52/68   PTCLDY  53/73
+WILMINGTON DE    50  77         SUNNY   57/74   SUNNY   55/79
+YAKIMA           44  84         MOCLDY  53/80   RAIN    57/66
+YOUNGSTOWN       52  69         SUNNY   46/68   MOCLDY  56/77
+YUMA             68  92         SHWRS   75/93   SUNNY   75/95
+
+NATIONAL TEMPERATURE EXTREMES
+
+HIGH SAT...107 AT DEATH VALLEY CA
+
+LOW  SAT...14 AT PETER SINKS UT
+
+
+$$
+
+
+------------------------------
+Message-ID: <16>
+Date: Sun, 26 Sep 2021 06:53:24 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 260653
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+252 AM EDT Sun Sep 26 2021
+
+Valid 12Z Wed Sep 29 2021 - 12Z Sun Oct 03 2021
+
+...Overview...
+
+An amplified upper pattern is expected especially early in the
+medium range period, as ridging in the east-central U.S. separates
+a likely closed low over the Northeast and mean troughing over the
+West. Southern stream troughing/energy over the Four Corners
+states and moist inflow will lead to heavy rainfall potential over
+southern portions of the Rockies and Plains toward the end of the
+week.
+
+...Guidance Evaluation/Preferences...
+
+Model guidance from the 12/18Z cycle begins the medium range
+period Wednesday fairly well clustered with the pattern described
+above, and has trended more agreeable than earlier model cycles
+with the formation and placement of a closed low in the East
+around Wednesday-Thursday. Most deterministic guidance produces
+the closed low over the Northeast U.S., continuing the general
+northward trend. The main outlier by early Friday was the 12Z
+UKMET, which splits the energy and closes off the low centered
+around Cape Hatteras, while other recent guidance has trended away
+from the placement that far south. On Friday and beyond, quite a
+bit of model variability arises quickly with the upper/low trough
+feature. Trough energy moving southward spins southwest in the 12Z
+ECMWF, creating a farther south (around Cape Hatteras) upper low
+by the weekend, but spins southeastward in the GFS runs while
+keeping the core of the upper low to the north. Meanwhile the 12Z
+CMC maintains most of its energy within the low rather than
+splitting it off. Hurricane Sam may also be a factor to consider
+as it moves northward through the Atlantic late in the week.
+Overall confidence is low with the upper low placement and
+evolution by the weekend. At this point the WPC forecast tried to
+take a middle ground approach, with upper low placement around
+Downeast Maine on day 6/Saturday as a compromise center point.
+Ensemble mean guidance was only somewhat helpful as the
+differences in the upper low position in the ensemble members led
+to more of an open trough than individual models. Overall
+preferred the 12Z ECens mean compared to the GEFS means as the
+former maintained a closed low at least through Friday.
+
+Meanwhile in the West, an upper trough with shortwaves moving
+through for midweek has general agreement along the guidance.
+Models show shortwave energy splitting with some moving into the
+north-central U.S./south-central Canada, and some forming a
+southern stream trough or potential closed low centered in the
+Desert Southwest around Thursday. Some differences in the exact
+track and magnitude of both these features remain. But guidance
+all has similar ideas in lifting the Southwest energy
+northeastward through the Four Corners states for the end of the
+week that a model blend worked well to depict the feature.
+
+The WPC forecast began with a 12/18Z deterministic model composite
+blend, eliminating the 12Z UKMET by Friday, and incorporating the
+GEFS and especially the EC mean guidance for the latter part of
+the period and increasing the weight of the means by the weekend
+to minimize individual model differences.
+
+...Weather and Potential Hazards...
+
+Central parts of the Plains will see showers and thunderstorms
+around midweek as moisture pools ahead of a shortwave and frontal
+boundary, and some rain could spread to the Upper Midwest on
+Thursday and Friday. But the greater chance for multi-day
+accumulations of multiple inches of rain will be across the
+southern High Plains beginning Thursday and lasting into the
+weekend, as the upper low in the Southwest provides moist inflow
+from both the Pacific and the Gulf of Mexico. The Pacific
+Northwest can expect precipitation on Wednesday into Thursday,
+with the highest totals in the Olympics and Cascades, and some
+snow possible at the highest elevations. Scattered showers and
+thunderstorms are expected across southern Florida as a couple of
+fronts move across, while areas of light rain are possible across
+the Eastern Seaboard due to the upper low/trough, mostly likely
+over the Northeast.
+
+Warmer than average conditions are forecast underneath the upper
+ridge from the Dakotas into the Upper Midwest through the period.
+Temperatures 10-20F above average will mean highs in the 70s and
+80s there. Meanwhile, much of the West should see below normal
+temperatures given the upper trough. The most anomalous
+temperatures of 10-20F below normal are forecast in the Great
+Basin on Wednesday, while shifting east and slightly moderating as
+the week progresses. Cool high temperatures could linger in the
+Four Corners states into the weekend. Near to slightly below
+average highs are forecast for the East.
+
+Tate
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!pHBwGzM31XdS616K9ae9MBWVzFcYbdAEpSqNWDscGQbNbvdTTXImIQyCWebWpWgm7EKrPltA$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!pHBwGzM31XdS616K9ae9MBWVzFcYbdAEpSqNWDscGQbNbvdTTXImIQyCWebWpWgm7OaKOyNS$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!pHBwGzM31XdS616K9ae9MBWVzFcYbdAEpSqNWDscGQbNbvdTTXImIQyCWebWpWgm7J8K9W8M$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!pHBwGzM31XdS616K9ae9MBWVzFcYbdAEpSqNWDscGQbNbvdTTXImIQyCWebWpWgm7Pk93hHq$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!pHBwGzM31XdS616K9ae9MBWVzFcYbdAEpSqNWDscGQbNbvdTTXImIQyCWebWpWgm7OMLvTVj$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!pHBwGzM31XdS616K9ae9MBWVzFcYbdAEpSqNWDscGQbNbvdTTXImIQyCWebWpWgm7LBgiBDe$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!pHBwGzM31XdS616K9ae9MBWVzFcYbdAEpSqNWDscGQbNbvdTTXImIQyCWebWpWgm7FCdw1Xo$
+
+$$
+
+
+------------------------------
+Message-ID: <17>
+Date: Sun, 26 Sep 2021 06:53:25 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+133
+FXUS02 KWBC 260653
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+252 AM EDT Sun Sep 26 2021
+
+Valid 12Z Wed Sep 29 2021 - 12Z Sun Oct 03 2021
+
+...Overview...
+
+An amplified upper pattern is expected especially early in the
+medium range period, as ridging in the east-central U.S. separates
+a likely closed low over the Northeast and mean troughing over the
+West. Southern stream troughing/energy over the Four Corners
+states and moist inflow will lead to heavy rainfall potential over
+southern portions of the Rockies and Plains toward the end of the
+week.
+
+...Guidance Evaluation/Preferences...
+
+Model guidance from the 12/18Z cycle begins the medium range
+period Wednesday fairly well clustered with the pattern described
+above, and has trended more agreeable than earlier model cycles
+with the formation and placement of a closed low in the East
+around Wednesday-Thursday. Most deterministic guidance produces
+the closed low over the Northeast U.S., continuing the general
+northward trend. The main outlier by early Friday was the 12Z
+UKMET, which splits the energy and closes off the low centered
+around Cape Hatteras, while other recent guidance has trended away
+from the placement that far south. On Friday and beyond, quite a
+bit of model variability arises quickly with the upper/low trough
+feature. Trough energy moving southward spins southwest in the 12Z
+ECMWF, creating a farther south (around Cape Hatteras) upper low
+by the weekend, but spins southeastward in the GFS runs while
+keeping the core of the upper low to the north. Meanwhile the 12Z
+CMC maintains most of its energy within the low rather than
+splitting it off. Hurricane Sam may also be a factor to consider
+as it moves northward through the Atlantic late in the week.
+Overall confidence is low with the upper low placement and
+evolution by the weekend. At this point the WPC forecast tried to
+take a middle ground approach, with upper low placement around
+Downeast Maine on day 6/Saturday as a compromise center point.
+Ensemble mean guidance was only somewhat helpful as the
+differences in the upper low position in the ensemble members led
+to more of an open trough than individual models. Overall
+preferred the 12Z ECens mean compared to the GEFS means as the
+former maintained a closed low at least through Friday.
+
+Meanwhile in the West, an upper trough with shortwaves moving
+through for midweek has general agreement along the guidance.
+Models show shortwave energy splitting with some moving into the
+north-central U.S./south-central Canada, and some forming a
+southern stream trough or potential closed low centered in the
+Desert Southwest around Thursday. Some differences in the exact
+track and magnitude of both these features remain. But guidance
+all has similar ideas in lifting the Southwest energy
+northeastward through the Four Corners states for the end of the
+week that a model blend worked well to depict the feature.
+
+The WPC forecast began with a 12/18Z deterministic model composite
+blend, eliminating the 12Z UKMET by Friday, and incorporating the
+GEFS and especially the EC mean guidance for the latter part of
+the period and increasing the weight of the means by the weekend
+to minimize individual model differences.
+
+...Weather and Potential Hazards...
+
+Central parts of the Plains will see showers and thunderstorms
+around midweek as moisture pools ahead of a shortwave and frontal
+boundary, and some rain could spread to the Upper Midwest on
+Thursday and Friday. But the greater chance for multi-day
+accumulations of multiple inches of rain will be across the
+southern High Plains beginning Thursday and lasting into the
+weekend, as the upper low in the Southwest provides moist inflow
+from both the Pacific and the Gulf of Mexico. The Pacific
+Northwest can expect precipitation on Wednesday into Thursday,
+with the highest totals in the Olympics and Cascades, and some
+snow possible at the highest elevations. Scattered showers and
+thunderstorms are expected across southern Florida as a couple of
+fronts move across, while areas of light rain are possible across
+the Eastern Seaboard due to the upper low/trough, mostly likely
+over the Northeast.
+
+Warmer than average conditions are forecast underneath the upper
+ridge from the Dakotas into the Upper Midwest through the period.
+Temperatures 10-20F above average will mean highs in the 70s and
+80s there. Meanwhile, much of the West should see below normal
+temperatures given the upper trough. The most anomalous
+temperatures of 10-20F below normal are forecast in the Great
+Basin on Wednesday, while shifting east and slightly moderating as
+the week progresses. Cool high temperatures could linger in the
+Four Corners states into the weekend. Near to slightly below
+average highs are forecast for the East.
+
+Tate
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!oMBzIvs3Tj-8zG3THbGLo9o3OLQeHbGG0fm3j9fY_V_440qsqEonJIz2TxfD9qR4AjxS9jQg$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!oMBzIvs3Tj-8zG3THbGLo9o3OLQeHbGG0fm3j9fY_V_440qsqEonJIz2TxfD9qR4As42QCFH$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!oMBzIvs3Tj-8zG3THbGLo9o3OLQeHbGG0fm3j9fY_V_440qsqEonJIz2TxfD9qR4AkRcKymQ$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!oMBzIvs3Tj-8zG3THbGLo9o3OLQeHbGG0fm3j9fY_V_440qsqEonJIz2TxfD9qR4AjkX09VB$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!oMBzIvs3Tj-8zG3THbGLo9o3OLQeHbGG0fm3j9fY_V_440qsqEonJIz2TxfD9qR4AhFdsAeQ$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!oMBzIvs3Tj-8zG3THbGLo9o3OLQeHbGG0fm3j9fY_V_440qsqEonJIz2TxfD9qR4AhQIbdYs$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!oMBzIvs3Tj-8zG3THbGLo9o3OLQeHbGG0fm3j9fY_V_440qsqEonJIz2TxfD9qR4Ah-USTn2$
+
+$$
+
+
+------------------------------
+Message-ID: <18>
+Date: Sun, 26 Sep 2021 07:01:30 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 1 Fire Weather Outlook
+
+FNUS21 KWNS 260701
+FWDDY1
+
+Day 1 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0201 AM CDT Sun Sep 26 2021
+
+Valid 261200Z - 271200Z
+
+...CRITICAL FIRE WEATHER AREA FOR PORTIONS OF THE SOUTHERN PLAINS...
+
+...Synopsis...
+Split mid-level flow is expected across the western and central US
+as a strong shortwave trough moves onshore across portions of the
+Pacific Northwest. At the same time, a weak upper low across the
+Southwest will meander northward and re-enter the stronger mid-level
+westerlies near the Four Corners. At the surface, a lee low will
+move southeastward, supporting dry and windy conditions across the
+southern Plains, while shower and thunderstorm chances increase
+across the Southwest.
+
+...Southern Plains...
+Ahead of the area of low pressure moving southeastward across the
+Great Plains, hot, dry and gusty southwesterly winds are expected
+across portions of the Texas Panhandle, western Oklahoma and
+southern Kansas. Surface temperatures near 90F (10-15 deg above
+normal) will likely support widespread surface RH of 10-20% across
+portions of Texas and Oklahoma through peak heating. A robust
+morning low-level jet should linger through the day, enhancing
+low-level winds to 20-25 mph in the afternoon.
+
+Slightly stronger flow and somewhat higher gusts may persist farther
+northeast near the low and trailing surface trough across portions
+of eastern Kansas. Here, surface RH is expected to be higher due to
+increasing low-level moisture advection from the Gulf of Mexico. By
+mid afternoon, surface RH of 20-25% and winds of 20-30 mph will
+likely develop over mostly dry fuels.
+
+Persistent hot and dry conditions combined with little recent
+rainfall suggest fuels remain mostly supportive of fire spread
+across the southern Plains. However, some guidance depicts a greater
+increase in mid and high cloud cover early in the forecast period
+across portions of Texas and western Oklahoma. This casts some
+uncertainty on diurnal RH minimums and curing of fine fuels. Despite
+these concerns, model agreement is strong on the development of
+gusty winds across much of the southern Plains supportive of
+widespread elevated to critical fire weather conditions.
+
+...Northern Great Basin...
+On the southern fringes of the approaching upper trough, stronger
+mid-level flow is forecast to cross the Sierra and move into
+portions of the northern Great Basin. Downslope winds of 15-20 mph
+are expected to overlap warm and dry surface conditions with RH of
+10-15%. Local fuels remain receptive to fire spread suggesting
+elevated fire weather conditions are likely from portions of
+northern California, into northwestern Nevada and southern Oregon.
+
+...Portions of the northern/central Rockies...
+As mid-level flow increases ahead of the Pacific Northwest trough,
+dry downslope flow should gradually develop across much of the
+Intermountain west. Synoptic forcing remains rather broad,
+suggesting portions of eastern Idaho, central Montana and southern
+Wyoming, may experience stronger wind gusts and accompanying dry
+fuels/surface conditions supporting local fire weather potential.
+Terrain enhancement will likely support surface winds of 15-20 mph
+with RH near 15-20%. In areas of dry fuels, locally elevated to
+critical fire weather conditions can be expected for a few hours in
+the afternoon and evening.
+
+..Lyons.. 09/26/2021
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!sBC3JVc8-ZhlONOVM23yve6fgafUfS5L5gpfn5mavJmNBO8O7h4eIXjnqvQM2hTRRKAxLN2Q$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <19>
+Date: Sun, 26 Sep 2021 07:04:59 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 2 Fire Weather Outlook
+
+FNUS22 KWNS 260704
+FWDDY2
+
+Day 2 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0204 AM CDT Sun Sep 26 2021
+
+Valid 271200Z - 281200Z
+
+...CRITICAL FIRE WEATHER AREA FOR NORTHERN GREAT BASIN...
+
+...Synopsis...
+A strong Pacific trough is forecast to continue inland across the
+West Coast early Monday, bringing an increase in southwesterly flow
+to much of the Great Basin and western US. At the surface, a dry
+cold front across Oregon will move south, bringing an increase in
+low-level winds and the potential for critical fire weather
+conditions across portions of the Sierra and Great Basin.
+
+...Northern Great Basin...
+As the strong Pacific trough continues to move eastward through the
+day, a 70-80 kt mid-level jet streak will begin to overspread
+northern California and the Great Basin by midday. The increase in
+strong southwesterly flow will support deep mixing and bolster
+low-level winds to 20-30 mph through the afternoon. Dry downslope
+trajectories off the High Sierra and a persistent warm and dry
+airmass across much of the region will favor low humidity values of
+10-15% from northern California, through northern Nevada and into
+portions of southern Oregon. Fuels remain receptive to spread
+suggesting widespread elevated to critical fire weather conditions
+are likely.
+
+A cold front will approach later in the afternoon and evening as the
+trough ejects northeastward. Little precipitation is expected along
+the front, but locally gusty winds and a change in direction
+associated with the frontal passage may increase potential for
+short-term fire weather concerns later in the forecast period. The
+fire weather threat should gradually diminish behind the front after
+dark, as a cooler and more moist airmass moves in.
+
+Locally elevated fire weather conditions may also briefly develop
+ahead of the cold front across portions of eastern Idaho and
+southwestern Montana. Here, strong wind gusts of 20-25 mph appear
+likely through the afternoon. However, confidence in widespread low
+humidity is lacking. Nonetheless, fuels mostly support fire spread
+suggesting some fire-weather threat before frontal passage in the
+late afternoon/evening.
+
+..Lyons.. 09/26/2021
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!ufcw2-POirrzjF9N1KheQKudFt566-_RqZIvz4IRfFmG6R0VOlVIVnPISr8syIUBaEU_NMEM$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <20>
+Date: Sun, 26 Sep 2021 07:36:57 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 260736
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+335 AM EDT Sun Sep 26 2021
+
+Valid 12Z Sun Sep 26 2021 - 12Z Tue Sep 28 2021
+
+...Additional rounds of showers and thunderstorms may produce
+isolated instances of flash flooding across portions of Maine and
+the Southwest...
+
+...Unsettled weather found across the Pacific Northwest and
+northern Great Basin...
+
+...Dry and unseasonably warm throughout the Great Plains and
+Midwest...
+
+A tranquil end of the weekend and start of a new week is on the
+way for the majority of nation, with precipiation chances confined
+to only a few sections of the country. Starting in the east, one
+more day of heavy rain chances will be found across Maine as a low
+pressure system passes by to the east. The primary concern with
+these showers and thunderstorms will be the potential for
+downpours and isolated flash flooding. Additional scattered
+showers are possible across New England on Monday as the next cold
+front enters the region. Meanwhile, an upper-level low lifting
+into the Desert Southwest will be responsible for thunderstorm
+chances over the next couple of days across Arizona, New Mexico,
+and the Four Corners region. A few severe thunderstorms are not
+out of the question today across southern Arizona and southwestern
+New Mexico, with isolated flash flood concerns found throughout
+much of the Southwest and Four Corners through Tuesday morning.
+
+Elsewhere, a potent storm system and associated cold front are
+forecast to deliver damp and dreary weather to the Pacific
+Northwest today and eventually make it into the northern Great
+Basin by Monday evening. Overall rainfall amounts of 1 to 2 inches
+can be expected across western Oregon and Washington, with higher
+amounts found in the Olympic and Cascade mountains. Gusty winds
+ahead of the cold front could produce elevated to critical fire
+weather across the northern and central Great Basin today and
+Monday. Red Flag Warnings and Fire Weather Watches have been
+issued across parts of southern Oregon, northwest Nevada and the
+northern/central Sierra Nevada.
+
+Autumn is taking an early vacation throughout the central U.S.
+over the next couple of days as high temperatures soar well above
+average. Widespread highs into the upper 80s and low 90s will be
+found throughout the Great Plains and parts of the Midwest under a
+building upper-level ridge. This equates to around 10 to 20
+degrees above average. Combined with the warm temperatures, low
+relative humidity and gusty winds could lead to critical fire
+weather across part of the central and southern Plains. In order
+to highlight the concern, Red Flag Warnings have been issued for
+parts of south-central Kansas and north-central Oklahoma.
+
+Snell
+
+
+Graphics are available at
+https://urldefense.com/v3/__http://www.wpc.ncep.noaa.gov/basicwx/basicwx_ndfd.php__;!!DZ3fjg!ta4loA8rbYUtnoL32dtKaEjWXQrI_-bJDMNM18a3pUI5f0-WR0B9Qvmvt__JxuKTuOwyTaG4$
+
+
+$$
+
+
+------------------------------
+
+*********************************************
+
+End of wx-natnl Digest Sun, 26 Sep 2021
+

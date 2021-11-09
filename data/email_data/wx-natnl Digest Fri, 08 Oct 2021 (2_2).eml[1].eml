@@ -1,0 +1,927 @@
+Delivered-To: darrinmspeegle@gmail.com
+Received: by 2002:a05:6402:30b6:0:0:0:0 with SMTP id df22csp2549683edb;
+        Fri, 8 Oct 2021 04:00:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxEqVSYpsXZbET7xzsmrSGm4yJ8lXrBPZ+dj3jhvOnMWZXSAElYiT9cm1yULInUgR+f/gRO
+X-Received: by 2002:a0c:e383:: with SMTP id a3mr9483985qvl.37.1633690829550;
+        Fri, 08 Oct 2021 04:00:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633690829; cv=none;
+        d=google.com; s=arc-20160816;
+        b=LXlIz3csj/w9MxZTHKgmP+iVsEKxG0HfTelDVtfoAOZVyvS3gT5tC4JKGx7a69UE72
+         WJV3pyZtSJjhkptCzezdvwdHR9ys6BEKlWq4xy+Ln6+KKGLUMpbd+zRZkkcIZMjpi3+p
+         7HiwcUO0o9EUzrHOi2XkfFK2UzfUKFX1FwADP+nd/Ojm23oPdi2Sr+yO9CKyO9hRuRLm
+         qtVw6EAn1dWmaLblOZtMc8rLAqZBKL8sAPu4qGVj1GJS05XpgRFb8y5BzrVvCBSRIYeK
+         mmFsIaIFxhvUVywpokVNS9kswXs62kdZGTbHJI1WpgqsSv7VJgtO7ohJ35Zj9oZPKJF7
+         c/nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:reply-to:to:from:auto-submitted:content-transfer-encoding
+         :mime-version:date:message-id:dkim-signature;
+        bh=RVx0PQyCHY7eeStKiHYkOOgDCm9WezHaBaTSdJNLoA8=;
+        b=SuIgoAaNys/Yh0hwc+LZYHHdiVTmZIsxCxg21RN+aHUkfRH/T9X7lo4d18uFYzhwiS
+         knZSX8l0WAvQO6Ag5bJ231NmTM4dUhOF/wyXDrx+k4UIrIx1dk1t4gA+fbnXY6oZNMdb
+         Dz0rRKMDlKg8VzrfCu0h2d0WBvKi7edjO4jQmsxNqVqMh4HchPz+wS+0eASpgpLMdKG4
+         wJal440rl5h8l50UQf1GraFxwUgzIaexKbUi7BdEnPKccJ9vx4nUwHET61T+2pbwwZSt
+         xdpAXwtwrOQt57ByRgadrg+tRUvt/F3zLHZN4G87VCus+ZA/+83i7F6+OKF7nByms8i+
+         YCMQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=SR4EAoc2;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Return-Path: <wx-natnl-owner@lists.illinois.edu>
+Received: from mx0a-00007101.pphosted.com (mx0a-00007101.pphosted.com. [148.163.135.28])
+        by mx.google.com with ESMTPS id r13si1631270qkk.294.2021.10.08.04.00.29
+        for <darrinmspeegle@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 08 Oct 2021 04:00:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) client-ip=148.163.135.28;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=SR4EAoc2;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Received: from pps.filterd (m0272704.ppops.net [127.0.0.1])
+	by mx0b-00007101.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1989vxi5021531
+	for <darrinmspeegle@gmail.com>; Fri, 8 Oct 2021 11:00:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=message-id : date :
+ mime-version : content-type : content-transfer-encoding : from : to :
+ reply-to : subject; s=campusrelays;
+ bh=RVx0PQyCHY7eeStKiHYkOOgDCm9WezHaBaTSdJNLoA8=;
+ b=SR4EAoc2m6lEns9fU3DI/d8mf6wPHkRioHkr0jFWBqKUgQ24+l/KdpK36XsVDq0AhmBn
+ kBF9kI1wT60yyMBZTu33azc8sU8DDh7eYcjRcjOErDWowjaQvh0jTwYHUE+1gIE4lxXS
+ Mp5QMetZkkyUAXC8QHG235UNf3w7imMPnzqbEIylPYKzkmLDZsV34unWJtkeaxso6VQA
+ Tne/f7Eu0kBGhGw521mqD3Odog6Zpxf42GPCnA7g9gX/53TRY318rwVmo4bxRHidhT7n
+ vz+yTYHplew+lQVRU5fs94g2fQCtIwEwp6B35nIj+jU00SAWC4x/eo057/i9oDQqMSmQ PQ== 
+Received: from lists.illinois.edu (lists.illinois.edu [192.17.172.63])
+	by mx0b-00007101.pphosted.com with ESMTP id 3bjdh61ufp-7
+	for <darrinmspeegle@gmail.com>; Fri, 08 Oct 2021 11:00:28 +0000
+Received: by lists.illinois.edu (Postfix, from userid 50033)
+	id DAAAAE2E57; Fri,  8 Oct 2021 06:00:27 -0500 (CDT)
+Message-Id: <sympa.1633690824.91550.864@lists.illinois.edu>
+Date: Fri, 08 Oct 2021 06:00:24 -0500
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7BIT
+Auto-Submitted: auto-forwarded
+From: wx-natnl-request@lists.illinois.edu
+To: wx-natnl@lists.illinois.edu
+Reply-to: wx-natnl-request@lists.illinois.edu
+Subject: wx-natnl Digest Fri, 08 Oct 2021 (2/2)
+X-Mailer: Sympa 6.1.23
+X-Proofpoint-ORIG-GUID: QWWN1JjuOqz10HxdqPbj7d-gRnWTbWMx
+X-Proofpoint-GUID: QWWN1JjuOqz10HxdqPbj7d-gRnWTbWMx
+X-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0 spamscore=0
+ lowpriorityscore=0 clxscore=1031 bulkscore=0 mlxlogscore=999
+ impostorscore=0 mlxscore=0 priorityscore=1501 phishscore=0 suspectscore=0
+ malwarescore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2109230001 definitions=main-2110080064
+X-Spam-Score: 0
+X-Spam-OrigSender: wx-natnl-owner@lists.illinois.edu
+X-Spam-Bar:
+MIME-Version: 1.0
+
+wx-natnl Digest Fri, 08 Oct 2021
+
+Table of contents:
+
+* 26 - FIRE: Day 1 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 27 - FIRE: Day 2 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 28 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 29 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 30 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 31 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 32 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 33 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+
+----------------------------------------------------------------------
+
+Message-ID: <26>
+Date: Fri, 8 Oct 2021 06:53:38 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 1 Fire Weather Outlook
+
+FNUS21 KWNS 080653
+FWDDY1
+
+Day 1 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0152 AM CDT Fri Oct 08 2021
+
+Valid 081200Z - 091200Z
+
+...NO CRITICAL AREAS...
+
+...Synopsis...
+Recent satellite imagery shows a mid-level shortwave trough off the
+California coast. This trough is forecast to move across California
+early today and into the Great Basin through tonight. As this
+occurs, a corridor of enhanced mid-level flow near the base of the
+trough is forecast to begin impinging on portions of the
+central/southern Plains during the afternoon. Meanwhile, lee surface
+troughing is forecast to strengthen through today across portions of
+the central Plains.
+
+...Central/Southern High Plains and Southern Plains...
+Dry southwesterly downslope flow is expected to increase from midday
+into this afternoon in response to the aforementioned strengthening
+of a lee surface trough and enhanced mid-level flow overspreading
+the area. By afternoon, sustained surface winds of 15-20 mph are
+expected across northern/central New Mexico into far southern
+Colorado and also across west/southwest Oklahoma and western North
+Texas. While meteorologically elevated fire weather conditions are
+expected amidst minimum RH values of 15-25%, these conditions are
+forecast to remain mostly over areas where fuels are only modestly
+receptive to large fire spread (e.g., ERC percentiles generally
+below the 80th percentile). Locally elevated fire weather conditions
+are most likely across western Oklahoma/North Texas (fuels are a bit
+more receptive) and across south-central/southeastern Colorado
+(fuels are critically receptive but forecast winds are lighter).
+
+..Elliott.. 10/08/2021
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!utYctAFXMZSnrbuPc7yKzq1jzdy95vLCoGr_LCaH5LRIOICMhMxA9nODHOH165IGYcElcnRn$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <27>
+Date: Fri, 8 Oct 2021 06:55:11 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 2 Fire Weather Outlook
+
+FNUS22 KWNS 080655
+FWDDY2
+
+Day 2 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0154 AM CDT Fri Oct 08 2021
+
+Valid 091200Z - 101200Z
+
+...Synopsis...
+A mid-level trough is expected to deepen as it moves from the Great
+Basin into the Four Corners region Day 2/Saturday. Meanwhile,
+enhanced mid-level flow near the base of trough is forecast to
+persist across portions of the central/southern Plains. At the
+surface, a lee cyclone is forecast to deepen over portions of Kansas
+and vicinity during the afternoon, which will strengthen the surface
+pressure gradient over the central/southern Plains.
+
+...Southern/Central Plains...
+Breezy/gusty southwest surface winds are forecast to develop by
+midday and strengthen into the afternoon in association with the
+aforementioned deepening lee cyclone and enhanced flow aloft. While
+sustained surface wind speeds in excess of 20 mph coupled with
+minimum RH values of 15-20% should yield several hours of
+meteorologically critical conditions, fuels across much of the
+southern Plains are forecast by WFAS to remain only modestly
+receptive to large fire spread. Fuels are more receptive across the
+central Plains but the uncertainty in widespread critical fire
+weather conditions is lower. Nevertheless, at least locally critical
+conditions are expected over much of the area from midday into the
+evening (especially in areas with an abundance of fine/grassy
+fuels).
+
+...Northern Rockies...
+A few hours of locally elevated fire weather conditions are possible
+across portions of northern Montana Day 2/Saturday afternoon as
+westerly sustained surface winds near 15-20 mph overlap minimum RH
+values of 20-30%. At this time, uncertainty regarding fuel status
+due to potential preceding rainfall, and also poor confidence in a
+favorable wind/RH overlap, preclude an elevated fire weather area.
+
+..Elliott.. 10/08/2021
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!vrdPaqGF6BcD0ctpms59o4ijQsFWpLdUKvKneQk_sWqs0hDsZk8_3MV7TEoVM9mCIsEnxrKo$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <28>
+Date: Fri, 8 Oct 2021 07:00:01 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+529
+FXUS02 KWBC 080659
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+258 AM EDT Fri Oct 08 2021
+
+Valid 12Z Mon Oct 11 2021 - 12Z Fri Oct 15 2021
+
+...First winter storm of the season possible for parts of the
+central and northern Rockies by early to middle of next week...
+
+...Heavy rain and severe thunderstorms possible across portions of
+the southern/central Plains Tuesday into Wednesday...
+
+
+...Overview...
+
+Guidance agrees upon a persistent mean ridge aloft from the Gulf
+of Mexico into the eastern U.S., while amplifying western U.S.
+energy should close off an upper low over or near the southern
+Great Basin by early Tuesday and then eject northeastward into the
+northern Plains.  The upper low will support next week's dominant
+storm system that will evolve over the central Rockies/High Plains
+before tracking into southern Canada, bringing significant
+mountain snow to parts of the Rockies as well as areas of heavy
+rainfall to portions of the northern Plains.  The trailing cold
+front may also serve as a focus for locally heavy and strong to
+severe convection over the southern Plains.  A leading wave
+tracking northeastward through the Midwest may produce a band of
+enhanced rainfall early in the week.  The amplified upper pattern
+will bring a pronounced temperature contrast with well below
+normal readings over the West and multiple warm days over the East.
+
+...Guidance Evaluation/Preferences...
+
+Recent guidance has been consistent with the general evolution of
+the upper low that closes off over the West and then tracks into
+the northern Plains, but with some meaningful differences in track
+and timing.  The past 24-36 hours of GFS runs have adjusted
+somewhat eastward versus prior runs and remaining guidance once
+the system reaches the central U.S. though the 18Z run came back a
+bit relative to the 12Z run with the new 00Z run holding onto a
+similar solution as the 18Z run.  The 12Z CMC/CMC mean were on the
+other extreme with a farther northwest track, leaving the
+ECMWF/ECMWF mean as closest to an intermediate solution (aside
+from the 12Z ECMWF being a bit south of the preferred path) and
+WPC continuity.  Among other new 00Z runs, the CMC is getting
+closer to other solutions but remains on the northwest side of the
+spread by Wednesday-Thursday while the UKMET has trended somewhat
+faster the make the GFS less of a minority.  The 00Z ECMWF has
+adjusted northward over the Plains to be closer to initial
+preference.
+
+As for other aspects of the forecast, CMC runs have been on the
+amplified side of guidance with trailing trough energy that
+reaches the West--which may be playing a role in its forecast with
+the aforementioned system of interest.  A combination of other
+guidance looks reasonable for this energy.  Ahead of the main
+system, guidance has been showing some difficulty in resolving the
+precise surface evolution over the Northeast as an ejecting
+Midwest shortwave/possible upper low weakens over the Great
+Lakes/Northeast as it flows into/around the mean ridge.  Low
+pressure that may initially be near the North Carolina coast (with
+only low probability of any tropical or subtropical development
+per the National Hurricane Center's Tropical Weather Outlook) will
+likely drift away from the coast with time.
+
+The updated forecast employed a multi-model blend early followed
+by a trend to a model/mean mix consisting of slightly more 12Z
+ECMWF/ECMWF mean relative to the 18Z GFS/GEFS mean late.  This
+provided the intermediate solution desired for the Rockies/Plains
+storm and maintained reasonable continuity.
+
+...Weather/Hazards Highlights...
+
+The amplifying western trough and closed upper low development
+over the Southwest/Great Basin into early-mid next week will bring
+much below normal temperatures behind a leading cold front/low
+pressure, with broad coverage of daytime highs 20-30 degrees below
+normal across much of the interior West next Monday-Wednesday.
+This colder air will lowering snow levels in the mountains with
+potential for potentially heavy snow accumulations in the higher
+terrain of the northern-central Rockies as low pressure
+consolidates Tuesday-Wednesday and then track northeastward.  This
+would be the first significant winter storm of the season for this
+area.  Away from the mountains, an axis of heavy rainfall is
+possible around and to the north of the surface low with some
+mixing of snow not out of the question during the colder overnight
+hours.  Gusty winds may also be possible across the central and
+northern Plains by Wednesday and Thursday as the surface low
+deepens.  Across the central and southern Plains, moderate to
+locally heavy rainfall is possible and the Storm Prediction Center
+is monitoring another threat for severe weather on Tuesday and/or
+Wednesday depending on exact timing of the front that will extend
+from the northern Plains low.
+
+Elsewhere, a leading system may bring a band of enhanced rainfall
+to parts of the Midwest as it lifts northeastward.  The Pacific
+Northwest should see mostly light precipitation with upstream
+energy coming in from the Pacific through midweek.  An approaching
+late week frontal system may increase amounts somewhat over the
+Olympics and far northern Cascades.
+
+The West will see its cold temperatures moderate by
+Thursday-Friday with gradually shrinking coverage of minus 10-20F
+anomalies for highs and morning lows.  Within the eastern U.S.
+warmth, highest anomalies for max temperatures will be over the
+Great Lakes/Northeast with highs tending to be 10-15F or so above
+average.  An overwhelming majority of the East will see plus
+10-20F anomalies for lows with some locations over/southwest of
+the Great Lakes possibly even warmer Monday-Tuesday.  Such
+readings may achieve daily records for warm lows over some areas.
+
+Rausch
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!sxDJwE-JxUUApVFghmA6Zx2yEe8XjHuGtPbHdC2TOT1oDCHgprDvjj6cjBbnmudx-sGD7a21$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!sxDJwE-JxUUApVFghmA6Zx2yEe8XjHuGtPbHdC2TOT1oDCHgprDvjj6cjBbnmudx-iAEnWdq$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!sxDJwE-JxUUApVFghmA6Zx2yEe8XjHuGtPbHdC2TOT1oDCHgprDvjj6cjBbnmudx-l1FXpeU$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!sxDJwE-JxUUApVFghmA6Zx2yEe8XjHuGtPbHdC2TOT1oDCHgprDvjj6cjBbnmudx-iC2rrmz$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!sxDJwE-JxUUApVFghmA6Zx2yEe8XjHuGtPbHdC2TOT1oDCHgprDvjj6cjBbnmudx-gvkcHam$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!sxDJwE-JxUUApVFghmA6Zx2yEe8XjHuGtPbHdC2TOT1oDCHgprDvjj6cjBbnmudx-toG3jZr$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!sxDJwE-JxUUApVFghmA6Zx2yEe8XjHuGtPbHdC2TOT1oDCHgprDvjj6cjBbnmudx-idJuS5Q$
+
+$$
+
+
+------------------------------
+Message-ID: <29>
+Date: Fri, 8 Oct 2021 07:00:01 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 080659
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+258 AM EDT Fri Oct 08 2021
+
+Valid 12Z Mon Oct 11 2021 - 12Z Fri Oct 15 2021
+
+...First winter storm of the season possible for parts of the
+central and northern Rockies by early to middle of next week...
+
+...Heavy rain and severe thunderstorms possible across portions of
+the southern/central Plains Tuesday into Wednesday...
+
+
+...Overview...
+
+Guidance agrees upon a persistent mean ridge aloft from the Gulf
+of Mexico into the eastern U.S., while amplifying western U.S.
+energy should close off an upper low over or near the southern
+Great Basin by early Tuesday and then eject northeastward into the
+northern Plains.  The upper low will support next week's dominant
+storm system that will evolve over the central Rockies/High Plains
+before tracking into southern Canada, bringing significant
+mountain snow to parts of the Rockies as well as areas of heavy
+rainfall to portions of the northern Plains.  The trailing cold
+front may also serve as a focus for locally heavy and strong to
+severe convection over the southern Plains.  A leading wave
+tracking northeastward through the Midwest may produce a band of
+enhanced rainfall early in the week.  The amplified upper pattern
+will bring a pronounced temperature contrast with well below
+normal readings over the West and multiple warm days over the East.
+
+...Guidance Evaluation/Preferences...
+
+Recent guidance has been consistent with the general evolution of
+the upper low that closes off over the West and then tracks into
+the northern Plains, but with some meaningful differences in track
+and timing.  The past 24-36 hours of GFS runs have adjusted
+somewhat eastward versus prior runs and remaining guidance once
+the system reaches the central U.S. though the 18Z run came back a
+bit relative to the 12Z run with the new 00Z run holding onto a
+similar solution as the 18Z run.  The 12Z CMC/CMC mean were on the
+other extreme with a farther northwest track, leaving the
+ECMWF/ECMWF mean as closest to an intermediate solution (aside
+from the 12Z ECMWF being a bit south of the preferred path) and
+WPC continuity.  Among other new 00Z runs, the CMC is getting
+closer to other solutions but remains on the northwest side of the
+spread by Wednesday-Thursday while the UKMET has trended somewhat
+faster the make the GFS less of a minority.  The 00Z ECMWF has
+adjusted northward over the Plains to be closer to initial
+preference.
+
+As for other aspects of the forecast, CMC runs have been on the
+amplified side of guidance with trailing trough energy that
+reaches the West--which may be playing a role in its forecast with
+the aforementioned system of interest.  A combination of other
+guidance looks reasonable for this energy.  Ahead of the main
+system, guidance has been showing some difficulty in resolving the
+precise surface evolution over the Northeast as an ejecting
+Midwest shortwave/possible upper low weakens over the Great
+Lakes/Northeast as it flows into/around the mean ridge.  Low
+pressure that may initially be near the North Carolina coast (with
+only low probability of any tropical or subtropical development
+per the National Hurricane Center's Tropical Weather Outlook) will
+likely drift away from the coast with time.
+
+The updated forecast employed a multi-model blend early followed
+by a trend to a model/mean mix consisting of slightly more 12Z
+ECMWF/ECMWF mean relative to the 18Z GFS/GEFS mean late.  This
+provided the intermediate solution desired for the Rockies/Plains
+storm and maintained reasonable continuity.
+
+...Weather/Hazards Highlights...
+
+The amplifying western trough and closed upper low development
+over the Southwest/Great Basin into early-mid next week will bring
+much below normal temperatures behind a leading cold front/low
+pressure, with broad coverage of daytime highs 20-30 degrees below
+normal across much of the interior West next Monday-Wednesday.
+This colder air will lowering snow levels in the mountains with
+potential for potentially heavy snow accumulations in the higher
+terrain of the northern-central Rockies as low pressure
+consolidates Tuesday-Wednesday and then track northeastward.  This
+would be the first significant winter storm of the season for this
+area.  Away from the mountains, an axis of heavy rainfall is
+possible around and to the north of the surface low with some
+mixing of snow not out of the question during the colder overnight
+hours.  Gusty winds may also be possible across the central and
+northern Plains by Wednesday and Thursday as the surface low
+deepens.  Across the central and southern Plains, moderate to
+locally heavy rainfall is possible and the Storm Prediction Center
+is monitoring another threat for severe weather on Tuesday and/or
+Wednesday depending on exact timing of the front that will extend
+from the northern Plains low.
+
+Elsewhere, a leading system may bring a band of enhanced rainfall
+to parts of the Midwest as it lifts northeastward.  The Pacific
+Northwest should see mostly light precipitation with upstream
+energy coming in from the Pacific through midweek.  An approaching
+late week frontal system may increase amounts somewhat over the
+Olympics and far northern Cascades.
+
+The West will see its cold temperatures moderate by
+Thursday-Friday with gradually shrinking coverage of minus 10-20F
+anomalies for highs and morning lows.  Within the eastern U.S.
+warmth, highest anomalies for max temperatures will be over the
+Great Lakes/Northeast with highs tending to be 10-15F or so above
+average.  An overwhelming majority of the East will see plus
+10-20F anomalies for lows with some locations over/southwest of
+the Great Lakes possibly even warmer Monday-Tuesday.  Such
+readings may achieve daily records for warm lows over some areas.
+
+Rausch
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!u14cHGlGcBGB14TZ68r_VYQ_JF0Da5c_7-oPXtbl_SIUummGLtVI8-XMpxsQCaczQQQLqJRY$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!u14cHGlGcBGB14TZ68r_VYQ_JF0Da5c_7-oPXtbl_SIUummGLtVI8-XMpxsQCaczQYD_5-DT$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!u14cHGlGcBGB14TZ68r_VYQ_JF0Da5c_7-oPXtbl_SIUummGLtVI8-XMpxsQCaczQTZD0Iyj$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!u14cHGlGcBGB14TZ68r_VYQ_JF0Da5c_7-oPXtbl_SIUummGLtVI8-XMpxsQCaczQXbqyO9a$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!u14cHGlGcBGB14TZ68r_VYQ_JF0Da5c_7-oPXtbl_SIUummGLtVI8-XMpxsQCaczQe0vI6gc$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!u14cHGlGcBGB14TZ68r_VYQ_JF0Da5c_7-oPXtbl_SIUummGLtVI8-XMpxsQCaczQQd_GWqZ$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!u14cHGlGcBGB14TZ68r_VYQ_JF0Da5c_7-oPXtbl_SIUummGLtVI8-XMpxsQCaczQUahZ_kc$
+
+$$
+
+
+------------------------------
+Message-ID: <30>
+Date: Fri, 8 Oct 2021 07:10:32 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+808
+FXUS02 KWBC 080710
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+309 AM EDT Fri Oct 08 2021
+
+Valid 12Z Mon Oct 11 2021 - 12Z Fri Oct 15 2021
+
+...First winter storm of the season possible for parts of the
+central and northern Rockies by early to middle of next week...
+
+...Heavy rain and severe thunderstorms possible across portions of
+the southern/central Plains Tuesday into Wednesday...
+
+
+...Overview...
+
+Guidance agrees upon a persistent mean ridge aloft from the Gulf
+of Mexico into the eastern U.S., while amplifying western U.S.
+energy should close off an upper low over or near the southern
+Great Basin by early Tuesday and then eject northeastward into the
+northern Plains.  The upper low will support next week's dominant
+storm system that will evolve over the central Rockies/High Plains
+before tracking into southern Canada, bringing significant
+mountain snow to parts of the Rockies as well as areas of heavy
+rainfall to portions of the northern Plains.  The trailing cold
+front may also serve as a focus for locally heavy and strong to
+severe convection over the southern Plains.  A leading wave
+tracking northeastward through the Midwest may produce a band of
+enhanced rainfall early in the week.  The amplified upper pattern
+will bring a pronounced temperature contrast with well below
+normal readings over the West and multiple warm days over the East.
+
+...Guidance Evaluation/Preferences...
+
+Recent guidance has been consistent with the general evolution of
+the upper low that closes off over the West and then tracks into
+the northern Plains, but with some meaningful differences in track
+and timing.  The past 24-36 hours of GFS runs have adjusted
+somewhat eastward versus prior runs and remaining guidance once
+the system reaches the central U.S. though the 18Z run came back a
+bit relative to the 12Z run with the new 00Z run holding onto a
+similar solution as the 18Z run.  The 12Z CMC/CMC mean were on the
+other extreme with a farther northwest track, leaving the
+ECMWF/ECMWF mean as closest to an intermediate solution (aside
+from the 12Z ECMWF being a bit south of the preferred path) and
+WPC continuity.  Among other new 00Z runs, the CMC is getting
+closer to other solutions but remains on the northwest side of the
+spread by Wednesday-Thursday while the UKMET has trended somewhat
+faster the make the GFS less of a minority.  The 00Z ECMWF has
+adjusted northward over the Plains to be closer to initial
+preference.
+
+As for other aspects of the forecast, CMC runs have been on the
+amplified side of guidance with trailing trough energy that
+reaches the West--which may be playing a role in its forecast with
+the aforementioned system of interest.  A combination of other
+guidance looks reasonable for this energy.  Ahead of the main
+system, guidance has been showing some difficulty in resolving the
+precise surface evolution over the Northeast as an ejecting
+Midwest shortwave/possible upper low weakens over the Great
+Lakes/Northeast as it flows into/around the mean ridge.  Low
+pressure that may initially be near the North Carolina coast (with
+only low probability of any tropical or subtropical development
+per the National Hurricane Center's Tropical Weather Outlook) will
+likely drift away from the coast with time.
+
+The updated forecast employed a multi-model blend early followed
+by a trend to a model/mean mix consisting of slightly more 12Z
+ECMWF/ECMWF mean relative to the 18Z GFS/GEFS mean late.  This
+provided the intermediate solution desired for the Rockies/Plains
+storm and maintained reasonable continuity.
+
+...Weather/Hazards Highlights...
+
+The amplifying western trough and closed upper low development
+over the Southwest/Great Basin into early-mid next week will bring
+much below normal temperatures behind a leading cold front/low
+pressure, with broad coverage of daytime highs 20-30 degrees below
+normal across much of the interior West next Monday-Wednesday.
+This colder air will lowering snow levels in the mountains with
+potential for potentially heavy snow accumulations in the higher
+terrain of the northern-central Rockies as low pressure
+consolidates Tuesday-Wednesday and then track northeastward.  This
+would be the first significant winter storm of the season for this
+area.  Away from the mountains, an axis of heavy rainfall is
+possible around and to the north of the surface low with some
+mixing of snow not out of the question during the colder overnight
+hours.  Gusty winds may also be possible across the central and
+northern Plains by Wednesday and Thursday as the surface low
+deepens.  Across the central and southern Plains, moderate to
+locally heavy rainfall is possible and the Storm Prediction Center
+is monitoring another threat for severe weather on Tuesday and/or
+Wednesday depending on exact timing of the front that will extend
+from the northern Plains low.  By Thursday-Friday there is some
+potential for eastern Pacific tropical moisture to stream
+northeastward and interact with the front to produce areas of
+heavy rainfall.  However at this time confidence is low for
+resolving the location and magnitude of any rainfall enhancement
+from this tropical moisture.
+
+Elsewhere, a leading system may bring a band of enhanced rainfall
+to parts of the Midwest as it lifts northeastward.  The Pacific
+Northwest should see mostly light precipitation with upstream
+energy coming in from the Pacific through midweek.  An approaching
+late week frontal system may increase amounts somewhat over the
+Olympics and far northern Cascades.
+
+The West will see its cold temperatures moderate by
+Thursday-Friday with gradually shrinking coverage of minus 10-20F
+anomalies for highs and morning lows.  Within the eastern U.S.
+warmth, highest anomalies for max temperatures will be over the
+Great Lakes/Northeast with highs tending to be 10-15F or so above
+average.  An overwhelming majority of the East will see plus
+10-20F anomalies for lows with some locations over/southwest of
+the Great Lakes possibly even warmer Monday-Tuesday.  Such
+readings may achieve daily records for warm lows over some areas.
+
+Rausch
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!uvm_AJ353NKd_GTGw1dIXWVYRrsnwNyVrr1_kUlOO-dBHgpXzrdzNGhgGRtKvBPql_VVfw_O$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!uvm_AJ353NKd_GTGw1dIXWVYRrsnwNyVrr1_kUlOO-dBHgpXzrdzNGhgGRtKvBPql9vzzxkm$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!uvm_AJ353NKd_GTGw1dIXWVYRrsnwNyVrr1_kUlOO-dBHgpXzrdzNGhgGRtKvBPql8VmCagc$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!uvm_AJ353NKd_GTGw1dIXWVYRrsnwNyVrr1_kUlOO-dBHgpXzrdzNGhgGRtKvBPqlwbgHfaj$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!uvm_AJ353NKd_GTGw1dIXWVYRrsnwNyVrr1_kUlOO-dBHgpXzrdzNGhgGRtKvBPql5dtNxkv$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!uvm_AJ353NKd_GTGw1dIXWVYRrsnwNyVrr1_kUlOO-dBHgpXzrdzNGhgGRtKvBPql1Phkp4n$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!uvm_AJ353NKd_GTGw1dIXWVYRrsnwNyVrr1_kUlOO-dBHgpXzrdzNGhgGRtKvBPql4EG_fup$
+
+$$
+
+
+------------------------------
+Message-ID: <31>
+Date: Fri, 8 Oct 2021 07:10:32 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 080710
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+309 AM EDT Fri Oct 08 2021
+
+Valid 12Z Mon Oct 11 2021 - 12Z Fri Oct 15 2021
+
+...First winter storm of the season possible for parts of the
+central and northern Rockies by early to middle of next week...
+
+...Heavy rain and severe thunderstorms possible across portions of
+the southern/central Plains Tuesday into Wednesday...
+
+
+...Overview...
+
+Guidance agrees upon a persistent mean ridge aloft from the Gulf
+of Mexico into the eastern U.S., while amplifying western U.S.
+energy should close off an upper low over or near the southern
+Great Basin by early Tuesday and then eject northeastward into the
+northern Plains.  The upper low will support next week's dominant
+storm system that will evolve over the central Rockies/High Plains
+before tracking into southern Canada, bringing significant
+mountain snow to parts of the Rockies as well as areas of heavy
+rainfall to portions of the northern Plains.  The trailing cold
+front may also serve as a focus for locally heavy and strong to
+severe convection over the southern Plains.  A leading wave
+tracking northeastward through the Midwest may produce a band of
+enhanced rainfall early in the week.  The amplified upper pattern
+will bring a pronounced temperature contrast with well below
+normal readings over the West and multiple warm days over the East.
+
+...Guidance Evaluation/Preferences...
+
+Recent guidance has been consistent with the general evolution of
+the upper low that closes off over the West and then tracks into
+the northern Plains, but with some meaningful differences in track
+and timing.  The past 24-36 hours of GFS runs have adjusted
+somewhat eastward versus prior runs and remaining guidance once
+the system reaches the central U.S. though the 18Z run came back a
+bit relative to the 12Z run with the new 00Z run holding onto a
+similar solution as the 18Z run.  The 12Z CMC/CMC mean were on the
+other extreme with a farther northwest track, leaving the
+ECMWF/ECMWF mean as closest to an intermediate solution (aside
+from the 12Z ECMWF being a bit south of the preferred path) and
+WPC continuity.  Among other new 00Z runs, the CMC is getting
+closer to other solutions but remains on the northwest side of the
+spread by Wednesday-Thursday while the UKMET has trended somewhat
+faster the make the GFS less of a minority.  The 00Z ECMWF has
+adjusted northward over the Plains to be closer to initial
+preference.
+
+As for other aspects of the forecast, CMC runs have been on the
+amplified side of guidance with trailing trough energy that
+reaches the West--which may be playing a role in its forecast with
+the aforementioned system of interest.  A combination of other
+guidance looks reasonable for this energy.  Ahead of the main
+system, guidance has been showing some difficulty in resolving the
+precise surface evolution over the Northeast as an ejecting
+Midwest shortwave/possible upper low weakens over the Great
+Lakes/Northeast as it flows into/around the mean ridge.  Low
+pressure that may initially be near the North Carolina coast (with
+only low probability of any tropical or subtropical development
+per the National Hurricane Center's Tropical Weather Outlook) will
+likely drift away from the coast with time.
+
+The updated forecast employed a multi-model blend early followed
+by a trend to a model/mean mix consisting of slightly more 12Z
+ECMWF/ECMWF mean relative to the 18Z GFS/GEFS mean late.  This
+provided the intermediate solution desired for the Rockies/Plains
+storm and maintained reasonable continuity.
+
+...Weather/Hazards Highlights...
+
+The amplifying western trough and closed upper low development
+over the Southwest/Great Basin into early-mid next week will bring
+much below normal temperatures behind a leading cold front/low
+pressure, with broad coverage of daytime highs 20-30 degrees below
+normal across much of the interior West next Monday-Wednesday.
+This colder air will lowering snow levels in the mountains with
+potential for potentially heavy snow accumulations in the higher
+terrain of the northern-central Rockies as low pressure
+consolidates Tuesday-Wednesday and then track northeastward.  This
+would be the first significant winter storm of the season for this
+area.  Away from the mountains, an axis of heavy rainfall is
+possible around and to the north of the surface low with some
+mixing of snow not out of the question during the colder overnight
+hours.  Gusty winds may also be possible across the central and
+northern Plains by Wednesday and Thursday as the surface low
+deepens.  Across the central and southern Plains, moderate to
+locally heavy rainfall is possible and the Storm Prediction Center
+is monitoring another threat for severe weather on Tuesday and/or
+Wednesday depending on exact timing of the front that will extend
+from the northern Plains low.  By Thursday-Friday there is some
+potential for eastern Pacific tropical moisture to stream
+northeastward and interact with the front to produce areas of
+heavy rainfall.  However at this time confidence is low for
+resolving the location and magnitude of any rainfall enhancement
+from this tropical moisture.
+
+Elsewhere, a leading system may bring a band of enhanced rainfall
+to parts of the Midwest as it lifts northeastward.  The Pacific
+Northwest should see mostly light precipitation with upstream
+energy coming in from the Pacific through midweek.  An approaching
+late week frontal system may increase amounts somewhat over the
+Olympics and far northern Cascades.
+
+The West will see its cold temperatures moderate by
+Thursday-Friday with gradually shrinking coverage of minus 10-20F
+anomalies for highs and morning lows.  Within the eastern U.S.
+warmth, highest anomalies for max temperatures will be over the
+Great Lakes/Northeast with highs tending to be 10-15F or so above
+average.  An overwhelming majority of the East will see plus
+10-20F anomalies for lows with some locations over/southwest of
+the Great Lakes possibly even warmer Monday-Tuesday.  Such
+readings may achieve daily records for warm lows over some areas.
+
+Rausch
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!qZaXgshcGAC8tEhisheYy5u1pMYDGQZgIiYNHTu0D4tMCp5nb8bWapauFR2FVr-oCA-ZgTWK$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!qZaXgshcGAC8tEhisheYy5u1pMYDGQZgIiYNHTu0D4tMCp5nb8bWapauFR2FVr-oCLD4w27M$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!qZaXgshcGAC8tEhisheYy5u1pMYDGQZgIiYNHTu0D4tMCp5nb8bWapauFR2FVr-oCHAbp4xH$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!qZaXgshcGAC8tEhisheYy5u1pMYDGQZgIiYNHTu0D4tMCp5nb8bWapauFR2FVr-oCCWaGJtj$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!qZaXgshcGAC8tEhisheYy5u1pMYDGQZgIiYNHTu0D4tMCp5nb8bWapauFR2FVr-oCHEqDMjd$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!qZaXgshcGAC8tEhisheYy5u1pMYDGQZgIiYNHTu0D4tMCp5nb8bWapauFR2FVr-oCD8GF4VM$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!qZaXgshcGAC8tEhisheYy5u1pMYDGQZgIiYNHTu0D4tMCp5nb8bWapauFR2FVr-oCE2r2pXa$
+
+$$
+
+
+------------------------------
+Message-ID: <32>
+Date: Fri, 8 Oct 2021 08:01:31 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 080801
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+400 AM EDT Fri Oct 08 2021
+
+Valid 12Z Fri Oct 08 2021 - 12Z Sun Oct 10 2021
+
+...Heavy rain and the potential for flash flooding continues into
+this morning across portions of the Southeast...
+
+...Anomalous heat across the central/southern Plains will be
+contrasted with mountain snows across the northern/central Rockies
+into this weekend...
+
+A slow-moving weather pattern across the eastern half of the
+country continues to bring unsettled weather across the region.
+The main focus of heavy rain will remain be over portions of the
+Southeast this morning where moisture coming up from the Gulf of
+Mexico will be lifted along a stationary front.  The threat of
+heavy rainfall should gradually shift eastward into the Carolinas
+later today where some locally heavy downpours are possible
+although widespread heavy rain is not expected.  Farther north
+across much of the Midwest, Great Lakes, Ohio Valley and into the
+southern Appalachians, a slow-moving upper trough/low will help
+trigger additional clusters of showers and thunderstorms
+containing locally heavy downpours.  By the weekend, the rain is
+forecast to edge further eastward toward the East Coast as a
+coastal low pressure system is forecast to develop just off the
+Carolina coasts where the National Hurricane Center is monitoring
+of a low potential for tropical cyclone development.  By Saturday
+night into Sunday morning, the threat of heavy rain and gusty
+winds could increase near the North Carolina coast as the low
+pressure wave may strengthen and edge closer toward the coast.
+
+For central and south-central sections of the U.S. mainland, a
+building ridge of high pressure aloft will bring the potential of
+record-breaking heat beginning today and continuing into the
+weekend, where high temperatures are forecast to soar into the 90s
+across the central and southern Plains. These temperatures equate
+to around 10 to 20 degrees above average with the warmest day
+forecast to occur on Saturday.
+
+Otherwise, a deep upper-level trough currently entering the West
+Coast is expected to usher in below average temperatures and
+chances for precipitation. Showers, thunderstorms, and high
+elevation snow is likely to be found across parts of the
+Intermountain West and Northern/Central Rockies over the next few
+days. A few instances of flash flooding are possible between
+northern Nevada and southeast Idaho. By Saturday, as a low
+pressure system ejects into the Northern Plains, isolated severe
+thunderstorms are not out of the question across eastern North
+Dakota and northwest Minnesota.
+
+Kong/Snell
+
+
+Graphics are available at
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/basicwx/basicwx_ndfd.php__;!!DZ3fjg!uecRLnp6OYr5IocUDZ1Wibau1gdiVpcC88iUvDwhF7K4kp22QaWH0pTjyohXnnW4HzbiWcR7$
+$$
+
+
+------------------------------
+Message-ID: <33>
+Date: Fri, 8 Oct 2021 08:20:01 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 080819
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+419 AM EDT Fri Oct 08 2021
+
+Valid 12Z Fri Oct 08 2021 - 12Z Sun Oct 10 2021
+
+...Heavy rain and the potential for flash flooding continues into
+this morning across portions of the Southeast...
+
+...Anomalous heat across the central/southern Plains will be
+contrasted with mountain snows across the northern/central Rockies
+into this weekend...
+
+A slow-moving weather pattern across the eastern half of the
+country continues to bring unsettled weather across the region.
+The main focus of heavy rain will remain over portions of the
+Southeast this morning where moisture coming up from the Gulf of
+Mexico will be lifted along a stationary front.  The threat of
+heavy rainfall should gradually shift eastward into the Carolinas
+later today where some locally heavy downpours are possible,
+although widespread heavy rain is not expected.  Farther north
+across much of the Midwest, Great Lakes, Ohio Valley and into the
+southern Appalachians, a slow-moving upper trough/low will help
+trigger additional clusters of showers and thunderstorms
+containing locally heavy downpours.  By the weekend, the rain is
+expected to edge further eastward into the East Coast as a coastal
+low pressure system is forecast to develop just off the Carolina
+coasts where the National Hurricane Center is monitoring a low
+potential for tropical cyclone formation.  By Saturday night into
+Sunday morning, the threat of heavy rain and gusty winds could
+increase near the North Carolina coast as the low pressure system
+may strengthen and edge closer toward the coast.
+
+For central and south-central sections of the U.S. mainland, a
+building ridge of high pressure aloft will bring the potential of
+record-breaking heat beginning today and continuing into the
+weekend, with high temperatures forecast to soar into the 90s
+across the central and southern Plains. These temperatures equate
+to around 10 to 20 degrees above average with the warmest day
+forecast to occur on Saturday.
+
+In contrast, a deep upper-level trough entering the West Coast
+will usher in below average temperatures and chances for
+precipitation across much of the interior western U.S. through the
+weekend.  In fact, snow is forecast for the high elevations across
+parts of the Intermountain West and northern/central Rockies.
+Scattered showers and some thunderstorms are also expected for the
+lower elevations.  By Saturday, a developing low pressure system
+ejecting into the northern Plains will likely bring a period of
+enhanced rainfall together with gusty winds across the region.
+Isolated severe thunderstorms are not out of the question for
+parts of the area especially Saturday night into early Sunday.
+
+Kong
+
+
+Graphics are available at
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/basicwx/basicwx_ndfd.php__;!!DZ3fjg!rD4M52aTp7jjLvBIrglCMDHHqfxG_txNFIFFFYk4-m_ZshEm0mEhQ0UVRNGtEIz0EyLwd0gR$
+$$
+
+
+------------------------------
+
+*********************************************
+
+End of wx-natnl Digest Fri, 08 Oct 2021
+

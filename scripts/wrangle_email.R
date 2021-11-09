@@ -158,8 +158,8 @@ extract_data_from_email <- function(email_file) {
   return(df)
 }
 
-files <- list.files(path = "data", pattern = "*.eml",
+files <- list.files(path = "data/email_data", pattern = "*.eml",
                     full.names = TRUE, recursive = FALSE)
 df <- map_df(files, extract_data_from_email)
 df <- df %>% dplyr::arrange(date_and_time)
-write.csv(df, file = "scripts/email_data.csv", row.names = FALSE)
+write.csv(df, file = "data/email_data.csv", row.names = FALSE)

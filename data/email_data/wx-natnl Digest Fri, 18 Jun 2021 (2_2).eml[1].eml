@@ -1,0 +1,608 @@
+Delivered-To: darrinmspeegle@gmail.com
+Received: by 2002:a05:6402:5208:0:0:0:0 with SMTP id s8csp1529795edd;
+        Fri, 18 Jun 2021 04:00:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx3j11ClJoqfLWmLO6Njdm/ppT6IBrZnl7HGFdEkCMVVZfJWQnEWRQ1fEr6TLwN22jJslMs
+X-Received: by 2002:a25:688c:: with SMTP id d134mr3379207ybc.523.1624014037300;
+        Fri, 18 Jun 2021 04:00:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1624014037; cv=none;
+        d=google.com; s=arc-20160816;
+        b=DAzqFtlNc5j4NSFkgu2HDDqoPUuVE6PgiHIyD7+3ls1oArTTzuaD8trE1mRnujCer+
+         I1NoXhzFfVdlPXDUrtcyrkhuo4HhxhFFBpssbrg/XxWkc2s5eOsJFdXmQKKzfExYL+6R
+         omjRT0iwoGDxCmMwkqbYLj66cClouUWQ/2/kCPjZK8tNgfzbt+K8wQqYkkk9qY/2QFtz
+         Qu9mMld+6YEzJMWNktm5ty2jsXc7Puqxd/5xEsKm+h/gLjfyXUcXHP3XRWpzP8w19dWc
+         gBA2874Zq8JjF0k5W4ClTTSG9COWTnxVCwEiiLFNnOCd1aT6Flp4uDg4KSV3kVaHidYt
+         2hDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:reply-to:to:from:auto-submitted:content-transfer-encoding
+         :mime-version:date:message-id:dkim-signature;
+        bh=iKB34H1Qiq7vVOzfhEXJx3b+JBoTKgGG7z3VjwdoxDY=;
+        b=w5ZsuXkfk/i+1roIDmwv/Edp+n3YFSYGzgFXO0r0JQpKDE4xA16Pmncl588xvNvh9s
+         OPBOIx6j2d4eY8PvldDKv7XsenHOUeqvtptkgR2ZSHZi7eabKi/oBADa/w8hnnn4Eu11
+         F1Vkl4pLiYLmuXEAol/tbxUqtXIIyrIkqVgfO1g2pwZ6dsQD+2BZb5LPvhHsCOzrQxoH
+         oSSzsXgN1oGysf4GaBs9cqG3H5D8ozY4T02zNc/UW3K+N0OzaQGN4rfmjfVNhY+7pNG3
+         FGrktF0yUKrDkqD59iK+iAItCvSMNlga0VnSOhC3Ygpz9SCotUdAiuGeQbQJjQZB8dO5
+         UjWw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=boD5nyIz;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Return-Path: <wx-natnl-owner@lists.illinois.edu>
+Received: from mx0b-00007101.pphosted.com (mx0b-00007101.pphosted.com. [148.163.139.28])
+        by mx.google.com with ESMTPS id x63si2220138ybx.77.2021.06.18.04.00.36
+        for <darrinmspeegle@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 18 Jun 2021 04:00:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) client-ip=148.163.139.28;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=boD5nyIz;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Received: from pps.filterd (m0166258.ppops.net [127.0.0.1])
+	by mx0b-00007101.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15IAsAJ3017879
+	for <darrinmspeegle@gmail.com>; Fri, 18 Jun 2021 11:00:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=message-id : date :
+ mime-version : content-type : content-transfer-encoding : from : to :
+ reply-to : subject; s=campusrelays;
+ bh=iKB34H1Qiq7vVOzfhEXJx3b+JBoTKgGG7z3VjwdoxDY=;
+ b=boD5nyIzZufIpkmDoqovyIWABZwkfx2gCX9IGhd6MUxHofZNX/LVB+SZFe3brx1D4QBW
+ vJDTEOPSRNLVVoR2x9Cnl5v8XfzuAJTemfcqvvG0667I7cyS2sPHcT6Wgs3sk65yI279
+ 6XTIvspngXG2j5VhBetWzG2QI5NCg1XqhkiJLLbP/rbc5ZiO1vrDUGd1+ddIkGGd6SJ8
+ 9mFdpfpu8Nbj0ddqzd2VLngWcEJRGOAblkHnv91ztzb8pwFk2s5dj7Ry3qfNwpr/YVsD
+ SJN8cEBw60t2yz9KT4WhCSodsZWeUezcCiQCIhxr/omeO3XD+8QjMXULBqfUVUWPvifI VQ== 
+Received: from lists.illinois.edu (lists.illinois.edu [192.17.172.63])
+	by mx0b-00007101.pphosted.com with ESMTP id 397rdf38p0-36
+	for <darrinmspeegle@gmail.com>; Fri, 18 Jun 2021 11:00:36 +0000
+Received: by lists.illinois.edu (Postfix, from userid 50033)
+	id 107ABE4849; Fri, 18 Jun 2021 06:00:36 -0500 (CDT)
+Message-Id: <sympa.1624014023.2022.654@lists.illinois.edu>
+Date: Fri, 18 Jun 2021 06:00:23 -0500
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7BIT
+Auto-Submitted: auto-forwarded
+From: wx-natnl-request@lists.illinois.edu
+To: wx-natnl@lists.illinois.edu
+Reply-to: wx-natnl-request@lists.illinois.edu
+Subject: wx-natnl Digest Fri, 18 Jun 2021 (2/2)
+X-Mailer: Sympa 6.1.23
+X-Proofpoint-GUID: SOljJuhEAL5xGghvUlba2PhAf9mKkuZZ
+X-Proofpoint-ORIG-GUID: SOljJuhEAL5xGghvUlba2PhAf9mKkuZZ
+X-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0
+ impostorscore=0 phishscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0
+ priorityscore=1501 spamscore=0 suspectscore=0 malwarescore=0 mlxscore=0
+ mlxlogscore=999 clxscore=1031 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2104190000 definitions=main-2106180063
+X-Spam-Score: 0
+X-Spam-OrigSender: wx-natnl-owner@lists.illinois.edu
+X-Spam-Bar:
+MIME-Version: 1.0
+
+wx-natnl Digest Fri, 18 Jun 2021
+
+Table of contents:
+
+* 26 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 27 - HAZARDS: 180434-  - COD Weather Processor <ldm@weather.cod.edu>
+* 28 - FIRE: Day 1 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 29 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 30 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 31 - FIRE: Day 2 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 32 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+
+----------------------------------------------------------------------
+
+Message-ID: <26>
+Date: Fri, 18 Jun 2021 00:50:39 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+777
+FPUS20 KWBN 180050
+SCS04
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 4 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+850 PM EDT THU JUN 17 2021
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 8 PM EDT
+
+                                FORECAST        FORECAST
+                 THU...JUN 17   FRI....JUN 18   SAT....JUN 19
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+SALEM OR         52  85         SUNNY   53/83   SUNNY   52/85
+SALT LAKE CITY   70  95         PTCLDY  72/99   SMOKE   74/100
+SAN ANGELO       64  98         SUNNY   70/97   SUNNY   70/97
+SAN ANTONIO      73  94         SUNNY   73/94   SUNNY   72/95
+SAN DIEGO        65  73         PTCLDY  64/78   PTCLDY  63/78
+SAN FRANCISCO    62  90         SUNNY   58/81   SUNNY   58/78
+SAN JOSE         62  95         SUNNY   63/93   SUNNY   61/89
+SAN JUAN PR      79  87   .46   SHWRS   77/88   SHWRS   79/90
+SANTA FE         61  96         TSTRMS  61/95   PTCLDY  59/92
+ST STE MARIE     46  81         PTCLDY  59/82   PTCLDY  55/69
+SAVANNAH         68  92   .07   PTCLDY  70/91   SHWRS   72/90
+SEATTLE          53  78         SUNNY   53/76   SUNNY   53/75
+SHREVEPORT       74  92         SUNNY   69/94   TSTRMS  73/93
+SIOUX CITY       76  97         TSTRMS  68/93   SUNNY   60/89
+SIOUX FALLS      72  91         PTCLDY  62/91   SUNNY   59/87
+SOUTH BEND       47  87         SHWRS   70/90   TSTRMS  67/87
+SPOKANE          50  81         SUNNY   51/87   PTCLDY  55/85
+SPRINGFIELD IL   62  93         TSTRMS  76/98   TSTRMS  73/93
+SPRINGFIELD MO   72  93         SUNNY   72/94   SUNNY   72/92
+SYRACUSE         51  76         SHWRS   54/81   TSTRMS  67/84
+TALLAHASSEE      69  93         TSTRMS  71/90   SHWRS   72/86
+TAMPA            73  87  2.43   TSTRMS  75/90   TSTRMS  76/90
+TOLEDO           51  88         SHWRS   67/90   TSTRMS  68/89
+TOPEKA           72 101         SUNNY   77/100  PTCLDY  75/96
+TUCSON           81 112         VRYHOT  81/114  VRYHOT  81/112
+TULSA            77  99         SUNNY   75/97   SUNNY   72/95
+TUPELO           67  92         SUNNY   68/91   TSTRMS  70/85
+WACO             70  98         SUNNY   73/95   SUNNY   70/96
+WASHINGTON DC    59  80         SUNNY   61/87   TSTRMS  72/92
+W PALM BEACH     73  88   .51   MOCLDY  77/88   MOCLDY  77/88
+WICHITA          70 100         SUNNY   74/101  PTCLDY  73/97
+WICHITA FALLS    68  96         SUNNY   72/98   SUNNY   70/98
+WILKES BARRE     45  75         SHWRS   52/81   TSTRMS  65/85
+WILMINGTON DE    52  79         PTCLDY  56/83   TSTRMS  67/89
+YAKIMA           48  88         SUNNY   54/93   SUNNY   58/89
+YOUNGSTOWN       43  79         TSTRMS  61/82   TSTRMS  66/84
+YUMA             82 116         VRYHOT  86/115  VRYHOT  84/116
+
+NATIONAL TEMPERATURE EXTREMES
+
+HIGH THU...128 AT DEATH VALLEY CA
+
+LOW  THU...25 AT STANLEY ID
+
+
+$$
+
+
+------------------------------
+Message-ID: <27>
+Date: Fri, 18 Jun 2021 02:34:42 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: 180434-
+
+WEHW42 PHEB 180234
+TIBHWX
+
+HIZ001-003-006>007-009-016>018-023-026-029>035-037>050-051>054-
+180434-
+
+TSUNAMI INFORMATION STATEMENT NUMBER   1
+NWS PACIFIC TSUNAMI WARNING CENTER EWA BEACH HI
+434 PM HST THU JUN 17 2021
+
+TO - EMERGENCY MANAGEMENT IN THE STATE OF HAWAII
+
+SUBJECT - LOCAL TSUNAMI INFORMATION STATEMENT
+
+THIS STATEMENT IS FOR INFORMATION ONLY. NO ACTION REQUIRED.
+
+AN EARTHQUAKE HAS OCCURRED WITH THESE PRELIMINARY PARAMETERS
+
+   ORIGIN TIME - 0432 PM HST 17 JUN 2021
+   COORDINATES - 19.2 NORTH  155.4 WEST
+   LOCATION    - IN THE SOUTHWEST RIFT ZONE OF KILAUEA VOLCANO
+   MAGNITUDE   - 4.3
+
+EVALUATION
+
+ NO TSUNAMI IS EXPECTED. REPEAT. NO TSUNAMI IS EXPECTED.
+ HOWEVER...SOME AREAS MAY HAVE EXPERIENCED SHAKING.
+
+THIS WILL BE THE ONLY STATEMENT ISSUED FOR THIS EVENT UNLESS
+ADDITIONAL DATA ARE RECEIVED.
+
+$$
+
+
+------------------------------
+Message-ID: <28>
+Date: Fri, 18 Jun 2021 07:00:23 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 1 Fire Weather Outlook
+
+FNUS21 KWNS 180700
+FWDDY1
+
+Day 1 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0159 AM CDT Fri Jun 18 2021
+
+Valid 181200Z - 191200Z
+
+...CRITICAL FIRE WEATHER AREA FOR EASTERN UTAH INTO SOUTHERN
+COLORADO...
+
+...Synopsis...
+Widespread dry thunderstorms are expected today as mid-level
+moisture seeps around the edges of an upper-level high anchored over
+the Four Corners. Elevated and locally critical fire weather
+conditions will be possible across the northern Rockies and upper
+Midwest through the day ahead of increasing westerly flow aloft.
+
+...Great Basin and Four Corners Dry Thunder...
+Monsoonal flow around the periphery of the ridge across the
+Southwest will support thunderstorm development from the Great Basin
+eastward to the Four Corners and Colorado/New Mexico. Record heat
+ongoing across the region will continue, with widespread surface
+temperatures of 95-100+ F expected through the afternoon. The very
+warm temperatures and dry surface conditions, RH less than 15%, will
+increase evaporation potential, limiting precipitation from
+thunderstorms. Dry thunderstorms appear likely, with the greatest
+concentration expected along the higher terrain from eastern Utah
+into western Colorado. While forcing for ascent will be relatively
+weak, scattered storm coverage appears likely given robust buoyancy
+profiles and abundant heating across the higher terrain. Fuels are
+extremely susceptible to lightning starts given ongoing drought and
+record heat. Critical dry thunderstorm probabilities will be
+maintained through the forecast period.
+
+...Colorado/Wyoming...
+Elevated to locally critical fire weather conditions appear likely
+across portions of the Red Desert and northern Colorado this
+afternoon and evening. Dry surface conditions with RH of 10-20% will
+be in place within a very warm arimass with temperatures of 90-100+
+F. While surface flow will be somewhat weak, west-southwesterly
+surface winds of 10-15 mph, enhanced by thunderstorm outflow, will
+be common through the afternoon. Given very dry fuel conditions and
+the favorable meteorological circumstances, elevated to
+near-critical fire weather conditions are likely.
+
+...Western Minnesota...
+A dry airmass will be advected into portions of the upper Midwest
+tomorrow afternoon behind a departing cold front. While slightly
+cooler than the preceding days, temperatures in the 80s F, with
+decreasing surface moisture content, will favor dry boundary-layer
+profiles supporting RH values near 25%. Northwest surface flow of
+10-15 mph will be adequate for locally elevated fire weather
+conditions through the afternoon, given widespread dry fuels.
+
+..Lyons.. 06/18/2021
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!u85JxTn_ab66Ij7Z3h4z3lrE7P2OewMK3twAldTIy4uCscD8O0Lf04jRaGNZkW9pzPR7IEAQ$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <29>
+Date: Fri, 18 Jun 2021 07:00:45 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 180700
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+259 AM EDT Fri Jun 18 2021
+
+Valid 12Z Mon Jun 21 2021 - 12Z Fri Jun 25 2021
+
+...High Heat over the West spreads to the Plains next week...
+...Wet remnants of "Three" exits Carolinas Monday to lift off East
+Coast...
+...Trailing frontal heavy rains across the South to the East early
+next week...
+
+...Guidance/Predictability Evaluation...
+
+Recent GFS/ECMWF and GEFS/ECMWF ensemble mean runs for days 3-7
+are mainly well clustered and along with the overall
+representative National Blend of Models seem to act as a
+reasonable forecast base in a pattern with above normal forecast
+predictability.
+
+...Weather Highlights/Hazards...
+
+Ongoing record-breaking and dangerous heat over the
+Southwest/California may slowly moderate next week, but it will
+still be hot. High heat is also expected for the Northwest and
+Great Basin and will also spread into the Plains.
+
+Potential Tropical Cyclone "Three" is forecast by the NHC to
+develop and reach the central Gulf Coast Saturday and track across
+the South/Southeast this weekend. By Monday, the moist remnant
+system and heavy rains are subsequently expected to move offshore
+the Carolinas before lifting off the East Coast as mainly a
+maritime threat. Early next week upper support, frontal approach
+and Gulf moisture/instability return in the wake of "Three" will
+support periods of strong convection with heavy downpours across
+the already wet South that would lead to additional runoff issues,
+especially with lead training. Generally progressive frontal
+focusing rains will meanwhile also spread through the Ohio Valley,
+Appalachians and the Eastern Seaboard, lingering over the
+Southeast/Florida midweek with the trailing front.
+
+Upstream, additional digging upper energies and return frontal
+support may combine to favor a moderate convective rain focus from
+the eastern Plains and north-central Mid-Mississippi
+Valley/Midwest later next week.
+
+Schichtel
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!pVHIzTempq-X58_NJu1i28aYqW7OgbhrOljvGYQpZ3E9uQezgS_4Jb93AJI0OSUNY3_k20iJ$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!pVHIzTempq-X58_NJu1i28aYqW7OgbhrOljvGYQpZ3E9uQezgS_4Jb93AJI0OSUNY96jqMCJ$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!pVHIzTempq-X58_NJu1i28aYqW7OgbhrOljvGYQpZ3E9uQezgS_4Jb93AJI0OSUNY_iqdGsT$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!pVHIzTempq-X58_NJu1i28aYqW7OgbhrOljvGYQpZ3E9uQezgS_4Jb93AJI0OSUNY4Ho1BWA$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!pVHIzTempq-X58_NJu1i28aYqW7OgbhrOljvGYQpZ3E9uQezgS_4Jb93AJI0OSUNY1h5feSM$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!pVHIzTempq-X58_NJu1i28aYqW7OgbhrOljvGYQpZ3E9uQezgS_4Jb93AJI0OSUNY8ed7Mol$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!pVHIzTempq-X58_NJu1i28aYqW7OgbhrOljvGYQpZ3E9uQezgS_4Jb93AJI0OSUNYw5gEyGk$
+
+$$
+
+
+------------------------------
+Message-ID: <30>
+Date: Fri, 18 Jun 2021 07:00:46 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+512
+FXUS02 KWBC 180700
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+259 AM EDT Fri Jun 18 2021
+
+Valid 12Z Mon Jun 21 2021 - 12Z Fri Jun 25 2021
+
+...High Heat over the West spreads to the Plains next week...
+...Wet remnants of "Three" exits Carolinas Monday to lift off East
+Coast...
+...Trailing frontal heavy rains across the South to the East early
+next week...
+
+...Guidance/Predictability Evaluation...
+
+Recent GFS/ECMWF and GEFS/ECMWF ensemble mean runs for days 3-7
+are mainly well clustered and along with the overall
+representative National Blend of Models seem to act as a
+reasonable forecast base in a pattern with above normal forecast
+predictability.
+
+...Weather Highlights/Hazards...
+
+Ongoing record-breaking and dangerous heat over the
+Southwest/California may slowly moderate next week, but it will
+still be hot. High heat is also expected for the Northwest and
+Great Basin and will also spread into the Plains.
+
+Potential Tropical Cyclone "Three" is forecast by the NHC to
+develop and reach the central Gulf Coast Saturday and track across
+the South/Southeast this weekend. By Monday, the moist remnant
+system and heavy rains are subsequently expected to move offshore
+the Carolinas before lifting off the East Coast as mainly a
+maritime threat. Early next week upper support, frontal approach
+and Gulf moisture/instability return in the wake of "Three" will
+support periods of strong convection with heavy downpours across
+the already wet South that would lead to additional runoff issues,
+especially with lead training. Generally progressive frontal
+focusing rains will meanwhile also spread through the Ohio Valley,
+Appalachians and the Eastern Seaboard, lingering over the
+Southeast/Florida midweek with the trailing front.
+
+Upstream, additional digging upper energies and return frontal
+support may combine to favor a moderate convective rain focus from
+the eastern Plains and north-central Mid-Mississippi
+Valley/Midwest later next week.
+
+Schichtel
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!pBJpisv3hpV30d-gzVDchmp5ml2N8BW8Wkys2SyWHgGUYTQ93A16v9SR9aSCqTJF0U1xg3bH$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!pBJpisv3hpV30d-gzVDchmp5ml2N8BW8Wkys2SyWHgGUYTQ93A16v9SR9aSCqTJF0eJXZisk$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!pBJpisv3hpV30d-gzVDchmp5ml2N8BW8Wkys2SyWHgGUYTQ93A16v9SR9aSCqTJF0W4EcoAC$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!pBJpisv3hpV30d-gzVDchmp5ml2N8BW8Wkys2SyWHgGUYTQ93A16v9SR9aSCqTJF0UtTTdh5$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!pBJpisv3hpV30d-gzVDchmp5ml2N8BW8Wkys2SyWHgGUYTQ93A16v9SR9aSCqTJF0UxkJ73a$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!pBJpisv3hpV30d-gzVDchmp5ml2N8BW8Wkys2SyWHgGUYTQ93A16v9SR9aSCqTJF0dodoSy8$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!pBJpisv3hpV30d-gzVDchmp5ml2N8BW8Wkys2SyWHgGUYTQ93A16v9SR9aSCqTJF0WnpHO0e$
+
+$$
+
+
+------------------------------
+Message-ID: <31>
+Date: Fri, 18 Jun 2021 07:01:20 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 2 Fire Weather Outlook
+
+FNUS22 KWNS 180701
+FWDDY2
+
+Day 2 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0200 AM CDT Fri Jun 18 2021
+
+Valid 191200Z - 201200Z
+
+...CRITICAL FIRE WEATHER AREA FOR THE FOUR CORNERS AND WESTERN
+SLOPE...
+
+...Synopsis...
+Stagnant high pressure across the Four Corners will remain in place
+as increasing mid-level flow ahead of shortwave trough passes
+through the northern Rockies. Widespread dry thunderstorms are
+expected across the Great Basin and Southwest beneath the ridge,
+where very warm and dry surface conditions are forecast. Elevated to
+near-critical fire weather potential will exist across Idaho and
+into Montana/Wyoming, where gusty winds and low humidity are
+expected.
+
+...The Four Corners into the eastern Great Basin...
+Around the periphery of the upper ridge, mid-level moisture will
+support thunderstorm development by early Afternoon from eastern
+Nevada into portion of Utah, Colorado, New Mexico, and Arizona. A
+very warm and well-mixed boundary layer, with temperatures near or
+exceeding 100 F, will limit precipitation potential across much of
+the Southwest. Isolated dry thunderstorms will be possible across
+much of the region atop very dry and receptive fuels.
+
+The most likely corridor for widespread dry thunderstorms will be
+from the high terrain of western New Mexico, through the Four
+Corners, and into western Colorado and eastern Utah. Here, very
+dry/warm surface conditions will coexist with sufficient mid-level
+moisture (PWATs 0.45-0.6 inches) for scattered thunderstorm
+development. Model soundings depict an environment highly favorable
+for charge separation and lightning development, with 500-1000 J/kg
+of MUCAPE concentrated above the 0C layer. High-resolution guidance
+shows several clusters of storms developing off the higher terrain
+and tracking slowly east by mid afternoon. High confidence exists in
+scattered dry storm development over fuels very susceptible to
+lightning starts.
+
+...Snake River Valley...
+Ahead of the increasing northwest flow aloft, dry westerly flow of
+10-20 mph is forecast to develop down the Snake River valley
+Day2/Saturday overlapping with RH of 15-20%. Lower and mid-elevation
+fuels drier than average support fire spread suggesting
+elevated/locally critical fire weather conditions are possible.
+
+...Wyoming and Montana...
+To the north of the mid-level ridge, stronger northwesterly flow
+aloft is forecast to develop through Day2/Saturday ahead of a
+shortwave trough. Westerly flow will move downslope across central
+and eastern Wyoming supporting dry surface conditions with RH neat
+20%. Warm temperatures, dry surface conditions and gusty winds
+suggest elevated fire weather conditions are likely.
+
+Farther to the north across Montana, lee troughing will intensify
+during the day ahead of a dry cold front sweeping through the
+northern Rockies. Increasing west-east surface pressure gradients
+will enhance northwesterly surface winds across much of southeastern
+Montana through the evening. Downslope trajectories and warm surface
+temperatures should result in a dry airmass with RH below 20%. The
+overlap of gusty surface winds near 20 mph and a dry boundary layer
+will support elevated to near critical fire weather conditions.
+
+..Lyons.. 06/18/2021
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!v-zsnUp7iRfGiZaQiXhEFYIUtjdkGvJ0vDWOJigEJW4_Nk8eNf9MnvMZmZhOj7OY6ncvVBLC$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <32>
+Date: Fri, 18 Jun 2021 08:00:16 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 180800
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+357 AM EDT Fri Jun 18 2021
+
+Valid 12Z Fri Jun 18 2021 - 12Z Sun Jun 20 2021
+
+...Severe thunderstorms and heavy rain producing flash flooding
+are possible throughout the Ohio Valley on Friday...
+
+...Dangerous and record-breaking heat will continue across a large
+portion of the western U.S. and the central Plains...
+
+...Tropical rains and an increasing threat for flash flooding are
+expected along the Central Gulf Coast beginning Friday...
+
+Heatwave continues. Excessive Heat Warnings and Heat Advisories
+remain in effect across much of California, Nevada, Arizona, and
+Utah.
+Temperatures are expected to once again reach record-breaking
+highs across much of the region, with several records likely to
+fall on Friday and Saturday as well.
+
+Additionally, Heat Advisories are also in effect for portions of
+the Central Plains/Middle Mississippi Valley on Friday.
+Well-above normal temperatures are expected across the region,
+with record-breaking highs expected from Kansas to Iowa and
+Missouri.  While a front dropping into the region is expected to
+offer some relief, temperatures are forecast to remain well-above
+average on Friday and into Saturday.
+
+Severe thunderstorms will develop across portions of the Middle
+Mississippi/Ohio Valleys.  The Storm Prediction Center has issued
+an Enhanced Risk for severe thunderstorms across the Ohio Valley
+through Saturday morning.  The main hazards with these storms are
+frequent lightning,  severe thunderstorm wind gust, large hail,
+and a few tornadoes.  There is a 10% or greater probability of
+wind gust of 65 knots or greater over parts of the Ohio Valley.
+
+Furthermore, heavy rain associated with the thunderstorms will
+produce areas of flooding. Therefore, the WPC has issued a
+Moderate Risk of excessive rainfall with these thunderstorms. The
+associated heavy rain will create numerous areas of flash
+flooding. Furthermore, many streams may flood, potentially
+affecting larger rivers through Saturday morning. On Saturday, the
+severe thunderstorms and the excessive rainfall threat will
+decrease. However, showers and thunderstorms will occur along and
+near the front on Saturday into Sunday.
+
+Heavy rainfall and windy conditions are expected to develop along
+the Central Gulf Coast on Friday before spreading over the
+Southeast on Saturday and Sunday.  Abroad area of low pressure
+over the Gulf of Mexico continues to become better organized. This
+system is expected to move generally to the north, and a tropical
+depression is likely to form over the west-central Gulf of Mexico
+on early Friday. As a result, the National Hurricane Center has
+indicated a Tropical Storm Warning across portions of the Central
+Gulf Coast.
+
+Furthermore, heavy rain will develop over the area on Friday and
+Saturday. As a result, the WPC has issued a Slight Risk of
+excessive rainfall over the Central Gulf Coast. The heavy rain
+will create mainly localized areas of flash flooding, with urban
+areas, roads, and small streams are the most vulnerable through
+Saturday morning. Then on Saturday, the WPC has increased the
+excessive rainfall threat to a Moderate Risk through Sunday
+morning.  The associated heavy rain will create numerous areas of
+flash flooding. Furthermore, many streams may flood, potentially
+affecting larger rivers on Saturday into Sunday morning.
+
+Ziegenfelder
+
+
+
+
+
+
+Graphics available at
+https://urldefense.com/v3/__http://www.wpc.ncep.noaa.gov/basicwx/basicwx_ndfd.php__;!!DZ3fjg!vXtlQ4f_ezkMv-G2vDYGwk6mY-wuXhBegAY22ytFysseU2L6fmHMQc-_JvUxyd921GDChm2Q$
+$$
+
+
+------------------------------
+
+*********************************************
+
+End of wx-natnl Digest Fri, 18 Jun 2021
+
