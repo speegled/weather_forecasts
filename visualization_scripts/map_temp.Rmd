@@ -89,7 +89,9 @@ df2 <- melt(fld$z, na.rm = TRUE)
 names(df2) <- c("x", "y", "temp")
 df2$Lon <- fld$x[df2$x]
 df2$Lat <- fld$y[df2$y]
-
+state <- map_data("state")
+county <- map_data("county")
+usa <- map_data("usa")
 
 
 ggplot() +
@@ -129,29 +131,26 @@ df2$Lat <- fld$y[df2$y]
 
 ggplot() +
   geom_map(data=usa, map=usa,
-           aes(long, lat, map_id=region),
-           color="black", fill="white", size=.01)+
-    geom_tile(data = df2, aes(x = Lon, y = Lat, fill = temp)) +
+           aes(x=long,y= lat, map_id=region),
+           color="black", fill="white", size=.1)+
+    # geom_tile(data = df2, aes(x = Lon, y = Lat, fill = temp)) +
   geom_map(data=can, map=can,
            aes(long, lat, map_id=region),
-           color="black", fill="white", size=.01)+
-    geom_tile(data = df2, aes(x = Lon, y = Lat, fill = temp)) +
+           color="black", fill="white", size=.1)+
   geom_map(data=mex, map=mex,
            aes(long, lat, map_id=region),
-           color="black", fill="white", size=.01)+
-    geom_tile(data = df2, aes(x = Lon, y = Lat, fill = temp))+
+           color="black", fill="white", size=.1)+
+    geom_raster(data = df2, aes(x = Lon, y = Lat, fill = temp), interpolate = T) +
   geom_map(data=state, map=state,
            aes(long, lat, map_id=region),
-           color="black", fill=NA, size=0.2)+  # stat_contour() +
+           color="black", fill=NA, size=0.5)+  # stat_contour() +
     scale_fill_continuous(name = "Temp (F)",low = "yellow", high = "red") +
     xlab("Longitude") +
   ylab("Latitude") +
   ylim(c(25,50))+
     xlim(c(-125,-70))+
-  # geom_polygon(aes(outline$x, outline$y, col = "Red"))+
-
   theme(panel.background = element_rect(fill = 'lightblue'),
-            panel.grid.major = element_blank())
+            panel.grid.major = element_blank(), panel.grid = element_blank())
 
 ```
 
@@ -170,15 +169,82 @@ polypath(c(outline$x, NA, c(xbox, rev(xbox))),
 
 ```{r}
 library(raster)
-dat <- data.frame(x = df$Lon, y = $Lat, z = $D2_Lo))
+dat <- data.frame(x = df$Lon, y = df$Lat, z = df$D2_Lo)
 r <- raster(ncol=10, nrow=20)
 r[] <- 1:ncell(r)
 extent(r) <- extent(c(-20, 20, -20, 20))
 
 r=disaggregate(r,10)
+sp
 r=mask(r,wrld_simpl)
 
 #plotting
 var_df <- as.data.frame(rasterToPoints(r))
+```
+
+```{r}
+library(ggplot2)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(maps)
+library(ggplot2)
+library(reshape2)
+library(akima)
+# prepare data in long format
+fld <- with(df, interp(x = Lon, y = Lat, z = D2_Lo))
+df2 <- melt(fld$z, na.rm = TRUE)
+names(df2) <- c("x", "y", "temp")
+df2$Lon <- fld$x[df2$x]
+df2$Lat <- fld$y[df2$y]
+
+states <- st_as_sf(map("state", plot = FALSE, fill = TRUE))
+world <- ne_countries(scale = "medium", returnclass = "sf")
+usa <- subset(world, admin == "United States of America")
+(alaska <- ggplot(data = world) +
+     geom_sf(fill = "cornsilk") +
+   theme(panel.background = element_rect(fill = 'lightblue'),
+            panel.grid.major = element_blank(),
+         panel.grid = element_blank())+
+
+    plot.window(c(0,1),c(0,1), xaxs = "i", yaxs = "i")+
+     coord_sf( xlim =c(  -139, -180), ylim = c(50,72), expand = FALSE,datum = NA))
+
+(hawaii  <- ggplot(data = usa) +
+     geom_sf(fill = "cornsilk") +
+  theme(axis.line = element_line(colour = "black"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank()) +
+    coord_sf(crs = st_crs(4135), xlim = c(-161, -154), ylim = c(18, 
+         23)))
+
+mainland <- ggplot() +
+     geom_sf(data = world,fill = "white") +
+         geom_raster(data = df2, aes(x = Lon, y = Lat, fill = temp), interpolate = T) +
+      geom_sf(data = states, fill = NA) + 
+     coord_sf(ylim = c(22,52), xlim =c(-150,-55))+
+      scale_fill_continuous(name = "Temp (F)",low = "yellow", high = "red") +
+
+   theme(panel.background = element_rect(fill = 'lightblue'),
+            panel.grid.major = element_blank(), panel.grid = element_blank())
+
+mainland +
+ annotation_custom(
+      grob = ggplotGrob(alaska),
+      xmin = -150,
+      xmax = -130 ,
+      ymin = 20,
+      ymax = 35
+  ) +
+  annotation_custom(
+      grob = ggplotGrob(hawaii),
+      xmin = -1250000,
+      xmax = -1250000 + (-154 - (-161))*120000,
+      ymin = -2450000,
+      ymax = -2450000 + (23 - 18)*120000
+  )
+
 ```
 
