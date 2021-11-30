@@ -82,43 +82,13 @@ df2[,4:9] = df1[min_ind, 4:9]
 df2
 }
 
-```
-
-
-
-
-```{r}
-# df = rbind(df, func(df, data.frame(City = "WILLIAMS", State = "MN", date = date(), D0_Hi = 49, D0_Lo = 30, D1_Hi = 35, D1_Lo = 25, D2_Hi = 38, D2_Lo = 30, Lat = 25.19597229396031, Lon = -80.3543262332071)))
 
 for( i in 1:nrow(df2)){
   df = rbind(df, func(df, data.frame(df2[i,])))
 }
 ```
 
-```{r}
-# library(raster)
-# provinces <- getData(country="Canada", level=1)
-state <- map_data("state")
-county <- map_data("county")
-usa <- map_data("usa")
 
-ggplot()+ 
-  # geom_map(data=county, map=county,
-  #                   aes(long, lat, map_id=region),
-  #                   color="#2b2b2b", fill=NA, size=0.1)+
-  geom_map(data=state, map=state,
-           aes(long, lat, map_id=region),
-           color="black", fill=NA, size=0.2)+
-  geom_map(data=usa, map=usa,
-           aes(long, lat, map_id=region),
-           color="black", fill=NA, size=.01)+
-  theme_minimal() +
-  geom_point(data = df, aes(y = Lat,x= Lon, colour = D2_Hi , stroke = 2))+
-  scale_color_viridis(option="magma")+ 
-  labs(colour = "Temp") +
-  theme(legend.position="right")
-
-```
 
 ```{r}
 
@@ -214,9 +184,6 @@ usa2 = usa[usa$order>4950 & usa$order<5050,]
 ggplot()+
     geom_polygon(data = usa2, aes(x=usa2$long,y=usa2$lat), fill = "lightblue") 
 
-```
-
-```{r}
 # lake michigan
 usa <- map_data("usa")
 
@@ -252,10 +219,7 @@ geom_map(data=usa, map=usa,
            aes(x=long,y= lat, map_id=region),
            color="black", fill="black", size=.1)+
     geom_polygon(data = usa3, aes(x=long,y=lat), fill = "lightblue") 
-```
 
-
-```{r}
 # lake erie
 
 
@@ -337,7 +301,7 @@ c = c(37.15714268482833, -68.78377974395625)
 d = c(36.73521516453001, -83.39567010016603)
 a = func2(a,b,c,d)
 dat6=as.data.frame(a[1][[1]]@Polygons[1][[1]]@coords)
-plot(dat6)
+# plot(dat6)
 # dat8=as.data.frame(a[1][[1]]@Polygons[2][[1]]@coords)
 # plot(dat8)
 
@@ -345,13 +309,15 @@ plot(dat6)
 
 
 ```{r}
-a = c(46.32343518715469, -76.47379539303692)
-b = c(45.67143801942952, -64.80046431914974)
+a = c(49.32343518715469, -76.47379539303692)
+b = c(49.67143801942952, -64.80046431914974)
 c = c(38.27080937015975, -66.26696319777878)
 d = c(40.40288869611612, -78.64421373340791)
 a = func2(a,b,c,d)
 dat7=as.data.frame(a[1][[1]]@Polygons[2][[1]]@coords)
 plot(dat7)
+dat12=as.data.frame(a[1][[1]]@Polygons[1][[1]]@coords)
+plot(dat12)#candaian region
 ```
 
 ```{r}
@@ -371,9 +337,7 @@ ggplot()+
 #            aes(x=long,y= lat, map_id=region),
 #            color="black", fill="black", size=.1)+
     geom_polygon(data = usa4, aes(x=long,y=lat), fill = "lightblue")
-```
 
-```{r}
 #ny
 
 
@@ -441,6 +405,7 @@ mp = ggplot() +
     geom_polygon(data = dat9, aes(x=x,y=y), fill = "lightblue") +
     geom_polygon(data = dat10, aes(x=x,y=y), fill = "lightblue") +
     geom_polygon(data = dat11, aes(x=x,y=y), fill = "lightblue") +
+    geom_polygon(data = dat12, aes(x=x,y=y), fill = "lightblue") +
 
     geom_polygon(data = dat, aes(x=x,y=y), fill = "lightblue") +
 
@@ -618,3 +583,27 @@ ggplot(datapolyM, aes(x=x, y=y)) +
 datapolyM
 ```
 
+```{r}
+# library(raster)
+# provinces <- getData(country="Canada", level=1)
+state <- map_data("state")
+county <- map_data("county")
+usa <- map_data("usa")
+
+ggplot()+ 
+  # geom_map(data=county, map=county,
+  #                   aes(long, lat, map_id=region),
+  #                   color="#2b2b2b", fill=NA, size=0.1)+
+  geom_map(data=state, map=state,
+           aes(long, lat, map_id=region),
+           color="black", fill=NA, size=0.2)+
+  geom_map(data=usa, map=usa,
+           aes(long, lat, map_id=region),
+           color="black", fill=NA, size=.01)+
+  theme_minimal() +
+  geom_point(data = df, aes(y = Lat,x= Lon, colour = D2_Hi , stroke = 2))+
+  scale_color_viridis(option="magma")+ 
+  labs(colour = "Temp") +
+  theme(legend.position="right")
+
+```
