@@ -14,7 +14,7 @@ ui <- fluidPage(
       p("Weather is hard to predict. Why? Where? *write later*"),
     width = 3),
     mainPanel( tabsetPanel(
-      tabPanel("Map",
+      tabPanel("Cities Map",
           p(),
           sidebarLayout(
             sidebarPanel(
@@ -40,7 +40,22 @@ ui <- fluidPage(
               plotOutput(outputId = "mean_diffs")
             )
           )
-      )
+      ),
+      tabPanel("Mean Errors Map",
+               p(),
+               sidebarLayout(
+                 sidebarPanel(
+                   selectInput(inputId = "mean_diff_map_hi_or_lo", label = "High or Low Temperature", 
+                               choices = c("High", "Low"), multiple = FALSE),
+                   sliderInput(inputId = "mean_diff_map_dot_size", label = "Point Size",
+                               min = 0, max=30, value = 5, round = TRUE),
+                   sliderInput(inputId = "mean_diff_map_dot_alpha", label = "Point Transparency",
+                               min = 0, max=1, value = 0.5, round = TRUE),
+                 ),
+                 mainPanel(
+                   plotOutput(outputId = "mean_error_map")
+                 )
+               ))
       
     ))
       
@@ -48,8 +63,38 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
+  #data used in multiple shiny plots/objects/etc.
+  cities <- read.csv("../cities.csv")
+  data <- read.csv("../scripts/email_data_reorganized.csv")
+  data$date <- parse_date_time(data$date, "%Y-%m-%d")
+  mean_diffs <- data %>%
+    mutate(diff_lo_2_prev_PM = actual_lo_next_AM - forecast_lo_2_prev_PM,
+           diff_hi_2_prev_PM = actual_hi_next_AM - forecast_hi_2_prev_PM,
+           diff_lo_prev_AM = actual_lo_next_AM - forecast_lo_prev_AM,
+           diff_hi_prev_AM = actual_hi_next_AM - forecast_hi_prev_AM,
+           diff_lo_prev_PM = actual_lo_next_AM - forecast_lo_prev_PM,
+           diff_hi_prev_PM = actual_hi_next_AM - forecast_hi_prev_PM,
+           diff_lo_current_AM = actual_lo_next_AM - forecast_lo_current_AM,
+           diff_hi_current_AM = actual_hi_next_AM - forecast_hi_current_AM) %>%
+    select(date, city,
+           diff_lo_2_prev_PM, diff_hi_2_prev_PM,
+           diff_lo_prev_AM, diff_hi_prev_AM,
+           diff_lo_prev_PM, diff_hi_prev_PM,
+           diff_lo_current_AM, diff_hi_current_AM) %>%
+    group_by(city) %>%
+    summarize(mean_diff_lo_2_prev_PM = mean(diff_lo_2_prev_PM, na.rm = TRUE),
+              mean_diff_hi_2_prev_PM = mean(diff_hi_2_prev_PM, na.rm = TRUE),
+              mean_diff_lo_prev_AM = mean(diff_lo_prev_AM, na.rm = TRUE),
+              mean_diff_hi_prev_AM = mean(diff_hi_prev_AM, na.rm = TRUE),
+              mean_diff_lo_prev_PM = mean(diff_lo_prev_PM, na.rm = TRUE),
+              mean_diff_hi_prev_PM = mean(diff_hi_prev_PM, na.rm = TRUE),
+              mean_diff_lo_current_AM = mean(diff_lo_current_AM, na.rm = TRUE),
+              mean_diff_hi_current_AM = mean(diff_hi_current_AM, na.rm = TRUE))
+  mean_diffs$mean_error_lo <- apply(mean_diffs[,c(2, 4, 6, 8)], 1, mean)
+  mean_diffs$mean_error_hi <- apply(mean_diffs[,c(3, 5, 7, 9)], 1, mean)
+  
+  #start making objects in the app
   output$main_map <- renderPlot({
-    cities <- read.csv("../cities.csv")
     if( input$bool_state_borders == "No"){
       ggplot() +
         borders('world', xlim = c(-125,-65), ylim = c(20, 50), color ='black', fill='lightblue') +
@@ -63,33 +108,6 @@ server <- function(input, output) {
     }
   }, width=650, height=500)
   output$mean_diffs <- renderPlot({
-    data <- read.csv("../scripts/email_data_reorganized.csv")
-    data$date <- parse_date_time(data$date, "%Y-%m-%d")
-    mean_diffs <- data %>%
-      mutate(diff_lo_2_prev_PM = actual_lo_next_AM - forecast_lo_2_prev_PM,
-             diff_hi_2_prev_PM = actual_hi_next_AM - forecast_hi_2_prev_PM,
-             diff_lo_prev_AM = actual_lo_next_AM - forecast_lo_prev_AM,
-             diff_hi_prev_AM = actual_hi_next_AM - forecast_hi_prev_AM,
-             diff_lo_prev_PM = actual_lo_next_AM - forecast_lo_prev_PM,
-             diff_hi_prev_PM = actual_hi_next_AM - forecast_hi_prev_PM,
-             diff_lo_current_AM = actual_lo_next_AM - forecast_lo_current_AM,
-             diff_hi_current_AM = actual_hi_next_AM - forecast_hi_current_AM) %>%
-      select(date, city,
-             diff_lo_2_prev_PM, diff_hi_2_prev_PM,
-             diff_lo_prev_AM, diff_hi_prev_AM,
-             diff_lo_prev_PM, diff_hi_prev_PM,
-             diff_lo_current_AM, diff_hi_current_AM) %>%
-      group_by(city) %>%
-      summarize(mean_diff_lo_2_prev_PM = mean(diff_lo_2_prev_PM, na.rm = TRUE),
-                mean_diff_hi_2_prev_PM = mean(diff_hi_2_prev_PM, na.rm = TRUE),
-                mean_diff_lo_prev_AM = mean(diff_lo_prev_AM, na.rm = TRUE),
-                mean_diff_hi_prev_AM = mean(diff_hi_prev_AM, na.rm = TRUE),
-                mean_diff_lo_prev_PM = mean(diff_lo_prev_PM, na.rm = TRUE),
-                mean_diff_hi_prev_PM = mean(diff_hi_prev_PM, na.rm = TRUE),
-                mean_diff_lo_current_AM = mean(diff_lo_current_AM, na.rm = TRUE),
-                mean_diff_hi_current_AM = mean(diff_hi_current_AM, na.rm = TRUE))
-    mean_diffs$mean_diff_lo <- apply(mean_diffs[,c(2, 4, 6, 8)], 1, mean)
-    mean_diffs$mean_diff_hi <- apply(mean_diffs[,c(3, 5, 7, 9)], 1, mean)
     #Histograms of Mean High Difference and Mean Low Difference
     if(input$mean_diff_hi_or_lo == "High"){
       if(input$mean_diff_abs==FALSE){
@@ -135,6 +153,44 @@ server <- function(input, output) {
         ylab("Count") +
         ggtitle("Mean Error When Predicting High and Low Temperatures") +
         theme_minimal()
+    }
+    
+  }, width = 650, height=500)
+  output$mean_error_map <- renderPlot({
+    mean_error_map_hi_lo_var <- input$mean_diff_map_hi_or_lo
+   cities <- filter(cities, CITY != "DOVER") %>%
+      select(city=CITY, lat=LAT, lon=LON, climate=CLIMATE)
+    #temp fix to see if it works
+    mean_errors <- mean_diffs %>%
+      inner_join(cities, by="city")
+    'mean_errors <- mean_diffs %>% mutate(lat = cities$LAT,
+                                          lon = cities$LON,
+                                          climate = cities$CLIMATE)'
+    not_cont <- c("ANCHORAGE", "HONOLULU", "SAN JUAN PR", "JUNEAU", "ST THOMAS VI")
+    MainStates <- map_data("state") 
+    if(mean_error_map_hi_lo_var == 'High'){
+      ggplot() + 
+        geom_polygon(data = MainStates, aes(x = long, y = lat, group = group),
+                     color = "black", fill = "white") +
+        geom_point(data = mean_errors %>% filter(!(city %in% not_cont)),
+                   aes(x = lon, y = lat, col = mean_error_hi), size = input$mean_diff_map_dot_size, alpha = input$mean_diff_map_dot_alpha) +
+        scale_color_gradient(low = "orange", high = "blue", na.value = NA, name = "Mean Error") +
+        geom_label(data = mean_errors %>% filter(!(city %in% not_cont), abs(mean_error_hi) > 1.7),
+                   aes(x = lon, y = lat, label = city), alpha = 0.5, size = 1.5) +
+        labs(title = "Mean Errors for Low Temperature Forecasts") +
+        theme_classic() 
+    } 
+    else{
+      ggplot() + 
+        geom_polygon(data = MainStates, aes(x = long, y = lat, group = group),
+                     color = "black", fill = "white") +
+        geom_point(data = mean_errors %>% filter(!(city %in% not_cont)),
+                   aes(x = lon, y = lat, col = mean_error_lo), size = input$mean_diff_map_dot_size, alpha = input$mean_diff_map_dot_alpha) +
+        scale_color_gradient(low = "green", high = "blue", na.value = NA, name = "Mean Error") +
+        geom_label(data = mean_errors %>% filter(!(city %in% not_cont), abs(mean_error_lo) > 1.7),
+                   aes(x = lon, y = lat, label = city), alpha = 0.5, size = 1.5) +
+        labs(title = "Mean Errors for Low Temperature Forecasts") +
+        theme_classic() 
     }
     
   }, width = 650, height=500)
