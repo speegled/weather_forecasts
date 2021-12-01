@@ -75,10 +75,14 @@ create_mean_error_df_map_info <- function(mean_errors) {
 create_error_df_p_map_info <- function(errors) {
   cities_p <- errors %>%
     group_by(city_and_state) %>%
-    summarize(p_lo = t.test(error_lo_2_prev_PM, error_lo_prev_PM, paired = TRUE)$p.value,
-              p_hi = t.test(error_hi_2_prev_PM, error_hi_prev_PM, paired = TRUE)$p.value,
-              mean_diff_lo = mean(error_lo_2_prev_PM - error_lo_prev_PM, na.rm = TRUE),
-              mean_diff_hi = mean(error_hi_2_prev_PM - error_hi_prev_PM, na.rm = TRUE))
+    summarize(p_lo_current_AM = t.test(abs(error_lo_2_prev_PM), abs(error_lo_current_AM), paired = TRUE)$p.value,
+              p_hi_current_AM = t.test(abs(error_hi_2_prev_PM), abs(error_hi_current_AM), paired = TRUE)$p.value,
+              mean_diff_lo_current_AM = mean(abs(error_lo_2_prev_PM) - abs(error_lo_current_AM), na.rm = TRUE),
+              mean_diff_hi_current_AM = mean(abs(error_hi_2_prev_PM) - abs(error_hi_current_AM), na.rm = TRUE),
+              p_lo_prev_PM = t.test(abs(error_lo_2_prev_PM), abs(error_lo_prev_PM), paired = TRUE)$p.value,
+              p_hi_prev_PM = t.test(abs(error_hi_2_prev_PM), abs(error_hi_prev_PM), paired = TRUE)$p.value,
+              mean_diff_lo_prev_PM = mean(abs(error_lo_2_prev_PM) - abs(error_lo_prev_PM), na.rm = TRUE),
+              mean_diff_hi_prev_PM = mean(abs(error_hi_2_prev_PM) - abs(error_hi_prev_PM), na.rm = TRUE))
   
   cities <- read.csv("data/cities.csv") %>%
     mutate(CITY = str_replace_all(CITY, '_', ' '),
@@ -293,33 +297,60 @@ plot_p_vals <- function(cities_p, lo, sig) {
   MainStates <- map_data("state")
   
   if (lo) {
-    cities_p$p <- cities_p$p_lo
-    title <- "p Values for Paired t Tests Analyzing Low Temperature Forecast Errors"
+    cities_p$p_current_AM <- cities_p$p_lo_current_AM
+    cities_p$p_prev_PM <- cities_p$p_lo_prev_PM
     colors <- c("springgreen", "blue")
   }
   else {
-    cities_p$p <- cities_p$p_hi
-    title <- "p Values for Paired t Tests Analyzing High Temperature Forecast Errors"
+    cities_p$p_current_AM <- cities_p$p_hi_current_AM
+    cities_p$p_prev_PM <- cities_p$p_hi_prev_PM
     colors <- c("gold", "red")
   }
-  if (sig) {
-    cities_p <- filter(cities_p, p < 0.05)
-  }
   
-  plot <- ggplot() + 
+  if (sig) {
+    cities_p_current <- filter(cities_p, p_current_AM < 0.05)
+  }
+  else {
+    cities_p_current <- cities_p
+  }
+  plot_current <- ggplot() + 
     geom_polygon(data = MainStates, aes(x = long, y = lat, group = group),
                  color = "black", fill = "white") +
-    geom_point(data = cities_p,
-               aes(x = lon, y = lat, col = p), size = 8, alpha = 0.5) +
+    geom_point(data = cities_p_current,
+               aes(x = lon, y = lat, col = p_current_AM), size = 8, alpha = 0.5) +
     scale_color_gradient(low = colors[1], high = colors[2]) +
-    labs(title = title) +
     theme_classic() +
+    labs(title = "Error From 2 Prev PM Compared to Error From Current AM") +
     theme(axis.line = element_blank(), 
           axis.text.x = element_blank(), 
           axis.text.y = element_blank(),
           axis.ticks = element_blank(),
           axis.title.x = element_blank(),
           axis.title.y = element_blank())
+  
+  if (sig) {
+    cities_p_prev <- filter(cities_p, p_prev_PM < 0.05)
+  }
+  else {
+    cities_p_prev <- cities_p
+  }
+  plot_prev_PM <- ggplot() + 
+    geom_polygon(data = MainStates, aes(x = long, y = lat, group = group),
+                 color = "black", fill = "white") +
+    geom_point(data = cities_p_prev,
+               aes(x = lon, y = lat, col = p_prev_PM), size = 8, alpha = 0.5) +
+    scale_color_gradient(low = colors[1], high = colors[2]) +
+    theme_classic() +
+    labs(title = "Error From 2 Prev PM Compared to Error From Prev PM") +
+    theme(axis.line = element_blank(), 
+          axis.text.x = element_blank(), 
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          axis.title.x = element_blank(),
+          axis.title.y = element_blank())
+  
+  plot <- ggarrange(plot_current, plot_prev_PM, ncol = 2, nrow = 1)
+  
   return(plot)
 }
 
@@ -427,25 +458,43 @@ ggsave("plots/abs_mean_error_hi_diff_days.png", plot = plot_abs_hi_diff_days,
 #' 
 #' paired t test results:
 #' 
-#' for error in low forecasts: 
+#' for hi temperatures: 
+#'   error 2 prev PM compared to error current AM: 159/161 significant
+#'   error 2 prev PM compared to error prev PM: 110/161 significant
+#'   all differences are positive--predictions improve!
 #'   
-#' for error in high forecasts: 
+#' for lo temperatures:
+#'   error 2 prev PM compared to error current AM: 161/161 significant
+#'   error 2 prev PM compared to error prev PM: 24/161 significant
+#'   all differences are positive when comparing to current AM
+#'   but not so when comparing to prev PM (mix of positive and negative)!
 #' 
+
+plot_p_vals(errors_p_map, TRUE, TRUE)
 
 plot_p_vals(errors_p_map, FALSE, TRUE)
 
-errors_p_map %>% filter(p_hi < 0.05) %>%
-  select(city_and_state, p_hi, mean_diff_hi) %>%
-  arrange(p_hi)
+errors_p_map %>% filter(p_hi_current_AM < 0.05) %>%
+  select(city_and_state, p_hi_current_AM, mean_diff_hi_current_AM) %>%
+  arrange(p_hi_current_AM)
 
-errors_p_map %>% filter(p_lo < 0.05) %>%
-  select(city_and_state, p_lo, mean_diff_lo)
+errors_p_map %>% filter(p_hi_prev_PM < 0.05) %>%
+  select(city_and_state, p_hi_prev_PM, mean_diff_hi_prev_PM) %>%
+  arrange(p_hi_prev_PM)
+
+errors_p_map %>% filter(p_lo_current_AM < 0.05) %>%
+  select(city_and_state, p_lo_current_AM, mean_diff_lo_current_AM) %>%
+  arrange(p_lo_current_AM)
+
+errors_p_map %>% filter(p_lo_prev_PM < 0.05) %>%
+  select(city_and_state, p_lo_prev_PM, mean_diff_lo_prev_PM) %>%
+  arrange(p_lo_prev_PM)
 
 ggsave("plots/p_vals_lo_sig.png", plot = plot_p_vals(errors_p_map, TRUE, TRUE),
-       width = unit(6.5, "in"), height = unit(4, "in"))
+       width = unit(12, "in"), height = unit(4, "in"))
 
 ggsave("plots/p_vals_hi_sig.png", plot = plot_p_vals(errors_p_map, FALSE, TRUE),
-       width = unit(6.5, "in"), height = unit(4, "in"))
+       width = unit(12, "in"), height = unit(4, "in"))
 
 
 # more plots and some basic models
