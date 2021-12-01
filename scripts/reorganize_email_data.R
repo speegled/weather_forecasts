@@ -37,43 +37,57 @@ organize_data <- function(param) {
                         date == current_date | date == current_date - 1 |
                           date == current_date - 2 & am_or_pm == "PM" |
                           date == current_date + 1 & am_or_pm == "AM") %>%
-    select(city, date_and_time, date, am_or_pm, previous_lo, previous_hi,
-           today_lo, today_hi, tomorrow_lo, tomorrow_hi)
+    select(city, date_and_time, date, am_or_pm,
+           previous_lo, previous_hi, previous_precip,
+           today_lo, today_hi, today_outlook, 
+           tomorrow_lo, tomorrow_hi, tomorrow_outlook)
   
   # create data frame with data for 2 days previous
   data_2_previous <- data %>% filter(city == current_city,
                                      date == current_date - 2 & am_or_pm == "PM") %>%
-    select(city, date_and_time, date, am_or_pm, tomorrow_lo, tomorrow_hi)
+    select(city, date_and_time, date, am_or_pm,
+           tomorrow_lo, tomorrow_hi, tomorrow_outlook)
 
   # create data frame with data for previous day 
   data_previous <- data %>% filter(city == current_city,
                                    date == current_date - 1) %>%
-    select(city, date_and_time, date, am_or_pm, tomorrow_lo, tomorrow_hi, today_lo, today_hi)
+    select(city, date_and_time, date, am_or_pm,
+           tomorrow_lo, tomorrow_hi, tomorrow_outlook, 
+           today_lo, today_hi, today_outlook)
 
   # create data frame with data for current day
   data_current <- data %>% filter(city == current_city,
                                   date == current_date) %>%
-    select(city, date_and_time, date, am_or_pm, today_lo, today_hi, previous_lo, previous_hi)
+    select(city, date_and_time, date, am_or_pm,
+           today_lo, today_hi, today_outlook,
+           previous_lo, previous_hi, previous_precip)
 
   # create data frame with data for next day
   data_next <- data %>% filter(city == current_city,
                                date == current_date + 1 & am_or_pm == "AM") %>%
-    select(city, date_and_time, date, am_or_pm, previous_lo, previous_hi)
+    select(city, date_and_time, date, am_or_pm,
+           previous_lo, previous_hi, previous_precip)
   
   # create a new data frame with the data for the given city and date
   data_df <- data.frame(date = current_date, city = current_city, 
                         forecast_lo_2_prev_PM =  data_2_previous[1, "tomorrow_lo"],
                         forecast_hi_2_prev_PM =  data_2_previous[1, "tomorrow_hi"],
+                        forecast_out_2_prev_PM = data_2_previous[1, "tomorrow_outlook"],
                         forecast_lo_prev_AM = data_previous[1, "tomorrow_lo"],
                         forecast_hi_prev_AM = data_previous[1, "tomorrow_hi"],
+                        forecast_out_prev_AM = data_previous[1, "tomorrow_outlook"],
                         forecast_lo_prev_PM = data_previous[2, "today_lo"],
                         forecast_hi_prev_PM = data_previous[2, "today_hi"],
+                        forecast_out_prev_PM = data_previous[2, "today_outlook"],
                         forecast_lo_current_AM = data_current[1, "today_lo"],
                         forecast_hi_current_AM = data_current[1, "today_hi"],
+                        forecast_out_current_AM = data_current[1, "today_outlook"],
                         actual_lo_current_PM = data_current[2, "previous_lo"],
                         actual_hi_current_PM = data_current[2, "previous_hi"],
+                        actual_precip_current_PM = data_current[2, "previous_precip"],
                         actual_lo_next_AM = data_next[1, "previous_lo"], 
-                        actual_hi_next_AM = data_next[1, "previous_hi"])
+                        actual_hi_next_AM = data_next[1, "previous_hi"],
+                        actual_precip_next_AM = data_next[1, "previous_precip"])
   
   # return data frame (1 row)
   return(data_df)
@@ -85,11 +99,13 @@ params <- unique((df %>% select(city, date) %>%
 
 # create reorganized data frame
 new_df <- map_df(params, organize_data)
-colnames(new_df) <- c("date", "city", "forecast_lo_2_prev_PM", "forecast_hi_2_prev_PM",
-                      "forecast_lo_prev_AM", "forecast_hi_prev_AM", "forecast_lo_prev_PM",
-                      "forecast_hi_prev_PM", "forecast_lo_current_AM", "forecast_hi_current_AM",
-                      "actual_lo_current_PM", "actual_hi_current_PM", "actual_lo_next_AM",
-                      "actual_hi_next_AM")
+colnames(new_df) <- c("date", "city",
+                      "forecast_lo_2_prev_PM", "forecast_hi_2_prev_PM", "forecast_out_2_prev_PM",
+                      "forecast_lo_prev_AM", "forecast_hi_prev_AM", "forecast_out_prev_AM", 
+                      "forecast_lo_prev_PM", "forecast_hi_prev_PM", "forecast_out_prev_PM",
+                      "forecast_lo_current_AM", "forecast_hi_current_AM", "forecast_out_current_AM",
+                      "actual_lo_current_PM", "actual_hi_current_PM", "actual_precip_current_PM",
+                      "actual_lo_next_AM", "actual_hi_next_AM", "actual_precip_next_AM")
 new_df <- new_df %>% arrange(date)
 write.csv(new_df, file = "data/email_data_reorganized_no_states.csv", row.names = FALSE)
 
