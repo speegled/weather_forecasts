@@ -346,7 +346,7 @@ library(reshape2)
 library(akima)
 
 #' Creates Interpolation Heres
-# prepare data in long format
+#' Change z param to whatever col you're plotting
 fld <- with(df, interp(x = Lon, y = Lat, z = D1_Lo, duplicate = "mean" ))
 df2 <- melt(fld$z, na.rm = TRUE)
 names(df2) <- c("x", "y", "temp")
