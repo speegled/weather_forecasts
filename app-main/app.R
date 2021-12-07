@@ -75,8 +75,8 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   #data used in multiple shiny plots/objects/etc.
-  cities <- read.csv("../cities.csv")
-  data <- read.csv("../scripts/email_data_reorganized.csv")
+  cities <- read.csv("../data/cities.csv")
+  data <- read.csv("../data/email_data_reorganized.csv")
   data$date <- parse_date_time(data$date, "%Y-%m-%d")
   mean_errors <- data %>%
     mutate(error_lo_2_prev_PM = actual_lo_next_AM - forecast_lo_2_prev_PM,
@@ -141,9 +141,9 @@ server <- function(input, output) {
       #construct additional components
       c(quantile(mean_errors$mean_error_lo, 0.025), quantile(mean_errors$mean_error_lo, 0.975))
       c(quantile(mean_errors$mean_error_hi, 0.025), quantile(mean_errors$mean_error_hi, 0.975))
-      
+      num_cities <- length(mean_errors$city)
       plot_hi_lo <- data.frame(mean_error = c(mean_errors$mean_error_lo, mean_errors$mean_error_hi),
-                               hi_or_lo = c(rep("lo", 164), rep("hi", 164)))
+                               hi_or_lo = c(rep("lo", num_cities), rep("hi", num_cities)))
       if( input$mean_error_abs == TRUE){
         plot_hi_lo$mean_error <- abs(plot_hi_lo$mean_error)
       }
