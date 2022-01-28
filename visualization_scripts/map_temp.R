@@ -154,12 +154,12 @@ library(rgeos)
 p1 <- SpatialPolygons(list(Polygons(list(pol1), "p1")))
 p2 <- SpatialPolygons(list(Polygons(list(pol2), "p2")))
 res <- gDifference(  gBuffer(p2, byid=TRUE, width=0),gBuffer(p1, byid=TRUE, width=0))
-plot(res)
+# plot(res)
 a=res@polygons
 dat = as.data.frame(a[1][[1]]@Polygons[1][[1]]@coords)
-plot(dat)
+# plot(dat)
 dat2 = as.data.frame(a[1][[1]]@Polygons[1][[1]]@coords)
-plot(dat2)
+# plot(dat2)
 
 usa <- map_data("usa")
 pol1 = Polygon(usa[,c("long","lat")])
@@ -177,18 +177,18 @@ p2 <- SpatialPoints(temp[,c("x","y")])
 p1 <- SpatialPolygons(list(Polygons(list(pol1), "p1")))
 p2 <- SpatialPolygons(list(Polygons(list(pol2), "p2")))
 res <- gDifference(  gBuffer(p2, byid=TRUE, width=0),gBuffer(p1, byid=TRUE, width=0))
-plot(res)
+# plot(res)
 a=res@polygons
 
 dat2 = as.data.frame(a[1][[1]]@Polygons[1][[1]]@coords)
-# plot(dat2)
+# # plot(dat2)
 
 dat3 = as.data.frame(a[1][[1]]@Polygons[2][[1]]@coords)
-plot(dat3)
+# plot(dat3)
 
 usa2 = usa[usa$order>4950 & usa$order<5050,]
-ggplot()+
-  geom_polygon(data = usa2, aes(x=usa2$long,y=usa2$lat), fill = "lightblue") 
+# ggplot()+
+#   geom_polygon(data = usa2, aes(x=usa2$long,y=usa2$lat), fill = "lightblue") 
 
 # lake michigan
 usa <- map_data("usa")
@@ -208,20 +208,16 @@ p2 <- SpatialPoints(temp[,c("x","y")])
 p1 <- SpatialPolygons(list(Polygons(list(pol1), "p1")))
 p2 <- SpatialPolygons(list(Polygons(list(pol2), "p2")))
 res <- gIntersection(  gBuffer(p1, byid=TRUE, width=0),gBuffer(p2, byid=TRUE, width=0))
-plot(res)
+# plot(res)
 # res <- gDifference(  gBuffer(p2, byid=T, width=0),gBuffer(p1, byid=T, width=0))
-plot(res)
+# plot(res)
 a=res@polygons
 
 dat4 = as.data.frame(a[1][[1]]@Polygons[1][[1]]@coords)
-plot(dat4)
+# plot(dat4)
 
 usa3 = usa[usa$order>4400 & usa$order<4750,]
-ggplot()+
-  geom_map(data=usa, map=usa,
-           aes(x=long,y= lat, map_id=region),
-           color="black", fill="black", size=.1)+
-  geom_polygon(data = usa3, aes(x=long,y=lat), fill = "lightblue") 
+
 
 # lake erie
 
@@ -242,11 +238,11 @@ p1 <- SpatialPolygons(list(Polygons(list(pol1), "p1")))
 p2 <- SpatialPolygons(list(Polygons(list(pol2), "p2")))
 res <- gIntersection(  gBuffer(p1, byid=TRUE, width=0),gBuffer(p2, byid=TRUE, width=0))
 # res <- gDifference(  gBuffer(p2, byid=T, width=0),gBuffer(p1, byid=T, width=0))
-plot(res)
+# plot(res)
 a=res@polygons
 
 dat9 = as.data.frame(a[1][[1]]@Polygons[1][[1]]@coords)
-plot(dat9)
+# plot(dat9)
 # 41.63111,-87.34742	
 
 func2 <- function(a,b,c,d){
@@ -264,7 +260,7 @@ func2 <- function(a,b,c,d){
   p2 <- SpatialPolygons(list(Polygons(list(pol2), "p2")))
   res <- gDifference(  gBuffer(p2, byid=TRUE, width=0),gBuffer(p1, byid=TRUE, width=0))
   # res <- gDifference(  gBuffer(p2, byid=T, width=0),gBuffer(p1, byid=T, width=0))
-  plot(res)
+  # plot(res)
   a=res@polygons
   
   dat4 = as.data.frame(a[1][[1]]@Polygons[1][[1]]@coords)
@@ -294,9 +290,9 @@ c = c(38.27080937015975, -66.26696319777878)
 d = c(40.40288869611612, -78.64421373340791)
 a = func2(a,b,c,d)
 dat7=as.data.frame(a[1][[1]]@Polygons[2][[1]]@coords)
-plot(dat7)# NE region, MA
+# plot(dat7)# NE region, MA
 dat12=as.data.frame(a[1][[1]]@Polygons[1][[1]]@coords)
-plot(dat12)#candaian region
+# plot(dat12)#candaian region
 
 a = c(43.21797785315606, -76.7594230482479)
 b = c(40.94788604781764, -73.82577204501558)
@@ -304,12 +300,9 @@ c = c(48.70403470082143, -66.58205863585866)
 d = c(45.03637007559224, -67.87033261211045)
 a = func2(a,b,c,d)
 dat10=as.data.frame(a[1][[1]]@Polygons[1][[1]]@coords)
-plot(dat10)
+# plot(dat10)
 
 usa4 = usa[usa$region == "long island",]
-ggplot()+
-  
-  geom_polygon(data = usa4, aes(x=long,y=lat), fill = "lightblue")
 
 #ny
 pol1 = Polygon(usa4[,c("long","lat")])
@@ -328,11 +321,11 @@ p1 <- SpatialPolygons(list(Polygons(list(pol1), "p1")))
 p2 <- SpatialPolygons(list(Polygons(list(pol2), "p2")))
 res <- gDifference(  gBuffer(p2, byid=TRUE, width=0),gBuffer(p1, byid=TRUE, width=0))
 # res <- gDifference(  gBuffer(p2, byid=T, width=0),gBuffer(p1, byid=T, width=0))
-plot(res)
+# plot(res)
 a=res@polygons
 
 dat11 = as.data.frame(a[1][[1]]@Polygons[1][[1]]@coords)
-plot(dat11)
+# plot(dat11)
 # 41.63111,-87.34742
 
 can = map_data("world", c("canada"))
