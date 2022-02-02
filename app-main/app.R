@@ -20,7 +20,13 @@ ui <- fluidPage(
   p(), 
   sidebarLayout(
     sidebarPanel(
-      p("Weather is hard to predict. Why? Where? *write later*"),
+      p("This app's goal is to acquire national weather data to learn which areas of the US struggle with weather prediction and the possible reasons why. Use this data in the creation of visualizations and an interactive app."), 
+      p(),p(),p(),
+      strong("Current features include:"),
+      p("-  Map of US cities available"),
+      p('-  Histograms of Mean Errors with Various Parameters'),
+      p("-  Approximation Map of Errors with Various Parameters"),
+      p('-  Continuous Gradient Map of Temperature'),
     width = 3),
     mainPanel( tabsetPanel(
       tabPanel("Mean Temp. Error.",
@@ -140,7 +146,7 @@ server <- function(input, output) {
       borders('state') +
       geom_point(data = cities, mapping = aes(x=LON, y=LAT), color = 'black')
     }
-  }, width=850, height=600)
+  }, width=750, height=600)
   output$mean_errors <- renderPlot({
     #Histograms of Mean High Error and Mean Low Error
     if(input$mean_error_hi_or_lo == "High"){
@@ -228,7 +234,7 @@ server <- function(input, output) {
         scale_color_gradient(low = mean_error_map_low_color, high = "blue", na.value = NA, name = "Mean Error") +
         geom_label(data = mean_errors %>% filter(abs(data_to_plot) > 1.7),
                    aes(x = lon, y = lat, label = city), alpha = 0.5, size = input$mean_error_map_show_sig_cities_font_size) +
-        labs(title = paste("Mean Errors for", input$mean_error_map_hi_or_lo,"Temperature Forecasts"), subtitle = input$mean_error_map_forecast_time) +
+        labs(title = paste("Mean Errors for", input$mean_error_map_hi_or_lo,"Temperature Forecasts")) +
         theme_classic()
     }
      
@@ -236,7 +242,7 @@ server <- function(input, output) {
     
     
     
-  }, width = 850, height=600)
+  }, width = 800, height=600)
   output$cont_map <- renderPlot({
     
     state <- map_data("state")
@@ -575,7 +581,7 @@ server <- function(input, output) {
             panel.grid.major = element_blank(),
             panel.grid = element_blank())
     
-  }, width=850, height=600)
+  }, width=800, height=600)
 }
 
 shinyApp(ui = ui, server = server)
