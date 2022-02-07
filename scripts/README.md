@@ -84,3 +84,4 @@ This script creates two new R data frames and writes them to the files `email_da
 20. `actual_hi_next_AM`: the actual high temperature reported for `date` the day after `date` in the AM
 
 21. `actual_precip_next_AM`: the actual precipitation reported for `date` the day after `date` in the AM
+

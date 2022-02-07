@@ -10,21 +10,36 @@ library(dplyr)
 library(tidyverse)
 
 
-filename <- "cities.csv"
-plot_file <- "all_cities.png"
 
-# read csv and credentials
-cities <- read.csv(filename)
-key <- fromJSON(file = "creds.json")
+# plot cities by lat / lon 
+cities <- read.csv("data/cities.csv")
+png("plots/cities.png")
 
-# check that api key works
-register_google(key)
-has_google_key()
-
-# plot cities based on LAT / LON and save to plot_file
-png(plot_file)
-map <- ggplot() + borders('world', xlim = c(-125,-65), ylim = c(20, 50), color ='black', fill='lightblue')
-map + geom_point(data = cities, mapping = aes(x=LON, y=LAT), color = 'black')
+map <- ggplot() + borders('world', xlim = c(-225, -60), ylim = c(15, 75), color ='black', fill='lightblue')
+map <- map + geom_point(data = cities, mapping = aes(x=LON, y=LAT))
+print(map)
 dev.off()
+
+
+
+model_points <- read.csv("data/model_points.csv")
+
+# plot model points and color by koppen classification
+png("plots/model_koppen.png")
+map <- ggplot() + borders('world', xlim = c(-125,-65), ylim = c(20, 50), color ='black', fill='lightblue')
+map <- map + geom_point(data = model_points, mapping = aes(x=LON, y=LAT, color=factor(koppen)))
+print(map)
+dev.off()
+
+
+# plot model points and color by elevation
+png("plots/model_elevation.png")
+map <- ggplot() + borders('world', xlim = c(-125,-65), ylim = c(20, 50), color ='black', fill='lightblue')
+map <- map + geom_point(data = model_points, mapping = aes(x=LON, y=LAT, color=ELEVATION)) + 
+             scale_color_gradientn(colours = c("blue", "green", "yellow", "orange", "red"))
+print(map)
+dev.off()
+
+
 
 
