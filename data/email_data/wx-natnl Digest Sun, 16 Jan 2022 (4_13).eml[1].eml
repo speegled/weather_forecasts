@@ -1,0 +1,1379 @@
+Delivered-To: darrinmspeegle@gmail.com
+Received: by 2002:a05:6a11:229c:0:0:0:0 with SMTP id oq28csp1264438pxb;
+        Sun, 16 Jan 2022 04:00:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyxEko1FYSgaaNxFCAf12V7aOGxanFD4pkqI0ZKKsKZfeMcIDvsUFmA7F5Luk4HUWLEW1Mb
+X-Received: by 2002:a25:ab04:: with SMTP id u4mr15337035ybi.301.1642334432154;
+        Sun, 16 Jan 2022 04:00:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1642334432; cv=none;
+        d=google.com; s=arc-20160816;
+        b=t2+h4vNPADb3JHaZI25qCS41F/TvMha+5XhaLawx744KzXIMmK4SUI24aultdFxC9W
+         wbw+IK511MBDv4te5goLSPxC48z/+AGT05u5Nz162vh7Q3EXEza234IVhNRF5oe5lHJF
+         BOH9bMrcNWNGr/f/JRybbXqu3/NpSgoKJYoYHCUZl0LkVzsYHhG/HAT88hEM0Sx2T4KJ
+         ojoky1O9DvfHrZ/PBxJFELVICK8TtD3xFjqQ65MAkctLxqVvpIoDt62WdbBVsA5hKsjy
+         o5kFNK3YFFcMs6xnnesQDmw2P5yVEypXzief9JMYyudKSG3msCXawk606FZqjkHbA4yG
+         1EIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:reply-to:to:from:auto-submitted:content-transfer-encoding
+         :mime-version:date:message-id:dkim-signature;
+        bh=IIOV/SL/VNwqpn4/zXfFrKP2rcbM6VM8ofGALyeaNzw=;
+        b=h8/Tfgt4oDObMJ7I6bPNbTIFR5l4Qk61am3cGQTeSSvEGOqjccZmAalU1t+B1rUSHl
+         AFumC9MvZRHIWpHQFJ4YjX46/fr6/WrxOQkKNSoQgGfdBr+6dI60qrCVXm5WMxn5JYo8
+         RyiPJ+bKxJMV/R19EiLrrAMfd6KO8o0+7xzCGf3nG8aiFDHmEgxLp43YSq3CSniErbN/
+         moWFhJBCDv88f9o9FK1XQGBjf6aAFvw1HAAMzvajNLdr7N8u2en6z9lEJkd6YyUIxY+X
+         w6tHvyG90v/plf/vk35vAbs1FG2tByijGbRgfW2DqaqwlNMs9cXVqjwvl6wr6O90zBUK
+         sLCg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=JxJSf3V3;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Return-Path: <wx-natnl-owner@lists.illinois.edu>
+Received: from mx0b-00007101.pphosted.com (mx0b-00007101.pphosted.com. [148.163.139.28])
+        by mx.google.com with ESMTPS id b3si7626936ybc.699.2022.01.16.04.00.32
+        for <darrinmspeegle@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 16 Jan 2022 04:00:32 -0800 (PST)
+Received-SPF: pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) client-ip=148.163.139.28;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=JxJSf3V3;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Received: from pps.filterd (m0166260.ppops.net [127.0.0.1])
+	by mx0b-00007101.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20GADnxV024836
+	for <darrinmspeegle@gmail.com>; Sun, 16 Jan 2022 12:00:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=message-id : date :
+ mime-version : content-type : content-transfer-encoding : from : to :
+ reply-to : subject; s=campusrelays;
+ bh=IIOV/SL/VNwqpn4/zXfFrKP2rcbM6VM8ofGALyeaNzw=;
+ b=JxJSf3V39TWzb6A/V663rpSmeP5dExv65iCpL7sPbA9cN1f6ZSKKgjNCIjyYa58TbUMy
+ EdTUhFnLb6a8uDyyOmE8rrYe9V/2+9RotyUn+EDP4gFmKmyhkhGcYalZlv7RC3QIuXRr
+ 0F1BJX2CX/KPq9ej9/48xUAu1h54yX5JzqV1SHVVCt0tcCnokpVO0S+yOsRYmbMOQtQQ
+ zmKmSVrQJ60vJd6ojC6mfXaSqy8K/caz4fwOuaXhAbwqpKh0ANfgCGgg0hzskUP5XTHN
+ bHlOx7spjFOLxZix+FZc05y2knuZukDfXjipSdAQmmuicvkmHEy1iwhD6ZXsDJI4aLLv 2A== 
+Received: from lists.illinois.edu (lists.illinois.edu [192.17.172.63])
+	by mx0b-00007101.pphosted.com (PPS) with ESMTP id 3dkp8868qj-1
+	for <darrinmspeegle@gmail.com>; Sun, 16 Jan 2022 12:00:31 +0000
+Received: by lists.illinois.edu (Postfix, from userid 50033)
+	id 92363E2E96; Sun, 16 Jan 2022 06:00:30 -0600 (CST)
+Message-Id: <sympa.1642334429.100959.524@lists.illinois.edu>
+Date: Sun, 16 Jan 2022 06:00:29 -0600
+Content-Type: text/plain; charset="US-ASCII"
+Auto-Submitted: auto-forwarded
+From: wx-natnl-request@lists.illinois.edu
+To: wx-natnl@lists.illinois.edu
+Reply-to: wx-natnl-request@lists.illinois.edu
+Subject: wx-natnl Digest Sun, 16 Jan 2022 (4/13)
+X-Mailer: Sympa 6.1.23
+X-Proofpoint-GUID: 1U6uY4QSdn60ng5L8kkkTLqCgstGDcv4
+X-Proofpoint-ORIG-GUID: 1U6uY4QSdn60ng5L8kkkTLqCgstGDcv4
+X-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0
+ priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0
+ suspectscore=0 mlxscore=0 lowpriorityscore=0 phishscore=0 spamscore=0
+ mlxlogscore=999 bulkscore=0 clxscore=1031 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2201160077
+X-Spam-Score: 0
+X-Spam-OrigSender: wx-natnl-owner@lists.illinois.edu
+X-Spam-Bar:
+Content-Transfer-Encoding: Quoted-printable
+MIME-Version: 1.0
+
+wx-natnl Digest Sun, 16 Jan 2022
+
+Table of contents:
+
+* 76 - HAZARDS: Kushiro                         1432     40cm  - COD Weathe=
+r
+  Processor <ldm@weather.cod.edu>
+* 77 - HAZARDS: Hamanakacho Kiritappuko  At 1203z Rise  - COD Weather
+  Processor <ldm@weather.cod.edu>
+* 78 - HAZARDS: Hamanakacho Kiritappuko  At 1203z Rise  - COD Weather
+  Processor <ldm@weather.cod.edu>
+* 79 - HAZARDS: Kushiro                         1649     50cm  - COD Weathe=
+r
+  Processor <ldm@weather.cod.edu>
+* 80 - HAZARDS: Size - Current Maximum Crest-to-mean In Centimeters  - COD
+  Weather Processor <ldm@weather.cod.edu>
+* 81 - HAZARDS: Goboshi Haraido          At 1215z Rise  - COD Weather
+  Processor <ldm@weather.cod.edu>
+* 82 - HAZARDS: Omaezaki                        1516     70cm  - COD Weathe=
+r
+  Processor <ldm@weather.cod.edu>
+* 83 - HAZARDS: =3D  - COD Weather Processor <ldm@weather.cod.edu>
+* 84 - HAZARDS: Hamanakacho Kiritappuko  At 1203z Rise  - COD Weather
+  Processor <ldm@weather.cod.edu>
+* 85 - HAZARDS: Kushiro                         1649     50cm  - COD Weathe=
+r
+  Processor <ldm@weather.cod.edu>
+* 86 - HAZARDS: Tsunami Message Number 8  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 87 - HAZARDS: Tsunami Message Number 8  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 88 - HAZARDS: Tsunami Message Number 8  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 89 - HAZARDS: Kodiak             Alaska              750 Am. Akst. Januar=
+y
+  15.  - COD Weather Processor <ldm@weather.cod.edu>
+* 90 - HAZARDS: Tsunami Message Number 8  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 91 - HAZARDS: Kodiak             Alaska              750 Am. Akst. Januar=
+y
+  15.  - COD Weather Processor <ldm@weather.cod.edu>
+* 92 - HAZARDS: Public Tsunami Statement-Western US - <no-
+  reply@weather.cod.edu>
+* 93 - OUTLOOK: Nws Climate Prediction Center College Park Md  - COD Weathe=
+r
+  Processor <ldm@weather.cod.edu>
+* 94 - HAZARDS: Preliminary Epicenter Lat 20.3 S. Lon 175.2 W.  - COD Weath=
+er
+  Processor <ldm@weather.cod.edu>
+* 95 - HAZARDS: 151954-  - COD Weather Processor <ldm@weather.cod.edu>
+* 96 - HAZARDS: Hamanakacho Kiritappuko  At 1203z Rise  - COD Weather
+  Processor <ldm@weather.cod.edu>
+* 97 - HAZARDS: Kushiro                         1650     50cm  - COD Weathe=
+r
+  Processor <ldm@weather.cod.edu>
+* 98 - HAZARDS: Size - Current Maximum Crest-to-mean In Centimeters  - COD
+  Weather Processor <ldm@weather.cod.edu>
+* 99 - HAZARDS: Kushiro                         1650     50cm  - COD Weathe=
+r
+  Processor <ldm@weather.cod.edu>
+* 100 - HAZARDS: =3D  - COD Weather Processor <ldm@weather.cod.edu>
+
+----------------------------------------------------------------------
+
+Message-ID: <76>
+Date: Sat, 15 Jan 2022 16:48:23 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Kushiro                         1432     40cm
+
+WEPA40 RJTD 151648
+MEASUREMENTS OF TSUNAMI WAVE
+
+LOCATION                        TIME     SIZE
+KUSHIRO                         1432     40CM
+NEMUROSHI HANASAKI              1429     50CM
+HAMANAKACHO KIRITAPPUKO         1605     90CM
+URAKAWA                         1544     60CM
+TOKACHIKO                       1522     60CM
+ERIMOCHO SHOYA                  1455     50CM
+
+
+------------------------------
+Message-ID: <77>
+Date: Sat, 15 Jan 2022 16:48:23 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Hamanakacho Kiritappuko  At 1203z Rise
+
+WEPA40 RJTD 151648
+TSUNAMI WAVE BEGAN AT
+KUSHIRO                  AT 1152Z RISE
+NEMUROSHI HANASAKI       AT 1201Z RISE
+HAMANAKACHO KIRITAPPUKO  AT 1203Z RISE
+URAKAWA                  AT 1243Z FALL
+TOKACHIKO                AT 1204Z RISE
+ERIMOCHO SHOYA           AT 1158Z RISE
+MUTSUSHI SEKINEHAMA      AT 1228Z FALL
+MUTSUOGAWARAKO           AT 1207Z RISE
+HACHINOHEKO              AT 1210Z RISE
+KUJIKO                   AT 1157Z RISE
+MIYAKO                   AT 1137Z RISE
+KAMAISHI                 AT 1147Z RISE
+OFUNATO                  AT 1150Z RISE
+ISHINOMAKISHI AYUKAWA    AT 1153Z RISE
+ISHINOMAKIKO             AT 1222Z RISE
+SENDAIKO                 AT 1221Z RISE
+SOMA                     AT 1219Z RISE
+IWAKISHI ONAHAMA         AT 1138Z RISE
+OARAI                    AT 1142Z RISE
+KAMISUSHI KASHIMAKO      AT 1143Z RISE
+CHOSHI                   AT 1139Z RISE
+KATSUURASHI OKITSU       AT 1120Z RISE
+IZUOSHIMA OKADA          AT 1119Z FALL
+MIYAKEJIMA TSUBOTA       AT 1124Z RISE
+KOZUSHIMA KOZUSHIMAKO    AT 1140Z FALL
+MIYAKEJIMA AKO           AT 1142Z FALL
+HACHIJOJIMA YAENE        AT 1126Z RISE
+HACHIJOJIMA KAMINATO     AT 1117Z RISE
+CHICHIJIMA FUTAMI        AT 1058Z FALL
+NUMAZUSHI UCHIURA        AT 1156Z RISE
+SHIMIZU                  AT 1158Z RISE
+MINAMIIZUCHO IROZAKI     AT 1150Z RISE
+OMAEZAKI                 AT 1159Z RISE
+MAISAKA                  AT 1203Z RISE
+SHIMODAKO                AT 1141Z RISE
+TAHARASHI AKABANE        AT 1151Z RISE
+HANDASHI KINUURA         AT 1252Z RISE
+TOBA                     AT 1204Z RISE
+OWASE                    AT 1141Z FALL
+KUMANOSHI YUKI           AT 1136Z FALL
+NACHIKATSUURACHO URAGAMI AT 1134Z RISE
+
+
+------------------------------
+Message-ID: <78>
+Date: Sat, 15 Jan 2022 16:55:03 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Hamanakacho Kiritappuko  At 1203z Rise
+
+WEPA40 RJTD 151654
+TSUNAMI WAVE BEGAN AT
+KUSHIRO                  AT 1152Z RISE
+NEMUROSHI HANASAKI       AT 1201Z RISE
+HAMANAKACHO KIRITAPPUKO  AT 1203Z RISE
+URAKAWA                  AT 1243Z FALL
+TOKACHIKO                AT 1204Z RISE
+ERIMOCHO SHOYA           AT 1158Z RISE
+MUTSUSHI SEKINEHAMA      AT 1228Z FALL
+MUTSUOGAWARAKO           AT 1207Z RISE
+HACHINOHEKO              AT 1210Z RISE
+KUJIKO                   AT 1157Z RISE
+MIYAKO                   AT 1137Z RISE
+KAMAISHI                 AT 1147Z RISE
+OFUNATO                  AT 1150Z RISE
+ISHINOMAKISHI AYUKAWA    AT 1153Z RISE
+ISHINOMAKIKO             AT 1222Z RISE
+SENDAIKO                 AT 1221Z RISE
+SOMA                     AT 1219Z RISE
+IWAKISHI ONAHAMA         AT 1138Z RISE
+OARAI                    AT 1142Z RISE
+KAMISUSHI KASHIMAKO      AT 1143Z RISE
+CHOSHI                   AT 1139Z RISE
+KATSUURASHI OKITSU       AT 1120Z RISE
+IZUOSHIMA OKADA          AT 1119Z FALL
+MIYAKEJIMA TSUBOTA       AT 1124Z RISE
+KOZUSHIMA KOZUSHIMAKO    AT 1140Z FALL
+MIYAKEJIMA AKO           AT 1142Z FALL
+HACHIJOJIMA YAENE        AT 1126Z RISE
+HACHIJOJIMA KAMINATO     AT 1117Z RISE
+CHICHIJIMA FUTAMI        AT 1058Z FALL
+NUMAZUSHI UCHIURA        AT 1156Z RISE
+SHIMIZU                  AT 1158Z RISE
+MINAMIIZUCHO IROZAKI     AT 1150Z RISE
+OMAEZAKI                 AT 1159Z RISE
+MAISAKA                  AT 1203Z RISE
+SHIMODAKO                AT 1141Z RISE
+YAIZU                    AT 1156Z RISE
+TAHARASHI AKABANE        AT 1151Z RISE
+HANDASHI KINUURA         AT 1252Z RISE
+TOBA                     AT 1204Z RISE
+OWASE                    AT 1141Z FALL
+KUMANOSHI YUKI           AT 1136Z FALL
+NACHIKATSUURACHO URAGAMI AT 1134Z RISE
+KUSHIMOTOCHO FUKUROKO    AT 1143Z FALL
+SHIRAHAMACHO KATATA      AT 1201Z FALL
+GOBOSHI HARAIDO          AT 1215Z RISE
+WAKAYAMA                 AT 1301Z RISE
+KOMATSUSHIMA             AT 1215Z RISE
+TOKUSHIMA YUKI           AT 1204Z FALL
+MUROTOSHI MUROTOMISAKI   AT 1154Z FALL
+KOCHI                    AT 1158Z RISE
+NAKATOSACHO KUREKO       AT 1203Z FALL
+TOSASHIMIZU              AT 1204Z FALL
+HYUGASHI HOSOSHIMA       AT 1155Z RISE
+NICHINANSHI ABURATSU     AT 1153Z RISE
+MIYAZAKIKO               AT 1146Z RISE
+MINAMIOSUMICHO ODOMARI   AT 1208Z RISE
+SHIBUSHIKO               AT 1151Z RISE
+TANEGASHIMA NISHINOOMOTE AT 1215Z FALL
+TANEGASHIMA KUMANO       AT 1151Z RISE
+NAKANOSHIMA              AT 1205Z FALL
+AMAMISHI KOMINATO        AT 1144Z FALL
+AMAMISHI NAZE            AT 1145Z RISE
+NAHA                     AT 1159Z FALL
+OKINAWASHI NAKAGUSUKUWANKO AT 1139Z RISE
+NANJOSHI AZAMA           AT 1137Z RISE
+MINAMIDAITO GYOKO        AT 1236Z RISE
+ISHIGAKIJIMA ISHIGAKIKO  AT 1144Z FALL
+MIYAKOJIMA HIRARA        AT 1200Z RISE
+JMA TOKYO.
+=3D
+
+
+------------------------------
+Message-ID: <79>
+Date: Sat, 15 Jan 2022 16:55:10 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Kushiro                         1649     50cm
+
+WEPA40 RJTD 151654
+MEASUREMENTS OF TSUNAMI WAVE
+
+LOCATION                        TIME     SIZE
+KUSHIRO                         1649     50CM
+NEMUROSHI HANASAKI              1429     50CM
+HAMANAKACHO KIRITAPPUKO         1605     90CM
+URAKAWA                         1544     60CM
+TOKACHIKO                       1522     60CM
+ERIMOCHO SHOYA                  1455     50CM
+HAKODATE                        1605     30CM
+TOMAKOMAI NISHIKO               1538     30CM
+MUTSUSHI SEKINEHAMA             1507     30CM
+MUTSUOGAWARAKO                  1555     40CM
+HACHINOHEKO                     1621     50CM
+KUJIKO                          1508     90CM
+MIYAKO                          1623     40CM
+KAMAISHI                        1530     30CM
+OFUNATO                         1432     30CM
+ISHINOMAKISHI AYUKAWA           1612     50CM
+ISHINOMAKIKO                    1448     30CM
+SENDAIKO                        1538     70CM
+SOMA                            1649     50CM
+IWAKISHI ONAHAMA                1454     70CM
+OARAI                           1556     60CM
+KAMISUSHI KASHIMAKO             1548     50CM
+CHOSHI                          1444     30CM
+KATSUURASHI OKITSU              1627     40CM
+TATEYAMASHI MERA                1532     40CM
+IZUOSHIMA OKADA                 1258     20CM
+MIYAKEJIMA TSUBOTA              1141     20CM
+KOZUSHIMA KOZUSHIMAKO           1553     40CM
+MIYAKEJIMA AKO                  1639     40CM
+HACHIJOJIMA YAENE               1321     40CM
+HACHIJOJIMA KAMINATO            1522     40CM
+CHICHIJIMA FUTAMI               1352     90CM
+MIURASHI MISAKIGYOKO            1543     30CM
+MIURASHI ABURATSUBO             1647     20CM
+NUMAZUSHI UCHIURA               1506     40CM
+SHIMIZU                         1424     20CM
+MINAMIIZUCHO IROZAKI            1629     30CM
+OMAEZAKI                        1516     70CM
+MAISAKA                         1554     30CM
+SHIMODAKO                       1446     30CM
+YAIZU                           1458     20CM
+TAHARASHI AKABANE               1615     60CM
+HANDASHI KINUURA                1552     20CM
+TOBA                            1645     60CM
+OWASE                           1540     40CM
+KUMANOSHI YUKI                  1556     50CM
+NACHIKATSUURACHO URAGAMI        1518     50CM
+KUSHIMOTOCHO FUKUROKO           1623     90CM
+SHIRAHAMACHO KATATA             1617     40CM
+GOBOSHI HARAIDO                 1531     90CM
+WAKAYAMA                        1518     20CM
+KOMATSUSHIMA                    1458     20CM
+TOKUSHIMA YUKI                  1535     50CM
+MUROTOSHI MUROTOMISAKI          1515     80CM
+KOCHI                           1616     20CM
+NAKATOSACHO KUREKO              1553     40CM
+TOSASHIMIZU                     1523     90CM
+HYUGASHI HOSOSHIMA              1447     30CM
+NICHINANSHI ABURATSU            1629     60CM
+MIYAZAKIKO                      1452     50CM
+MINAMIOSUMICHO ODOMARI          1618     70CM
+SHIBUSHIKO                      1611     60CM
+TANEGASHIMA NISHINOOMOTE        1639     50CM
+TANEGASHIMA KUMANO              1450     70CM
+NAKANOSHIMA                     1547     50CM
+AMAMISHI KOMINATO               1455     120CM
+AMAMISHI NAZE                   1602     30CM
+NAHA                            1433     20CM
+OKINAWASHI NAKAGUSUKUWANKO      1436     30CM
+NANJOSHI AZAMA                  1435     30CM
+MINAMIDAITO GYOKO               1412     20CM
+YONAGUNIJIMA KUBURA             1538     20CM
+=3D
+
+
+------------------------------
+Message-ID: <80>
+Date: Sat, 15 Jan 2022 16:55:10 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Size - Current Maximum Crest-to-mean In Centimeters
+
+WEPA40 RJTD 151654
+
+ISHIGAKIJIMA ISHIGAKIKO         1502     20CM
+MIYAKOJIMA HIRARA               1504     30CM
+SIZE - CURRENT MAXIMUM CREST-TO-MEAN IN CENTIMETERS
+
+JMA TOKYO.
+=3D
+
+
+------------------------------
+Message-ID: <81>
+Date: Sat, 15 Jan 2022 16:55:18 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Goboshi Haraido          At 1215z Rise
+
+WEPA40 RJTD 151654
+NACHIKATSUURACHO URAGAMI AT 1134Z RISE
+KUSHIMOTOCHO FUKUROKO    AT 1143Z FALL
+SHIRAHAMACHO KATATA      AT 1201Z FALL
+GOBOSHI HARAIDO          AT 1215Z RISE
+WAKAYAMA                 AT 1301Z RISE
+KOMATSUSHIMA             AT 1215Z RISE
+TOKUSHIMA YUKI           AT 1204Z FALL
+MUROTOSHI MUROTOMISAKI   AT 1154Z FALL
+KOCHI                    AT 1158Z RISE
+NAKATOSACHO KUREKO       AT 1203Z FALL
+TOSASHIMIZU              AT 1204Z FALL
+HYUGASHI HOSOSHIMA       AT 1155Z RISE
+NICHINANSHI ABURATSU     AT 1153Z RISE
+MIYAZAKIKO               AT 1146Z RISE
+MINAMIOSUMICHO ODOMARI   AT 1208Z RISE
+SHIBUSHIKO               AT 1151Z RISE
+TANEGASHIMA NISHINOOMOTE AT 1215Z FALL
+TANEGASHIMA KUMANO       AT 1151Z RISE
+NAKANOSHIMA              AT 1205Z FALL
+AMAMISHI KOMINATO        AT 1144Z FALL
+AMAMISHI NAZE            AT 1145Z RISE
+NAHA                     AT 1159Z FALL
+OKINAWASHI NAKAGUSUKUWANKO AT 1139Z RISE
+NANJOSHI AZAMA           AT 1137Z RISE
+MINAMIDAITO GYOKO        AT 1236Z RISE
+ISHIGAKIJIMA ISHIGAKIKO  AT 1144Z FALL
+MIYAKOJIMA HIRARA        AT 1200Z RISE
+JMA TOKYO.
+=3D
+
+
+------------------------------
+Message-ID: <82>
+Date: Sat, 15 Jan 2022 16:55:18 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Omaezaki                        1516     70cm
+
+WEPA40 RJTD 151654
+NUMAZUSHI UCHIURA               1506     40CM
+SHIMIZU                         1424     20CM
+MINAMIIZUCHO IROZAKI            1629     30CM
+OMAEZAKI                        1516     70CM
+MAISAKA                         1554     30CM
+SHIMODAKO                       1446     30CM
+YAIZU                           1458     20CM
+TAHARASHI AKABANE               1615     60CM
+HANDASHI KINUURA                1552     20CM
+TOBA                            1645     60CM
+OWASE                           1540     40CM
+KUMANOSHI YUKI                  1556     50CM
+NACHIKATSUURACHO URAGAMI        1518     50CM
+KUSHIMOTOCHO FUKUROKO           1623     90CM
+SHIRAHAMACHO KATATA             1617     40CM
+GOBOSHI HARAIDO                 1531     90CM
+
+
+------------------------------
+Message-ID: <83>
+Date: Sat, 15 Jan 2022 16:55:18 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: =3D
+
+WEPA40 RJTD 151654
+NANJOSHI AZAMA                  1435     30CM
+MINAMIDAITO GYOKO               1412     20CM
+YONAGUNIJIMA KUBURA             1538     20CM
+=3D
+
+
+------------------------------
+Message-ID: <84>
+Date: Sat, 15 Jan 2022 16:55:18 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Hamanakacho Kiritappuko  At 1203z Rise
+
+WEPA40 RJTD 151654
+TSUNAMI WAVE BEGAN AT
+KUSHIRO                  AT 1152Z RISE
+NEMUROSHI HANASAKI       AT 1201Z RISE
+HAMANAKACHO KIRITAPPUKO  AT 1203Z RISE
+URAKAWA                  AT 1243Z FALL
+TOKACHIKO                AT 1204Z RISE
+ERIMOCHO SHOYA           AT 1158Z RISE
+MUTSUSHI SEKINEHAMA      AT 1228Z FALL
+MUTSUOGAWARAKO           AT 1207Z RISE
+HACHINOHEKO              AT 1210Z RISE
+KUJIKO                   AT 1157Z RISE
+MIYAKO                   AT 1137Z RISE
+KAMAISHI                 AT 1147Z RISE
+OFUNATO                  AT 1150Z RISE
+ISHINOMAKISHI AYUKAWA    AT 1153Z RISE
+ISHINOMAKIKO             AT 1222Z RISE
+SENDAIKO                 AT 1221Z RISE
+SOMA                     AT 1219Z RISE
+IWAKISHI ONAHAMA         AT 1138Z RISE
+OARAI                    AT 1142Z RISE
+KAMISUSHI KASHIMAKO      AT 1143Z RISE
+CHOSHI                   AT 1139Z RISE
+KATSUURASHI OKITSU       AT 1120Z RISE
+IZUOSHIMA OKADA          AT 1119Z FALL
+MIYAKEJIMA TSUBOTA       AT 1124Z RISE
+KOZUSHIMA KOZUSHIMAKO    AT 1140Z FALL
+MIYAKEJIMA AKO           AT 1142Z FALL
+HACHIJOJIMA YAENE        AT 1126Z RISE
+HACHIJOJIMA KAMINATO     AT 1117Z RISE
+CHICHIJIMA FUTAMI        AT 1058Z FALL
+NUMAZUSHI UCHIURA        AT 1156Z RISE
+SHIMIZU                  AT 1158Z RISE
+MINAMIIZUCHO IROZAKI     AT 1150Z RISE
+OMAEZAKI                 AT 1159Z RISE
+MAISAKA                  AT 1203Z RISE
+SHIMODAKO                AT 1141Z RISE
+YAIZU                    AT 1156Z RISE
+TAHARASHI AKABANE        AT 1151Z RISE
+HANDASHI KINUURA         AT 1252Z RISE
+TOBA                     AT 1204Z RISE
+OWASE                    AT 1141Z FALL
+KUMANOSHI YUKI           AT 1136Z FALL
+
+
+------------------------------
+Message-ID: <85>
+Date: Sat, 15 Jan 2022 16:55:18 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Kushiro                         1649     50cm
+
+WEPA40 RJTD 151654
+MEASUREMENTS OF TSUNAMI WAVE
+
+LOCATION                        TIME     SIZE
+KUSHIRO                         1649     50CM
+NEMUROSHI HANASAKI              1429     50CM
+HAMANAKACHO KIRITAPPUKO         1605     90CM
+URAKAWA                         1544     60CM
+TOKACHIKO                       1522     60CM
+ERIMOCHO SHOYA                  1455     50CM
+
+
+------------------------------
+Message-ID: <86>
+Date: Sat, 15 Jan 2022 17:33:39 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Tsunami Message Number 8
+
+WEPA41 PAAQ 151732
+TSUWCA
+
+BULLETIN
+Tsunami Message Number 8
+NWS National Tsunami Warning Center Palmer AK
+932 AM PST Sat Jan 15 2022
+
+PZZ530-531-CAZ043-040-041-552-087-549-550-039-034-035-529-
+530-006-505-506-508-509-109-104-103-101-ORZ021-022-002-001-
+WAZ001-021-510-514>517-BCZ160-142-141-150-121-220-210-922-
+912-921-911-110-122-AKZ027>029-023-024-026-018>022-025-017-
+131-135-125-121-171-181-185-187-195-191-151902-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including The Cal./Mexico Border
+ to Attu, Alaska
+932 AM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+   AREAS OF CALIFORNIA, OREGON, WASHINGTON, BRITISH COLUMBIA
+   AND ALASKA FROM THE CAL./MEXICO BORDER  TO ATTU ALASKA...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+Estimated tsunami start times for selected sites are;
+
+Langara            British Columbia    835 AM.  PST. January 15.
+Long Beach         Washington          840 AM.  PST. January 15.
+Saint Paul         Alaska              735 AM. AKST. January 15.
+La Push            Washington          845 AM.  PST. January 15.
+Cold Bay           Alaska              745 AM. AKST. January 15.
+Seaside            Oregon              845 AM.  PST. January 15.
+Kodiak             Alaska              750 AM. AKST. January 15.
+Neah Bay           Washington          855 AM.  PST. January 15.
+Tofino             British Columbia    850 AM.  PST. January 15.
+Westport           Washington          850 AM.  PST. January 15.
+Sitka              Alaska              755 AM. AKST. January 15.
+Moclips            Washington          855 AM.  PST. January 15.
+Elfin Cove         Alaska              755 AM. AKST. January 15.
+Seward             Alaska              815 AM. AKST. January 15.
+Yakutat            Alaska              820 AM. AKST. January 15.
+Valdez             Alaska              835 AM. AKST. January 15.
+Port Angeles       Washington          930 AM.  PST. January 15.
+Craig              Alaska              835 AM. AKST. January 15.
+Cordova            Alaska              845 AM. AKST. January 15.
+Port Townsend      Washington          955 AM.  PST. January 15.
+Homer              Alaska              905 AM. AKST. January 15.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+
+------------------------------
+Message-ID: <87>
+Date: Sat, 15 Jan 2022 17:33:39 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Tsunami Message Number 8
+
+WEPA41 PAAQ 151732
+TSUWCA
+
+BULLETIN
+Tsunami Message Number 8
+NWS National Tsunami Warning Center Palmer AK
+932 AM PST Sat Jan 15 2022
+
+PZZ530-531-CAZ043-040-041-552-087-549-550-039-034-035-529-
+530-006-505-506-508-509-109-104-103-101-ORZ021-022-002-001-
+WAZ001-021-510-514>517-BCZ160-142-141-150-121-220-210-922-
+912-921-911-110-122-AKZ027>029-023-024-026-018>022-025-017-
+131-135-125-121-171-181-185-187-195-191-151902-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including The Cal./Mexico Border
+ to Attu, Alaska
+932 AM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+   AREAS OF CALIFORNIA, OREGON, WASHINGTON, BRITISH COLUMBIA
+   AND ALASKA FROM THE CAL./MEXICO BORDER  TO ATTU ALASKA...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+Estimated tsunami start times for selected sites are;
+
+Langara            British Columbia    835 AM.  PST. January 15.
+Long Beach         Washington          840 AM.  PST. January 15.
+Saint Paul         Alaska              735 AM. AKST. January 15.
+La Push            Washington          845 AM.  PST. January 15.
+Cold Bay           Alaska              745 AM. AKST. January 15.
+Seaside            Oregon              845 AM.  PST. January 15.
+Kodiak             Alaska              750 AM. AKST. January 15.
+Neah Bay           Washington          855 AM.  PST. January 15.
+Tofino             British Columbia    850 AM.  PST. January 15.
+Westport           Washington          850 AM.  PST. January 15.
+Sitka              Alaska              755 AM. AKST. January 15.
+Moclips            Washington          855 AM.  PST. January 15.
+Elfin Cove         Alaska              755 AM. AKST. January 15.
+Seward             Alaska              815 AM. AKST. January 15.
+Yakutat            Alaska              820 AM. AKST. January 15.
+Valdez             Alaska              835 AM. AKST. January 15.
+Port Angeles       Washington          930 AM.  PST. January 15.
+Craig              Alaska              835 AM. AKST. January 15.
+Cordova            Alaska              845 AM. AKST. January 15.
+Port Townsend      Washington          955 AM.  PST. January 15.
+Homer              Alaska              905 AM. AKST. January 15.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+
+------------------------------
+Message-ID: <88>
+Date: Sat, 15 Jan 2022 17:33:45 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Tsunami Message Number 8
+
+WEPA41 PAAQ 151732
+TSUWCA
+
+BULLETIN
+Tsunami Message Number 8
+NWS National Tsunami Warning Center Palmer AK
+932 AM PST Sat Jan 15 2022
+
+PZZ530-531-CAZ043-040-041-552-087-549-550-039-034-035-529-
+530-006-505-506-508-509-109-104-103-101-ORZ021-022-002-001-
+WAZ001-021-510-514>517-BCZ160-142-141-150-121-220-210-922-
+912-921-911-110-122-AKZ027>029-023-024-026-018>022-025-017-
+131-135-125-121-171-181-185-187-195-191-151902-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including The Cal./Mexico Border
+ to Attu, Alaska
+932 AM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+   AREAS OF CALIFORNIA, OREGON, WASHINGTON, BRITISH COLUMBIA
+   AND ALASKA FROM THE CAL./MEXICO BORDER  TO ATTU ALASKA...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+Estimated tsunami start times for selected sites are;
+
+Langara            British Columbia    835 AM.  PST. January 15.
+Long Beach         Washington          840 AM.  PST. January 15.
+Saint Paul         Alaska              735 AM. AKST. January 15.
+
+
+------------------------------
+Message-ID: <89>
+Date: Sat, 15 Jan 2022 17:33:45 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Kodiak             Alaska              750 Am. Akst. Janu=
+ary
+ 15.
+
+WEPA41 PAAQ 151732
+La Push            Washington          845 AM.  PST. January 15.
+Cold Bay           Alaska              745 AM. AKST. January 15.
+Seaside            Oregon              845 AM.  PST. January 15.
+Kodiak             Alaska              750 AM. AKST. January 15.
+Neah Bay           Washington          855 AM.  PST. January 15.
+Tofino             British Columbia    850 AM.  PST. January 15.
+Westport           Washington          850 AM.  PST. January 15.
+Sitka              Alaska              755 AM. AKST. January 15.
+Moclips            Washington          855 AM.  PST. January 15.
+Elfin Cove         Alaska              755 AM. AKST. January 15.
+Seward             Alaska              815 AM. AKST. January 15.
+Yakutat            Alaska              820 AM. AKST. January 15.
+Valdez             Alaska              835 AM. AKST. January 15.
+Port Angeles       Washington          930 AM.  PST. January 15.
+Craig              Alaska              835 AM. AKST. January 15.
+Cordova            Alaska              845 AM. AKST. January 15.
+Port Townsend      Washington          955 AM.  PST. January 15.
+Homer              Alaska              905 AM. AKST. January 15.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+
+------------------------------
+Message-ID: <90>
+Date: Sat, 15 Jan 2022 17:33:45 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Tsunami Message Number 8
+
+WEPA41 PAAQ 151732
+TSUWCA
+
+BULLETIN
+Tsunami Message Number 8
+NWS National Tsunami Warning Center Palmer AK
+932 AM PST Sat Jan 15 2022
+
+PZZ530-531-CAZ043-040-041-552-087-549-550-039-034-035-529-
+530-006-505-506-508-509-109-104-103-101-ORZ021-022-002-001-
+WAZ001-021-510-514>517-BCZ160-142-141-150-121-220-210-922-
+912-921-911-110-122-AKZ027>029-023-024-026-018>022-025-017-
+131-135-125-121-171-181-185-187-195-191-151902-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including The Cal./Mexico Border
+ to Attu, Alaska
+932 AM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+   AREAS OF CALIFORNIA, OREGON, WASHINGTON, BRITISH COLUMBIA
+   AND ALASKA FROM THE CAL./MEXICO BORDER  TO ATTU ALASKA...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+Estimated tsunami start times for selected sites are;
+
+Langara            British Columbia    835 AM.  PST. January 15.
+Long Beach         Washington          840 AM.  PST. January 15.
+Saint Paul         Alaska              735 AM. AKST. January 15.
+
+
+------------------------------
+Message-ID: <91>
+Date: Sat, 15 Jan 2022 17:33:45 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Kodiak             Alaska              750 Am. Akst. Janu=
+ary
+ 15.
+
+WEPA41 PAAQ 151732
+La Push            Washington          845 AM.  PST. January 15.
+Cold Bay           Alaska              745 AM. AKST. January 15.
+Seaside            Oregon              845 AM.  PST. January 15.
+Kodiak             Alaska              750 AM. AKST. January 15.
+Neah Bay           Washington          855 AM.  PST. January 15.
+Tofino             British Columbia    850 AM.  PST. January 15.
+Westport           Washington          850 AM.  PST. January 15.
+Sitka              Alaska              755 AM. AKST. January 15.
+Moclips            Washington          855 AM.  PST. January 15.
+Elfin Cove         Alaska              755 AM. AKST. January 15.
+Seward             Alaska              815 AM. AKST. January 15.
+Yakutat            Alaska              820 AM. AKST. January 15.
+Valdez             Alaska              835 AM. AKST. January 15.
+Port Angeles       Washington          930 AM.  PST. January 15.
+Craig              Alaska              835 AM. AKST. January 15.
+Cordova            Alaska              845 AM. AKST. January 15.
+Port Townsend      Washington          955 AM.  PST. January 15.
+Homer              Alaska              905 AM. AKST. January 15.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+
+------------------------------
+Message-ID: <92>
+Date: Sat, 15 Jan 2022 17:33:49 +0000
+From: <no-reply@weather.cod.edu>
+Subject: HAZARDS: Public Tsunami Statement-Western US
+
+090
+WEAK51 PAAQ 151732
+TSUAK1
+
+BULLETIN
+Public Tsunami Message Number 8
+NWS National Tsunami Warning Center Palmer AK
+932 AM PST Sat Jan 15 2022
+
+UPDATES
+-------
+ * A tsunami has been confirmed and some impacts are expected
+ * A Volcanic Eruption has occured in the Tonga Islands
+ * Please disregard earthquake parameters
+ * Advisory level waves are being observed along US Pacific coasts
+ * Some maximum wave amplitudes continue to increase
+
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT...
+
+
+
+Tsunami Advisory in Effect for;
+
+ * CALIFORNIA, The coast from The Cal./Mexico Border  to The
+   Oregon/Cal. Border  including San Francisco Bay
+
+ * OREGON, The coast from The Oregon/Cal. Border  to The
+   Oregon/Wash. Border  including the Columbia River estuary
+   coast
+
+ * WASHINGTON, Outer coast from the Oregon/Washington border
+   to Slip Point, Columbia River estuary coast, and the Juan
+   de Fuca Strait coast
+
+ * BRITISH COLUMBIA, The north coast and Haida Gwaii, the
+   central coast and northeast Vancouver Island, the outer
+   west coast of Vancouver Island, the Juan de Fuca Strait
+   coast
+
+ * SOUTHEAST ALASKA, The inner and outer coast from The
+   BC/Alaska Border  to Cape Fairweather, Alaska (80 miles SE
+   of Yakutat)
+
+ * SOUTH ALASKA AND THE ALASKA PENINSULA, Pacific coasts from
+   Cape Fairweather, Alaska (80 miles SE of Yakutat) to Unimak
+   Pass, Alaska (80 miles NE of Unalaska)
+
+ * ALEUTIAN ISLANDS, Unimak Pass, Alaska (80 miles NE of
+   Unalaska) to Attu, Alaska including the Pribilof Islands
+
+
+FORECASTS OF TSUNAMI ACTIVITY
+-----------------------------
+ * Tsunami activity is forecasted to start at the following
+   locations at the specified times.
+
+                 FORECAST
+                 START
+SITE             OF TSUNAMI
+----             ----------
+
+ * Alaska
+Saint Paul       0735 AKST Jan 15
+Cold Bay         0745 AKST Jan 15
+Kodiak           0750 AKST Jan 15
+Sitka            0755 AKST Jan 15
+Elfin Cove       0755 AKST Jan 15
+Seward           0815 AKST Jan 15
+Yakutat          0820 AKST Jan 15
+Valdez           0835 AKST Jan 15
+Craig            0835 AKST Jan 15
+Cordova          0845 AKST Jan 15
+Homer            0905 AKST Jan 15
+
+ * Oregon
+Seaside          0845  PST Jan 15
+
+ * British Columbia
+Langara          0835  PST Jan 15
+Tofino           0850  PST Jan 15
+
+ * Washington
+Long Beach       0840  PST Jan 15
+La Push          0845  PST Jan 15
+Neah Bay         0855  PST Jan 15
+Westport         0850  PST Jan 15
+Moclips          0855  PST Jan 15
+Port Angeles     0930  PST Jan 15
+Port Townsend    0955  PST Jan 15
+
+
+OBSERVATIONS OF TSUNAMI ACTIVITY
+--------------------------------
+ * No tsunami observations are available to report.
+
+
+PRELIMINARY EARTHQUAKE PARAMETERS
+---------------------------------
+
+ * Magnitude      1.0
+ * Origin Time    1927 AKST Jan 14 2022
+                  2027  PST Jan 14 2022
+                  0427  UTC Jan 15 2022
+ * Coordinates    20.5 South 175.4 West
+ * Depth          1 miles
+ * Location       near the Tonga Islands
+
+
+RECOMMENDED ACTIONS
+-------------------
+ * See message number 4 for recommended actions.
+
+
+IMPACTS
+-------
+ * See message number 4 for possible impacts.
+
+
+ADDITIONAL INFORMATION AND NEXT UPDATE
+--------------------------------------
+ * Refer to the internet site https://urldefense.com/v3/__http://tsunami.go=
+v__;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2J=
+UkazE$  for more information.
+
+ * Pacific coastal residents outside California, Oregon,
+   Washington, British Columbia and Alaska should refer to the
+   Pacific Tsunami Warning Center messages at https://urldefense.com/v3/__h=
+ttp://tsunami.gov__;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsv=
+x6PMGc_0UkiDYN2JUkazE$ .
+
+ * This message will be updated within 60 minutes.
+
+$$
+
+
+------------------------------
+Message-ID: <93>
+Date: Sat, 15 Jan 2022 17:35:41 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Nws Climate Prediction Center College Park Md
+
+AEUS41 KWBC 151735
+UVICAC
+
+NOAA/EPA ULTRAVIOLET INDEX /UVI/ FORECAST
+NWS CLIMATE PREDICTION CENTER COLLEGE PARK MD
+534 PM  SAT JAN 15 2022
+
+VALID JAN 16 2022 AT SOLAR NOON /APPROXIMATELY NOON
+LOCAL STANDARD TIME OR 100 PM LOCAL DAYLIGHT TIME/
+
+THE UV INDEX IS CATEGORIZED BY THE WORLD HEALTH ORGANIZATION
+AS FOLLOWS:
+           UVI             EXPOSURE LEVEL
+           0 1 2              LOW
+           3 4 5              MODERATE
+           6 7                HIGH
+           8 9 10             VERY HIGH
+           11 AND GREATER     EXTREME
+
+FOR HEALTH RELATED ISSUES GO TO
+https://urldefense.com/v3/__http://WWW.EPA.GOV/SUNSAFETY__;!!DZ3fjg!pSJz1As=
+g03URR6uU80xOdyUW9hKsB3hLDZuXwoVf2mcc6a9iNRjcSjpN_75Pv4zXH5Xynwe5$
+FOR TECHNICAL INFORMATION ABOUT THE UV INDEX....
+GO TO THE NATIONAL WEATHER SERVICE UV INDEX WEB PAGE:
+https://urldefense.com/v3/__http://WWW.CPC.NCEP.NOAA.GOV/PRODUCTS/STRATOSPH=
+ERE/UV_INDEX__;!!DZ3fjg!pSJz1Asg03URR6uU80xOdyUW9hKsB3hLDZuXwoVf2mcc6a9iNRj=
+cSjpN_75Pv4zXHzLtX9bq$
+
+CITY               STATE  UVI       CITY               STATE  UVI
+ALBUQUERQUE          NM     3       LITTLE ROCK          AR     3
+ANCHORAGE            AK     0       LOS ANGELES          CA     3
+ATLANTIC CITY        NJ     2       LOUISVILLE           KY     2
+ATLANTA              GA     0       MEMPHIS              TN     2
+BALTIMORE            MD     1       MIAMI                FL     4
+BILLINGS             MT     1       MILWAUKEE            WI     1
+BISMARCK             ND     1       MINNEAPOLIS          MN     1
+BOISE                ID     2       MOBILE               AL     0
+BOSTON               MA     1       NEW ORLEANS          LA     1
+BUFFALO              NY     1       NEW YORK             NY     2
+BURLINGTON           VT     1       NORFOLK              VA     1
+CHARLESTON           WV     1       OKLAHOMA CITY        OK     3
+CHARLESTON           SC     0       OMAHA                NE     2
+CHEYENNE             WY     2       PHILADELPHIA         PA     2
+CHICAGO              IL     1       PHOENIX              AZ     3
+CLEVELAND            OH     1       PITTSBURGH           PA     2
+CONCORD              NH     1       PORTLAND             ME     1
+DALLAS               TX     3       PORTLAND             OR     1
+DENVER               CO     2       PROVIDENCE           RI     1
+DES MOINES           IA     2       RALEIGH              NC     0
+DETROIT              MI     1       SALT LAKE CITY       UT     3
+DOVER                DE     2       SAN FRANCISCO        CA     2
+HARTFORD             CT     1       SAN JUAN             PU     8
+HONOLULU             HI     6       SEATTLE              WA     0
+HOUSTON              TX     4       SIOUX FALLS          SD     2
+INDIANAPOLIS         IN     2       ST. LOUIS            MO     2
+JACKSON              MS     0       TAMPA                FL     1
+JACKSONVILLE         FL     3       WASHINGTON           DC     1
+LAS VEGAS            NV     3       WICHITA              KS     2
+
+
+------------------------------
+Message-ID: <94>
+Date: Sat, 15 Jan 2022 17:54:18 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Preliminary Epicenter Lat 20.3 S. Lon 175.2 W.
+
+WEPA40 RJTD 151754
+TSUNAMI BULLETIN ISSUED BY JMA AT 1754Z 15 JAN
+
+ORIGIN TIME 0410Z 15 JAN
+PRELIMINARY EPICENTER LAT 20.3 S. LON 175.2 W.
+SOUTH PACIFIC OCEAN
+FOCAL DEPTH /// KM MAG /./
+
+TSUNAMI WARNINGS ARE IN EFFECT
+FOR THE FOLLOWING COASTAL AREAS OF JAPAN:
+    PACIFIC COASTS OF JAPAN
+    NANSEI-SHOTO ISLANDS
+TSUNAMI ADVISORIES ARE IN EFFECT
+FOR THE FOLLOWING COASTAL AREAS OF JAPAN:
+    WESTERN COASTS OF NORTH JAPAN
+=3D
+
+
+------------------------------
+Message-ID: <95>
+Date: Sat, 15 Jan 2022 17:54:31 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: 151954-
+
+WEHW40 PHEB 151754
+TSUHWX
+
+HIZ001-003-006>007-009-016>018-023-026-029>035-037>050-051>054-
+151954-
+/O.CAN.PHEB.TS.Y.0000.000000T0000Z-000000T0000Z/
+
+TSUNAMI MESSAGE NUMBER   8
+NWS PACIFIC TSUNAMI WARNING CENTER HONOLULU HI
+754 AM HST SAT JAN 15 2022
+
+TO - EMERGENCY MANAGEMENT IN THE STATE OF HAWAII
+
+SUBJECT - FINAL TSUNAMI ADVISORY
+
+THE TSUNAMI ADVISORY IS ENDED FOR THE STATE OF HAWAII EFFECTIVE
+AT 0752 AM HST.
+
+A VOLCANIC ERUPTION OCCURRED WITH THESE PRELIMINARY PARAMETERS
+
+   ORIGIN TIME - 0627 PM HST 14 JAN 2022
+   COORDINATES - 20.5 SOUTH  175.4 WEST
+   LOCATION    - TONGA
+
+EVALUATION
+
+ TSUNAMI WAVE HEIGHTS ACROSS THE STATE OF HAWAII ARE NOW BELOW
+ ADVISORY LEVELS AND ARE CONTINUING TO DIMINISH. BASED ON ALL
+ AVAILABLE DATA THE PACIFIC TSUNAMI WARNING CENTER IS NOW
+ CANCELLING THE TSUNAMI ADVISORY. SMALL SEA LEVEL CHANGES AND
+ STRONG OR UNUSUAL CURRENTS MAY PERSIST FOR SEVERAL ADDITIONAL
+ HOURS IN SOME COASTAL AREAS AND APPROPRIATE CAUTION SHOULD BE
+ EXERCISED BY BOATERS AND SWIMMERS.
+
+THIS WILL BE THE FINAL MESSAGE ISSUED FOR THIS EVENT UNLESS
+ADDITIONAL DATA ARE RECEIVED.
+
+$$
+
+
+------------------------------
+Message-ID: <96>
+Date: Sat, 15 Jan 2022 17:55:50 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Hamanakacho Kiritappuko  At 1203z Rise
+
+WEPA40 RJTD 151755
+TSUNAMI WAVE BEGAN AT
+KUSHIRO                  AT 1152Z RISE
+NEMUROSHI HANASAKI       AT 1201Z RISE
+HAMANAKACHO KIRITAPPUKO  AT 1203Z RISE
+URAKAWA                  AT 1243Z FALL
+TOKACHIKO                AT 1204Z RISE
+ERIMOCHO SHOYA           AT 1158Z RISE
+MUTSUSHI SEKINEHAMA      AT 1228Z FALL
+MUTSUOGAWARAKO           AT 1207Z RISE
+HACHINOHEKO              AT 1210Z RISE
+KUJIKO                   AT 1157Z RISE
+MIYAKO                   AT 1137Z RISE
+KAMAISHI                 AT 1147Z RISE
+OFUNATO                  AT 1150Z RISE
+ISHINOMAKISHI AYUKAWA    AT 1153Z RISE
+ISHINOMAKIKO             AT 1222Z RISE
+SENDAIKO                 AT 1221Z RISE
+SOMA                     AT 1219Z RISE
+IWAKISHI ONAHAMA         AT 1138Z RISE
+OARAI                    AT 1142Z RISE
+KAMISUSHI KASHIMAKO      AT 1143Z RISE
+CHOSHI                   AT 1139Z RISE
+KATSUURASHI OKITSU       AT 1120Z RISE
+IZUOSHIMA OKADA          AT 1119Z FALL
+MIYAKEJIMA TSUBOTA       AT 1124Z RISE
+KOZUSHIMA KOZUSHIMAKO    AT 1140Z FALL
+MIYAKEJIMA AKO           AT 1142Z FALL
+HACHIJOJIMA YAENE        AT 1126Z RISE
+HACHIJOJIMA KAMINATO     AT 1117Z RISE
+CHICHIJIMA FUTAMI        AT 1058Z FALL
+NUMAZUSHI UCHIURA        AT 1156Z RISE
+SHIMIZU                  AT 1158Z RISE
+MINAMIIZUCHO IROZAKI     AT 1150Z RISE
+OMAEZAKI                 AT 1159Z RISE
+MAISAKA                  AT 1203Z RISE
+SHIMODAKO                AT 1141Z RISE
+YAIZU                    AT 1156Z RISE
+TAHARASHI AKABANE        AT 1151Z RISE
+HANDASHI KINUURA         AT 1252Z RISE
+TOBA                     AT 1204Z RISE
+OWASE                    AT 1141Z FALL
+KUMANOSHI YUKI           AT 1136Z FALL
+NACHIKATSUURACHO URAGAMI AT 1134Z RISE
+KUSHIMOTOCHO FUKUROKO    AT 1143Z FALL
+SHIRAHAMACHO KATATA      AT 1201Z FALL
+GOBOSHI HARAIDO          AT 1215Z RISE
+WAKAYAMA                 AT 1301Z RISE
+KOMATSUSHIMA             AT 1215Z RISE
+TOKUSHIMA YUKI           AT 1204Z FALL
+MUROTOSHI MUROTOMISAKI   AT 1154Z FALL
+KOCHI                    AT 1158Z RISE
+NAKATOSACHO KUREKO       AT 1203Z FALL
+TOSASHIMIZU              AT 1204Z FALL
+HYUGASHI HOSOSHIMA       AT 1155Z RISE
+NICHINANSHI ABURATSU     AT 1153Z RISE
+MIYAZAKIKO               AT 1146Z RISE
+MINAMIOSUMICHO ODOMARI   AT 1208Z RISE
+SHIBUSHIKO               AT 1151Z RISE
+TANEGASHIMA NISHINOOMOTE AT 1215Z FALL
+TANEGASHIMA KUMANO       AT 1151Z RISE
+NAKANOSHIMA              AT 1205Z FALL
+AMAMISHI KOMINATO        AT 1144Z FALL
+AMAMISHI NAZE            AT 1145Z RISE
+NAHA                     AT 1159Z FALL
+OKINAWASHI NAKAGUSUKUWANKO AT 1139Z RISE
+NANJOSHI AZAMA           AT 1137Z RISE
+MINAMIDAITO GYOKO        AT 1236Z RISE
+ISHIGAKIJIMA ISHIGAKIKO  AT 1144Z FALL
+MIYAKOJIMA HIRARA        AT 1200Z RISE
+JMA TOKYO.
+=3D
+
+
+------------------------------
+Message-ID: <97>
+Date: Sat, 15 Jan 2022 17:55:50 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Kushiro                         1650     50cm
+
+WEPA40 RJTD 151755
+MEASUREMENTS OF TSUNAMI WAVE
+
+LOCATION                        TIME     SIZE
+KUSHIRO                         1650     50CM
+NEMUROSHI HANASAKI              1429     50CM
+HAMANAKACHO KIRITAPPUKO         1605     90CM
+URAKAWA                         1544     60CM
+TOKACHIKO                       1522     60CM
+ERIMOCHO SHOYA                  1455     50CM
+HAKODATE                        1740     30CM
+TOMAKOMAI NISHIKO               1538     30CM
+MUTSUSHI SEKINEHAMA             1726     30CM
+MUTSUOGAWARAKO                  1744     40CM
+HACHINOHEKO                     1735     60CM
+KUJIKO                          1726     110CM
+MIYAKO                          1623     40CM
+KAMAISHI                        1530     30CM
+OFUNATO                         1432     30CM
+ISHINOMAKISHI AYUKAWA           1711     70CM
+ISHINOMAKIKO                    1707     40CM
+SENDAIKO                        1538     70CM
+SOMA                            1650     50CM
+IWAKISHI ONAHAMA                1454     70CM
+OARAI                           1556     60CM
+KAMISUSHI KASHIMAKO             1548     50CM
+CHOSHI                          1444     30CM
+KATSUURASHI OKITSU              1627     40CM
+TATEYAMASHI MERA                1724     50CM
+IZUOSHIMA OKADA                 1258     20CM
+MIYAKEJIMA TSUBOTA              1141     20CM
+KOZUSHIMA KOZUSHIMAKO           1553     40CM
+MIYAKEJIMA AKO                  1639     40CM
+HACHIJOJIMA YAENE               1321     40CM
+HACHIJOJIMA KAMINATO            1522     40CM
+CHICHIJIMA FUTAMI               1352     90CM
+MIURASHI MISAKIGYOKO            1543     30CM
+MIURASHI ABURATSUBO             1647     20CM
+NUMAZUSHI UCHIURA               1506     40CM
+SHIMIZU                         1424     20CM
+MINAMIIZUCHO IROZAKI            1657     40CM
+OMAEZAKI                        1516     70CM
+MAISAKA                         1554     30CM
+SHIMODAKO                       1742     30CM
+YAIZU                           1722     30CM
+TAHARASHI AKABANE               1615     60CM
+HANDASHI KINUURA                1552     20CM
+TOBA                            1645     60CM
+OWASE                           1737     40CM
+KUMANOSHI YUKI                  1556     50CM
+NACHIKATSUURACHO URAGAMI        1518     50CM
+KUSHIMOTOCHO FUKUROKO           1623     90CM
+SHIRAHAMACHO KATATA             1617     40CM
+GOBOSHI HARAIDO                 1531     90CM
+WAKAYAMA                        1712     30CM
+KOMATSUSHIMA                    1458     20CM
+TOKUSHIMA YUKI                  1535     50CM
+MUROTOSHI MUROTOMISAKI          1515     80CM
+KOCHI                           1657     30CM
+NAKATOSACHO KUREKO              1715     40CM
+TOSASHIMIZU                     1523     90CM
+HYUGASHI HOSOSHIMA              1447     30CM
+NICHINANSHI ABURATSU            1629     60CM
+MIYAZAKIKO                      1452     50CM
+MINAMIOSUMICHO ODOMARI          1618     70CM
+SHIBUSHIKO                      1611     60CM
+TANEGASHIMA NISHINOOMOTE        1639     50CM
+TANEGASHIMA KUMANO              1450     70CM
+NAKANOSHIMA                     1547     50CM
+AMAMISHI KOMINATO               1455     120CM
+AMAMISHI NAZE                   1602     30CM
+NAHA                            1433     20CM
+OKINAWASHI NAKAGUSUKUWANKO      1436     30CM
+NANJOSHI AZAMA                  1435     30CM
+MINAMIDAITO GYOKO               1412     20CM
+YONAGUNIJIMA KUBURA             1538     20CM
+=3D
+
+
+------------------------------
+Message-ID: <98>
+Date: Sat, 15 Jan 2022 17:55:50 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Size - Current Maximum Crest-to-mean In Centimeters
+
+WEPA40 RJTD 151755
+
+ISHIGAKIJIMA ISHIGAKIKO         1502     20CM
+MIYAKOJIMA HIRARA               1504     30CM
+SIZE - CURRENT MAXIMUM CREST-TO-MEAN IN CENTIMETERS
+
+JMA TOKYO.
+=3D
+
+
+------------------------------
+Message-ID: <99>
+Date: Sat, 15 Jan 2022 17:55:56 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Kushiro                         1650     50cm
+
+WEPA40 RJTD 151755
+MEASUREMENTS OF TSUNAMI WAVE
+
+LOCATION                        TIME     SIZE
+KUSHIRO                         1650     50CM
+NEMUROSHI HANASAKI              1429     50CM
+HAMANAKACHO KIRITAPPUKO         1605     90CM
+URAKAWA                         1544     60CM
+TOKACHIKO                       1522     60CM
+ERIMOCHO SHOYA                  1455     50CM
+HAKODATE                        1740     30CM
+TOMAKOMAI NISHIKO               1538     30CM
+MUTSUSHI SEKINEHAMA             1726     30CM
+MUTSUOGAWARAKO                  1744     40CM
+HACHINOHEKO                     1735     60CM
+KUJIKO                          1726     110CM
+MIYAKO                          1623     40CM
+KAMAISHI                        1530     30CM
+OFUNATO                         1432     30CM
+ISHINOMAKISHI AYUKAWA           1711     70CM
+ISHINOMAKIKO                    1707     40CM
+SENDAIKO                        1538     70CM
+SOMA                            1650     50CM
+IWAKISHI ONAHAMA                1454     70CM
+OARAI                           1556     60CM
+KAMISUSHI KASHIMAKO             1548     50CM
+CHOSHI                          1444     30CM
+KATSUURASHI OKITSU              1627     40CM
+TATEYAMASHI MERA                1724     50CM
+IZUOSHIMA OKADA                 1258     20CM
+MIYAKEJIMA TSUBOTA              1141     20CM
+KOZUSHIMA KOZUSHIMAKO           1553     40CM
+MIYAKEJIMA AKO                  1639     40CM
+HACHIJOJIMA YAENE               1321     40CM
+HACHIJOJIMA KAMINATO            1522     40CM
+CHICHIJIMA FUTAMI               1352     90CM
+MIURASHI MISAKIGYOKO            1543     30CM
+MIURASHI ABURATSUBO             1647     20CM
+
+
+------------------------------
+Message-ID: <100>
+Date: Sat, 15 Jan 2022 17:55:56 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: =3D
+
+WEPA40 RJTD 151755
+NANJOSHI AZAMA                  1435     30CM
+MINAMIDAITO GYOKO               1412     20CM
+YONAGUNIJIMA KUBURA             1538     20CM
+=3D
+
+
+------------------------------
+
+*********************************************
+
+End of wx-natnl Digest Sun, 16 Jan 2022
+

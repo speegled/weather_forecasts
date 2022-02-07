@@ -1,0 +1,605 @@
+Delivered-To: darrinmspeegle@gmail.com
+Received: by 2002:a50:fa8c:0:0:0:0:0 with SMTP id w12csp702294edr;
+        Thu, 11 Nov 2021 04:00:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyh2gZS57KToDyhDzthe2e4eVIAWMxb2kAzlQMV6tI30kVNcgCUIaxjCLgmc5Ij3tTRpHtk
+X-Received: by 2002:a05:6902:1021:: with SMTP id x1mr7475206ybt.43.1636632030537;
+        Thu, 11 Nov 2021 04:00:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1636632030; cv=none;
+        d=google.com; s=arc-20160816;
+        b=c6yNFVYwYS1/wDn682YkFExdsWTkdBWq8X6RCuOCI3+V7qdIhFBso+vur3WmOhPLVQ
+         dZs7A/uoZEqjkbMi5590md+929/3mXDCDmD5UgCXro9Dd5FNR9Vmn50Ypmsk/AXp6ocb
+         VtPHXi5+XwgnDgoiWXKiUp5KJDtWgYx0JLcQaa+fiviuJFo+cUooooa6IIis5swmIIUr
+         viQLEvUoMqAZOoluqxv8ao8+sc3E55leyeQ7hc/ECfY14jS+WSVDibBdyly3i3yw7YP1
+         TCo1y+1mKzExZKgrQ7mHVYBN1RdE1sHyb/3nnEu1GXit3/jc0E2n5VbgNv1nLTudw54F
+         0J6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:reply-to:to:from:auto-submitted:content-transfer-encoding
+         :mime-version:date:message-id:dkim-signature;
+        bh=5tKx2elOzyq2sCWM8ixv7FkgitlPn6frMFlz8d9JTv0=;
+        b=wheTmvjynyqU5XfTWu5jyt7hjTsnyF9hQI5TAj86bKkI5IV/UjwBX9Jpb+f0rumY6h
+         tg6VzX48NOy27DSkxlGVZaJmwlj07sM9+NTixKu+9upcpN/CLln0vWSMOTdbh86jF+/U
+         xLfr96BJiKmNYOwiBU3Vm5HI2oouzhLcQk/HKwGMxMqzt2ojhXKumjtnNU3MfUyh1Q/b
+         8Sij3IZDQiMfvhP0aBpZ/0knG4y4ZQuWNT9Ab4dZXewxnxwlQl53hnzEXVc1tGZoUcFn
+         hUOZzNMvMsHrZMhNHYypsWidbqQxGphBFQRENzhGv9xmJ9NlYKnEUZwcPqcXh3/nvgVz
+         VWGQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=gZpY9iSn;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Return-Path: <wx-natnl-owner@lists.illinois.edu>
+Received: from mx0a-00007101.pphosted.com (mx0a-00007101.pphosted.com. [148.163.135.28])
+        by mx.google.com with ESMTPS id a2si5603786ybk.377.2021.11.11.04.00.29
+        for <darrinmspeegle@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 11 Nov 2021 04:00:30 -0800 (PST)
+Received-SPF: pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) client-ip=148.163.135.28;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=gZpY9iSn;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Received: from pps.filterd (m0166257.ppops.net [127.0.0.1])
+	by mx0a-00007101.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AB7SGaX018995
+	for <darrinmspeegle@gmail.com>; Thu, 11 Nov 2021 12:00:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=message-id : date :
+ mime-version : content-type : content-transfer-encoding : from : to :
+ reply-to : subject; s=campusrelays;
+ bh=5tKx2elOzyq2sCWM8ixv7FkgitlPn6frMFlz8d9JTv0=;
+ b=gZpY9iSnUSG0sw1getHp1TQiA1MAQ8a0NpHLGqIj1K5pvB973U+h28GTssPRGKGYP156
+ kVF1DN44fi0K9YNWfeA0/GLL/InGGl3JRBDhK3B5pOz2oBNRO0M7gBa17Q3/6ugyESJW
+ qteDWrcvpwB64vSdLFDWq5jqhDJcZXyFckytTSLLuzGHR9SZcXePLZ7HdpuY6cjDDJXU
+ iYyxB9etxRJ9yIrN1xt6RvSJJOmx/9VUNrY3ba1zS5ylx9F3/U5fKCOANZMxJ62oPCTk
+ O9GE2TXsyaPvInkWd9SIKSC+J61JQz0j07pnha2G2Yz6TUoIV+GbVcUt77cH16EeITTt Mg== 
+Received: from lists.illinois.edu (lists.illinois.edu [192.17.172.63])
+	by mx0a-00007101.pphosted.com with ESMTP id 3c89upteeg-2
+	for <darrinmspeegle@gmail.com>; Thu, 11 Nov 2021 12:00:28 +0000
+Received: by lists.illinois.edu (Postfix, from userid 50033)
+	id 0312EE29AC; Thu, 11 Nov 2021 06:00:28 -0600 (CST)
+Message-Id: <sympa.1636632027.129950.286@lists.illinois.edu>
+Date: Thu, 11 Nov 2021 06:00:27 -0600
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7BIT
+Auto-Submitted: auto-forwarded
+From: wx-natnl-request@lists.illinois.edu
+To: wx-natnl@lists.illinois.edu
+Reply-to: wx-natnl-request@lists.illinois.edu
+Subject: wx-natnl Digest Thu, 11 Nov 2021 (2/2)
+X-Mailer: Sympa 6.1.23
+X-Proofpoint-GUID: Vp1ZNPteSaNNYsAYT-EOfZ_Uj1zuA1Xi
+X-Proofpoint-ORIG-GUID: Vp1ZNPteSaNNYsAYT-EOfZ_Uj1zuA1Xi
+X-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0
+ malwarescore=0 clxscore=1031 lowpriorityscore=0 adultscore=0
+ mlxlogscore=999 priorityscore=1501 bulkscore=0 mlxscore=0 phishscore=0
+ suspectscore=0 impostorscore=0 spamscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111110071
+X-Spam-Score: 0
+X-Spam-OrigSender: wx-natnl-owner@lists.illinois.edu
+X-Spam-Bar:
+MIME-Version: 1.0
+
+wx-natnl Digest Thu, 11 Nov 2021
+
+Table of contents:
+
+* 26 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 27 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 28 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 29 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 30 - FIRE: Day 1 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 31 - FIRE: Day 2 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 32 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+
+----------------------------------------------------------------------
+
+Message-ID: <26>
+Date: Thu, 11 Nov 2021 03:45:03 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 110345
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+1044 PM EST Wed Nov 10 2021
+
+Valid 12Z Sun Nov 14 2021 - 12Z Thu Nov 18 2021
+
+...Moderate to heavy precipitation into the Pacific Northwest
+Sunday-Monday...
+
+...Lake Effect/enhanced precipitation this weekend through mid
+next week across the Great Lakes...
+
+
+...Guidance/Predictability Assessment...
+The latest guidance is in general agreement as the flow pattern
+goes from one that is amplified to more zonal.  The WPC medium
+range suite used a general blend of the deterministic models,
+ensemble means, and the National Blend of Models to help mitigate
+the differences which begin to arise mid next week.
+
+
+...Pattern Overview and Weather/Hazards Highlights...
+An amplified trough will pass slowly through the eastern CONUS,
+periodically reinforced by shortwaves rounding its southwest side.
+Its associated cold fronts sweep across the East this weekend with
+mainly light and scattered showers. Cold northwest flow on the
+backside of the mean trough should help support enhanced lake
+effect precipitation/snows from the Upper Midwest/Great Lakes and
+into the northern Appalachians/Northeast. Temperatures should be
+generally around 10F below average for portions of the East
+Saturday through Tuesday. Moderation in the East is expected on
+Wednesday and Thursday as low pressure moves across central
+Canada, with its cold front moving into the Upper Midwest and
+Great Lakes, and the surface ridge axis slides off the East Coast.
+
+For the Pacific Northwest, a cold front with a long fetch of
+Pacific moisture directed onshore, will drop slowly south along
+the Pacific northwest Coast Sunday-Monday resulting in moderate to
+heavy rainfall in the valleys -- perhaps excessively in areas with
+burn scars -- and snow in the highest peaks. Overall, favorable
+flow should focus heavy rains and elevation snows mainly over the
+Olympics and Cascades, though some spill over precipitation is
+possible across parts of the northern Rockies next Tuesday into
+Wednesday. Until the Western trough moves into the area next
+Tuesday and Wednesday, temperatures are expected to be 10-20F
+above average before nudging slightly below average in the
+Northern Continental Divide on Wednesday and Thursday.  The warmer
+than average temperatures shift into the Plains ahead of the
+trough Monday through next Wednesday.
+
+Santorelli/Roth
+
+Hazards:
+- Heavy precipitation across portions of the Pacific Northwest and
+the Northern Great Basin, Sun-Mon, Nov 14-Nov 15.
+- Heavy rain across portions of the Pacific Northwest, Sun-Mon,
+Nov 14-Nov 15.
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!o8tau1nXg8OhrISSn38psdxhpLLvwE8ssUu0Wg1Ml344ag0q2XVL2CAJa5LM00jXXYTVfhBe$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!o8tau1nXg8OhrISSn38psdxhpLLvwE8ssUu0Wg1Ml344ag0q2XVL2CAJa5LM00jXXUHQu5eI$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!o8tau1nXg8OhrISSn38psdxhpLLvwE8ssUu0Wg1Ml344ag0q2XVL2CAJa5LM00jXXdJTAwRU$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!o8tau1nXg8OhrISSn38psdxhpLLvwE8ssUu0Wg1Ml344ag0q2XVL2CAJa5LM00jXXRXUl0Se$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!o8tau1nXg8OhrISSn38psdxhpLLvwE8ssUu0Wg1Ml344ag0q2XVL2CAJa5LM00jXXTGbe6yl$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!o8tau1nXg8OhrISSn38psdxhpLLvwE8ssUu0Wg1Ml344ag0q2XVL2CAJa5LM00jXXRc6FvDC$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!o8tau1nXg8OhrISSn38psdxhpLLvwE8ssUu0Wg1Ml344ag0q2XVL2CAJa5LM00jXXa2vf-VM$
+
+$$
+
+
+------------------------------
+Message-ID: <27>
+Date: Thu, 11 Nov 2021 03:45:04 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+536
+FXUS02 KWBC 110345
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+1044 PM EST Wed Nov 10 2021
+
+Valid 12Z Sun Nov 14 2021 - 12Z Thu Nov 18 2021
+
+...Moderate to heavy precipitation into the Pacific Northwest
+Sunday-Monday...
+
+...Lake Effect/enhanced precipitation this weekend through mid
+next week across the Great Lakes...
+
+
+...Guidance/Predictability Assessment...
+The latest guidance is in general agreement as the flow pattern
+goes from one that is amplified to more zonal.  The WPC medium
+range suite used a general blend of the deterministic models,
+ensemble means, and the National Blend of Models to help mitigate
+the differences which begin to arise mid next week.
+
+
+...Pattern Overview and Weather/Hazards Highlights...
+An amplified trough will pass slowly through the eastern CONUS,
+periodically reinforced by shortwaves rounding its southwest side.
+Its associated cold fronts sweep across the East this weekend with
+mainly light and scattered showers. Cold northwest flow on the
+backside of the mean trough should help support enhanced lake
+effect precipitation/snows from the Upper Midwest/Great Lakes and
+into the northern Appalachians/Northeast. Temperatures should be
+generally around 10F below average for portions of the East
+Saturday through Tuesday. Moderation in the East is expected on
+Wednesday and Thursday as low pressure moves across central
+Canada, with its cold front moving into the Upper Midwest and
+Great Lakes, and the surface ridge axis slides off the East Coast.
+
+For the Pacific Northwest, a cold front with a long fetch of
+Pacific moisture directed onshore, will drop slowly south along
+the Pacific northwest Coast Sunday-Monday resulting in moderate to
+heavy rainfall in the valleys -- perhaps excessively in areas with
+burn scars -- and snow in the highest peaks. Overall, favorable
+flow should focus heavy rains and elevation snows mainly over the
+Olympics and Cascades, though some spill over precipitation is
+possible across parts of the northern Rockies next Tuesday into
+Wednesday. Until the Western trough moves into the area next
+Tuesday and Wednesday, temperatures are expected to be 10-20F
+above average before nudging slightly below average in the
+Northern Continental Divide on Wednesday and Thursday.  The warmer
+than average temperatures shift into the Plains ahead of the
+trough Monday through next Wednesday.
+
+Santorelli/Roth
+
+Hazards:
+- Heavy precipitation across portions of the Pacific Northwest and
+the Northern Great Basin, Sun-Mon, Nov 14-Nov 15.
+- Heavy rain across portions of the Pacific Northwest, Sun-Mon,
+Nov 14-Nov 15.
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!tnyITcM-kCy4LWSTVL5cCB8d84QNEzzC_XgCzRaudmxBrMjXd6KJF6jsHeO59AMYi3uzoH8P$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!tnyITcM-kCy4LWSTVL5cCB8d84QNEzzC_XgCzRaudmxBrMjXd6KJF6jsHeO59AMYiyMLupXE$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!tnyITcM-kCy4LWSTVL5cCB8d84QNEzzC_XgCzRaudmxBrMjXd6KJF6jsHeO59AMYiyRU4eMM$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!tnyITcM-kCy4LWSTVL5cCB8d84QNEzzC_XgCzRaudmxBrMjXd6KJF6jsHeO59AMYi3lPPSPD$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!tnyITcM-kCy4LWSTVL5cCB8d84QNEzzC_XgCzRaudmxBrMjXd6KJF6jsHeO59AMYi11Szpwi$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!tnyITcM-kCy4LWSTVL5cCB8d84QNEzzC_XgCzRaudmxBrMjXd6KJF6jsHeO59AMYi_lYRDjT$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!tnyITcM-kCy4LWSTVL5cCB8d84QNEzzC_XgCzRaudmxBrMjXd6KJF6jsHeO59AMYi1v2hTXR$
+
+$$
+
+
+------------------------------
+Message-ID: <28>
+Date: Thu, 11 Nov 2021 04:29:36 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+192
+FXUS02 KWBC 110429
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+1128 PM EST Wed Nov 10 2021
+
+Valid 12Z Sun Nov 14 2021 - 12Z Thu Nov 18 2021
+
+...Moderate to heavy precipitation into the Pacific Northwest
+Sunday-Monday...
+
+...Lake Effect/enhanced precipitation this weekend through mid
+next week across the Great Lakes...
+
+
+...Guidance/Predictability Assessment...
+The latest guidance is in general agreement as the flow pattern
+goes from one that is amplified to more zonal.  The WPC medium
+range suite used a general blend of the deterministic models,
+ensemble means, and the National Blend of Models to help mitigate
+the differences which begin to arise mid next week.
+
+
+...Pattern Overview and Weather/Hazards Highlights...
+An amplified trough will pass slowly through the eastern CONUS,
+periodically reinforced by shortwaves rounding its southwest side.
+Its associated cold fronts sweep across the East this weekend with
+mainly light and scattered showers. Cold northwest flow on the
+backside of the mean trough should help support enhanced lake
+effect precipitation/snows from the Upper Midwest/Great Lakes and
+into the northern Appalachians/Northeast. Temperatures should be
+generally around 10F below average for portions of the East
+Saturday through Tuesday. Moderation in the East is expected on
+Wednesday and Thursday as low pressure moves across central
+Canada, with its cold front moving into the Upper Midwest and
+Great Lakes, and the surface ridge axis slides off the East Coast.
+ As this occurs, southwest flow keeps rain in the cards in and
+near the Great Lakes until the front clears the area next Thursday.
+
+For the Pacific Northwest, a cold front with a long fetch of
+Pacific moisture directed onshore, will drop slowly south along
+the Pacific northwest Coast Sunday-Monday resulting in moderate to
+heavy rainfall in the valleys -- perhaps excessively in areas with
+burn scars -- and snow in the highest peaks. Overall, favorable
+flow should focus heavy rains and elevation snows mainly over the
+Olympics and Cascades, though some spill over precipitation is
+possible across parts of the northern Rockies next Tuesday into
+Wednesday. Until the Western trough moves into the area next
+Tuesday and Wednesday, temperatures are expected to be 10-20F
+above average before nudging slightly below average in the
+Northern Continental Divide on Wednesday and Thursday.  The warmer
+than average temperatures shift into the Plains ahead of the
+trough Monday through next Wednesday.
+
+Roth/Santorelli
+
+Hazards:
+- Heavy precipitation across portions of the Pacific Northwest and
+the Northern Great Basin, Sun-Mon, Nov 14-Nov 15.
+- Heavy rain across portions of the Pacific Northwest, Sun-Mon,
+Nov 14-Nov 15.
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!tVRUMItpUyh0TPeF4lJSiZbVd12oTbZ38W0gqKXnGvtre58sxPvbqD03WP_nACudrxwQPRXh$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!tVRUMItpUyh0TPeF4lJSiZbVd12oTbZ38W0gqKXnGvtre58sxPvbqD03WP_nACudr87gN8br$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!tVRUMItpUyh0TPeF4lJSiZbVd12oTbZ38W0gqKXnGvtre58sxPvbqD03WP_nACudrxvJPIt2$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!tVRUMItpUyh0TPeF4lJSiZbVd12oTbZ38W0gqKXnGvtre58sxPvbqD03WP_nACudr3qm_sEi$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!tVRUMItpUyh0TPeF4lJSiZbVd12oTbZ38W0gqKXnGvtre58sxPvbqD03WP_nACudrynz_Wwk$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!tVRUMItpUyh0TPeF4lJSiZbVd12oTbZ38W0gqKXnGvtre58sxPvbqD03WP_nACudr888ycuw$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!tVRUMItpUyh0TPeF4lJSiZbVd12oTbZ38W0gqKXnGvtre58sxPvbqD03WP_nACudrzrD6RvC$
+
+$$
+
+
+------------------------------
+Message-ID: <29>
+Date: Thu, 11 Nov 2021 04:29:36 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 110429
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+1128 PM EST Wed Nov 10 2021
+
+Valid 12Z Sun Nov 14 2021 - 12Z Thu Nov 18 2021
+
+...Moderate to heavy precipitation into the Pacific Northwest
+Sunday-Monday...
+
+...Lake Effect/enhanced precipitation this weekend through mid
+next week across the Great Lakes...
+
+
+...Guidance/Predictability Assessment...
+The latest guidance is in general agreement as the flow pattern
+goes from one that is amplified to more zonal.  The WPC medium
+range suite used a general blend of the deterministic models,
+ensemble means, and the National Blend of Models to help mitigate
+the differences which begin to arise mid next week.
+
+
+...Pattern Overview and Weather/Hazards Highlights...
+An amplified trough will pass slowly through the eastern CONUS,
+periodically reinforced by shortwaves rounding its southwest side.
+Its associated cold fronts sweep across the East this weekend with
+mainly light and scattered showers. Cold northwest flow on the
+backside of the mean trough should help support enhanced lake
+effect precipitation/snows from the Upper Midwest/Great Lakes and
+into the northern Appalachians/Northeast. Temperatures should be
+generally around 10F below average for portions of the East
+Saturday through Tuesday. Moderation in the East is expected on
+Wednesday and Thursday as low pressure moves across central
+Canada, with its cold front moving into the Upper Midwest and
+Great Lakes, and the surface ridge axis slides off the East Coast.
+ As this occurs, southwest flow keeps rain in the cards in and
+near the Great Lakes until the front clears the area next Thursday.
+
+For the Pacific Northwest, a cold front with a long fetch of
+Pacific moisture directed onshore, will drop slowly south along
+the Pacific northwest Coast Sunday-Monday resulting in moderate to
+heavy rainfall in the valleys -- perhaps excessively in areas with
+burn scars -- and snow in the highest peaks. Overall, favorable
+flow should focus heavy rains and elevation snows mainly over the
+Olympics and Cascades, though some spill over precipitation is
+possible across parts of the northern Rockies next Tuesday into
+Wednesday. Until the Western trough moves into the area next
+Tuesday and Wednesday, temperatures are expected to be 10-20F
+above average before nudging slightly below average in the
+Northern Continental Divide on Wednesday and Thursday.  The warmer
+than average temperatures shift into the Plains ahead of the
+trough Monday through next Wednesday.
+
+Roth/Santorelli
+
+Hazards:
+- Heavy precipitation across portions of the Pacific Northwest and
+the Northern Great Basin, Sun-Mon, Nov 14-Nov 15.
+- Heavy rain across portions of the Pacific Northwest, Sun-Mon,
+Nov 14-Nov 15.
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!t_QLgAcqCz5tvob6w-Pn16XQIVslSjsOCUbyuhg1nJw-3NgbJfTLDx6CrgciZ8C2glWQr4Rb$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!t_QLgAcqCz5tvob6w-Pn16XQIVslSjsOCUbyuhg1nJw-3NgbJfTLDx6CrgciZ8C2gmPcMDvF$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!t_QLgAcqCz5tvob6w-Pn16XQIVslSjsOCUbyuhg1nJw-3NgbJfTLDx6CrgciZ8C2gnFZW9b7$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!t_QLgAcqCz5tvob6w-Pn16XQIVslSjsOCUbyuhg1nJw-3NgbJfTLDx6CrgciZ8C2ghHiQJP2$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!t_QLgAcqCz5tvob6w-Pn16XQIVslSjsOCUbyuhg1nJw-3NgbJfTLDx6CrgciZ8C2ghuImZAa$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!t_QLgAcqCz5tvob6w-Pn16XQIVslSjsOCUbyuhg1nJw-3NgbJfTLDx6CrgciZ8C2gqwJCQL9$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!t_QLgAcqCz5tvob6w-Pn16XQIVslSjsOCUbyuhg1nJw-3NgbJfTLDx6CrgciZ8C2gg91-r_w$
+
+$$
+
+
+------------------------------
+Message-ID: <30>
+Date: Thu, 11 Nov 2021 07:37:39 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 1 Fire Weather Outlook
+
+FNUS21 KWNS 110737
+FWDDY1
+
+Day 1 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0136 AM CST Thu Nov 11 2021
+
+Valid 111200Z - 121200Z
+
+...Synopsis...
+A mid-level trough will evolve into an upper-level cut-off low
+across the central CONUS, with a surface low expected to meander
+around the Upper Mississippi Valley today. By afternoon, over 80 kts
+of 500 mb northwesterly winds will pivot around the backside of the
+upper trough and coincide with dry west-northwesterly surface flow,
+promoting dry and breezy conditions across the central and southern
+High Plains.
+
+While the lowest RH/highest surface winds are expected across
+portions of the central Plains, fuels remain mediocre for fire
+spread, precluding fire weather highlights. However, drier fine
+fuels do exist across portions of the Colorado Front Range, where 15
+mph sustained westerly surface winds are expected to overlap with
+20-25% RH, hence the introduction of Elevated highlights. Locally
+Elevated fire conditions may also be observed across the southern
+High Plains, but a weaker surface wind field along with poorly
+receptive fuels suggest that fire weather highlights are not
+necessary in this region.
+
+..Squitieri.. 11/11/2021
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!pInKuvRM_NPy-ASpJSEt3eUlHXbAnFwRODAnW70-LcySJRVrMWPHbJR5DYIWG7FwY7HzfVtj$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <31>
+Date: Thu, 11 Nov 2021 07:54:08 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 2 Fire Weather Outlook
+
+FNUS22 KWNS 110754
+FWDDY2
+
+Day 2 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0153 AM CST Thu Nov 11 2021
+
+Valid 121200Z - 131200Z
+
+...NO CRITICAL AREAS...
+
+...Synopsis...
+As an upper-level low evolves into a progressive open wave and moves
+across the eastern U.S. with a surface low, a secondary mid-level
+impulse is expected to pivot around the open wave and traverse the
+Plains states tomorrow/Friday. Subsequently, high pressure will
+build into the central Plains, fostering a bout of dry northwesterly
+surface flow Friday afternoon. At least Elevated to locally Critical
+conditions are expected across portions of the central Plains.
+However, finer fuels across the region marginally support
+wildfire-spread potential. As such, fire weather highlights have
+been withheld this outlook. An Elevated area may need to be added in
+forecast updates if stronger, drier flow is anticipated,
+compensating for mediocre fuel status.
+
+..Squitieri.. 11/11/2021
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!roUgGc7R-sr36OHKjNbgeSwae3xR8LVfSJ19jb70rU6mbGQZD-6681yVgYLQuTlt8V6XWnDY$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <32>
+Date: Thu, 11 Nov 2021 08:04:11 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 110804
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+303 AM EST Thu Nov 11 2021
+
+Valid 12Z Thu Nov 11 2021 - 12Z Sat Nov 13 2021
+
+...There is a Slight Risk of excessive rainfall over parts of the
+Pacific Northwest through Friday morning...
+
+...Snow for the Upper Midwest...
+
+...Temperatures will be above average over parts of the
+Northeast/Mid-Atlantic...
+
+Moisture will stream into the Pacific Northwest ahead of the next
+front that will come onshore by Friday afternoon.  The moisture
+will produce rain, heavy at times, over parts of the Northwest
+from Thursday into Saturday morning.  Consequently, the WPC has
+issued a Slight Risk of excessive rainfall through Friday morning.
+ The associated heavy rain will create mainly localized areas of
+flash flooding, with urban areas, roads, and small streams the
+most vulnerable. The excessive rainfall threat decreases slightly
+on Friday, as the WPC has a Marginal Risk of excessive rainfall
+over parts of the Pacific Northwest and the Northern Intermountain
+Region on Friday into Saturday morning.
+
+Meanwhile, a deep low over the Upper Midwest will produce rain and
+snow over parts of the Upper Midwest. On Thursday, the snow will
+march southward over the Northern Plains, the Upper Mississippi
+Valley, and parts of the Middle Mississippi Valley by Friday
+afternoon. Overnight Friday, light snow will move into parts of
+the Ohio Valley and the Great Lakes, as the snow over the Upper
+Mississippi Valley tapers off.
+
+In the meantime, rain will develop along and ahead of the
+associated front from the Upper Great Lakes to the Middle
+Mississippi Valley.  By Friday, the rain will move eastward into
+the Great Lakes and Ohio Valley.  In addition, the temperatures
+will be above average over parts of the Northeast/Mid-Atlantic
+ahead of the front.  Furthermore, as the system moves eastward,
+moisture from the Atlantic will stream into parts of the Northeast
+on Friday.  The rain, heavy at times, will move into the
+Northeast/Mid-Atlantic and the Carolinas.  Hence, the WPC has
+issued a Marginal Risk of excessive rainfall over parts of the
+Northeast on Friday into Saturday morning.  The associated heavy
+rain will create localized areas of flash flooding, affecting
+areas that experience rapid runoff with heavy rain.
+
+Furthermore, on Thursday, showers and thunderstorms will develop
+over parts of the Lower Mississippi and Tennessee Valleys into the
+Western Gulf Coast. By Thursday evening the showers and
+thunderstorms move into parts of the Central Gulf Coast, as rain
+fills in over the Tennessee valley and the Southeast. The rain
+starts to taper off on Friday morning over the Southeast.
+
+Ziegenfelder
+
+
+Graphics are available at
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/basicwx/basicwx_ndfd.php__;!!DZ3fjg!o5DYTj8Onr14loPriaPXdCDRqZiGKLSGmV2ekd4VxBbQ0xCpi06ZQb-a5FhalZHq8sbhebhs$
+$$
+
+
+------------------------------
+
+*********************************************
+
+End of wx-natnl Digest Thu, 11 Nov 2021
+

@@ -1,0 +1,1851 @@
+Delivered-To: darrinmspeegle@gmail.com
+Received: by 2002:a05:6a11:229c:0:0:0:0 with SMTP id oq28csp1264448pxb;
+        Sun, 16 Jan 2022 04:00:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzBXtPUp0QH2ZeRb0lXbK3ghJ53U8/oAc5oG5Icu5AXaBmj+nSuLTDKDjkeDuX2hDecljB5
+X-Received: by 2002:a25:3412:: with SMTP id b18mr14114623yba.359.1642334432933;
+        Sun, 16 Jan 2022 04:00:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1642334432; cv=none;
+        d=google.com; s=arc-20160816;
+        b=tPxR7LFT3uhakfIxY0QOTiHv02ye2l+jg0UWRljDTzF/gunX8EbIcQ0nIjAqu+vKQs
+         pmmpDFLdu+9jy8DMem6bEkrg3qwfo0SFQHNkhpGurYZ6sHmX1IS+mfN34hj/UUdhXzlW
+         ckpUSIpupWxyUqTR/78W08RXI3v7NVC1ZwSndwJpM1/U7OOUJPXRO/xrqNCbz+LTI6aY
+         c8Dbo8GvvZ0vA2MEqLRk+ufKU0RyiGXbEaMZbouJfzdRYEyJD1JUOrn86+Tw4lzvGZ1a
+         lzQLMjMoPHHhlyoE3yubFVk8pD+a/vIRgUTW1z6uU6Egm1iM8jgAVb10hz2FjaWkPWzJ
+         C99Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:reply-to:to:from:auto-submitted:content-transfer-encoding
+         :mime-version:date:message-id:dkim-signature;
+        bh=WBpkGvl5kLCXOu3a/b3Y9HkGdwdccpuoY28eTzDecWo=;
+        b=jzeWtqNPAnaHC1GYey5W2FaULzpIAnJXeOeJJUptZBRy+8QcZMhZl3yBj6iKD5tDTx
+         bpAXU+YTkDv9pyMx4BNYlgOY+rwlMQ1XyPLjOd5VfpL9+ikcKc09et9lqwH/7SbdinHK
+         ifZjDFfvclxDDmfJLh/fBBzbW6b6dPK6ARYAK5c8x8W6PaU5GnU1BFTAQpes28qCWi6T
+         NYyOlvajntjJDwwdkX14jxxY2XomXcmJJB1+HNm0L8ABAJPb3W3YuG/vtoFN6W91MKeZ
+         v6/8NPNYg/2t5Cd56Jbf+KkYWPwJ9vrlntkQnqtiYPbVMeUFYKPX/SigotvrNACdiOx8
+         WS2w==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=crD9j2uv;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Return-Path: <wx-natnl-owner@lists.illinois.edu>
+Received: from mx0b-00007101.pphosted.com (mx0b-00007101.pphosted.com. [148.163.139.28])
+        by mx.google.com with ESMTPS id 189si4054018ybl.361.2022.01.16.04.00.32
+        for <darrinmspeegle@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 16 Jan 2022 04:00:32 -0800 (PST)
+Received-SPF: pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) client-ip=148.163.139.28;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=crD9j2uv;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Received: from pps.filterd (m0166260.ppops.net [127.0.0.1])
+	by mx0b-00007101.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20GBqN1V028311
+	for <darrinmspeegle@gmail.com>; Sun, 16 Jan 2022 12:00:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=message-id : date :
+ mime-version : content-type : content-transfer-encoding : from : to :
+ reply-to : subject; s=campusrelays;
+ bh=WBpkGvl5kLCXOu3a/b3Y9HkGdwdccpuoY28eTzDecWo=;
+ b=crD9j2uv3oRXsH8Tjk3UuOXNbEqw039xm1uW2plgCRBM5t0BhPHZD6F/3i8KnMcLAIZL
+ KT3fau3H9W7hRfL9D0/3mvUliWz1A63GTPtr7/NJGLji7fBq57SwypycTJ5A73BUzqi3
+ uRqwjZZq4BmCpt4C7eEEFek0qoAqlUy6cdVoZiiZdFftxNhHFi+4ajWGx8+k/3hApNcV
+ uC5j/PIAInpPcYErOQxhsHY96hygeW2QuuFnwCvkWXPG7pQ+DGgV3nZrZX6e8TwIne67
+ VCyT22sI77G8Mzbum/NChtan9Majm6UoXqWeqlLEeimsJ/dcAVQSIRKotawedS8Gz+XY HQ== 
+Received: from lists.illinois.edu (lists.illinois.edu [192.17.172.63])
+	by mx0b-00007101.pphosted.com (PPS) with ESMTP id 3dkp8868qk-2
+	for <darrinmspeegle@gmail.com>; Sun, 16 Jan 2022 12:00:32 +0000
+Received: by lists.illinois.edu (Postfix, from userid 50033)
+	id 77A6EE2E9B; Sun, 16 Jan 2022 06:00:31 -0600 (CST)
+Message-Id: <sympa.1642334430.100959.923@lists.illinois.edu>
+Date: Sun, 16 Jan 2022 06:00:30 -0600
+Content-Type: text/plain; charset="US-ASCII"
+Auto-Submitted: auto-forwarded
+From: wx-natnl-request@lists.illinois.edu
+To: wx-natnl@lists.illinois.edu
+Reply-to: wx-natnl-request@lists.illinois.edu
+Subject: wx-natnl Digest Sun, 16 Jan 2022 (9/13)
+X-Mailer: Sympa 6.1.23
+X-Proofpoint-GUID: 1VEVVKkaFasahqc3irT6DHLbEN1Pr4yc
+X-Proofpoint-ORIG-GUID: 1VEVVKkaFasahqc3irT6DHLbEN1Pr4yc
+X-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0
+ priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0
+ suspectscore=0 mlxscore=0 lowpriorityscore=0 phishscore=0 spamscore=0
+ mlxlogscore=999 bulkscore=0 clxscore=1031 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2201160077
+X-Spam-Score: 0
+X-Spam-OrigSender: wx-natnl-owner@lists.illinois.edu
+X-Spam-Bar:
+Content-Transfer-Encoding: Quoted-printable
+MIME-Version: 1.0
+
+wx-natnl Digest Sun, 16 Jan 2022
+
+Table of contents:
+
+* 201 - HAZARDS: Public Tsunami Statement-Western US - <no-
+  reply@weather.cod.edu>
+* 202 - HAZARDS: Public Tsunami Statement-Western US - <no-
+  reply@weather.cod.edu>
+* 203 - HAZARDS: Tsunami Message Number 15  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 204 - HAZARDS: Tsunami Message Number 15  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 205 - HAZARDS: Beach And Out Of Harbors And Marinas.  - COD Weather
+  Processor <ldm@weather.cod.edu>
+* 206 - HAZARDS: Tsunami Message Number 15  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 207 - HAZARDS: Tsunami Message Number 15  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 208 - HAZARDS: Beach And Out Of Harbors And Marinas.  - COD Weather
+  Processor <ldm@weather.cod.edu>
+* 209 - HAZARDS: Public Tsunami Statement-Western US - <no-
+  reply@weather.cod.edu>
+* 210 - HAZARDS: Public Tsunami Statement-Western US - <no-
+  reply@weather.cod.edu>
+* 211 - HAZARDS: Public Tsunami Statement-Western US - <no-
+  reply@weather.cod.edu>
+* 212 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 213 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 214 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 215 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 216 - HAZARDS: Nws Pacific Tsunami Warning Center Honolulu Hi  - COD Weat=
+her
+  Processor <ldm@weather.cod.edu>
+* 217 - HAZARDS: Tsunami Message Number 16  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 218 - HAZARDS: Tsunami Message Number 16  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 219 - HAZARDS: Public Tsunami Statement-Western US - <no-
+  reply@weather.cod.edu>
+* 220 - HAZARDS: Tsunami Message Number 16  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 221 - HAZARDS: Beach And Out Of Harbors And Marinas.  - COD Weather
+  Processor <ldm@weather.cod.edu>
+* 222 - HAZARDS: Beach And Out Of Harbors And Marinas.  - COD Weather
+  Processor <ldm@weather.cod.edu>
+* 223 - HAZARDS: Tsunami Message Number 16  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 224 - HAZARDS: Public Tsunami Statement-Western US - <no-
+  reply@weather.cod.edu>
+* 225 - HAZARDS: Public Tsunami Statement-Western US - <no-
+  reply@weather.cod.edu>
+
+----------------------------------------------------------------------
+
+Message-ID: <201>
+Date: Sat, 15 Jan 2022 23:30:44 +0000
+From: <no-reply@weather.cod.edu>
+Subject: HAZARDS: Public Tsunami Statement-Western US
+
+236
+WEAK51 PAAQ 152329
+TSUAK1
+
+BULLETIN
+Public Tsunami Message Number 14
+NWS National Tsunami Warning Center Palmer AK
+329 PM PST Sat Jan 15 2022
+
+UPDATES
+-------
+ * A tsunami has been confirmed and some impacts are expected
+ * A Volcanic Eruption has occured in the Tonga Islands
+ * Please disregard earthquake parameters
+ * Wave amplitudes appear to have peaked at most locations
+ * Advisory level waves decreasing along US Pacific coasts
+
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT...
+
+
+
+Tsunami Advisory in Effect for;
+
+ * CALIFORNIA, The coast from Orange/San Diego Line,
+   California (45 miles SE of L.A.) to The Oregon/Cal. Border
+    including San Francisco Bay
+
+ * OREGON, The coast from The Oregon/Cal. Border  to The
+   Oregon/Wash. Border  including the Columbia River estuary
+   coast
+
+ * WASHINGTON, Outer coast from the Oregon/Washington border
+   to Slip Point, Columbia River estuary coast, and the Juan
+   de Fuca Strait coast
+
+ * SOUTH ALASKA AND THE ALASKA PENINSULA, Pacific coasts from
+   Chignik Bay, Alaska to Unimak Pass, Alaska (80 miles NE of
+   Unalaska)
+
+ * ALEUTIAN ISLANDS, Unimak Pass, Alaska (80 miles NE of
+   Unalaska) to Attu, Alaska including the Pribilof Islands
+
+
+For other US and Canadian Pacific coasts in North America,
+there is no tsunami threat.
+
+
+OBSERVATIONS OF TSUNAMI ACTIVITY
+--------------------------------
+ * No tsunami observations are available to report.
+
+
+PRELIMINARY EARTHQUAKE PARAMETERS
+---------------------------------
+
+ * Magnitude      1.0
+ * Origin Time    1927 AKST Jan 14 2022
+                  2027  PST Jan 14 2022
+
+
+------------------------------
+Message-ID: <202>
+Date: Sat, 15 Jan 2022 23:30:44 +0000
+From: <no-reply@weather.cod.edu>
+Subject: HAZARDS: Public Tsunami Statement-Western US
+
+237
+WEAK51 PAAQ 152329
+                  0427  UTC Jan 15 2022
+ * Coordinates    20.5 South 175.4 West
+ * Depth          1 miles
+ * Location       near the Tonga Islands
+
+
+RECOMMENDED ACTIONS
+-------------------
+ * See message number 4 for recommended actions.
+
+
+IMPACTS
+-------
+ * See message number 4 for possible impacts.
+
+
+ADDITIONAL INFORMATION AND NEXT UPDATE
+--------------------------------------
+ * Refer to the internet site https://urldefense.com/v3/__http://tsunami.go=
+v__;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2J=
+UkazE$  for more information.
+
+ * Pacific coastal residents outside California, Oregon,
+   Washington, British Columbia and Alaska should refer to the
+   Pacific Tsunami Warning Center messages at https://urldefense.com/v3/__h=
+ttp://tsunami.gov__;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsv=
+x6PMGc_0UkiDYN2JUkazE$ .
+
+ * This message will be updated within 60 minutes.
+
+$$
+
+
+------------------------------
+Message-ID: <203>
+Date: Sun, 16 Jan 2022 00:32:17 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Tsunami Message Number 15
+
+WEPA41 PAAQ 160031
+TSUWCA
+
+BULLETIN
+Tsunami Message Number 15
+NWS National Tsunami Warning Center Palmer AK
+431 PM PST Sat Jan 15 2022
+
+ORZ021-022-002-001-WAZ001-021-510-514>517-160201-
+/O.CAN.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including The Oregon/Cal. Border
+ to The Wash./BC Border
+431 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY IS CANCELED FOR THE COASTAL AREAS
+   OF OREGON AND WASHINGTON FROM THE OREGON/CAL. BORDER  TO
+   THE WASH./BC BORDER ...
+
+No tsunami danger presently exists for this area.
+
+This will be the final U.S. National Tsunami Warning Center
+message for this region.  Refer to the internet site
+https://urldefense.com/v3/__http://tsunami.gov__;!!K543PA!fOOul-B8w0n6KzO5O=
+HQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUkazE$  for more information.
+
+$$
+
+AKZ181-185-187-195-191-160201-
+/O.CAN.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Chignik Bay, Alaska to
+Attu, Alaska
+431 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY IS CANCELED FOR THE COASTAL AREAS
+   OF ALASKA FROM CHIGNIK BAY ALASKA TO ATTU ALASKA...
+
+No tsunami danger presently exists for this area.
+
+This will be the final U.S. National Tsunami Warning Center
+message for this region.  Refer to the internet site
+https://urldefense.com/v3/__http://tsunami.gov__;!!K543PA!fOOul-B8w0n6KzO5O=
+HQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUkazE$  for more information.
+
+$$
+
+PZZ530-531-CAZ040-041-552-087-549-550-039-034-035-529-530-
+006-505-506-508-509-109-104-103-101-160201-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Orange/San Diego Line,
+California (45 miles SE of L.A.) to The Oregon/Cal. Border
+431 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+   AREAS OF CALIFORNIA FROM ORANGE/SAN DIEGO LINE CALIFORNIA,
+   WHICH IS LOCATED 45 MILES SE OF L.A., TO THE OREGON/CAL.
+   BORDER ...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+
+------------------------------
+Message-ID: <204>
+Date: Sun, 16 Jan 2022 00:32:17 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Tsunami Message Number 15
+
+WEPA41 PAAQ 160031
+TSUWCA
+
+BULLETIN
+Tsunami Message Number 15
+NWS National Tsunami Warning Center Palmer AK
+431 PM PST Sat Jan 15 2022
+
+ORZ021-022-002-001-WAZ001-021-510-514>517-160201-
+/O.CAN.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including The Oregon/Cal. Border
+ to The Wash./BC Border
+431 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY IS CANCELED FOR THE COASTAL AREAS
+   OF OREGON AND WASHINGTON FROM THE OREGON/CAL. BORDER  TO
+   THE WASH./BC BORDER ...
+
+No tsunami danger presently exists for this area.
+
+This will be the final U.S. National Tsunami Warning Center
+message for this region.  Refer to the internet site
+https://urldefense.com/v3/__http://tsunami.gov__;!!K543PA!fOOul-B8w0n6KzO5O=
+HQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUkazE$  for more information.
+
+$$
+
+AKZ181-185-187-195-191-160201-
+/O.CAN.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Chignik Bay, Alaska to
+Attu, Alaska
+431 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY IS CANCELED FOR THE COASTAL AREAS
+   OF ALASKA FROM CHIGNIK BAY ALASKA TO ATTU ALASKA...
+
+No tsunami danger presently exists for this area.
+
+This will be the final U.S. National Tsunami Warning Center
+message for this region.  Refer to the internet site
+https://urldefense.com/v3/__http://tsunami.gov__;!!K543PA!fOOul-B8w0n6KzO5O=
+HQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUkazE$  for more information.
+
+$$
+
+PZZ530-531-CAZ040-041-552-087-549-550-039-034-035-529-530-
+006-505-506-508-509-109-104-103-101-160201-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Orange/San Diego Line,
+California (45 miles SE of L.A.) to The Oregon/Cal. Border
+431 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+   AREAS OF CALIFORNIA FROM ORANGE/SAN DIEGO LINE CALIFORNIA,
+   WHICH IS LOCATED 45 MILES SE OF L.A., TO THE OREGON/CAL.
+   BORDER ...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+
+------------------------------
+Message-ID: <205>
+Date: Sun, 16 Jan 2022 00:32:21 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Beach And Out Of Harbors And Marinas.
+
+WEPA41 PAAQ 160031
+   AREAS OF CALIFORNIA FROM ORANGE/SAN DIEGO LINE CALIFORNIA,
+   WHICH IS LOCATED 45 MILES SE OF L.A., TO THE OREGON/CAL.
+   BORDER ...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+
+------------------------------
+Message-ID: <206>
+Date: Sun, 16 Jan 2022 00:32:21 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Tsunami Message Number 15
+
+WEPA41 PAAQ 160031
+TSUWCA
+
+BULLETIN
+Tsunami Message Number 15
+NWS National Tsunami Warning Center Palmer AK
+431 PM PST Sat Jan 15 2022
+
+ORZ021-022-002-001-WAZ001-021-510-514>517-160201-
+/O.CAN.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including The Oregon/Cal. Border
+ to The Wash./BC Border
+431 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY IS CANCELED FOR THE COASTAL AREAS
+   OF OREGON AND WASHINGTON FROM THE OREGON/CAL. BORDER  TO
+   THE WASH./BC BORDER ...
+
+No tsunami danger presently exists for this area.
+
+This will be the final U.S. National Tsunami Warning Center
+message for this region.  Refer to the internet site
+https://urldefense.com/v3/__http://tsunami.gov__;!!K543PA!fOOul-B8w0n6KzO5O=
+HQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUkazE$  for more information.
+
+$$
+
+AKZ181-185-187-195-191-160201-
+/O.CAN.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Chignik Bay, Alaska to
+Attu, Alaska
+431 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY IS CANCELED FOR THE COASTAL AREAS
+   OF ALASKA FROM CHIGNIK BAY ALASKA TO ATTU ALASKA...
+
+No tsunami danger presently exists for this area.
+
+This will be the final U.S. National Tsunami Warning Center
+message for this region.  Refer to the internet site
+https://urldefense.com/v3/__http://tsunami.gov__;!!K543PA!fOOul-B8w0n6KzO5O=
+HQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUkazE$  for more information.
+
+$$
+
+PZZ530-531-CAZ040-041-552-087-549-550-039-034-035-529-530-
+006-505-506-508-509-109-104-103-101-160201-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Orange/San Diego Line,
+California (45 miles SE of L.A.) to The Oregon/Cal. Border
+431 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+
+
+------------------------------
+Message-ID: <207>
+Date: Sun, 16 Jan 2022 00:32:21 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Tsunami Message Number 15
+
+WEPA41 PAAQ 160031
+TSUWCA
+
+BULLETIN
+Tsunami Message Number 15
+NWS National Tsunami Warning Center Palmer AK
+431 PM PST Sat Jan 15 2022
+
+ORZ021-022-002-001-WAZ001-021-510-514>517-160201-
+/O.CAN.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including The Oregon/Cal. Border
+ to The Wash./BC Border
+431 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY IS CANCELED FOR THE COASTAL AREAS
+   OF OREGON AND WASHINGTON FROM THE OREGON/CAL. BORDER  TO
+   THE WASH./BC BORDER ...
+
+No tsunami danger presently exists for this area.
+
+This will be the final U.S. National Tsunami Warning Center
+message for this region.  Refer to the internet site
+https://urldefense.com/v3/__http://tsunami.gov__;!!K543PA!fOOul-B8w0n6KzO5O=
+HQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUkazE$  for more information.
+
+$$
+
+AKZ181-185-187-195-191-160201-
+/O.CAN.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Chignik Bay, Alaska to
+Attu, Alaska
+431 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY IS CANCELED FOR THE COASTAL AREAS
+   OF ALASKA FROM CHIGNIK BAY ALASKA TO ATTU ALASKA...
+
+No tsunami danger presently exists for this area.
+
+This will be the final U.S. National Tsunami Warning Center
+message for this region.  Refer to the internet site
+https://urldefense.com/v3/__http://tsunami.gov__;!!K543PA!fOOul-B8w0n6KzO5O=
+HQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUkazE$  for more information.
+
+$$
+
+PZZ530-531-CAZ040-041-552-087-549-550-039-034-035-529-530-
+006-505-506-508-509-109-104-103-101-160201-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Orange/San Diego Line,
+California (45 miles SE of L.A.) to The Oregon/Cal. Border
+431 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+
+
+------------------------------
+Message-ID: <208>
+Date: Sun, 16 Jan 2022 00:32:21 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Beach And Out Of Harbors And Marinas.
+
+WEPA41 PAAQ 160031
+   AREAS OF CALIFORNIA FROM ORANGE/SAN DIEGO LINE CALIFORNIA,
+   WHICH IS LOCATED 45 MILES SE OF L.A., TO THE OREGON/CAL.
+   BORDER ...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+
+------------------------------
+Message-ID: <209>
+Date: Sun, 16 Jan 2022 00:32:23 +0000
+From: <no-reply@weather.cod.edu>
+Subject: HAZARDS: Public Tsunami Statement-Western US
+
+875
+WEAK51 PAAQ 160031
+TSUAK1
+
+BULLETIN
+Public Tsunami Message Number 15
+NWS National Tsunami Warning Center Palmer AK
+431 PM PST Sat Jan 15 2022
+
+UPDATES
+-------
+ * A tsunami has been confirmed and some impacts are expected
+ * Revised alert areas
+ * A Volcanic Eruption has occured in the Tonga Islands
+ * Please disregard earthquake parameters
+ * Wave amplitudes continue to decrease along US Pacific coasts
+ * Advisory level waves persist in California
+
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT...
+
+
+
+Tsunami Advisory in Effect for;
+
+ * CALIFORNIA, The coast from Orange/San Diego Line,
+   California (45 miles SE of L.A.) to The Oregon/Cal. Border
+    including San Francisco Bay
+
+
+Alerts in the following areas have been canceled because
+additional information and analysis have better defined the
+threat.
+
+ * The Tsunami Advisory is canceled for the coastal areas of
+   Oregon and Washington from The Oregon/Cal. Border  to The
+   Wash./BC Border
+
+ * The Tsunami Advisory is canceled for the coastal areas of
+   South Alaska and the Alaska Peninsula and Aleutian Islands
+   from Chignik Bay, Alaska to Attu, Alaska
+
+
+For other US and Canadian Pacific coasts in North America,
+there is no tsunami threat.
+
+
+OBSERVATIONS OF TSUNAMI ACTIVITY
+--------------------------------
+ * No tsunami observations are available to report.
+
+
+PRELIMINARY EARTHQUAKE PARAMETERS
+---------------------------------
+
+ * Magnitude      1.0
+ * Origin Time    1927 AKST Jan 14 2022
+                  2027  PST Jan 14 2022
+                  0427  UTC Jan 15 2022
+ * Coordinates    20.5 South 175.4 West
+ * Depth          1 miles
+ * Location       near the Tonga Islands
+
+
+RECOMMENDED ACTIONS
+-------------------
+ * See message number 4 for recommended actions.
+
+
+IMPACTS
+-------
+ * See message number 4 for possible impacts.
+
+
+ADDITIONAL INFORMATION AND NEXT UPDATE
+--------------------------------------
+ * Refer to the internet site https://urldefense.com/v3/__http://tsunami.go=
+v__;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2J=
+UkazE$  for more information.
+
+ * Pacific coastal residents outside California, Oregon,
+   Washington, British Columbia and Alaska should refer to the
+   Pacific Tsunami Warning Center messages at https://urldefense.com/v3/__h=
+ttp://tsunami.gov__;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsv=
+x6PMGc_0UkiDYN2JUkazE$ .
+
+ * This message will be updated within 60 minutes.
+
+$$
+
+
+------------------------------
+Message-ID: <210>
+Date: Sun, 16 Jan 2022 00:32:35 +0000
+From: <no-reply@weather.cod.edu>
+Subject: HAZARDS: Public Tsunami Statement-Western US
+
+289
+WEAK51 PAAQ 160031
+TSUAK1
+
+BULLETIN
+Public Tsunami Message Number 15
+NWS National Tsunami Warning Center Palmer AK
+431 PM PST Sat Jan 15 2022
+
+UPDATES
+-------
+ * A tsunami has been confirmed and some impacts are expected
+ * Revised alert areas
+ * A Volcanic Eruption has occured in the Tonga Islands
+ * Please disregard earthquake parameters
+ * Wave amplitudes continue to decrease along US Pacific coasts
+ * Advisory level waves persist in California
+
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT...
+
+
+
+Tsunami Advisory in Effect for;
+
+ * CALIFORNIA, The coast from Orange/San Diego Line,
+   California (45 miles SE of L.A.) to The Oregon/Cal. Border
+    including San Francisco Bay
+
+
+Alerts in the following areas have been canceled because
+additional information and analysis have better defined the
+threat.
+
+ * The Tsunami Advisory is canceled for the coastal areas of
+   Oregon and Washington from The Oregon/Cal. Border  to The
+   Wash./BC Border
+
+ * The Tsunami Advisory is canceled for the coastal areas of
+   South Alaska and the Alaska Peninsula and Aleutian Islands
+   from Chignik Bay, Alaska to Attu, Alaska
+
+
+For other US and Canadian Pacific coasts in North America,
+there is no tsunami threat.
+
+
+OBSERVATIONS OF TSUNAMI ACTIVITY
+--------------------------------
+ * No tsunami observations are available to report.
+
+
+PRELIMINARY EARTHQUAKE PARAMETERS
+---------------------------------
+
+ * Magnitude      1.0
+ * Origin Time    1927 AKST Jan 14 2022
+                  2027  PST Jan 14 2022
+                  0427  UTC Jan 15 2022
+ * Coordinates    20.5 South 175.4 West
+
+
+------------------------------
+Message-ID: <211>
+Date: Sun, 16 Jan 2022 00:32:35 +0000
+From: <no-reply@weather.cod.edu>
+Subject: HAZARDS: Public Tsunami Statement-Western US
+
+288
+WEAK51 PAAQ 160031
+ * Depth          1 miles
+ * Location       near the Tonga Islands
+
+
+RECOMMENDED ACTIONS
+-------------------
+ * See message number 4 for recommended actions.
+
+
+IMPACTS
+-------
+ * See message number 4 for possible impacts.
+
+
+ADDITIONAL INFORMATION AND NEXT UPDATE
+--------------------------------------
+ * Refer to the internet site https://urldefense.com/v3/__http://tsunami.go=
+v__;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2J=
+UkazE$  for more information.
+
+ * Pacific coastal residents outside California, Oregon,
+   Washington, British Columbia and Alaska should refer to the
+   Pacific Tsunami Warning Center messages at https://urldefense.com/v3/__h=
+ttp://tsunami.gov__;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsv=
+x6PMGc_0UkiDYN2JUkazE$ .
+
+ * This message will be updated within 60 minutes.
+
+$$
+
+
+------------------------------
+Message-ID: <212>
+Date: Sun, 16 Jan 2022 00:50:45 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+110
+FPUS20 KWBN 160050
+SCS04
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 4 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 PM EST SAT JAN 15 2022
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 PM EST
+
+                                FORECAST        FORECAST
+                 SAT...JAN 15   SUN....JAN 16   MON....JAN 17
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+SALEM OR         32  40         MOCLDY  36/43   MOCLDY  37/52
+SALT LAKE CITY   26  45         PTCLDY  22/40   PTCLDY  23/40
+SAN ANGELO       40  52         SUNNY   23/67   SUNNY   30/65
+SAN ANTONIO      48  56         SUNNY   35/62   SUNNY   37/67
+SAN DIEGO        52  70   .03   PTCLDY  55/70   MOCLDY  53/66
+SAN FRANCISCO    47  63         PTCLDY  49/58   MOCLDY  47/59
+SAN JOSE         41  68         PTCLDY  46/62   MOCLDY  46/63
+SAN JUAN PR      73  83   .15   SHWRS   73/84   SHWRS   73/84
+SANTA FE         19  44         SUNNY   21/52   SUNNY   22/50
+ST STE MARIE    B14  01         SNOSHW B06/24   SNOSHW  16/24
+SAVANNAH         37  61         RAIN    49/59   SUNNY   38/54
+SEATTLE          38  43         MOCLDY  39/47   MOCLDY  39/50
+SHREVEPORT       48  56         PTCLDY  34/53   SUNNY   36/59
+SIOUX CITY       06  19   .02   MOCLDY  07/39   MOCLDY  23/40
+SIOUX FALLS     B03  16         MOCLDY  08/36   MOCLDY  24/34
+SOUTH BEND       16  24         SUNNY   09/28   SNOSHW  21/32
+SPOKANE          31  36         FOG     29/35   MOCLDY  28/37
+SPRINGFIELD IL   28  30    MM   SUNNY   15/30   MOCLDY  23/34
+SPRINGFIELD MO   28  33   .48   FOG     19/35   PTCLDY  27/42
+SYRACUSE        B06  06         SUNNY  B07/25   SNOW    21/32
+TALLAHASSEE      34  68   .02   TSTRMS  48/55   SUNNY   35/54
+TAMPA            50  75         SHWRS   62/68   PTCLDY  55/62
+TOLEDO           14  22         SUNNY   12/30   MOCLDY  22/32
+TOPEKA           23  23   .23   SUNNY   10/39   SUNNY   23/44
+TUCSON           37  68         PTCLDY  42/74   SUNNY   44/73
+TULSA            25  28   .06   PTCLDY  20/48   SUNNY   28/55
+TUPELO           45  52   .69   SHWRS   35/39   SUNNY   30/47
+WACO             40  46         SUNNY   29/58   SUNNY   30/63
+WASHINGTON DC    23  28         SNOW    15/34   RNSNOW  31/42
+W PALM BEACH     48  74         SHWRS   62/78   SUNNY   54/69
+WICHITA          19  26   .06   SUNNY   16/49   SUNNY   25/53
+WICHITA FALLS    28  35         SUNNY   19/55   SUNNY   27/60
+WILKES BARRE     02  14         SUNNY  B02/28   RAIN    25/38
+WILMINGTON DE    17  26         SNOW    10/34   RAIN    29/39
+YAKIMA           32  35         FOG     27/36   MOCLDY  28/38
+YOUNGSTOWN       13  22         PTCLDY  10/31   SNOSHW  24/28
+YUMA             51  70         PTCLDY  51/75   SUNNY   49/75
+
+NATIONAL TEMPERATURE EXTREMES
+
+HIGH SAT...79 AT 12 MILES WEST-SOUTHWEST OF FLORIDA CITY FL AND 17 MILES EA=
+ST-
+SOUTHEAST OF OCHOPEE FL AND 8 MILES WEST OF MILES CITY FL AND 2 MILES NORTH=
+-
+NORTHWEST OF MILES CITY FL
+
+LOW  SAT...31 BELOW ZERO AT 5 MILES EAST OF SEAGULL LAKE MN
+
+
+$$
+
+
+------------------------------
+Message-ID: <213>
+Date: Sun, 16 Jan 2022 00:50:45 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+113
+FPUS20 KWBN 160050
+SCS01
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 1 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 PM EST SAT JAN 15 2022
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 PM EST
+
+                                FORECAST        FORECAST
+                 SAT...JAN 15   SUN....JAN 16   MON....JAN 17
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+ABILENE TX       32  45         SUNNY   21/64   SUNNY   29/61
+AKRON CANTON     17  24   .03   PTCLDY  12/33   SNOSHW  24/27
+ALBANY NY       B02  08         SUNNY  B06/23   SNOW    18/37
+ALBUQUERQUE      28  46         SUNNY   26/54   PTCLDY  25/53
+ALLENTOWN        08  19         PTCLDY  02/29   RAIN    23/37
+AMARILLO         26  41         SUNNY   20/60   SUNNY   24/57
+ANCHORAGE        26  31   .01   MOCLDY  22/25   MOCLDY  12/20
+ASHEVILLE        27  38         FZRAIN  24/28   SUNNY   23/35
+ATLANTA          40  47         SLEET   35/38   PTCLDY  30/42
+ATLANTIC CITY    16  24         RAIN    10/42   RAIN    38/41
+AUSTIN           46  51         SUNNY   33/60   SUNNY   32/65
+BALTIMORE        19  28         SNOW    10/34   RNSNOW  31/42
+BATON ROUGE      50  62   .01   MOCLDY  35/51   SUNNY   35/59
+BILLINGS         27  44         PTCLDY  30/43   PTCLDY  30/50
+BIRMINGHAM       40  52         RNSNOW  40/43   PTCLDY  30/47
+BISMARCK         14  35         WINDY   30/37   MOCLDY  18/33
+BOISE            25  37         FOG     26/37   FOG     26/37
+BOSTON           04  15         SUNNY   06/28   RAIN    26/47
+BRIDGEPORT       07  16         SUNNY   05/36   RAIN    28/45
+BROWNSVILLE      61  68         SUNNY   38/65   SUNNY   39/74
+BUFFALO          04  12   .01   SUNNY   01/29   SNOW    22/28
+BURLINGTON VT   B09  00         SUNNY  B13/19   SNOW    13/31
+CARIBOU         B09  02B        VRYCLD B17/09   SNOW    00/32
+CASPER           17  43         PTCLDY  24/42   WINDY   21/47
+CHARLESTON SC    37  57         RAIN    46/60   SUNNY   37/52
+CHARLESTON WV    26  38         RNSNOW  22/34   SNOW    25/32
+CHARLOTTE        31  44         FZRAIN  27/34   SUNNY   29/41
+CHATTANOOGA      37  45   .03   RAIN    39/40   MOCLDY  27/40
+CHEYENNE         16  47         SUNNY   28/45   PTCLDY  23/51
+CHICAGO          22  25   .03   PTCLDY  15/28   MOCLDY  21/31
+CINCINNATI       26  32         RNSNOW  19/37   SNOSHW  25/32
+CLEVELAND        20  24         PTCLDY  13/34   SNOSHW  24/29
+COLORADO SPGS    20  45   .01   SUNNY   27/55   SUNNY   23/59
+COLUMBIA SC      34  48         FZRAIN  31/41   SUNNY   32/48
+COLUMBUS GA      40  61         SHWRS   42/44   PTCLDY  31/50
+COLUMBUS OH      23  31         SNOW    16/37   SNOSHW  25/30
+
+
+$$
+
+
+------------------------------
+Message-ID: <214>
+Date: Sun, 16 Jan 2022 00:50:45 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+114
+FPUS20 KWBN 160050
+SCS02
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 2 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 PM EST SAT JAN 15 2022
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 PM EST
+
+                                FORECAST        FORECAST
+                 SAT...JAN 15   SUN....JAN 16   MON....JAN 17
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+CONCORD NH      B05  08         SUNNY  B13/25   SNOW    11/41
+CORPUS CHRISTI   54  66         SUNNY   35/62   SUNNY   35/71
+DALLAS FT WORTH  35  37         SUNNY   28/54   SUNNY   33/60
+DAYTON           21  29         PTCLDY  16/36   SNOSHW  25/32
+DAYTONA BEACH    43  72         SHWRS   58/71   SUNNY   43/62
+DENVER           19  50         SUNNY   24/50   SUNNY   23/57
+DES MOINES       13  17  2.83   MOCLDY B05/32   MOCLDY  25/33
+DETROIT          10  19         SUNNY   09/29   MOCLDY  20/31
+DULUTH          B05  14         SNOW    05/24   MOCLDY  11/19
+EL PASO          38  52         PTCLDY  28/59   PTCLDY  34/60
+ELKINS           25  33         SNOW    15/29   SNOW    22/30
+ERIE             13  18   .01   SUNNY   11/31   SNOSHW  26/30
+EUGENE           42  46         MOCLDY  36/44   MOCLDY  36/52
+EVANSVILLE       32  41         SUNNY   25/39   MOCLDY  26/37
+FAIRBANKS       B11  04         SNOW   B04/02   VRYCLD B10/01B
+FARGO           B16  07         MISG    06/32   MOCLDY  18/21
+FLAGSTAFF        30  44         MOCLDY  16/51   PTCLDY  18/48
+FLINT            11  19         PTCLDY  01/27   MOCLDY  15/29
+FORT SMITH       31  34   .14   PTCLDY  25/46   SUNNY   27/54
+FORT WAYNE       16  25         SUNNY   11/31   SNOSHW  21/32
+FRESNO           40  53         PTCLDY  42/62   MOCLDY  42/60
+GOODLAND         18  38         SUNNY   20/54   SUNNY   21/59
+GRAND JUNCTION   20  42         SUNNY   17/38   SUNNY   17/39
+GRAND RAPIDS     08  18         PTCLDY B01/24   SNOSHW  17/30
+GREAT FALLS      32  47         PTCLDY  24/43   WINDY   32/50
+GREEN BAY        05  14         SNOW    03/22   PTCLDY  16/27
+GREENSBORO       30  39         FZRAIN  24/31   PTCLDY  29/39
+HARRISBURG       13  20         SNOW    07/29   SNOW    27/38
+HARTFORD SPGFLD  05  16         SUNNY  B04/26   RAIN    22/43
+HELENA           22  37         PTCLDY  19/39   MOCLDY  25/45
+HONOLULU         65  77   .20   SHWRS   67/80   SHWRS   66/80
+HOUSTON INTCNTL  49  51         SUNNY   32/57   SUNNY   37/66
+HUNTSVILLE AL    39  47   .01   RAIN    37/40   MOCLDY  29/42
+INDIANAPOLIS     21  30   .05   SUNNY   17/35   MOCLDY  22/32
+JACKSON MS       50  54   .36   RNSNOW  33/39   SUNNY   33/54
+JACKSONVILLE     37  68         SHWRS   54/64   SUNNY   39/56
+JUNEAU           34  40   .06   RNSNOW  35/35   FOG     23/28
+KANSAS CITY      24  25   .50   FOG     14/36   PTCLDY  27/40
+KEY WEST         63  75         SHWRS   69/76   PTCLDY  65/72
+KNOXVILLE        34  43         RNSNOW  35/37   CLOUDY  27/35
+LAKE CHARLES     50  61         PTCLDY  34/55   SUNNY   36/63
+LANSING          11  20         SUNNY   00/27   MOCLDY  17/31
+LAS VEGAS        42  59         MOCLDY  42/62   PTCLDY  42/62
+LEXINGTON        28  37         RNSNOW  24/33   SNOW    23/32
+
+
+$$
+
+
+------------------------------
+Message-ID: <215>
+Date: Sun, 16 Jan 2022 00:50:45 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+109
+FPUS20 KWBN 160050
+SCS03
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 3 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 PM EST SAT JAN 15 2022
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 PM EST
+
+                                FORECAST        FORECAST
+                 SAT...JAN 15   SUN....JAN 16   MON....JAN 17
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+LINCOLN          13  20         PTCLDY  10/46   PTCLDY  21/45
+LITTLE ROCK      47  47   .29   SUNNY   30/43   SUNNY   31/51
+LOS ANGELES      53  68   .01   PTCLDY  57/74   MOCLDY  54/66
+LOUISVILLE       34  39         RNSNOW  26/37   MOCLDY  26/37
+LUBBOCK          29  45         SUNNY   20/65   SUNNY   25/58
+MACON            37  60         SHWRS   41/47   SUNNY   32/51
+MADISON          08  18    MM   SNOW    07/23   PTCLDY  17/27
+MEDFORD          28  56         PTCLDY  31/56   MOCLDY  33/55
+MEMPHIS          47  48   .38   SNOSHW  31/37   SUNNY   31/47
+MIAMI BEACH      51  75         SHWRS   65/78   PTCLDY  59/72
+MIDLAND ODESSA   36  49         SUNNY   25/66   SUNNY   28/62
+MILWAUKEE        20  24    MM   SNOW    16/27   PTCLDY  19/29
+MPLS ST PAUL     02  15         SNOW    05/31   MOCLDY  18/27
+MISSOULA         19  29         FOG     20/37   MOCLDY  24/34
+MOBILE           44  61   .36   MOCLDY  36/42   SUNNY   33/57
+MONTGOMERY       39  61   .10   RNSNOW  39/41   SUNNY   31/53
+NASHVILLE        37  45   .01   SNOSHW  33/33   MOCLDY  25/40
+NEW ORLEANS      52  66   .49   MOCLDY  35/49   SUNNY   38/58
+NEW YORK CITY    11  20         PTCLDY  12/39   RAIN    31/45
+NEWARK           11  21         PTCLDY  10/39   RAIN    32/46
+NORFOLK VA       31  33         RAIN    28/52   WINDY   38/45
+NORTH PLATTE     16  39         WINDY   17/51   SUNNY   15/55
+OKLAHOMA CITY    26  27         SUNNY   17/49   SUNNY   26/55
+OMAHA            14  15   .09   PTCLDY  09/39   PTCLDY  24/39
+ORLANDO          45  73         SHWRS   59/70   SUNNY   49/65
+PADUCAH          36  42   .20   PTCLDY  27/39   MOCLDY  27/41
+PENDLETON        29  32         FOG     27/39   MOCLDY  28/45
+PEORIA           27  27    MM   PTCLDY  10/27   MOCLDY  21/32
+PHILADELPHIA     16  25         SNOW    12/34   RAIN    29/40
+PHOENIX          49  71         PTCLDY  47/72   PTCLDY  47/71
+PITTSBURGH       14  23         SNOW    12/32   SNOW    24/28
+POCATELLO        21  32         FOG     16/34   PTCLDY  14/34
+PORTLAND ME      01  11         SUNNY  B06/23   RNSNOW  16/43
+PORTLAND OR      39  49         FOG     37/47   MOCLDY  37/50
+PROVIDENCE       07  20         SUNNY   02/29   RAIN    26/48
+PUEBLO           16  48         SUNNY   18/58   SUNNY   16/60
+RALEIGH DURHAM   29  40         FZRAIN  27/40   PTCLDY  32/44
+RAPID CITY       15  46         WINDY   29/43   PTCLDY  20/51
+RENO             29  48         PTCLDY  24/49   MOCLDY  26/52
+RICHMOND         28  36         SNOW    21/39   RNSNOW  33/42
+ROANOKE          29  37         SNOW    19/33   MOCLDY  27/36
+ROCHESTER NY     03  09   .03   SUNNY  B01/27   SNOW    19/29
+ROCKFORD         21  25   .08   SNOW    13/25   MOCLDY  19/30
+SACRAMENTO       36  55         PTCLDY  39/59   MOCLDY  40/58
+ST LOUIS         34  34   .55   PTCLDY  16/32   MOCLDY  27/38
+ST PETERSBURG    59  73         SHWRS   62/69   PTCLDY  56/63
+ST THOMAS VI     73  82         SHWRS   74/84   SHWRS   74/84
+
+
+$$
+
+
+------------------------------
+Message-ID: <216>
+Date: Sun, 16 Jan 2022 00:59:14 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Nws Pacific Tsunami Warning Center Honolulu Hi
+
+WEPA40 PHEB 160051
+TSUPAC
+
+TSUNAMI MESSAGE NUMBER 10
+NWS PACIFIC TSUNAMI WARNING CENTER HONOLULU HI
+0043 UTC SUN JAN 16 2022
+
+...PTWC TSUNAMI THREAT MESSAGE...
+
+
+**** NOTICE **** NOTICE **** NOTICE **** NOTICE **** NOTICE *****
+
+ THIS MESSAGE IS ISSUED FOR INFORMATION ONLY IN SUPPORT OF THE
+ UNESCO/IOC PACIFIC TSUNAMI WARNING AND MITIGATION SYSTEM AND IS
+ MEANT FOR NATIONAL AUTHORITIES IN EACH COUNTRY OF THAT SYSTEM.
+
+ NATIONAL AUTHORITIES WILL DETERMINE THE APPROPRIATE LEVEL OF
+ ALERT FOR EACH COUNTRY AND MAY ISSUE ADDITIONAL OR MORE REFINED
+ INFORMATION.
+
+**** NOTICE **** NOTICE **** NOTICE **** NOTICE **** NOTICE *****
+
+THE TSUNAMI FORECAST IS UNCHANGED IN THIS MESSAGE.
+
+PRELIMINARY VOLCANO PARAMETERS
+---------------------------------
+
+  * ORIGIN TIME    0427 UTC JAN 15 2022
+  * COORDINATES    20.5 SOUTH  175.4 WEST
+  * LOCATION       TONGA
+
+EVALUATION
+----------
+
+  * A VOLCANIC ERUPTION OCCURRED IN
+    THE TONGA ISLANDS AT 0427 UTC ON SATURDAY JANUARY 15 2022.
+
+  * BASED ON SUBSEQUENT SEA LEVEL READINGS... WIDESPREAD
+    HAZARDOUS TSUNAMI WAVES ARE POSSIBLE.
+
+TSUNAMI THREAT FORECAST
+-----------------------
+
+
+TSUNAMI THREAT FORECAST
+-----------------------
+
+  * HAZARDOUS TSUNAMI WAVES FROM THIS ERUPTION ARE POSSIBLE
+    ALONG THE COAST OF
+
+      CHILE... JAPAN... PERU...
+
+
+RECOMMENDED ACTIONS
+-------------------
+
+  * GOVERNMENT AGENCIES RESPONSIBLE FOR THREATENED COASTAL AREAS
+    SHOULD TAKE ACTION TO INFORM AND INSTRUCT ANY COASTAL
+    POPULATIONS AT RISK IN ACCORDANCE WITH THEIR OWN
+    EVALUATION... PROCEDURES AND THE LEVEL OF THREAT.
+
+  * PERSONS LOCATED IN THREATENED COASTAL AREAS SHOULD STAY ALERT
+    FOR INFORMATION AND FOLLOW INSTRUCTIONS FROM NATIONAL AND
+    LOCAL AUTHORITIES.
+
+
+POTENTIAL IMPACTS
+-----------------
+
+  * A TSUNAMI IS A SERIES OF WAVES. THE TIME BETWEEN WAVE CRESTS
+    CAN VARY FROM 5 MINUTES TO AN HOUR. THE HAZARD MAY PERSIST
+    FOR MANY HOURS OR LONGER AFTER THE INITIAL WAVE.
+
+  * IMPACTS CAN VARY SIGNIFICANTLY FROM ONE SECTION OF COAST TO
+    THE NEXT DUE TO LOCAL BATHYMETRY AND THE SHAPE AND ELEVATION
+    OF THE SHORELINE.
+
+  * IMPACTS CAN ALSO VARY DEPENDING UPON THE STATE OF THE TIDE AT
+    THE TIME OF THE MAXIMUM TSUNAMI WAVES.
+
+  * PERSONS CAUGHT IN THE WATER OF A TSUNAMI MAY DROWN... BE
+    CRUSHED BY DEBRIS IN THE WATER... OR BE SWEPT OUT TO SEA.
+
+
+TSUNAMI OBSERVATIONS
+--------------------
+
+  * THE FOLLOWING ARE TSUNAMI WAVE OBSERVATIONS FROM COASTAL
+    AND/OR DEEP-OCEAN SEA LEVEL GAUGES AT THE INDICATED
+    LOCATIONS. THE MAXIMUM TSUNAMI HEIGHT IS MEASURED WITH
+    RESPECT TO THE NORMAL TIDE LEVEL.
+
+                            GAUGE      TIME OF   MAXIMUM     WAVE
+                         COORDINATES   MEASURE   TSUNAMI   PERIOD
+    GAUGE LOCATION        LAT   LON     (UTC)     HEIGHT    (MIN)
+    -------------------------------------------------------------
+    BALTRA GALAPAGS EC    0.4S  90.3W    2048   0.40M/ 1.3FT  14
+    MAZATLAN MX          23.2N 106.4W    1649   0.24M/ 0.8FT  32
+    LAZARO CARDENAS MX   17.9N 102.2W    2235   0.19M/ 0.6FT  26
+    MATARANI PE          17.0S  72.1W    2224   0.48M/ 1.6FT  08
+    ARICA CL             18.5S  70.3W    2234   1.22M/ 4.0FT  10
+    MEJILLONES CL        23.1S  70.5W    2148   0.74M/ 2.4FT  48
+    ABURATSU JP          31.6N 131.4E    1642   0.65M/ 2.1FT  28
+    PICHIDANGUI CL       32.1S  71.5W    2012   0.71M/ 2.3FT  12
+    TOCOPILLA CL         22.1S  70.2W    2015   0.51M/ 1.7FT  14
+    TALTAL CL            25.4S  70.5W    2012   0.49M/ 1.6FT  22
+    CHANARAL CL          26.4S  70.6W    2114   1.74M/ 5.7FT  20
+    CALLAO LA-PUNTA PE   12.1S  77.2W    2052   0.68M/ 2.2FT  18
+    HAKODATE JP          41.8N 140.7E    1936   0.33M/ 1.1FT  28
+    KUSHIMOTO JP         33.5N 135.8E    1629   0.96M/ 3.1FT  14
+    MERA JP              34.9N 139.8E    1714   0.53M/ 1.7FT  18
+    OFUNATO HONSHU JP    39.0N 141.8E    1744   0.29M/ 1.0FT  14
+    SAIPAN US            15.2N 145.7E    1627   0.11M/ 0.4FT  10
+    PUERTO MELINKA CL    43.9S  73.7W    1947   0.11M/ 0.4FT  18
+    LA LIBERTAD EC        2.2S  80.9W    2103   0.60M/ 2.0FT  30
+    PISAGUA CL           19.6S  70.2W    2058   0.26M/ 0.9FT  16
+    ESPERANCE AU         33.9S 121.9E    1721   0.17M/ 0.6FT  36
+    OUVEA NEW CALEDONIA  20.5S 166.6E    0823   0.39M/ 1.3FT  24
+    PORTLAND AU          38.3S 141.6E    1934   0.15M/ 0.5FT  52
+    PORT NAPIER NZ       39.5S 176.9E    1943   0.35M/ 1.2FT  36
+    BURNIE TASMANIA AU   41.1S 145.9E    1721   0.26M/ 0.8FT  22
+    COCOS ISLAND CR       5.6N  87.0W    2030   0.01M/ 0.0FT  02
+    PUERTO ANGEL MX      15.7N  96.5W    2053   0.38M/ 1.2FT  04
+    WINTER HARBOUR CA    50.5N 128.0W    1740   0.28M/ 0.9FT  66
+    HENSLUNG COVE CA     54.2N 133.0W    1731   0.23M/ 0.8FT  28
+    PORT ALEXANDER AK    56.2N 134.6W    2056   0.34M/ 1.1FT  08
+    JACKSON BAY NZ       44.0S 168.6E    1233   0.91M/ 3.0FT  34
+    WELLINGTON NZ        41.3S 174.8E    1950   0.18M/ 0.6FT  32
+    NORTH CAPE NZ        34.4S 173.0E    0917   0.69M/ 2.3FT  06
+    ISHIGAKIJIMA JP      24.3N 124.2E    1509   0.15M/ 0.5FT  16
+    DART 32402           26.7S  74.0W    1936   0.09M/ 0.3FT  30
+    VERNADSKY UK         65.2S  64.3W    1740   0.28M/ 0.9FT  06
+    ANTARCTICA BASE PRA  62.5S  59.7W    1851   0.27M/ 0.9FT  32
+    COQUIMBO CL          30.0S  71.3W    1939   1.08M/ 3.5FT  18
+    TALARA PE             4.6S  81.3W    1918   0.34M/ 1.1FT  18
+    QUINTERO CL          32.8S  71.5W    1846   0.52M/ 1.7FT  12
+    TALCAHUANO CL        36.7S  73.1W    1858   0.35M/ 1.2FT  46
+    BUCALEMU CL          34.6S  72.0W    1937   0.52M/ 1.7FT  08
+    BAHIA MANSA CL       40.6S  73.7W    1815   1.03M/ 3.4FT  16
+    CORRAL CL            39.9S  73.4W    1909   0.80M/ 2.6FT  26
+    QUEPOS CR             9.4N  84.2W    1953   0.11M/ 0.4FT  30
+    SANTACRUZ GALAPAGOS   0.7S  90.3W    1903   0.75M/ 2.5FT  18
+    PUERTO VALLARTA MX   20.7N 105.2W    1820   0.39M/ 1.3FT  78
+    PUERTO MADERO MX     14.7N  92.4W    1914   0.21M/ 0.7FT  32
+    HALEIWA HI           21.6N 158.1W    1717   0.41M/ 1.3FT  18
+    YAKUTAT AK           59.5N 139.7W    1748   0.22M/ 0.7FT  20
+    ZIHUATANEJO MX       17.6N 101.6W    1724   0.46M/ 1.5FT  18
+    ACAPULCO MX          16.8N  99.9W    1707   0.13M/ 0.4FT  48
+    PATACHE CL           20.8S  70.2W    1633   0.15M/ 0.5FT  18
+    CHICHIJIMA JP        27.1N 142.2E    1344   0.74M/ 2.4FT  14
+    VODOPADNAYA RU       51.7N 158.0E    1434   0.45M/ 1.5FT  12
+    KUSHIRO JP           43.0N 144.4E    1411   0.40M/ 1.3FT  42
+    TOSASHIMIZU SHIKOKU  32.8N 133.0E    1537   0.93M/ 3.0FT  30
+    OMAEZAKI HONSHU JP   34.6N 138.2E    1526   0.71M/ 2.3FT  22
+    EASTER CL            27.2S 109.4W    1530   0.32M/ 1.0FT  04
+    DART 46403           52.7N 156.8W    1431   0.06M/ 0.2FT  14
+    DART 46409           55.3N 148.6W    1520   0.04M/ 0.1FT  14
+    DUTCH HBR UNALASKA   53.9N 166.5W    1452   0.09M/ 0.3FT  36
+    KING COVE AK         55.1N 162.3W    1449   0.32M/ 1.1FT  16
+    ATKA AK              52.2N 174.2W    1358   0.22M/ 0.7FT  20
+    NIKOLSKI AK          52.9N 168.9W    1528   0.36M/ 1.2FT  12
+    LIHOU REEF AU        17.1S 152.1E    1241   0.12M/ 0.4FT  14
+    GOLD COAST SAND BYP  27.9S 153.4E    1135   0.70M/ 2.3FT  42
+    PORT KEMBLA AU       34.5S 150.9E    1206   0.39M/ 1.3FT  32
+    TWOFOLD BAY AU       37.1S 149.9E    1205   0.67M/ 2.2FT  48
+    SPRING BAY AU        42.5S 147.9E    1041   0.35M/ 1.1FT  70
+    HIVA OA MARQUESAS     9.8S 139.0W    1026   0.53M/ 1.8FT  12
+    NUKU HIVA MARQUESAS   8.9S 140.1W    1055   0.67M/ 2.2FT  12
+    HANALEI HI           22.2N 159.5W    1233   0.82M/ 2.7FT  14
+    KAHULUI MAUI         20.9N 156.5W    1228   0.83M/ 2.7FT  20
+    RIKITEA PF           23.1S 135.0W    1038   0.21M/ 0.7FT  14
+    HUAHINE PF           16.7S 151.0W    0813   0.53M/ 1.8FT  12
+    NAURU                 0.5S 166.9E    1118   0.15M/ 0.5FT  04
+    GISBORNE EASTLAND N  38.7S 178.0E    1141   0.68M/ 2.2FT  42
+    KAWAIHAE HAWAII      20.0N 155.8W    1132   0.37M/ 1.2FT  10
+    HONOKOHAU HI         19.7N 156.0W    1145   0.34M/ 1.1FT  10
+    HONOLULU OAHU        21.3N 157.9W    1112   0.12M/ 0.4FT  14
+    BARBERS PT HI        21.3N 158.1W    1135   0.19M/ 0.6FT  04
+    MAKAI PIER WAIMANAL  21.3N 157.7W    1128   0.28M/ 0.9FT  10
+    HILO HAWAII          19.7N 155.1W    0929   0.10M/ 0.3FT  16
+    NAWILIWILI KAUAI     22.0N 159.4W    1057   0.31M/ 1.0FT  12
+    HIENGHENE NEW CALED  20.7S 164.9E    0910   0.45M/ 1.5FT  10
+    VANUATU              17.8S 168.3E    0924   1.41M/ 4.6FT  20
+    RAROTONGA CK         21.2S 159.8W    0853   0.90M/ 3.0FT  02
+    GREAT BARRIER IS NZ  36.2S 175.5E    0849   0.70M/ 2.3FT  10
+    OWENGA CHATHAM NZ    44.0S 176.4W    0902   0.44M/ 1.4FT  40
+    KINGSTON NORFOLK IS  29.1S 168.0E    0840   0.78M/ 2.6FT  10
+    LUGANVILLE VU        15.5S 167.2E    0826   0.37M/ 1.2FT  24
+    OUINNE NEW CALEDONI  22.0S 166.7E    0826   1.13M/ 3.7FT  08
+    THIO NEW CALEDONIA   21.6S 166.2E    0819   0.57M/ 1.9FT  20
+    LIFOU NEW CALEDONIA  20.9S 167.3E    0746   0.89M/ 2.9FT  16
+    EAST CAPE NZ         37.6S 178.2E    0834   0.26M/ 0.8FT  08
+    DART 01002           29.7S 175.0W    0542   0.10M/ 0.3FT  28
+    DART 01001           36.0S 177.7W    0612   0.07M/ 0.2FT  24
+    SUVA VITI LEVU FJ    18.1S 178.4E    0633   0.26M/ 0.9FT  18
+    DART 01003           23.4S 173.4W    0442   0.12M/ 0.4FT  42
+    NUKUALOFA TO         21.1S 175.2W    0516   0.82M/ 2.7FT  06
+    PAGO PAGO AS         14.3S 170.7W    0531   0.62M/ 2.0FT  16
+    APIA UPOLU WS        13.8S 171.8W    0551   0.17M/ 0.5FT  18
+
+
+NEXT UPDATE AND ADDITIONAL INFORMATION
+--------------------------------------
+
+  * THE NEXT MESSAGE WILL BE ISSUED IN ONE HOUR... OR SOONER IF
+    THE SITUATION WARRANTS.
+
+  * FURTHER INFORMATION ABOUT THIS EVENT MAY BE FOUND AT
+
+https://urldefense.com/v3/__http://WWW.TSUNAMI.GOV__;!!DZ3fjg!tdbGiK7sbknQj=
+0-pZCoTCMYiU74sY-x4rpyRWVSrM1fpm988buZ87ClRFH0RbWvliMhLrAbo$ .
+
+  * COASTAL REGIONS OF HAWAII... AMERICAN SAMOA... GUAM... AND
+    CNMI SHOULD REFER TO PACIFIC TSUNAMI WARNING CENTER MESSAGES
+    SPECIFICALLY FOR THOSE PLACES THAT CAN BE FOUND AT
+
+https://urldefense.com/v3/__http://WWW.TSUNAMI.GOV__;!!DZ3fjg!tdbGiK7sbknQj=
+0-pZCoTCMYiU74sY-x4rpyRWVSrM1fpm988buZ87ClRFH0RbWvliMhLrAbo$ .
+
+  * COASTAL REGIONS OF CALIFORNIA... OREGON... WASHINGTON...
+    BRITISH COLUMBIA AND ALASKA SHOULD ONLY REFER TO U.S.
+    NATIONAL TSUNAMI WARNING CENTER MESSAGES THAT CAN BE FOUND
+    AT
+https://urldefense.com/v3/__http://WWW.TSUNAMI.GOV__;!!DZ3fjg!tdbGiK7sbknQj=
+0-pZCoTCMYiU74sY-x4rpyRWVSrM1fpm988buZ87ClRFH0RbWvliMhLrAbo$ .
+
+$$
+
+
+------------------------------
+Message-ID: <217>
+Date: Sun, 16 Jan 2022 01:30:19 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Tsunami Message Number 16
+
+WEPA41 PAAQ 160129
+TSUWCA
+
+BULLETIN
+Tsunami Message Number 16
+NWS National Tsunami Warning Center Palmer AK
+529 PM PST Sat Jan 15 2022
+
+PZZ530-531-CAZ040-041-552-087-549-550-039-034-035-529-530-
+006-505-506-508-509-160259-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Orange/San Diego Line,
+California (45 miles SE of L.A.) to Gualala River,
+California (80 miles NW of San Francisco)
+529 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+   AREAS OF CALIFORNIA FROM ORANGE/SAN DIEGO LINE CALIFORNIA,
+   WHICH IS LOCATED 45 MILES SE OF L.A., TO GUALALA RIVER
+   CALIFORNIA, WHICH IS LOCATED 80 MILES NW OF SAN
+   FRANCISCO,...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+CAZ101-160259-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Humboldt/Del Norte
+Line, California to The Oregon/Cal. Border
+529 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+   AREAS OF CALIFORNIA FROM HUMBOLDT/DEL NORTE LINE CALIFORNIA
+   TO THE OREGON/CAL. BORDER ...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+
+------------------------------
+Message-ID: <218>
+Date: Sun, 16 Jan 2022 01:30:19 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Tsunami Message Number 16
+
+WEPA41 PAAQ 160129
+TSUWCA
+
+BULLETIN
+Tsunami Message Number 16
+NWS National Tsunami Warning Center Palmer AK
+529 PM PST Sat Jan 15 2022
+
+PZZ530-531-CAZ040-041-552-087-549-550-039-034-035-529-530-
+006-505-506-508-509-160259-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Orange/San Diego Line,
+California (45 miles SE of L.A.) to Gualala River,
+California (80 miles NW of San Francisco)
+529 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+   AREAS OF CALIFORNIA FROM ORANGE/SAN DIEGO LINE CALIFORNIA,
+   WHICH IS LOCATED 45 MILES SE OF L.A., TO GUALALA RIVER
+   CALIFORNIA, WHICH IS LOCATED 80 MILES NW OF SAN
+   FRANCISCO,...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+CAZ101-160259-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Humboldt/Del Norte
+Line, California to The Oregon/Cal. Border
+529 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+   AREAS OF CALIFORNIA FROM HUMBOLDT/DEL NORTE LINE CALIFORNIA
+   TO THE OREGON/CAL. BORDER ...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+
+------------------------------
+Message-ID: <219>
+Date: Sun, 16 Jan 2022 01:30:27 +0000
+From: <no-reply@weather.cod.edu>
+Subject: HAZARDS: Public Tsunami Statement-Western US
+
+223
+WEAK51 PAAQ 160129
+TSUAK1
+
+BULLETIN
+Public Tsunami Message Number 16
+NWS National Tsunami Warning Center Palmer AK
+529 PM PST Sat Jan 15 2022
+
+UPDATES
+-------
+ * A tsunami has been confirmed and some impacts are expected
+ * Revised alert areas
+ * A Volcanic Eruption has occured in the Tonga Islands
+ * Please disregard earthquake parameters
+ * Wave amplitudes continue to decrease along California coasts
+ * Advisory level waves persist in California
+
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT...
+
+
+
+Tsunami Advisory in Effect for;
+
+ * CALIFORNIA, The coast from Orange/San Diego Line,
+   California (45 miles SE of L.A.) to Gualala River,
+   California (80 miles NW of San Francisco) including San
+   Francisco Bay
+
+ * CALIFORNIA, The coast from Humboldt/Del Norte Line,
+   California to The Oregon/Cal. Border
+
+
+For other US and Canadian Pacific coasts in North America,
+there is no tsunami threat.
+
+
+OBSERVATIONS OF TSUNAMI ACTIVITY
+--------------------------------
+ * No tsunami observations are available to report.
+
+
+PRELIMINARY EARTHQUAKE PARAMETERS
+---------------------------------
+
+ * Magnitude      1.0
+ * Origin Time    1927 AKST Jan 14 2022
+                  2027  PST Jan 14 2022
+                  0427  UTC Jan 15 2022
+ * Coordinates    20.5 South 175.4 West
+ * Depth          1 miles
+ * Location       near the Tonga Islands
+
+
+RECOMMENDED ACTIONS
+-------------------
+ * See message number 4 for recommended actions.
+
+
+IMPACTS
+-------
+ * See message number 4 for possible impacts.
+
+
+ADDITIONAL INFORMATION AND NEXT UPDATE
+--------------------------------------
+ * Refer to the internet site https://urldefense.com/v3/__http://tsunami.go=
+v__;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2J=
+UkazE$  for more information.
+
+ * Pacific coastal residents outside California, Oregon,
+   Washington, British Columbia and Alaska should refer to the
+   Pacific Tsunami Warning Center messages at https://urldefense.com/v3/__h=
+ttp://tsunami.gov__;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsv=
+x6PMGc_0UkiDYN2JUkazE$ .
+
+ * This message will be updated within 60 minutes.
+
+$$
+
+
+------------------------------
+Message-ID: <220>
+Date: Sun, 16 Jan 2022 01:30:32 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Tsunami Message Number 16
+
+WEPA41 PAAQ 160129
+TSUWCA
+
+BULLETIN
+Tsunami Message Number 16
+NWS National Tsunami Warning Center Palmer AK
+529 PM PST Sat Jan 15 2022
+
+PZZ530-531-CAZ040-041-552-087-549-550-039-034-035-529-530-
+006-505-506-508-509-160259-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Orange/San Diego Line,
+California (45 miles SE of L.A.) to Gualala River,
+California (80 miles NW of San Francisco)
+529 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+   AREAS OF CALIFORNIA FROM ORANGE/SAN DIEGO LINE CALIFORNIA,
+   WHICH IS LOCATED 45 MILES SE OF L.A., TO GUALALA RIVER
+   CALIFORNIA, WHICH IS LOCATED 80 MILES NW OF SAN
+   FRANCISCO,...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+CAZ101-160259-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Humboldt/Del Norte
+Line, California to The Oregon/Cal. Border
+529 PM PST Sat Jan 15 2022
+
+
+------------------------------
+Message-ID: <221>
+Date: Sun, 16 Jan 2022 01:30:32 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Beach And Out Of Harbors And Marinas.
+
+WEPA41 PAAQ 160129
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+   AREAS OF CALIFORNIA FROM HUMBOLDT/DEL NORTE LINE CALIFORNIA
+   TO THE OREGON/CAL. BORDER ...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+
+------------------------------
+Message-ID: <222>
+Date: Sun, 16 Jan 2022 01:30:32 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Beach And Out Of Harbors And Marinas.
+
+WEPA41 PAAQ 160129
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+   AREAS OF CALIFORNIA FROM HUMBOLDT/DEL NORTE LINE CALIFORNIA
+   TO THE OREGON/CAL. BORDER ...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+
+------------------------------
+Message-ID: <223>
+Date: Sun, 16 Jan 2022 01:30:32 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Tsunami Message Number 16
+
+WEPA41 PAAQ 160129
+TSUWCA
+
+BULLETIN
+Tsunami Message Number 16
+NWS National Tsunami Warning Center Palmer AK
+529 PM PST Sat Jan 15 2022
+
+PZZ530-531-CAZ040-041-552-087-549-550-039-034-035-529-530-
+006-505-506-508-509-160259-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Orange/San Diego Line,
+California (45 miles SE of L.A.) to Gualala River,
+California (80 miles NW of San Francisco)
+529 PM PST Sat Jan 15 2022
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT FOR THE COASTAL
+   AREAS OF CALIFORNIA FROM ORANGE/SAN DIEGO LINE CALIFORNIA,
+   WHICH IS LOCATED 45 MILES SE OF L.A., TO GUALALA RIVER
+   CALIFORNIA, WHICH IS LOCATED 80 MILES NW OF SAN
+   FRANCISCO,...
+
+If you are located in this coastal area, move off the
+beach and out of harbors and marinas.
+
+Tsunami advisories mean that a tsunami capable of producing
+strong currents or waves dangerous to persons in or very near
+the water is expected or is already occurring.  Areas in the
+advisory should not expect widespread inundation.  Tsunamis
+are a series of waves dangerous many hours after initial
+arrival time.  The first wave may not be the largest.
+
+At 827 PM Pacific Standard Time on January 14 an earthquake with
+preliminary magnitude 1.0 occurred
+near the Tonga Islands.
+
+The tsunami advisory will remain in effect until further notice.
+Refer to the internet site https://urldefense.com/v3/__http://tsunami.gov__=
+;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2JUka=
+zE$  for more information.
+
+$$
+
+CAZ101-160259-
+/O.CON.PAAQ.TS.Y.0003.000000T0000Z-000000T0000Z/
+Coastal areas between and including Humboldt/Del Norte
+Line, California to The Oregon/Cal. Border
+529 PM PST Sat Jan 15 2022
+
+
+------------------------------
+Message-ID: <224>
+Date: Sun, 16 Jan 2022 01:30:39 +0000
+From: <no-reply@weather.cod.edu>
+Subject: HAZARDS: Public Tsunami Statement-Western US
+
+603
+WEAK51 PAAQ 160129
+--------------------------------------
+ * Refer to the internet site https://urldefense.com/v3/__http://tsunami.go=
+v__;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsvx6PMGc_0UkiDYN2J=
+UkazE$  for more information.
+
+ * Pacific coastal residents outside California, Oregon,
+   Washington, British Columbia and Alaska should refer to the
+   Pacific Tsunami Warning Center messages at https://urldefense.com/v3/__h=
+ttp://tsunami.gov__;!!K543PA!fOOul-B8w0n6KzO5OHQwNrtdMjFmG3IimVn--mJmw3Wnsv=
+x6PMGc_0UkiDYN2JUkazE$ .
+
+ * This message will be updated within 60 minutes.
+
+$$
+
+
+------------------------------
+Message-ID: <225>
+Date: Sun, 16 Jan 2022 01:30:39 +0000
+From: <no-reply@weather.cod.edu>
+Subject: HAZARDS: Public Tsunami Statement-Western US
+
+600
+WEAK51 PAAQ 160129
+TSUAK1
+
+BULLETIN
+Public Tsunami Message Number 16
+NWS National Tsunami Warning Center Palmer AK
+529 PM PST Sat Jan 15 2022
+
+UPDATES
+-------
+ * A tsunami has been confirmed and some impacts are expected
+ * Revised alert areas
+ * A Volcanic Eruption has occured in the Tonga Islands
+ * Please disregard earthquake parameters
+ * Wave amplitudes continue to decrease along California coasts
+ * Advisory level waves persist in California
+
+
+...THE TSUNAMI ADVISORY REMAINS IN EFFECT...
+
+
+
+Tsunami Advisory in Effect for;
+
+ * CALIFORNIA, The coast from Orange/San Diego Line,
+   California (45 miles SE of L.A.) to Gualala River,
+   California (80 miles NW of San Francisco) including San
+   Francisco Bay
+
+ * CALIFORNIA, The coast from Humboldt/Del Norte Line,
+   California to The Oregon/Cal. Border
+
+
+For other US and Canadian Pacific coasts in North America,
+there is no tsunami threat.
+
+
+OBSERVATIONS OF TSUNAMI ACTIVITY
+--------------------------------
+ * No tsunami observations are available to report.
+
+
+PRELIMINARY EARTHQUAKE PARAMETERS
+---------------------------------
+
+ * Magnitude      1.0
+ * Origin Time    1927 AKST Jan 14 2022
+                  2027  PST Jan 14 2022
+                  0427  UTC Jan 15 2022
+ * Coordinates    20.5 South 175.4 West
+ * Depth          1 miles
+ * Location       near the Tonga Islands
+
+
+RECOMMENDED ACTIONS
+-------------------
+ * See message number 4 for recommended actions.
+
+
+IMPACTS
+-------
+ * See message number 4 for possible impacts.
+
+
+ADDITIONAL INFORMATION AND NEXT UPDATE
+
+
+------------------------------
+
+*********************************************
+
+End of wx-natnl Digest Sun, 16 Jan 2022
+

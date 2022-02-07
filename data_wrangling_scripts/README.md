@@ -1,4 +1,4 @@
-# scripts
+# data_wrangling_scripts
 
 `wrangle_email.R` organizes the original email files into an R data frame.
 The format of this data frame is similar to the format of the data in the email files with the irrelevant information removed. 
