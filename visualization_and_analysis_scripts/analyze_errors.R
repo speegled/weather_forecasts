@@ -16,9 +16,6 @@ mean_errors <- create_mean_error_df(errors)
 # create mean errors data frame with map information
 mean_errors_map <- create_mean_error_df_map_info(mean_errors)
 
-# create errors data frame with paired t test p value and map information
-errors_p_map <- create_error_df_p_map_info(errors)
-
 
 #'
 #' ANALYSIS AND PLOTS
@@ -26,10 +23,10 @@ errors_p_map <- create_error_df_p_map_info(errors)
 
 
 # create histograms of the mean errors for high and low forecasts
-plot_hist_hi_vs_low(mean_errors, FALSE)
+plot_hist_hi_vs_lo(mean_errors, FALSE)
 
 # create histograms of the absolute value mean errors for high and low forecasts
-plot_hist_hi_vs_low(mean_errors, TRUE)
+plot_hist_hi_vs_lo(mean_errors, TRUE)
 
 # create histograms of the mean errors for low temperature forecasts on different days
 plot_hist_diff_days(mean_errors, TRUE)
@@ -112,65 +109,40 @@ ggsave("plots/abs_mean_error_hi_diff_days.png", plot = plot_abs_hi_diff_days,
 #' 
 #' for high temperatures: 
 #'   using actual values reported next AM:
-#'     error 2 prev PM compared to error current AM: 158/160 significant
-#'     error 2 prev PM compared to error prev PM: 109/160 significant
-#'     error 2 prev PM compared to error prev AM: 84/160 significant
+#'     error 2 prev PM compared to error current AM: 157/160 significant
+#'     error 2 prev PM compared to error prev PM: 103/160 significant
+#'     error 2 prev PM compared to error prev AM: 61/160 significant
 #'   all significant differences are positive (so errors get smaller over time)
 #' 
 #' for low temperatures:
 #'   using actual values reported next AM:
 #'     error 2 prev PM compared to error current AM: 160/160 significant
-#'     ***error 2 prev PM compared to error prev PM: 23/160 significant
+#'     ***error 2 prev PM compared to error prev PM: 24/160 significant
 #'       errors are positive and negative!!!
 #'     error 2 prev PM compared to error prev AM: 159/160 significant
-#'   
-#'   using actual values reported current PM:
-#'     error 2 prev PM compared to error prev PM: 104/160 significant
 #'     
 #'  PREV PM IS A PROBLEM!
 #' 
-
-data <- read.csv("data/email_data_reorganized.csv")
-data$date <- parse_date_time(data$date, "%Y-%m-%d")
 
 summary(errors$error_lo_2_prev_PM - errors$error_lo_current_AM)
 summary(errors$error_lo_2_prev_PM - errors$error_lo_prev_PM)
 summary(errors$error_lo_2_prev_PM - errors$error_lo_prev_AM)
 
-ggplot(data, aes(x = forecast_lo_2_prev_PM - forecast_lo_current_AM)) +
-  geom_histogram(bins = 115)
-ggplot(data, aes(x = forecast_lo_2_prev_PM - forecast_lo_prev_PM)) +
-  geom_histogram(bins = 115) # different shape
-ggplot(data, aes(x = forecast_lo_2_prev_PM - forecast_lo_prev_AM)) +
-  geom_histogram(bins = 115)
+cities <- read.csv("data/cities.csv") %>%
+  mutate(CITY = str_replace_all(CITY, '_', ' '),
+         city_and_state = paste0(CITY, ", ", STATE))
 
-plot_p_vals(errors_p_map, TRUE, TRUE)
-
-plot_p_vals(errors_p_map, FALSE, TRUE)
-
-errors_p_map %>% filter(p_hi_current_AM < 0.05) %>%
-  select(city_and_state, p_hi_current_AM, mean_diff_hi_current_AM) %>%
-  arrange(p_hi_current_AM)
-
-errors_p_map %>% filter(p_hi_prev_PM < 0.05) %>%
-  select(city_and_state, p_hi_prev_PM, mean_diff_hi_prev_PM) %>%
-  arrange(p_hi_prev_PM)
-
-errors_p_map %>% filter(p_hi_prev_AM < 0.05) %>%
-  select(city_and_state, p_hi_prev_AM, mean_diff_hi_prev_AM) %>%
-  arrange(p_hi_prev_AM)
-
-errors_p_map %>% filter(p_lo_current_AM < 0.05) %>%
-  select(city_and_state, p_lo_current_AM, mean_diff_lo_current_AM) %>%
-  arrange(p_lo_current_AM)
-
-errors_p_map %>% filter(p_lo_prev_PM < 0.05) %>%
-  select(city_and_state, p_lo_prev_PM, mean_diff_lo_prev_PM) %>%
-  arrange(p_lo_prev_PM)
-
-errors_p_map %>% filter(p_lo_prev_AM < 0.05) %>%
-  select(city_and_state, p_lo_prev_AM, mean_diff_lo_prev_AM) %>%
-  arrange(p_lo_prev_AM)
+errors %>%
+  group_by(city_and_state) %>%
+  summarize(p = t.test(abs(error_lo_prev_AM), abs(error_lo_prev_PM), paired = TRUE)$p.value,
+            diff = mean(abs(error_lo_prev_AM) - abs(error_lo_prev_PM), na.rm = TRUE)) %>%
+  filter(p < 0.05) %>%
+  merge(cities, by = "city_and_state") %>%
+  rename(city = CITY, state = STATE, lat = LAT, lon = LON, climate = CLIMATE) %>%
+  filter(state %in% state.abb & state != "AK" & state != "HI") %>%
+  select(city_and_state, p, diff) %>%
+  summarize(better = sum(diff > 0),
+            worse = sum(diff < 0))
 
 ggsave("plots/p_vals_lo_sig.png", plot = plot_p_vals(errors_p_map, TRUE, TRUE),
        width = unit(12, "in"), height = unit(4, "in"))

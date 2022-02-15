@@ -1,6 +1,3 @@
-#' This script transforms the email data into a proper R DataFrame
-#' Created by Clayton Strauch on 14 September 2021
-
 library(stringr)
 library(lubridate)
 library(purrr)
