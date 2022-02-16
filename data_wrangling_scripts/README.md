@@ -1,10 +1,12 @@
-# scripts
+# data_wrangling_scripts
+
+* * * 
 
 `wrangle_email.R` organizes the original email files into an R data frame.
 The format of this data frame is similar to the format of the data in the email files with the irrelevant information removed. 
 The data frame is written to the file `email_data.csv`.
 
-`email_data.csv` has 11 columns:
+**`email_data.csv` has 11 columns:**
 
 1. `date_and_time`: the date and time (EST) of the observations/forecasts (format: "%Y-%m-%d %H:%M:%S")
 
@@ -36,12 +38,13 @@ Also note that
 
 * `tomorrow` = day after email date if AM, two days after email date if PM.
 
-
+* * * 
+ 
 `reorganize_email_data.R` reorganizes the data in `email_data.csv` into a more convenient format.
-The reorganized data has a row for each unique (`date`, `city`) pair that includes all of the relevant temperature, outlook, and precipitation observations/forecasts for that pair.
-This script creates two new R data frames and writes them to the files `email_data_reorganized_no_states.csv` and `email_data_reorganized.csv`.  Unlike `email_data_reorganized_no_states.csv`, `email_data_reorganized.csv` includes the `state` for each `city` and separates these two pieces of information into different columns.
+The reorganized data has a row for each unique (`date`, `city`) pair that includes all of the relevant temperature observations and forecasts for that pair.
+This script creates a new R data frame and writes it to the file `email_data_reorganized.csv`.
 
-`email_data_reorganized.csv` has 21 columns (`email_data_reorganized_no_states.csv` has 20 columns which include all of the following columns except the `state` column):
+**`email_data_reorganized.csv` has 15 columns:**
 
 1. `date`: the date to which the observations/forecasts apply (format: "%Y-%m-%d")`
 
@@ -49,28 +52,29 @@ This script creates two new R data frames and writes them to the files `email_da
 
 3. `state`: the state (abbreviation) to which the observations/forecasts apply
 
-4. `forecast_lo_2_prev_PM`: the low temperature forecast for `date` two days prior to `date` in the PM
+4. `forecast_hi_2_prev_PM`: the high temperature forecast for `date` two days prior to `date` in the PM
 
-5. `forecast_hi_2_prev_PM`: the high temperature forecast for `date` two days prior to `date` in the PM
+5. `forecast_lo_prev_AM`: the low temperature forecast for `date` one day prior to `date` in the AM
 
-6. `forecast_out_2_prev_PM`: the outlook forecast for `date` to days prior to `date` in the PM
+6. `forecast_hi_prev_AM`: the high temperature forecast for `date` one day prior to `date` in the AM
 
-7. `forecast_lo_prev_AM`: the low temperature forecast for `date` one day prior to `date` in the AM
+7. `forecast_lo_prev_PM`: the low temperature forecast for `date` one day prior to `date` in the PM
 
-8. `forecast_hi_prev_AM`: the high temperature forecast for `date` one day prior to `date` in the AM
+8. `forecast_hi_prev_PM`: the high temperature forecast for `date` one day prior to `date` in the PM
 
-9. `forecast_out_prev_AM`: the outlook forecast for `date` one day prior to `date` in the AM
+9. `forecast_lo_current_AM`: the low temperature forecast for `date` on `date` in the AM
 
-10. `forecast_lo_prev_PM`: the low temperature forecast for `date` one day prior to `date` in the PM
+10. `forecast_hi_current_AM`: the high temperature forecast for `date` on `date` in the AM
 
-11. `forecast_hi_prev_PM`: the high temperature forecast for `date` one day prior to `date` in the PM
+11. `forecast_lo_current_PM`: the low temperature forecast for `date` on `date` in the PM
 
-12. `forecast_out_prev_PM`: the outlook forecast for `date` one day prior to `date` in the PM
+12. `actual_lo_current_PM`: the actual low temperature reported for `date` on `date` in the PM
 
-13. `forecast_lo_current_AM`: the low temperature forecast for `date` on `date` in the AM
+13. `actual_hi_current_PM`: the actual high temperature reported for `date` on `date` in the PM
 
-14. `forecast_hi_current_AM`: the high temperature forecast for `date` on `date` in the AM
+14. `actual_lo_next_AM`: the actual low temperature reported for `date` the day after `date` in the AM
 
+<<<<<<< HEAD
 15. `forecast_out_current_AM`: the outlook forecast for `date` on `date` in the AM
 
 16. `actual_lo_current_PM`: the actual low temperature reported for `date` on `date` in the PM
@@ -85,3 +89,6 @@ This script creates two new R data frames and writes them to the files `email_da
 
 21. `actual_precip_next_AM`: the actual precipitation reported for `date` the day after `date` in the AM
 
+=======
+15. `actual_hi_next_AM`: the actual high temperature reported for `date` the day after `date` in the AM
+>>>>>>> main

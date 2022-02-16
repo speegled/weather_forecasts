@@ -1,0 +1,615 @@
+Delivered-To: darrinmspeegle@gmail.com
+Received: by 2002:a05:6a10:eb25:0:0:0:0 with SMTP id hx37csp506504pxb;
+        Wed, 8 Dec 2021 04:00:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwW6xTzgjhZSHAoSySY2t2JuIZb0SQ6ic8lBRG+OUgmUQCBCOPW9fHEVe571tYkjmKdnqCC
+X-Received: by 2002:a05:620a:2408:: with SMTP id d8mr6033191qkn.588.1638964826178;
+        Wed, 08 Dec 2021 04:00:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638964826; cv=none;
+        d=google.com; s=arc-20160816;
+        b=KVcE0bOsxgfKfP5WWtPSR1/epHoQx+97hjuOmxUrFnQ57obArZzGE09UwB+jnLvjEa
+         EZ1HMbvEu+WA/Ogv9zDGSl7vuizxOTEQRfXLnBdyYKoNBoPqzUQbDLz93lE1/OgtqJVe
+         REcHvaLdC+iCF2NU5ezXinEBuwfENSFA/7C9HH251r3nCeZvHgs8fthDEoTp2ctbdCsv
+         Jegu2kSTAQk/oHU3ULY70BzBXbv2SdndGDP+Xw26ni947+EhAeNzO5bC+nh0m7DGwXay
+         7hXZzb0DINLKAfzcI/KRtWd84zOJA1oIqK5lTZU+dpTcO6F2Y/1jR3RLaFQhZGHYMP+f
+         Mc2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:reply-to:to:from:auto-submitted:content-transfer-encoding
+         :mime-version:date:message-id:dkim-signature;
+        bh=GGjtrN6a++Ht7JtgIFFOy8gaJjrBeqFODm8mYAGq5Qg=;
+        b=mmV6rMIBA11Ljin4DfknEKx127FrrrjT60hZAOgS/TZwWgijyzrfcMrVDwC/ShYV5J
+         mHDZbPcs9Za2TdVljlgDs1J7/JZ0jBUFOtzhtEScs1xEB4WrVX1Qx/AFqCJJfAhaETeF
+         du65H6qFkg1JGZESijqXAaqp67nR9nUM6ELJxZ/RKgkC+ye+PNmPgcpCH6nBZYgHSI6G
+         aOwBBWIXlAzfdmlbjNdXw2nsK4gIZAjIPzvkMcrxOc21ZB4iHfDl8mgbBek2QCFDuFvk
+         hrgFcPVG+8nXILScHi57bJvAsEBW1GR0Vr9mwiBd++b4D4HLhuv09k+zUOeuQwSn17S7
+         726Q==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b="Y7rkgJv/";
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Return-Path: <wx-natnl-owner@lists.illinois.edu>
+Received: from mx0a-00007101.pphosted.com (mx0a-00007101.pphosted.com. [148.163.135.28])
+        by mx.google.com with ESMTPS id d1si3209233qkc.760.2021.12.08.04.00.25
+        for <darrinmspeegle@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 08 Dec 2021 04:00:26 -0800 (PST)
+Received-SPF: pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) client-ip=148.163.135.28;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b="Y7rkgJv/";
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Received: from pps.filterd (m0272704.ppops.net [127.0.0.1])
+	by mx0b-00007101.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B87c2p1025209
+	for <darrinmspeegle@gmail.com>; Wed, 8 Dec 2021 12:00:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=message-id : date :
+ mime-version : content-type : content-transfer-encoding : from : to :
+ reply-to : subject; s=campusrelays;
+ bh=GGjtrN6a++Ht7JtgIFFOy8gaJjrBeqFODm8mYAGq5Qg=;
+ b=Y7rkgJv/bhhFrVvD33nCWVeylAAugK+20Wk5GX2PCfJe1TNNpNmzb8Ddft+ZdEVvieYF
+ NzsPYgjrPRsDKGaKxNsCprzwcYxh0v/pinlCndwazh4i0QwmcylA75z8Vnmo9qw7lroa
+ UtwUtIWOuVElGRvD6k6tJn3GqdVXlHOGOnUFumDC8kURnbAmTzNoesMS7NKPxMFNxxXU
+ XQS/UKoNKtfpvciRr8LO11tGdtiVhKe2kZ+kehwR7NjTx7t/TYlaIYhLLlTilbH7csLY
+ n71aj88aDzsRoGZiGyOcg3Q17V7TMFB2J9f8WybdMwHKJOham2A195J5Zt5+XSfSGTOA IQ== 
+Received: from lists.illinois.edu (lists.illinois.edu [192.17.172.63])
+	by mx0b-00007101.pphosted.com with ESMTP id 3cteqx4dpc-5
+	for <darrinmspeegle@gmail.com>; Wed, 08 Dec 2021 12:00:23 +0000
+Received: by lists.illinois.edu (Postfix, from userid 50033)
+	id B524FE277E; Wed,  8 Dec 2021 06:00:23 -0600 (CST)
+Message-Id: <sympa.1638964821.76136.746@lists.illinois.edu>
+Date: Wed, 08 Dec 2021 06:00:21 -0600
+Content-Type: text/plain; charset="US-ASCII"
+Auto-Submitted: auto-forwarded
+From: wx-natnl-request@lists.illinois.edu
+To: wx-natnl@lists.illinois.edu
+Reply-to: wx-natnl-request@lists.illinois.edu
+Subject: wx-natnl Digest Wed, 08 Dec 2021 (2/2)
+X-Mailer: Sympa 6.1.23
+X-Proofpoint-ORIG-GUID: fLuenLdJYdchLCs2kIJBgjMpjCv6Q8Qe
+X-Proofpoint-GUID: fLuenLdJYdchLCs2kIJBgjMpjCv6Q8Qe
+X-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0
+ priorityscore=1501 mlxlogscore=999 bulkscore=0 lowpriorityscore=0
+ adultscore=0 clxscore=1031 mlxscore=0 suspectscore=0 phishscore=0
+ impostorscore=0 malwarescore=0 spamscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2112080077
+X-Spam-Score: 0
+X-Spam-OrigSender: wx-natnl-owner@lists.illinois.edu
+X-Spam-Bar:
+Content-Transfer-Encoding: Quoted-printable
+MIME-Version: 1.0
+
+wx-natnl Digest Wed, 08 Dec 2021
+
+Table of contents:
+
+* 26 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 27 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 28 - HAZARDS: Public Tsunami Statement-Western US - <no-
+  reply@weather.cod.edu>
+* 29 - FIRE: Day 1 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 30 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 31 - FIRE: Day 2 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+
+----------------------------------------------------------------------
+
+Message-ID: <26>
+Date: Wed, 8 Dec 2021 06:52:37 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 080652
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+152 AM EST Wed Dec 08 2021
+
+Valid 12Z Sat Dec 11 2021 - 12Z Wed Dec 15 2021
+
+...Locally heavy rain is possible particularly in the southern
+Appalachians Saturday with record-breaking warmth along the
+Eastern Seaboard ahead of a strong cold front...
+
+...An atmospheric river will spread southward along the West Coast
+this weekend into early next week bringing coastal rain and heavy
+mountain snow...
+
+...Overview...
+
+A generally progressive and active weather pattern is forecast to
+occur through the weekend, as a mid-upper trough pushes from the
+central U.S. Saturday toward the East by Sunday, while a surface
+low and potent cold front track ahead of it. Record-setting warm
+temperatures and moderate to locally heavy precipitation are
+likely in the East ahead of the cold front. Meanwhile, a
+slow-moving and reloading trough in the eastern Pacific will
+direct a persistent and moist inflow (atmospheric river) to the
+West Coast, with heavy coastal rain and mountain snows likely that
+should spread southward with time. The overall pattern is expected
+to stagnate Monday and Tuesday with upper ridging building into
+much of the lower 48 to the east of the Pacific trough, before the
+trough begins to make its way eastward around midweek.
+
+...Guidance/Predictability Assessment...
+
+Model guidance for the 12/18Z yesterday cycle continues to show
+very good agreement through much of the period with the pattern
+described above. After some previous waffling, guidance has been
+consistent for a couple of cycles now showing a more phased (no
+northern/southern stream separation) trough in the East over the
+weekend, causing a faster track of the trough and associated cold
+front, so this trend was maintained in the WPC forecast. Farther
+west, there remain some model differences with the eastern Pacific
+trough regarding the distribution of energy and the potential for
+a closed low to develop (especially with GFS runs) within it. But
+overall guidance agrees in a slow track of the trough axis
+southward bringing persistent moist southwesterly flow into the
+West Coast. There are increasing timing differences among
+deterministic and ensemble guidance with the trough eventually
+pushing eastward Tuesday and Wednesday, along with distribution of
+shortwaves within it. The WPC forecast utilized a multi-model
+deterministic blend of the 12/18Z guidance early in the period,
+and was able to hold onto a majority deterministic models blend
+through much of the period, but with increasing incorporation of
+the ensemble means especially by day 7 to mitigate individual
+model differences especially with the Western trough differences.
+
+...Weather/Hazards Highlights...
+
+A strong cold front will track through the eastern third of the
+U.S. on Saturday into Sunday and spread widespread rain with
+embedded thunderstorms along and ahead of it. There is potential
+for heavy rain amounts with quick-hitting high rainfall rates for
+portions of the Southeast, Tennessee and Ohio Valleys, and
+Appalachians, which could cause flooding/flash flooding issues
+especially in the more sensitive terrain of the southern
+Appalachians. With a quicker upper trough and cold frontal track,
+moisture will likely clear out of the Eastern Seaboard by Sunday,
+and with high pressure in its wake, dry conditions are likely in
+the central and eastern U.S. for the first part of next week other
+than some possibility of increasing showers in the south-central
+U.S. and Great Lakes by Monday and Tuesday. Meanwhile, persistent
+moist onshore flow with a weak atmospheric river is likely
+initially in the Pacific Northwest and northern Rockies Saturday,
+and then will track south into California by early next week.
+Enhanced totals are likely along favored terrain, with heavy
+mountain snow in the Cascades, Sierra Nevada, and northern
+Rockies, and spreading to the central Great Basin and Arizona by
+Tuesday.
+
+Ahead of the trough and cold front, mild to warm temperatures are
+forecast for the eastern third of the U.S. on Saturday. Dozens of
+daily record high maximum and minimum temperatures could be set
+from the central Gulf Coast to Northeast with temperatures 20-30F
+above normal. Temperatures should moderate to near normal behind,
+but by early next week as ridging builds, temperatures are
+expected to warm to 10-20F above normal on Sunday in the central
+U.S., with warmth expanding into the eastern U.S. as the workweek
+begins, and warming further to possibly 30+F above average in
+central parts of the Plains and Mississippi Valley by next
+Wednesday.
+
+Tate
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.p=
+hp__;!!DZ3fjg!pBYsXcZMMravONXrkKosY5qdBBDxMIV3mhLOi7pD3GRmL3mwFSVphACwRgB4m=
+zeNjxCGMli4$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_=
+wbg.gif__;!!DZ3fjg!pBYsXcZMMravONXrkKosY5qdBBDxMIV3mhLOi7pD3GRmL3mwFSVphACw=
+RgB4mzeNj7-EY9TA$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg=
+_conus.gif__;!!DZ3fjg!pBYsXcZMMravONXrkKosY5qdBBDxMIV3mhLOi7pD3GRmL3mwFSVph=
+ACwRgB4mzeNj6kbgAzy$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gri=
+dsbody.html__;!!DZ3fjg!pBYsXcZMMravONXrkKosY5qdBBDxMIV3mhLOi7pD3GRmL3mwFSVp=
+hACwRgB4mzeNj_gD3QCA$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml_=
+_;!!DZ3fjg!pBYsXcZMMravONXrkKosY5qdBBDxMIV3mhLOi7pD3GRmL3mwFSVphACwRgB4mzeN=
+j256hXOg$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf=
+_medr.php?day=3D4__;!!DZ3fjg!pBYsXcZMMravONXrkKosY5qdBBDxMIV3mhLOi7pD3GRmL3=
+mwFSVphACwRgB4mzeNjzaBy9O1$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml_=
+_;!!DZ3fjg!pBYsXcZMMravONXrkKosY5qdBBDxMIV3mhLOi7pD3GRmL3mwFSVphACwRgB4mzeN=
+jxzO-vZK$
+
+$$
+
+
+$$
+
+
+------------------------------
+Message-ID: <27>
+Date: Wed, 8 Dec 2021 06:52:37 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+987
+FXUS02 KWBC 080652
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+152 AM EST Wed Dec 08 2021
+
+Valid 12Z Sat Dec 11 2021 - 12Z Wed Dec 15 2021
+
+...Locally heavy rain is possible particularly in the southern
+Appalachians Saturday with record-breaking warmth along the
+Eastern Seaboard ahead of a strong cold front...
+
+...An atmospheric river will spread southward along the West Coast
+this weekend into early next week bringing coastal rain and heavy
+mountain snow...
+
+...Overview...
+
+A generally progressive and active weather pattern is forecast to
+occur through the weekend, as a mid-upper trough pushes from the
+central U.S. Saturday toward the East by Sunday, while a surface
+low and potent cold front track ahead of it. Record-setting warm
+temperatures and moderate to locally heavy precipitation are
+likely in the East ahead of the cold front. Meanwhile, a
+slow-moving and reloading trough in the eastern Pacific will
+direct a persistent and moist inflow (atmospheric river) to the
+West Coast, with heavy coastal rain and mountain snows likely that
+should spread southward with time. The overall pattern is expected
+to stagnate Monday and Tuesday with upper ridging building into
+much of the lower 48 to the east of the Pacific trough, before the
+trough begins to make its way eastward around midweek.
+
+...Guidance/Predictability Assessment...
+
+Model guidance for the 12/18Z yesterday cycle continues to show
+very good agreement through much of the period with the pattern
+described above. After some previous waffling, guidance has been
+consistent for a couple of cycles now showing a more phased (no
+northern/southern stream separation) trough in the East over the
+weekend, causing a faster track of the trough and associated cold
+front, so this trend was maintained in the WPC forecast. Farther
+west, there remain some model differences with the eastern Pacific
+trough regarding the distribution of energy and the potential for
+a closed low to develop (especially with GFS runs) within it. But
+overall guidance agrees in a slow track of the trough axis
+southward bringing persistent moist southwesterly flow into the
+West Coast. There are increasing timing differences among
+deterministic and ensemble guidance with the trough eventually
+pushing eastward Tuesday and Wednesday, along with distribution of
+shortwaves within it. The WPC forecast utilized a multi-model
+deterministic blend of the 12/18Z guidance early in the period,
+and was able to hold onto a majority deterministic models blend
+through much of the period, but with increasing incorporation of
+the ensemble means especially by day 7 to mitigate individual
+model differences especially with the Western trough differences.
+
+...Weather/Hazards Highlights...
+
+A strong cold front will track through the eastern third of the
+U.S. on Saturday into Sunday and spread widespread rain with
+embedded thunderstorms along and ahead of it. There is potential
+for heavy rain amounts with quick-hitting high rainfall rates for
+portions of the Southeast, Tennessee and Ohio Valleys, and
+Appalachians, which could cause flooding/flash flooding issues
+especially in the more sensitive terrain of the southern
+Appalachians. With a quicker upper trough and cold frontal track,
+moisture will likely clear out of the Eastern Seaboard by Sunday,
+and with high pressure in its wake, dry conditions are likely in
+the central and eastern U.S. for the first part of next week other
+than some possibility of increasing showers in the south-central
+U.S. and Great Lakes by Monday and Tuesday. Meanwhile, persistent
+moist onshore flow with a weak atmospheric river is likely
+initially in the Pacific Northwest and northern Rockies Saturday,
+and then will track south into California by early next week.
+Enhanced totals are likely along favored terrain, with heavy
+mountain snow in the Cascades, Sierra Nevada, and northern
+Rockies, and spreading to the central Great Basin and Arizona by
+Tuesday.
+
+Ahead of the trough and cold front, mild to warm temperatures are
+forecast for the eastern third of the U.S. on Saturday. Dozens of
+daily record high maximum and minimum temperatures could be set
+from the central Gulf Coast to Northeast with temperatures 20-30F
+above normal. Temperatures should moderate to near normal behind,
+but by early next week as ridging builds, temperatures are
+expected to warm to 10-20F above normal on Sunday in the central
+U.S., with warmth expanding into the eastern U.S. as the workweek
+begins, and warming further to possibly 30+F above average in
+central parts of the Plains and Mississippi Valley by next
+Wednesday.
+
+Tate
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.p=
+hp__;!!DZ3fjg!oDML-qAyv-0UckB1IXwVdUql9KAGgMBLYDPrCBaI3MWceWwQsiPSEmflJSFKK=
+m78RlHp-ekZ$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_=
+wbg.gif__;!!DZ3fjg!oDML-qAyv-0UckB1IXwVdUql9KAGgMBLYDPrCBaI3MWceWwQsiPSEmfl=
+JSFKKm78RurI763F$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg=
+_conus.gif__;!!DZ3fjg!oDML-qAyv-0UckB1IXwVdUql9KAGgMBLYDPrCBaI3MWceWwQsiPSE=
+mflJSFKKm78Rqw_KnQv$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gri=
+dsbody.html__;!!DZ3fjg!oDML-qAyv-0UckB1IXwVdUql9KAGgMBLYDPrCBaI3MWceWwQsiPS=
+EmflJSFKKm78RvY1jgFx$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml_=
+_;!!DZ3fjg!oDML-qAyv-0UckB1IXwVdUql9KAGgMBLYDPrCBaI3MWceWwQsiPSEmflJSFKKm78=
+Rt9n6Gtb$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf=
+_medr.php?day=3D4__;!!DZ3fjg!oDML-qAyv-0UckB1IXwVdUql9KAGgMBLYDPrCBaI3MWceW=
+wQsiPSEmflJSFKKm78Rp8pdV4G$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml_=
+_;!!DZ3fjg!oDML-qAyv-0UckB1IXwVdUql9KAGgMBLYDPrCBaI3MWceWwQsiPSEmflJSFKKm78=
+Rn2bZEBW$
+
+$$
+
+
+$$
+
+
+------------------------------
+Message-ID: <28>
+Date: Wed, 8 Dec 2021 07:27:58 +0000
+From: <no-reply@weather.cod.edu>
+Subject: HAZARDS: Public Tsunami Statement-Western US
+
+787
+WEAK53 PAAQ 080727
+TIBAK1
+
+Tsunami Information Statement Number 1
+NWS National Tsunami Warning Center Palmer AK
+1127 PM PST Tue Dec 7 2021
+
+...THIS IS A TSUNAMI INFORMATION STATEMENT...
+
+EVALUATION
+----------
+ * There is NO tsunami danger from this earthquake.
+
+
+PRELIMINARY EARTHQUAKE PARAMETERS
+---------------------------------
+
+ * The following parameters are based on a rapid preliminary
+   assessment of the earthquake and changes may occur.
+
+ * Magnitude      5.4
+ * Origin Time    2218 AKST Dec 07 2021
+                  2318  PST Dec 07 2021
+                  0718  UTC Dec 08 2021
+ * Coordinates    44.3 North 129.7 West
+ * Depth          8 miles
+ * Location       off the coast of Oregon
+
+
+ADDITIONAL INFORMATION AND NEXT UPDATE
+--------------------------------------
+ * Further information will be issued by the United States
+   Geological Survey (https://urldefense.com/v3/__http://earthquake.usgs.go=
+v__;!!K543PA!e_ajZ1YZVXFyY7H2gfASL19OqaWtwDLHPo1RvOfaSBQRVWMlNF8wxm3rYdxcDF=
+rWZuE$ ) or the appropriate
+   regional seismic network.
+
+ * This will be the only U.S. National Tsunami Warning Center
+   message issued for this event unless additional information
+   becomes available.
+
+$$
+
+
+------------------------------
+Message-ID: <29>
+Date: Wed, 8 Dec 2021 07:41:50 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 1 Fire Weather Outlook
+
+FNUS21 KWNS 080741
+FWDDY1
+
+Day 1 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0141 AM CST Wed Dec 08 2021
+
+Valid 081200Z - 091200Z
+
+...Synopsis...
+A low-amplitude southern stream shortwave trough and attendant
+midlevel speed maximum will advance eastward from the Desert
+Southwest and overspread the southern Rockies and adjacent High
+Plains by this evening. Surface lee troughing is already established
+across the High Plains, and the emergence of the southwesterly
+midlevel speed maximum will aid in enhancing the surface pressure
+gradient over portions of eastern New Mexico and the Texas Panhandle
+vicinity.
+
+...Southern High Plains...
+Elevated to perhaps spotty Critical fire-weather conditions are
+expected across parts of eastern New Mexico and the Texas Panhandle
+this afternoon. Here, downslope trajectories off the southern
+Rockies will support RH reductions into the upper teens to lower 20s
+amid breezy west-southwesterly surface winds of 15-20 mph with
+higher gusts. While increasing mid/high-level cloud coverage
+preceding the shortwave trough may limit diurnal RH reductions to an
+extent, high-resolution model guidance continues to depict the
+development of critically low RH in response to adiabatic
+warming/drying across the region.
+
+...Central High Plains...
+A brief period of locally Elevated fire-weather conditions may
+develop this afternoon, as enhanced midlevel flow peripheral to the
+previously mentioned speed maximum glances parts of southeastern
+Wyoming, northeastern Colorado, and the Nebraska Panhandle. With
+that said, continued disagreement amongst the short-range model
+guidance regarding a favorable overlap of low RH and breezy surface
+winds precludes highlights at this time, though trends will be
+monitored.
+
+..Weinman/Wendt.. 12/08/2021
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!plNKazX=
+ctzjy4jgbAAtXpDGZVNiVL1MFqE116A5A01AfagWSDuvvYrMp6nmiDCxIf_aXMe_9$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <30>
+Date: Wed, 8 Dec 2021 07:58:38 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 080758
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+257 AM EST Wed Dec 08 2021
+
+Valid 12Z Wed Dec 08 2021 - 12Z Fri Dec 10 2021
+
+...Developing winter storm to produce the first widespread and
+significant snow of the season across parts of the Sierra Nevada,
+Intermountain West, Central Rockies, and central High Plains on
+Thursday and Friday...
+
+...Light snow possible across the Northeast today and Upper Great
+Lakes on Thursday...
+
+...Potentially record-breaking warm temperatures to build across
+the south-central United States...
+
+The most widespread and impactful system to affect the Nation
+through the end of the week will be located between the
+Intermountain West and central High Plains as a potent upper-level
+trough and cold front enter the region later today. Moderate snow
+is expected out breakout tonight into early Thursday across
+portions of the Sierra Nevada and Intermountain West, with snow
+also falling into the lower elevations and potentially impacting
+the Thursday AM commute in central/northern Nevada. Throughout the
+day on Thursday, snow is forecast to steadily spread eastward and
+into the Central Rockies before reaching parts of the central High
+Plains by Thursday night. Snowfall amounts greater than 6 inches
+are likely across the Sierra Nevada and higher terrain of the
+Intermountain West, with 3-6 inches likely across the lower
+terrain. Over a foot of snow is expected across the Central
+Rockies of Utah, western Colorado, and far southern Wyoming.
+Meanwhile, heavy snow is also forecast to create hazardous driving
+conditions throughout southeast Wyoming and western Nebraska into
+Friday morning, where widespread 6-12 inches of snow is possible.
+Residents in these locations are advised to plan ahead as
+difficult travel conditions are increasingly likely with this
+first significant snow of the season. Winter Weather Advisories
+and Winter Storm Watches have been issued. Periods of heavy snow
+are also possible across the Cascades and Northern Rockies, thanks
+to a persistent onshore flow ushering in Pacific moisture to the
+region. Over a foot of snow is forecast through Friday morning
+across the Cascades, Olympics, and mountainous terrain of northern
+Idaho and northwest Montana. Winter Weather Advisories and Winter
+Storm Warnings have been issued here. Finally, it is worth noting
+that this active weather pattern along the West Coast will likely
+lead to much-needed rainfall spreading into central and southern
+California on Thursday, but amounts are currently expected to
+remain under a quarter of an inch.
+
+For the eastern U.S., an area of low pressure located along a
+stalled frontal boundary draped across the Southeast is expected
+to move northeast and rapidly strengthen off the New England
+coastline tonight. While this system is forecast to remain well
+offshore, light snow is still possible across parts of the
+Northeast and New England. Snow showers are also a possibility
+throughout the northern Mid-Atlantic, with little-to-no
+accumulation expected. Farther south, a cold front exiting the
+Southeast by this afternoon may spark a few thunderstorms over
+southern Georgia and the eastern Carolinas. Light precipitation is
+also expected to sweep into the Upper Midwest/Great Lakes on
+Thursday in the form of snow as a warm front lifts near the
+region. A few inches of snow could fall across the U.P. of
+Michigan.
+
+Elsewhere, a warming trend is on the way for the central United
+States as anomalous upper-level ridging builds downstream of the
+western trough. Highs are expected to reach into the 70s and 80s
+by Thursday, with 60s extending into the middle Mississippi
+Valley. Daily high temperature records are likely to be topped
+through Oklahoma and Texas on Thursday, with even more December
+warmth on the way to end the week.
+
+Snell
+
+Graphics are available at
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/basicwx/basicwx_n=
+dfd.php__;!!DZ3fjg!rfzg8-DZg4kCf-LCIPIB6eEwoG0KSUJCrkFKoeM6ueA3UVQaMFZruLXk=
+N4_uSdZrPzHRc1Fb$
+$$
+
+
+------------------------------
+Message-ID: <31>
+Date: Wed, 8 Dec 2021 08:03:18 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 2 Fire Weather Outlook
+
+FNUS22 KWNS 080803
+FWDDY2
+
+Day 2 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0202 AM CST Wed Dec 08 2021
+
+Valid 091200Z - 101200Z
+
+...Synopsis...
+A belt of enhanced midlevel west-southwesterly downslope flow will
+remain in place over the southern Rockies on Thursday, maintaining a
+tight surface pressure gradient over the southern High Plains. As a
+lee surface low deepens over the northern Plains, low-level
+west-southwesterly flow will strengthen across the southern High
+Plains in response.
+
+...Southern High Plains...
+Elevated to locally Critical fire-weather conditions are anticipated
+across portions of the southern High Plains on Thursday afternoon,
+as low/mid-level west-southwesterly downslope flow strengthens
+across the region. Similar to Wednesday, substantial mid/high-level
+clouds may limit diurnal RH reductions to an extent. However,
+high-resolution model guidance continues to depict a few hours of RH
+in the 15-25 percent range, coincident with breezy surface winds of
+15-25 mph and higher gusts.
+
+..Weinman/Wendt.. 12/08/2021
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!rtb44a4=
+_ZO2yeOSrgdWxZNbdGU3ZcuEoGegDynemwq87iYm-9DgEnj9X9URiy26tPxQoXhZD$
+for graphic product...
+
+$$
+
+
+------------------------------
+
+*********************************************
+
+End of wx-natnl Digest Wed, 08 Dec 2021
+

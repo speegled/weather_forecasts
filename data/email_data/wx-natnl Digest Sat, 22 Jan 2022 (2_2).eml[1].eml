@@ -1,0 +1,522 @@
+Delivered-To: darrinmspeegle@gmail.com
+Received: by 2002:a05:6a10:a746:0:0:0:0 with SMTP id l6csp1455388pxw;
+        Sat, 22 Jan 2022 04:00:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwFIvIu4brcvfujiKMJpkAcgJcl3vnilSBjihz+ATH8BXr4MTLUo1Pkbq8v8M+vTOStVMCe
+X-Received: by 2002:a25:4150:: with SMTP id o77mr12561887yba.438.1642852840685;
+        Sat, 22 Jan 2022 04:00:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1642852840; cv=none;
+        d=google.com; s=arc-20160816;
+        b=WXiTMov/aYZHzIo9MSS81dFz73lvWmsPxuMVunoCEyp0CtKKI90qB2BJZwUpU8rcZF
+         AZKKhLNbuaoEit0fZu+G7nzfVi9Qic7CNip8xjLkWmmtPj39wS7J1jJbC5m0ayE/Rr6A
+         Ve0FhATlfKlucqdY6dZDuI5zgEYED+aNYYghqbefS/zbYj7EjC1p42pYfB8Cqneu9+as
+         GkHjfcbpN+Uy2RwddWCnRSaPhTSU9QmtQh9tQ3PyyDcsbTkR/c05pJSsU6vf/4u10P0N
+         +GovWRFdmb/wOdZ9f5oJKAX0fFvmZlYUKcgQ9yVgk65HCi5LqafoP+N4/rOImMoOouyP
+         okvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:reply-to:to:from:auto-submitted:content-transfer-encoding
+         :mime-version:date:message-id:dkim-signature;
+        bh=AgqA1BagidmFZzEEXxp/1N38OxjxNKOyBjh1nDAkVbI=;
+        b=X30/P7Z47Dlrw4+b9vzbylpW7GFjywJQNkp1dRMgeJTfuaiUHbr203LvbEWN1tWKex
+         efIAsDCdLhcBpjNPX72VbsrB2zTIcCc3hGdESJQwyKqmnUI7pSajTjYlnz5R1ry/wn+p
+         YSSuUGINp9OH7Sl75NbXd5oYknE9AfQrP/ov/8rlK49iacc3TrQ4yKt+Xvsd+SzkeCR6
+         mcEi3ojdSvVH3/lepKfx/GqlH0gCXOcMDyTwJiLPiNSw+WPoTooOnGDpQqdQbiBEhTWH
+         BpYsz8QixMnV9Qc7jDMYkl9qvrASdFSU5DaK2z5/E4lTEBKQnJsZgFXt/jB95C6kzOKo
+         V4sg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=nvh0kZyW;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Return-Path: <wx-natnl-owner@lists.illinois.edu>
+Received: from mx0a-00007101.pphosted.com (mx0a-00007101.pphosted.com. [148.163.135.28])
+        by mx.google.com with ESMTPS id r127si8141569yba.829.2022.01.22.04.00.40
+        for <darrinmspeegle@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 22 Jan 2022 04:00:40 -0800 (PST)
+Received-SPF: pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) client-ip=148.163.135.28;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=nvh0kZyW;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Received: from pps.filterd (m0166256.ppops.net [127.0.0.1])
+	by mx0a-00007101.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20MBDdTC025739
+	for <darrinmspeegle@gmail.com>; Sat, 22 Jan 2022 12:00:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=message-id : date :
+ mime-version : content-type : content-transfer-encoding : from : to :
+ reply-to : subject; s=campusrelays;
+ bh=AgqA1BagidmFZzEEXxp/1N38OxjxNKOyBjh1nDAkVbI=;
+ b=nvh0kZyWromQX2LR/c5SXrcAd5ZbbiFjxiWllX4KHRrs9fEci/PqbM/BcbkpxHJeKkdd
+ dZJ5c34CnpBaYWR4vanOezx0b9FthSrBToRkVJ9qo2Lkh561F+NpFxe4LRyk5n//CFHc
+ noGTWsIY8EYuvZuHtIgVrGQvJ4c3kyAEUD6vqUiiPQA2umQiunTsUWEGcfZ2RrlcA7VV
+ hm+OfxWmPo5K6C1NwirimMwgC6k7NBN68OCXnvVeZwjMBe93B+TcrM5kkObViTUO1ep1
+ 1BUS8XSizyQ2s/z24LLlnEgrqI2FCiI3hnu5wt/WkqPkAmgo5SfyaTmNqKjnRW10+nLf qQ== 
+Received: from lists.illinois.edu (lists.illinois.edu [192.17.172.63])
+	by mx0a-00007101.pphosted.com (PPS) with ESMTP id 3draxshc6n-11
+	for <darrinmspeegle@gmail.com>; Sat, 22 Jan 2022 12:00:39 +0000
+Received: by lists.illinois.edu (Postfix, from userid 50033)
+	id 342EDE29FD; Sat, 22 Jan 2022 06:00:39 -0600 (CST)
+Message-Id: <sympa.1642852822.90867.20@lists.illinois.edu>
+Date: Sat, 22 Jan 2022 06:00:22 -0600
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7BIT
+Auto-Submitted: auto-forwarded
+From: wx-natnl-request@lists.illinois.edu
+To: wx-natnl@lists.illinois.edu
+Reply-to: wx-natnl-request@lists.illinois.edu
+Subject: wx-natnl Digest Sat, 22 Jan 2022 (2/2)
+X-Mailer: Sympa 6.1.23
+X-Proofpoint-GUID: NZk4gto-un_uTl4p0lli4jt752dhQ_MX
+X-Proofpoint-ORIG-GUID: NZk4gto-un_uTl4p0lli4jt752dhQ_MX
+X-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0 phishscore=0
+ adultscore=0 clxscore=1031 impostorscore=0 suspectscore=0 mlxscore=0
+ malwarescore=0 spamscore=0 mlxlogscore=999 bulkscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2201220084
+X-Spam-Score: 0
+X-Spam-OrigSender: wx-natnl-owner@lists.illinois.edu
+X-Spam-Bar:
+MIME-Version: 1.0
+
+wx-natnl Digest Sat, 22 Jan 2022
+
+Table of contents:
+
+* 26 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 27 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 28 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 29 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+
+----------------------------------------------------------------------
+
+Message-ID: <26>
+Date: Sat, 22 Jan 2022 07:01:01 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 220700
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+159 AM EST Sat Jan 22 2022
+
+Valid 12Z Tue Jan 25 2022 - 12Z Sat Jan 29 2022
+
+...Overview...
+
+Guidance continues to show a strong eastern Pacific ridge helping
+to keep a broad mean trough across a majority of the lower 48
+through Wednesday.  The Pacific ridge will likely drift into the
+West by Thursday-Friday, followed by some weakening depending on
+very uncertain details of upstream shortwave energy.  Meanwhile
+within the lower 48 mean trough, one shortwave will rotate through
+the eastern half of the country during the first half of the
+period and then another shortwave dropping into the central U.S.
+late in the week may reach near the East Coast by early Saturday.
+There is a decent signal that this latter shortwave will support a
+developing East Coast/western Atlantic storm by next weekend but
+with low confidence in details.  The pattern through the period
+will generally favor below to well below normal temperatures over
+the eastern half of the country and mild temperatures from the
+West into the northern/central Plains.  Precipitation coverage and
+intensity across the lower 48 will tend to be low aside from an
+area of moisture crossing the East on Tuesday and then possibly
+over parts of the South and East by the end of the week/next
+weekend depending on details of upper flow and surface development.
+
+...Guidance Evaluation/Predictability Assessment...
+
+At the start of the period, guidance still varies somewhat on the
+fine-scale details of initial northern Gulf of Mexico low pressure
+quickly tracking into the Atlantic as supporting dynamics shear
+out within accelerating flow aloft.  A blend approach maintains
+the prevailing theme of the evolution.  Then continuity and
+agreement are decent with a Canadian system dropping into the
+Great Lakes by late in the week and then weakening.
+
+The rest of the late-period forecast becomes more uncertain as
+models and ensembles diverge considerably for eastern
+Pacific/western U.S. details.  With some possible influence from
+these issues, the evolution over and near the East by late
+Friday-Saturday also displays a fair degree of uncertainty.  In
+contrast to previous trend, over the past day guidance has trended
+stronger with the upper ridge reaching the West late in the week
+and increasingly varied with how energy within the shortwave
+approaching from the west may separate (as illustrated most simply
+by the 12Z and new 00Z ECMWF runs).  By day 7 Saturday the end
+result over the West is a chaotic ensemble spaghetti plot with
+anything between a shortwave or lingering ridge a possibility.
+The 12Z ECMWF mean's shortwave did not have much agreement among
+other 12Z/18Z models and means but the new 00Z CMC has come in
+with a similar feature and the new ECMWF has a fairly strong
+shortwave.  There is a somewhat better suggestion that energy
+rounding the ridge may support a wave/front dropping into the
+northern tier on Saturday.  The most common theme farther east is
+for low pressure to be organizing over the western Atlantic by
+early Saturday.  The 18Z/00Z GFS runs are closest to the
+relatively higher density of ensemble surface lows at that time
+while recent CMC runs have been somewhat in the neighborhood.  The
+12Z GFS/ECMWF were on the southwestern edge of the spread.  The
+new 00Z ECMWF is closer to the majority cluster in principle.
+
+Based on latest guidance comparisons, the updated forecast
+reflected a blend of 12Z/18Z operational models early in the
+period and then transitioned toward greater weight of the
+GEFS/ECens/CMCens due to the uncertainty of upper details over the
+West toward the end of the period and to yield the highest
+probability track for western Atlantic low pressure by Saturday.
+Manual depiction of this low will likely trend deeper as
+confidence in strength and track improves.
+
+...Weather Highlights/Threats...
+
+The combination of a northern Gulf of Mexico wave quickly moving
+into the Atlantic and a cold front crossing the East will spread
+an area of precipitation across the East on Tuesday.  Most amounts
+will be in the light to moderate range, with some proportion of
+the precipitation possibly being in the form of snow from the Ohio
+Valley/central Appalachians into the Northeast.  A period of lake
+effect snow will be possible behind the front.  A trailing
+wave/front may spread areas of light snow from the northern Plains
+into the Great Lakes and Northeast from about midweek into the
+weekend.  Supporting dynamics could be amplified enough to support
+some precipitation farther south as well but with low confidence
+over coverage and amounts.  By next Saturday the
+coverage/intensity/type of precipitation along the East Coast are
+likewise uncertain at this time and will require close monitoring.
+ Parts of the High Plains may see light snow on Tuesday.  Much of
+the West should be dry during the period.  Some moisture could
+eventually reach the Pacific Northwest by next Saturday.
+
+A surge of cold air will initially be over the Upper Mississippi
+Valley and Midwest on Tuesday, with some areas seeing temperatures
+20-25F below normal from Tuesday into early Wednesday.  This cold
+will then spread toward/into the South and East with time,
+bringing a day or so of readings that are 10-20F above normal.  By
+Friday-Saturday the Mid-Atlantic and Northeast may moderate some
+while parts of the Southeast may see highs at least 10F below
+normal.  After less extreme cold passes through the
+central/southern Plains early in the period, most of the Plains
+will see a warming trend with some areas seeing temperatures at
+least 10F above normal.  The West will see moderately above normal
+temperatures next week with some localized plus 10-15F anomalies
+for highs.
+
+Rausch
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!sXmFBHhroPBEl44EtZM0UVYBFsLQMvyWT_01sUh7WfbCDyvOv3gvM-CPpzZILOxsvS5ECaQP$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!sXmFBHhroPBEl44EtZM0UVYBFsLQMvyWT_01sUh7WfbCDyvOv3gvM-CPpzZILOxsvfWvpi47$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!sXmFBHhroPBEl44EtZM0UVYBFsLQMvyWT_01sUh7WfbCDyvOv3gvM-CPpzZILOxsvSdwCDOe$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!sXmFBHhroPBEl44EtZM0UVYBFsLQMvyWT_01sUh7WfbCDyvOv3gvM-CPpzZILOxsva3ylxKZ$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!sXmFBHhroPBEl44EtZM0UVYBFsLQMvyWT_01sUh7WfbCDyvOv3gvM-CPpzZILOxsvVmbvvWw$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!sXmFBHhroPBEl44EtZM0UVYBFsLQMvyWT_01sUh7WfbCDyvOv3gvM-CPpzZILOxsvU4HUhS7$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!sXmFBHhroPBEl44EtZM0UVYBFsLQMvyWT_01sUh7WfbCDyvOv3gvM-CPpzZILOxsvSmgjV6E$
+
+$$
+
+
+$$
+
+
+------------------------------
+Message-ID: <27>
+Date: Sat, 22 Jan 2022 07:01:01 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+228
+FXUS02 KWBC 220700
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+159 AM EST Sat Jan 22 2022
+
+Valid 12Z Tue Jan 25 2022 - 12Z Sat Jan 29 2022
+
+...Overview...
+
+Guidance continues to show a strong eastern Pacific ridge helping
+to keep a broad mean trough across a majority of the lower 48
+through Wednesday.  The Pacific ridge will likely drift into the
+West by Thursday-Friday, followed by some weakening depending on
+very uncertain details of upstream shortwave energy.  Meanwhile
+within the lower 48 mean trough, one shortwave will rotate through
+the eastern half of the country during the first half of the
+period and then another shortwave dropping into the central U.S.
+late in the week may reach near the East Coast by early Saturday.
+There is a decent signal that this latter shortwave will support a
+developing East Coast/western Atlantic storm by next weekend but
+with low confidence in details.  The pattern through the period
+will generally favor below to well below normal temperatures over
+the eastern half of the country and mild temperatures from the
+West into the northern/central Plains.  Precipitation coverage and
+intensity across the lower 48 will tend to be low aside from an
+area of moisture crossing the East on Tuesday and then possibly
+over parts of the South and East by the end of the week/next
+weekend depending on details of upper flow and surface development.
+
+...Guidance Evaluation/Predictability Assessment...
+
+At the start of the period, guidance still varies somewhat on the
+fine-scale details of initial northern Gulf of Mexico low pressure
+quickly tracking into the Atlantic as supporting dynamics shear
+out within accelerating flow aloft.  A blend approach maintains
+the prevailing theme of the evolution.  Then continuity and
+agreement are decent with a Canadian system dropping into the
+Great Lakes by late in the week and then weakening.
+
+The rest of the late-period forecast becomes more uncertain as
+models and ensembles diverge considerably for eastern
+Pacific/western U.S. details.  With some possible influence from
+these issues, the evolution over and near the East by late
+Friday-Saturday also displays a fair degree of uncertainty.  In
+contrast to previous trend, over the past day guidance has trended
+stronger with the upper ridge reaching the West late in the week
+and increasingly varied with how energy within the shortwave
+approaching from the west may separate (as illustrated most simply
+by the 12Z and new 00Z ECMWF runs).  By day 7 Saturday the end
+result over the West is a chaotic ensemble spaghetti plot with
+anything between a shortwave or lingering ridge a possibility.
+The 12Z ECMWF mean's shortwave did not have much agreement among
+other 12Z/18Z models and means but the new 00Z CMC has come in
+with a similar feature and the new ECMWF has a fairly strong
+shortwave.  There is a somewhat better suggestion that energy
+rounding the ridge may support a wave/front dropping into the
+northern tier on Saturday.  The most common theme farther east is
+for low pressure to be organizing over the western Atlantic by
+early Saturday.  The 18Z/00Z GFS runs are closest to the
+relatively higher density of ensemble surface lows at that time
+while recent CMC runs have been somewhat in the neighborhood.  The
+12Z GFS/ECMWF were on the southwestern edge of the spread.  The
+new 00Z ECMWF is closer to the majority cluster in principle.
+
+Based on latest guidance comparisons, the updated forecast
+reflected a blend of 12Z/18Z operational models early in the
+period and then transitioned toward greater weight of the
+GEFS/ECens/CMCens due to the uncertainty of upper details over the
+West toward the end of the period and to yield the highest
+probability track for western Atlantic low pressure by Saturday.
+Manual depiction of this low will likely trend deeper as
+confidence in strength and track improves.
+
+...Weather Highlights/Threats...
+
+The combination of a northern Gulf of Mexico wave quickly moving
+into the Atlantic and a cold front crossing the East will spread
+an area of precipitation across the East on Tuesday.  Most amounts
+will be in the light to moderate range, with some proportion of
+the precipitation possibly being in the form of snow from the Ohio
+Valley/central Appalachians into the Northeast.  A period of lake
+effect snow will be possible behind the front.  A trailing
+wave/front may spread areas of light snow from the northern Plains
+into the Great Lakes and Northeast from about midweek into the
+weekend.  Supporting dynamics could be amplified enough to support
+some precipitation farther south as well but with low confidence
+over coverage and amounts.  By next Saturday the
+coverage/intensity/type of precipitation along the East Coast are
+likewise uncertain at this time and will require close monitoring.
+ Parts of the High Plains may see light snow on Tuesday.  Much of
+the West should be dry during the period.  Some moisture could
+eventually reach the Pacific Northwest by next Saturday.
+
+A surge of cold air will initially be over the Upper Mississippi
+Valley and Midwest on Tuesday, with some areas seeing temperatures
+20-25F below normal from Tuesday into early Wednesday.  This cold
+will then spread toward/into the South and East with time,
+bringing a day or so of readings that are 10-20F above normal.  By
+Friday-Saturday the Mid-Atlantic and Northeast may moderate some
+while parts of the Southeast may see highs at least 10F below
+normal.  After less extreme cold passes through the
+central/southern Plains early in the period, most of the Plains
+will see a warming trend with some areas seeing temperatures at
+least 10F above normal.  The West will see moderately above normal
+temperatures next week with some localized plus 10-15F anomalies
+for highs.
+
+Rausch
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!v2xiGzZnbasg2zfkqYxnG2pa9XJbByOCEOrkfqMKZ67MywyAUmhnRQCdBt2l-U1TsM0VRQZX$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!v2xiGzZnbasg2zfkqYxnG2pa9XJbByOCEOrkfqMKZ67MywyAUmhnRQCdBt2l-U1TsLainpXx$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!v2xiGzZnbasg2zfkqYxnG2pa9XJbByOCEOrkfqMKZ67MywyAUmhnRQCdBt2l-U1TsC6W1Awd$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!v2xiGzZnbasg2zfkqYxnG2pa9XJbByOCEOrkfqMKZ67MywyAUmhnRQCdBt2l-U1TsPuozF6y$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!v2xiGzZnbasg2zfkqYxnG2pa9XJbByOCEOrkfqMKZ67MywyAUmhnRQCdBt2l-U1TsDRfIeJr$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!v2xiGzZnbasg2zfkqYxnG2pa9XJbByOCEOrkfqMKZ67MywyAUmhnRQCdBt2l-U1TsP7pFEpg$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!v2xiGzZnbasg2zfkqYxnG2pa9XJbByOCEOrkfqMKZ67MywyAUmhnRQCdBt2l-U1TsGoZAD9G$
+
+$$
+
+
+$$
+
+
+------------------------------
+Message-ID: <28>
+Date: Sat, 22 Jan 2022 08:01:46 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 220801
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+300 AM EST Sat Jan 22 2022
+
+Valid 12Z Sat Jan 22 2022 - 12Z Mon Jan 24 2022
+
+...Wintry precipitation along the Mid-Atlantic coast expected to
+come to an end later this morning...
+
+...Periods of light snow from the northern Plains to the Great
+Lakes...
+
+...Santa Ana winds across portions of California followed by
+return of Gulf moisture into southern Texas...
+
+...Arctic chill continues across much of the southern and eastern
+U.S. but mild weather returns to the northern/central High
+Plains....
+
+The latest round of freezing rain and snow impacting the
+Carolinas, southeastern Virginia and into the Delmarva Peninsula
+is expected to exit the coast later this morning as the low
+pressure system begins to move more rapidly out into the Atlantic.
+ An arctic air mass behind this system will keep much of the
+southern and eastern U.S. much colder than normal.  A gradual
+moderating trend is expected for the next couple of days as the
+arctic high pressure system weakens.
+
+The northern tier states will be in the cross-path of low pressure
+systems that are forecast to dive southeastward from Alberta,
+Canada during the next couple of days.  These clippers will bring
+periods of snow followed by reinforcing shots of arctic air into
+the northern Plains followed by the Great Lakes region.  In
+contrast, mild temperatures are expected to return over the
+northern and central High Plains just ahead of the arctic
+boundaries.
+
+Farther west, an upper low in the Desert Southwest will generate
+unsettled weather for the Four Corners region while Santa Ana
+Winds race through southern California. High Wind Warnings have
+been posted just north and east of Los Angeles, the central Sierra
+Nevada, and the coastal ranges north of San Francisco. An even
+larger footprint of Wind Advisories is in effect through Saturday
+morning from central California to the southern Great Basin. The
+upper low is forecast to produce light snowfall accumulations from
+the highest peaks of southern California to the Mogollon Rim of
+Arizona and the southern Rockies tonight through Saturday. This
+upper low will inch east on Sunday with only a few spotty showers
+and some light snowfall accumulations in the higher elevations of
+eastern Arizona and western New Mexico. Temperature-wise, the West
+remains fairly mild overall with the warmest departures focused
+along the West Coast. In the Great Plains, a warm front sliding
+east gives way to warming temperatures throughout much of the
+region. High temps by Sunday are likely to reach the 50s in the
+central Plains, which is roughly 10 to 20 degrees above normal for
+late January.
+
+Kong/Mullinax
+
+
+Graphics are available at
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/basicwx/basicwx_ndfd.php__;!!DZ3fjg!t6jsxmA94klZ_HMDGR4kREvFJZzkoopkzmu2E9LqLAbbMZ2Dj4NOeJbStXeIi0VbBb1XqJSR$
+$$
+
+
+------------------------------
+Message-ID: <29>
+Date: Sat, 22 Jan 2022 08:13:26 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 220812
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+311 AM EST Sat Jan 22 2022
+
+Valid 12Z Sat Jan 22 2022 - 12Z Mon Jan 24 2022
+
+...Wintry precipitation along the Mid-Atlantic coast expected to
+come to an end later this morning...
+
+...Periods of light snow from the northern Plains to the Great
+Lakes...
+
+...Santa Ana winds across portions of California followed by
+return of Gulf moisture into southern Texas...
+
+...Arctic chill continues across much of the southern and eastern
+U.S. but mild weather returns to the northern/central High
+Plains....
+
+The latest round of freezing rain and snow impacting the
+Carolinas, southeastern Virginia and into the Delmarva Peninsula
+is expected to exit the coast later this morning as the low
+pressure system begins to move more rapidly out into the Atlantic.
+ An arctic air mass behind this system will keep much of the
+southern and eastern U.S. much colder than normal.  A gradual
+moderating trend is expected for the next couple of days as the
+arctic high pressure system weakens.
+
+The northern tier states will be in the cross-path of low pressure
+systems that are forecast to dive southeastward from Alberta,
+Canada during the next couple of days.  These clippers will bring
+periods of snow followed by reinforcing shots of arctic air into
+the northern Plains toward the Great Lakes region.  In contrast,
+mild temperatures are expected to return over the northern and
+central High Plains just ahead of the arctic boundaries.
+
+Farther west, an upper low in the Desert Southwest will generate
+unsettled weather for the Four Corners region while Santa Ana
+Winds race through southern California. High Wind Warnings have
+been posted just north and east of Los Angeles, the central Sierra
+Nevada, and the coastal ranges north of San Francisco. An even
+larger footprint of Wind Advisories is in effect through Saturday
+morning from central California to the southern Great Basin. The
+upper low is forecast to produce light snowfall accumulations from
+the highest peaks of southern California to the Mogollon Rim of
+Arizona and the southern Rockies tonight through Saturday. This
+upper low will inch east on Sunday with only a few spotty showers
+and some light snowfall accumulations in the higher elevations of
+eastern Arizona and western New Mexico.  By Sunday night, the
+upper low/trough is expected to cross northern Mexico.  Ahead of
+the upper system, moisture from the western Gulf of Mexico is
+forecast to return across southern Texas Sunday night with
+thunderstorms possible by Monday morning as a low pressure wave is
+forecast to develop near the southern tip of Texas.
+
+Kong/Mullinax
+
+
+Graphics are available at
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/basicwx/basicwx_ndfd.php__;!!DZ3fjg!pyV2TeHlywJF-cec5UHisU10i_PUNprBBqzrwDGqlmkv1KHoppsZK5-LFTiL1c4pya3UsEEt$
+$$
+
+
+------------------------------
+
+*********************************************
+
+End of wx-natnl Digest Sat, 22 Jan 2022
+

@@ -1,0 +1,684 @@
+Delivered-To: darrinmspeegle@gmail.com
+Received: by 2002:a50:fa8c:0:0:0:0:0 with SMTP id w12csp2845486edr;
+        Fri, 5 Nov 2021 04:00:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwKRidsqh5eUUZHCcVQNXs/qza1vwYDGPXvGwQoR7+7d8LjsX4UnjZn1bO2u3DlaJrN6EIf
+X-Received: by 2002:a25:bd52:: with SMTP id p18mr40586229ybm.484.1636110019920;
+        Fri, 05 Nov 2021 04:00:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1636110019; cv=none;
+        d=google.com; s=arc-20160816;
+        b=de7qnky05wljux20X6A+js6RSB0QwUsHsAV2P1kRUzUSPY5dhxoYpyNLfGnCM9Heir
+         RiDyufupzR35XiQDMAESa1vxrSYrRJwTiOCLvnh2/HEYAGJAKLYcTmE9l9mNDlDAFAiX
+         6f0PpN8mtc+uUnXNwsNH6x221sjB1jW+PGWHwPD+E3xbDdx88uf34Y7gHPnX8lvZOyw8
+         cdYla6WaFr9hWIQPya0jiWLWK8fJFpcu+jSd19hH/GcLoDDJbxzjOTmFD3g0A25TqAil
+         yLPPBRHgc9g2Ms4ct5cAiiwTMWXXtgCtEtXIALEfQLQpsNgNlSKMnKJY+a8Uj2lCuP3Q
+         TYwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:reply-to:to:from:auto-submitted:content-transfer-encoding
+         :mime-version:date:message-id:dkim-signature;
+        bh=N6x+AuWxh+Y0TAkFH9JZuonUESXbX88Nhazz/M3jWNY=;
+        b=sHAOgFMVdSI4Mt9EZxbS5QkOQEU6v9Gmj6W+b+sRu6lvbXC0HGJJZkdUt0lCnfUdGZ
+         CxukFDlhiFD8/FI6ba0hobc3mkBiR1OSxsjACbHjRgWX2agNeC3vGCiKFvWjUCUeuSWE
+         Gp2EC/eUo127pQgJgkAt2GepduDUuVuuMb5+9CS67EE5WSpBMPgQ/mlZ6pIWOdc9+loy
+         og0aFQGe1GYT4H24lK+epH3y6AnfUfaUY/G2jt4FP/iyzzcntnD0Oji/BbAEirGrOML3
+         Zafy9lTyjNfSASoyUo2JEUCjEAagELgychd3UqReokEs1sptrTZj5ikEVazSTgEAJa84
+         bmOw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=qx4RSCiB;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Return-Path: <wx-natnl-owner@lists.illinois.edu>
+Received: from mx0a-00007101.pphosted.com (mx0a-00007101.pphosted.com. [148.163.135.28])
+        by mx.google.com with ESMTPS id k15si13719147ybt.500.2021.11.05.04.00.19
+        for <darrinmspeegle@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 05 Nov 2021 04:00:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) client-ip=148.163.135.28;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=qx4RSCiB;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Received: from pps.filterd (m0272704.ppops.net [127.0.0.1])
+	by mx0b-00007101.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A53um8L006971
+	for <darrinmspeegle@gmail.com>; Fri, 5 Nov 2021 11:00:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=message-id : date :
+ mime-version : content-type : content-transfer-encoding : from : to :
+ reply-to : subject; s=campusrelays;
+ bh=N6x+AuWxh+Y0TAkFH9JZuonUESXbX88Nhazz/M3jWNY=;
+ b=qx4RSCiB0sAVxOKWTzqZ6DqGlnmbqkzP92qOuynM3fcSJ2/bRNQPUhYiHhGGg/0020lr
+ wXIZlRYaugiBdsfawpDbQcaLQShHEKBKTMvRUra9Y25QCPDj/vR/oxA9nXBdRzl9jIAf
+ Lma0UHxgRUQ9/pTMUcCNeq2uK8CsgVSR8fGLX9bOYcqYJ3N0LaWoiTo1htcOeaTglJie
+ tKAytcfy/jhzJpN2M3uN/Pa/Ik4fB5p2fNcGb86/S/ko3oqsnGJ5FpIbCyRhsVe02EqP
+ E3XpVyBo181NQsLQOyKZYl80Q11i5ow0QM3b7/soEv0ZxM5sK32KdLHcgOnOkLdr6aJ0 iw== 
+Received: from lists.illinois.edu (lists.illinois.edu [192.17.172.63])
+	by mx0b-00007101.pphosted.com with ESMTP id 3c4t3hjk6c-2
+	for <darrinmspeegle@gmail.com>; Fri, 05 Nov 2021 11:00:18 +0000
+Received: by lists.illinois.edu (Postfix, from userid 50033)
+	id EA254E0D19; Fri,  5 Nov 2021 06:00:17 -0500 (CDT)
+Message-Id: <sympa.1636110017.129950.325@lists.illinois.edu>
+Date: Fri, 05 Nov 2021 06:00:17 -0500
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7BIT
+Auto-Submitted: auto-forwarded
+From: wx-natnl-request@lists.illinois.edu
+To: wx-natnl@lists.illinois.edu
+Reply-to: wx-natnl-request@lists.illinois.edu
+Subject: wx-natnl Digest Fri, 05 Nov 2021 (2/2)
+X-Mailer: Sympa 6.1.23
+X-Proofpoint-GUID: ocx1o2HBd6guOCXF3iyPG7AB5mdQ-qrF
+X-Proofpoint-ORIG-GUID: ocx1o2HBd6guOCXF3iyPG7AB5mdQ-qrF
+X-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0
+ malwarescore=0 bulkscore=0 phishscore=0 impostorscore=0 adultscore=0
+ suspectscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
+ priorityscore=1501 clxscore=1031 spamscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111050064
+X-Spam-Score: 0
+X-Spam-OrigSender: wx-natnl-owner@lists.illinois.edu
+X-Spam-Bar:
+MIME-Version: 1.0
+
+wx-natnl Digest Fri, 05 Nov 2021
+
+Table of contents:
+
+* 26 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 27 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 28 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 29 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 30 - FIRE: Day 1 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 31 - FIRE: Day 2 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 32 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 33 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 34 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+
+----------------------------------------------------------------------
+
+Message-ID: <26>
+Date: Fri, 5 Nov 2021 00:50:39 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+852
+FPUS20 KWBN 050050
+SCS02
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 2 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+850 PM EDT THU NOV 04 2021
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 8 PM EDT
+
+                                FORECAST        FORECAST
+                 THU...NOV 04   FRI....NOV 05   SAT....NOV 06
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+CONCORD NH       23  48         SUNNY   23/49   SUNNY   20/52
+CORPUS CHRISTI   54  59   .20   SUNNY   50/70   SUNNY   52/74
+DALLAS FT WORTH  45  59         SUNNY   41/64   SUNNY   42/69
+DAYTON           31  50         SUNNY   27/50   SUNNY   31/56
+DAYTONA BEACH    65  76         SHWRS   66/71   SHWRS   63/71
+DENVER           35  69         SUNNY   39/72   PTCLDY  37/74
+DES MOINES       37  54         PTCLDY  36/56   SUNNY   42/65
+DETROIT          33  46         PTCLDY  29/50   PTCLDY  33/53
+DULUTH           27  47         MOCLDY  33/50   PTCLDY  39/55
+EL PASO          44  68         SUNNY   46/76   SUNNY   51/80
+ELKINS           22  50         SUNNY   25/49   SUNNY   24/57
+ERIE             37  45   .16   PTCLDY  35/48   SUNNY   36/55
+EUGENE           52  57   .76   SHWRS   45/56   RAIN    43/53
+EVANSVILLE       28  53         SUNNY   30/55   SUNNY   32/59
+FAIRBANKS        17  28         MOCLDY  19/28   MOCLDY  17/25
+FARGO            27  53         RAIN    36/54   PTCLDY  37/58
+FLAGSTAFF        24  66         SUNNY   27/67   SUNNY   29/66
+FLINT            29  45         MOCLDY  29/50   PTCLDY  34/53
+FORT SMITH       40  59         SUNNY   35/62   SUNNY   36/66
+FORT WAYNE       27  49         SUNNY   26/50   SUNNY   30/54
+FRESNO           57  73         PTCLDY  49/69   PTCLDY  48/68
+GOODLAND         33  69         SUNNY   35/72   SUNNY   36/77
+GRAND JUNCTION   36  60         SUNNY   36/63   SUNNY   37/66
+GRAND RAPIDS     31  47         PTCLDY  34/51   PTCLDY  35/53
+GREAT FALLS      49  68         WINDY   40/57   PTCLDY  32/56
+GREEN BAY        24  48         PTCLDY  32/53   PTCLDY  40/58
+GREENSBORO       41  46   .01   SUNNY   31/54   PTCLDY  32/54
+HARRISBURG       31  51         SUNNY   33/52   SUNNY   32/54
+HARTFORD SPGFLD  27  49         SUNNY   31/53   SUNNY   28/52
+HELENA           34  57         SUNNY   35/59   MOCLDY  31/56
+HONOLULU         74  87         SHWRS   74/86   PTCLDY  74/86
+HOUSTON INTCNTL  50  57   .12   SUNNY   44/69   SUNNY   44/71
+HUNTSVILLE AL    42  49   .08   PTCLDY  36/60   SUNNY   38/63
+INDIANAPOLIS     29  50         SUNNY   28/51   SUNNY   30/55
+JACKSON MS       46  58   .04   PTCLDY  41/64   SUNNY   43/67
+JACKSONVILLE     56  70         SHWRS   55/63   SHWRS   51/61
+JUNEAU           29  40         SHWRS   39/42   RAIN    36/42
+KANSAS CITY      34  53         PTCLDY  38/57   SUNNY   41/65
+KEY WEST         75  79   .40   SHWRS   74/82   SHWRS   74/81
+KNOXVILLE        44  48   .01   PTCLDY  34/57   SUNNY   35/59
+LAKE CHARLES     50  58   .11   SUNNY   44/67   SUNNY   45/70
+LANSING          32  47         PTCLDY  31/51   PTCLDY  34/53
+LAS VEGAS        57  78         SUNNY   59/81   SUNNY   59/82
+LEXINGTON        26  51         SUNNY   28/53   SUNNY   30/56
+
+
+$$
+
+
+------------------------------
+Message-ID: <27>
+Date: Fri, 5 Nov 2021 00:50:39 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+854
+FPUS20 KWBN 050050
+SCS01
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 1 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+850 PM EDT THU NOV 04 2021
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 8 PM EDT
+
+                                FORECAST        FORECAST
+                 THU...NOV 04   FRI....NOV 05   SAT....NOV 06
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+ABILENE TX       45  59         SUNNY   39/65   SUNNY   44/72
+AKRON CANTON     30  49         SUNNY   29/49   SUNNY   31/55
+ALBANY NY        27  49         SUNNY   28/48   SUNNY   27/50
+ALBUQUERQUE      41  66         SUNNY   40/71   SUNNY   42/72
+ALLENTOWN        27  50         SUNNY   27/51   SUNNY   28/53
+AMARILLO         28  65         SUNNY   37/73   SUNNY   40/77
+ANCHORAGE        35  42         SNOW    34/35   SNOW    29/31
+ASHEVILLE        39  41   .16   PTCLDY  34/53   SUNNY   31/55
+ATLANTA          46  49   .09   MOCLDY  42/57   SUNNY   40/60
+ATLANTIC CITY    34  53         SUNNY   33/53   PTCLDY  33/56
+AUSTIN           49  60   .03   SUNNY   40/65   SUNNY   42/70
+BALTIMORE        33  53         SUNNY   32/54   SUNNY   31/57
+BATON ROUGE      51  64         PTCLDY  46/68   SUNNY   48/72
+BILLINGS         48  70         SUNNY   42/62   MOCLDY  40/60
+BIRMINGHAM       49  52         MOCLDY  43/61   SUNNY   41/63
+BISMARCK         21  62         RAIN    36/62   PTCLDY  34/64
+BOISE            48  63   .03   FOG     44/60   RAIN    44/57
+BOSTON           36  49         SUNNY   35/51   SUNNY   31/52
+BRIDGEPORT       35  52         SUNNY   35/53   SUNNY   34/53
+BROWNSVILLE      61  69   .99   PTCLDY  55/75   PTCLDY  59/79
+BUFFALO          32  44   .03   SUNNY   32/47   SUNNY   34/51
+BURLINGTON VT    28  44         SUNNY   28/46   SUNNY   31/49
+CARIBOU          24  40         SUNNY   21/40   PTCLDY  26/48
+CASPER           39  63         WINDY   41/61   PTCLDY  41/67
+CHARLESTON SC    48  65         MOCLDY  44/62   SHWRS   48/57
+CHARLESTON WV    26  54         SUNNY   28/52   SUNNY   29/58
+CHARLOTTE        44  46   .14   PTCLDY  35/56   PTCLDY  36/57
+CHATTANOOGA      45  49   .10   PTCLDY  36/57   SUNNY   38/61
+CHEYENNE         31  63         WINDY   40/67   PTCLDY  36/69
+CHICAGO          29  47         SUNNY   33/51   SUNNY   38/56
+CINCINNATI       30  51         SUNNY   27/51   SUNNY   31/57
+CLEVELAND        29  48         PTCLDY  32/49   SUNNY   32/55
+COLORADO SPGS    30  64         SUNNY   34/70   SUNNY   35/73
+COLUMBIA SC      48  51         MOCLDY  37/58   MOCLDY  40/58
+COLUMBUS GA      51  60         MOCLDY  46/61   SUNNY   43/63
+COLUMBUS OH      30  50         SUNNY   27/50   SUNNY   30/56
+
+
+$$
+
+
+------------------------------
+Message-ID: <28>
+Date: Fri, 5 Nov 2021 00:50:50 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+255
+FPUS20 KWBN 050050
+SCS03
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 3 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+850 PM EDT THU NOV 04 2021
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 8 PM EDT
+
+                                FORECAST        FORECAST
+                 THU...NOV 04   FRI....NOV 05   SAT....NOV 06
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+LINCOLN          34  59         PTCLDY  40/63   SUNNY   39/68
+LITTLE ROCK      35  56         SUNNY   33/58   SUNNY   35/63
+LOS ANGELES      58  71         PTCLDY  58/80   PTCLDY  58/74
+LOUISVILLE       32  55         SUNNY   34/56   SUNNY   32/59
+LUBBOCK          34  61         SUNNY   37/72   SUNNY   40/76
+MACON            47  59         MOCLDY  43/60   PTCLDY  42/61
+MADISON          25  49         SUNNY   30/52   SUNNY   38/59
+MEDFORD          53  61   .13   RAIN    42/54   RAIN    42/54
+MEMPHIS          36  56         SUNNY   34/59   SUNNY   38/63
+MIAMI BEACH      73  83   .06   SHWRS   72/80   SHWRS   70/80
+MIDLAND ODESSA   45  53         SUNNY   39/70   SUNNY   43/76
+MILWAUKEE        28  49         SUNNY   34/53   SUNNY   40/58
+MPLS ST PAUL     30  52         MOCLDY  38/57   SUNNY   43/61
+MISSOULA         29  53   .01   PTCLDY  34/54   RAIN    33/50
+MOBILE           48  63         PTCLDY  48/67   SUNNY   48/68
+MONTGOMERY       52  59         MOCLDY  49/66   SUNNY   43/66
+NASHVILLE        32  56         SUNNY   33/57   SUNNY   36/60
+NEW ORLEANS      56  64         PTCLDY  54/68   SUNNY   55/71
+NEW YORK CITY    39  50         SUNNY   37/53   SUNNY   39/53
+NEWARK           36  54         SUNNY   36/53   SUNNY   37/56
+NORFOLK VA       48  53   .06   SUNNY   43/55   MOCLDY  45/59
+NORTH PLATTE     25  69         SUNNY   34/71   SUNNY   34/73
+OKLAHOMA CITY    44  53         SUNNY   42/60   SUNNY   40/67
+OMAHA            36  59         PTCLDY  41/62   PTCLDY  41/67
+ORLANDO          67  78         SHWRS   67/74   SHWRS   64/71
+PADUCAH          28  54         SUNNY   30/55   SUNNY   32/59
+PENDLETON        43  66   .10   RAIN    37/56   RAIN    37/51
+PEORIA           29  51         SUNNY   31/53   SUNNY   37/58
+PHILADELPHIA     36  53         SUNNY   33/53   SUNNY   35/55
+PHOENIX          61  90         SUNNY   61/89   SUNNY   61/89
+PITTSBURGH       26  48         SUNNY   29/47   SUNNY   27/53
+POCATELLO        30  63         PTCLDY  36/60   MOCLDY  39/59
+PORTLAND ME      26  47         SUNNY   26/49   SUNNY   27/51
+PORTLAND OR      51  61   .45   SHWRS   48/55   RAIN    44/53
+PROVIDENCE       30  53         PTCLDY  35/53   SUNNY   31/53
+PUEBLO           25  68         SUNNY   30/74   SUNNY   31/76
+RALEIGH DURHAM   44  48   .07   SUNNY   32/55   PTCLDY  34/55
+RAPID CITY       30  64         SUNNY   42/65   PTCLDY  36/69
+RENO             45  70         MOCLDY  36/67   MOCLDY  44/60
+RICHMOND         41  52         SUNNY   32/55   PTCLDY  34/56
+ROANOKE          34  50         SUNNY   35/54   SUNNY   32/54
+ROCHESTER NY     29  46         SUNNY   28/47   PTCLDY  31/51
+ROCKFORD         25  48         SUNNY   30/52   SUNNY   37/58
+SACRAMENTO       57  69   .05   MOCLDY  46/65   MOCLDY  49/63
+ST LOUIS         32  53         SUNNY   35/57   SUNNY   37/63
+ST PETERSBURG    71  78         SHWRS   69/74   TSTRMS  65/71
+ST THOMAS VI     77  87   .01   SHWRS   76/87   SHWRS   77/87
+
+
+$$
+
+
+------------------------------
+Message-ID: <29>
+Date: Fri, 5 Nov 2021 00:50:59 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+559
+FPUS20 KWBN 050050
+SCS04
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 4 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+850 PM EDT THU NOV 04 2021
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 8 PM EDT
+
+                                FORECAST        FORECAST
+                 THU...NOV 04   FRI....NOV 05   SAT....NOV 06
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+SALEM OR         53  60   .71   SHWRS   48/56   RAIN    45/54
+SALT LAKE CITY   40  67         PTCLDY  40/65   MOCLDY  47/67
+SAN ANGELO       46  52         PTCLDY  39/68   SUNNY   43/73
+SAN ANTONIO      50  56   .29   SUNNY   45/65   SUNNY   45/70
+SAN DIEGO        59  67         MOCLDY  57/74   MOCLDY  57/71
+SAN FRANCISCO    61  65   .06   MOCLDY  53/65   MOCLDY  54/64
+SAN JOSE         58  69   .04   MOCLDY  50/67   MOCLDY  51/66
+SAN JUAN PR      78  89         SHWRS   77/87   SHWRS   76/88
+SANTA FE         30  63         SUNNY   33/70   SUNNY   34/70
+ST STE MARIE     28  42         MOCLDY  33/52   SHWRS   42/53
+SAVANNAH         48  66         SHWRS   46/63   SHWRS   48/56
+SEATTLE          52  57  1.04   RAIN    46/52   RAIN    41/49
+SHREVEPORT       45  61   .02   SUNNY   36/64   SUNNY   38/67
+SIOUX CITY       25  53         MOCLDY  39/63   SUNNY   36/69
+SIOUX FALLS      23  45         MOCLDY  39/62   SUNNY   38/67
+SOUTH BEND       28  49         SUNNY   29/51   SUNNY   33/55
+SPOKANE          44  54   .22   RAIN    38/49   RNSNOW  33/47
+SPRINGFIELD IL   26  52   .01   SUNNY   31/54   SUNNY   36/60
+SPRINGFIELD MO   32  55         SUNNY   33/55   SUNNY   36/61
+SYRACUSE         31  48   .01   PTCLDY  30/48   SUNNY   32/54
+TALLAHASSEE      56  73         SHWRS   52/62   PTCLDY  47/63
+TAMPA            68  80         SHWRS   67/73   TSTRMS  62/72
+TOLEDO           31  48         SUNNY   30/50   SUNNY   32/55
+TOPEKA           37  54         MOCLDY  40/60   SUNNY   41/66
+TUCSON           52  89         SUNNY   54/90   SUNNY   55/91
+TULSA            39  59         PTCLDY  39/62   SUNNY   41/67
+TUPELO           40  59         SUNNY   34/61   SUNNY   40/64
+WACO             47  61         SUNNY   39/64   SUNNY   40/70
+WASHINGTON DC    39  54         SUNNY   36/54   SUNNY   35/56
+W PALM BEACH     69  82         SHWRS   71/80   SHWRS   68/80
+WICHITA          37  54         PTCLDY  41/61   SUNNY   41/69
+WICHITA FALLS    47  53         SUNNY   40/64   SUNNY   40/72
+WILKES BARRE     28  48         SUNNY   28/48   SUNNY   30/53
+WILMINGTON DE    31  53         SUNNY   32/53   SUNNY   33/56
+YAKIMA           46  59   .07   RAIN    37/52   RAIN    33/48
+YOUNGSTOWN       26  48         SUNNY   28/47   SUNNY   28/53
+YUMA             61  92         SUNNY   61/91   SUNNY   61/89
+
+NATIONAL TEMPERATURE EXTREMES
+
+HIGH THU...95 AT 13 MILES WEST OF WINTERHAVEN CA
+
+LOW  THU...9 AT MOUNT WASHINGTON NH
+
+
+$$
+
+
+------------------------------
+Message-ID: <30>
+Date: Fri, 5 Nov 2021 05:26:23 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 1 Fire Weather Outlook
+
+FNUS21 KWNS 050526
+FWDDY1
+
+Day 1 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+1225 AM CDT Fri Nov 05 2021
+
+Valid 051200Z - 061200Z
+
+...NO CRITICAL AREAS...
+
+...Synopsis...
+Early morning surface observations show a gradually deepening
+surface low in the lee of the Canadian Rockies. This feature is
+expected to shift eastward into the Canadian Prairies through the
+day in tandem with an associated upper-level wave. A trailing
+surface trough will also shift east through the Plains, resulting in
+westerly winds across the northern to central High Plains. Sustained
+winds between 15-25 mph are probable across central to eastern MT
+and southeast WY, and occasional gusts upwards of 25-40 mph are
+possible. Downslope winds may help RH values fall to 15-30% across
+these regions, but fuels remain generally too moist to support a
+robust fire weather concern.
+
+..Moore.. 11/05/2021
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!vZ78yGsxHXALD4_tJSVKqNNu3OC5isMdD23EQEPWJn1O77ny3xGang4fUGZGvq4jtPDOGSkz$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <31>
+Date: Fri, 5 Nov 2021 06:31:50 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 2 Fire Weather Outlook
+
+FNUS22 KWNS 050631
+FWDDY2
+
+Day 2 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0131 AM CDT Fri Nov 05 2021
+
+Valid 061200Z - 071200Z
+
+...NO CRITICAL AREAS...
+
+...Synopsis...
+An upper-level trough will continue to deepen along the West Coast
+through the early weekend, resulting in additional precipitation
+chances across the Pacific Northwest and parts of the northern Great
+Basin/northern Rockies. Weak lee troughing along the high Plains
+will result in localized areas of gusty downslope winds that may
+support periods of elevated wind/RH conditions. Ensemble consensus
+suggests the most likely location for this to occur is across
+southeast CO into adjacent areas of KS, NM, and the OK/TX
+Panhandles. However, confidence the duration/coverage of such
+conditions is low, and ERC values across the region are near
+seasonal normals, suggesting only modest fire weather potential.
+
+..Moore.. 11/05/2021
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!vXdzUpJttPD2Fg6gTH--z2ndQmAtL-sbeq31qT1UOXI1R-ZE9P45QV8dBNKuMltToXPksqW-$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <32>
+Date: Fri, 5 Nov 2021 06:51:27 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 050651
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+250 AM EDT Fri Nov 05 2021
+
+Valid 12Z Mon Nov 08 2021 - 12Z Fri Nov 12 2021
+
+...Guidance/Predictability Assessment...
+
+Models and ensembles show a reasonably similar larger scale
+pattern evoution aloft and overall precipitation focus through
+medium range time scales despite the transitory nature of the flow
+from onset of progression to somewhat more slowed and ampified
+flow. However, surface system forecast variance, uncertainty and
+continuity increases more significantly days 4-7 (Tuesday-Next
+Friday). While identifying synotic areas of activity,
+predictability of the local focus for heavier precipitation is
+limited outside of favored terrain of the West. Accordingly, the
+WPC medium range forecast package was primarily derived from a
+composite of the 18 UTC GFS and 12 UTC ECMWF/UKMET/Canadian only
+for day 3/Monday before rapidly transitioning to the compatible 18
+UTC GEFS mean, the 12 UTC ECMWF ensemble mean and the 01 UTC
+National Blend of Models for days 4-7. The latest 00 UTC models
+continues to show above normal run to run continuity issues with
+embedded systems that given the lack of a strong signal for a
+particular solution, seems to lend creadance to the ensemble based
+forecast approach.
+
+...Pattern Overview and Weather/Hazards Highlights...
+
+An amplified southern stream upper trough and deepened low off the
+East Coast will increasingly shift over the Atlantic
+Monday/Tuesday as a martime threat as a stable/warm upper trough
+extends upstream from the Southern Plains to the Northeast/East.
+
+Meanwhile, an uncertain series of lead Pacific systems will work
+inland across the West, with upper troughing set to work over the
+Northwest into midweek. This will highlight periods of terrain
+enhanced rainfall from the Pacific Northwest to central California
+and a heavy snow threat from the Cascades to the Sierra and inland
+across favored terrain for the north-central Great Basin/Rockies
+with cooling frontal passage. There is a trend in guidance that
+ejecting energies may dig into the central to east-central U.S.
+Wednesday-next Friday to carve out an amplified upper trough
+slated to be sandwiched between amplifying upper ridges over the
+West Coast and East Coast as the pattern transitions. Cyclogenesis
+and frontogenesis would act to favor an emerging lead
+rainfall/convective pattern over the east-central U.S. as thetae
+advection increases. Backside cold air flow also suggests
+potential for late next week snows over the Dakotas/Upper Midwest
+as moisture feeds back around a developing main low. Please see
+WPC links below for all the details.
+
+Schichtel
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!ouImaagRl9ILdJlVmN_tWNeOkklptT7HXZWD2U2SO0tF98nCY3t-JtwOsYT9O6nbSV2k9pHa$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!ouImaagRl9ILdJlVmN_tWNeOkklptT7HXZWD2U2SO0tF98nCY3t-JtwOsYT9O6nbSb0i7VN7$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!ouImaagRl9ILdJlVmN_tWNeOkklptT7HXZWD2U2SO0tF98nCY3t-JtwOsYT9O6nbScHug0KO$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!ouImaagRl9ILdJlVmN_tWNeOkklptT7HXZWD2U2SO0tF98nCY3t-JtwOsYT9O6nbSWmLzuO5$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!ouImaagRl9ILdJlVmN_tWNeOkklptT7HXZWD2U2SO0tF98nCY3t-JtwOsYT9O6nbSbsf31qu$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!ouImaagRl9ILdJlVmN_tWNeOkklptT7HXZWD2U2SO0tF98nCY3t-JtwOsYT9O6nbSbSuKcAj$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!ouImaagRl9ILdJlVmN_tWNeOkklptT7HXZWD2U2SO0tF98nCY3t-JtwOsYT9O6nbSVDNPWCP$
+
+$$
+
+
+------------------------------
+Message-ID: <33>
+Date: Fri, 5 Nov 2021 06:51:27 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+460
+FXUS02 KWBC 050651
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+250 AM EDT Fri Nov 05 2021
+
+Valid 12Z Mon Nov 08 2021 - 12Z Fri Nov 12 2021
+
+...Guidance/Predictability Assessment...
+
+Models and ensembles show a reasonably similar larger scale
+pattern evoution aloft and overall precipitation focus through
+medium range time scales despite the transitory nature of the flow
+from onset of progression to somewhat more slowed and ampified
+flow. However, surface system forecast variance, uncertainty and
+continuity increases more significantly days 4-7 (Tuesday-Next
+Friday). While identifying synotic areas of activity,
+predictability of the local focus for heavier precipitation is
+limited outside of favored terrain of the West. Accordingly, the
+WPC medium range forecast package was primarily derived from a
+composite of the 18 UTC GFS and 12 UTC ECMWF/UKMET/Canadian only
+for day 3/Monday before rapidly transitioning to the compatible 18
+UTC GEFS mean, the 12 UTC ECMWF ensemble mean and the 01 UTC
+National Blend of Models for days 4-7. The latest 00 UTC models
+continues to show above normal run to run continuity issues with
+embedded systems that given the lack of a strong signal for a
+particular solution, seems to lend creadance to the ensemble based
+forecast approach.
+
+...Pattern Overview and Weather/Hazards Highlights...
+
+An amplified southern stream upper trough and deepened low off the
+East Coast will increasingly shift over the Atlantic
+Monday/Tuesday as a martime threat as a stable/warm upper trough
+extends upstream from the Southern Plains to the Northeast/East.
+
+Meanwhile, an uncertain series of lead Pacific systems will work
+inland across the West, with upper troughing set to work over the
+Northwest into midweek. This will highlight periods of terrain
+enhanced rainfall from the Pacific Northwest to central California
+and a heavy snow threat from the Cascades to the Sierra and inland
+across favored terrain for the north-central Great Basin/Rockies
+with cooling frontal passage. There is a trend in guidance that
+ejecting energies may dig into the central to east-central U.S.
+Wednesday-next Friday to carve out an amplified upper trough
+slated to be sandwiched between amplifying upper ridges over the
+West Coast and East Coast as the pattern transitions. Cyclogenesis
+and frontogenesis would act to favor an emerging lead
+rainfall/convective pattern over the east-central U.S. as thetae
+advection increases. Backside cold air flow also suggests
+potential for late next week snows over the Dakotas/Upper Midwest
+as moisture feeds back around a developing main low. Please see
+WPC links below for all the details.
+
+Schichtel
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!pMHTa8_36J85qEhE8ImGhdv3vd5D6UYbgKwTdh66zcx4lZovSOyjwrT4XOjoFBPbaiL0MVqc$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!pMHTa8_36J85qEhE8ImGhdv3vd5D6UYbgKwTdh66zcx4lZovSOyjwrT4XOjoFBPbavGSqDJI$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!pMHTa8_36J85qEhE8ImGhdv3vd5D6UYbgKwTdh66zcx4lZovSOyjwrT4XOjoFBPbapCy7jZm$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!pMHTa8_36J85qEhE8ImGhdv3vd5D6UYbgKwTdh66zcx4lZovSOyjwrT4XOjoFBPbag9yPqS2$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!pMHTa8_36J85qEhE8ImGhdv3vd5D6UYbgKwTdh66zcx4lZovSOyjwrT4XOjoFBPbah2lk4nq$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!pMHTa8_36J85qEhE8ImGhdv3vd5D6UYbgKwTdh66zcx4lZovSOyjwrT4XOjoFBPbahi_NqsF$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!pMHTa8_36J85qEhE8ImGhdv3vd5D6UYbgKwTdh66zcx4lZovSOyjwrT4XOjoFBPbaqQPEP-6$
+
+$$
+
+
+------------------------------
+Message-ID: <34>
+Date: Fri, 5 Nov 2021 07:37:26 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 050737
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+336 AM EDT Fri Nov 05 2021
+
+Valid 12Z Fri Nov 05 2021 - 12Z Sun Nov 07 2021
+
+...There is a Slight Risk of excessive rainfall over parts of
+northeastern Florida through Saturday morning...
+
+...Rain and higher elevation snow over parts of the Pacific
+Northwest and Northern Rockies...
+
+...Freeze Warnings and Frost Advisories from parts of the Lower
+Mississippi Valley eastward to the Mid-Atlantic...
+
+Low pressure over the eastern Gulf of Mexico will move
+northeastward to off the Carolina Coast by Sunday.  The system
+will pull moisture from the Gulf of Mexico and the Atlantic,
+streaming into northern Florida through Saturday afternoon.  The
+moisture will produce heavy rain over parts of Florida.
+Accordingly, the WPC has issued a Slight Risk of excessive
+rainfall over parts of northeastern Florida through Saturday
+morning.  The associated heavy rain will create mainly localized
+areas of flash flooding, with urban areas, roads, and small
+streams the most at risk.  On Saturday, the threat of excessive
+rainfall lessens to a Marginal Risk over parts of the North
+Carolina Coast as the rain moves northward into the Southern
+Mid-Atlantic through Sunday.
+
+Meanwhile, a front will move into the Pacific Northwest and toward
+the Upper Midwest by Sunday with a wave developing along the
+boundary over the Northern Rockies.  The system will produce rain
+and higher elevation snow over the Pacific Northwest/Northern
+California into the Northern Rockies starting in earnest tonight
+into Sunday morning.
+
+Moreover, high pressure extends from the Northeast to the Southern
+Plains.  The clear skies and calm winds associated with the high
+will allow temperatures to cool down to the lower 30s to upper 20s
+this morning. Therefore, Freeze Warnings and Frost Advisories are
+posted from parts of the Lower Mississippi Valley eastward to the
+Mid-Atlantic for this morning.
+
+Ziegenfelder
+
+
+Graphics are available at
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/basicwx/basicwx_ndfd.php__;!!DZ3fjg!tUWqemez7iUe-layD-4bF2TO_nQEePaL-IRZFBw8M4KMNz0Blu0eGiJ8Pgwf1CsgeXmKNfYN$
+
+$$
+
+
+------------------------------
+
+*********************************************
+
+End of wx-natnl Digest Fri, 05 Nov 2021
+
