@@ -1,9 +1,5 @@
 
 
-# load in cities and model points csvs
-cities <- read.csv("data/cities.csv")
-model_points <- read.csv('data/model_points.csv')
-
 # return euclidean distance between two points
 euclidean <- function(a, b) sqrt(sum((a - b)^2))
 
@@ -34,9 +30,6 @@ findClosestPoints <- function(df, p, n) {
   # return to pn closest points to p
   closest
 }
-
-
-findClosestPoints(model_points, c(-67.79,46.12), 6)
 
 
 citiesElevationChange <- function(n, 
@@ -72,65 +65,79 @@ citiesElevationChange <- function(n,
 citiesElevationChange(4)
 
 
-# return greatest change in elevation 
-# for model_points
+
+# return greatest change in elevation for model_points
 # closest points are always (c - 1, r), (c + 1, r), (c, r - 1), (c, r + 1) 
-modelElevationChange <- function(n, points=model_points) {
-  # point coordinates
-  pm <- c(points[n,1], points[n,2])
-  # point elevation
-  pe <- points[n,3]
-
-  # get 4 closest points
-  factor <- 20/66
-  m1 <- (points$LON == round(pm[1] + factor,13)) & (points$LAT == pm[2])
-  e1 <- points[m1,3]
-  d1 <- abs(pe - e1)
-  m2 <- (points$LON == round(pm[1] - factor,13)) & (points$LAT == pm[2])
-  e2 <- points[m2,3]
-  d2 <- abs(pe - e2)
-  m3 <- (points$LON == pm[1]) & (points$LAT == round(pm[2] + factor,13))
-  e3 <- points[m3,3]
-  d3 <- abs(pe - e3)
-  m4 <- (points$LON == pm[1]) & (points$LAT == round(pm[2] - factor,13))
-  e4 <- points[m4,3]
-  d4 <- abs(pe - e4)
-
-  a <- c(d1,d2,d3,d4)
-  max_d <- max(a,na.rm=TRUE)
-  max_d
+# factor is step between points in model_points in degrees (miles_apart / miles_per_degree)
+modelElevationChange <- function(factor,
+                                 df = model_points) {
+  elevation_change <- c()
+  # iterate over each point in df
+  for(n in 1:nrow(df)) {
+    
+    # point coordinates
+    pm <- c(df$LON[n], df$LAT[n])
+    # point elevation
+    pe <- df$ELEVATION[n]
+  
+    # get 4 closest points and calculate change in elevation from point
+    m1 <- (df$LON == round(pm[1] + factor, 13)) & (df$LAT == pm[2])
+    e1 <- df$ELEVATION[m1]
+    d1 <- abs(pe - e1)
+    
+    m2 <- (df$LON == round(pm[1] - factor, 13)) & (df$LAT == pm[2])
+    e2 <- df$ELEVATION[m2]
+    d2 <- abs(pe - e2)
+    
+    m3 <- (df$LON == pm[1]) & (df$LAT == round(pm[2] + factor, 13))
+    e3 <- df$ELEVATION[m3]
+    d3 <- abs(pe - e3)
+    
+    m4 <- (df$LON == pm[1]) & (df$LAT == round(pm[2] - factor, 13))
+    e4 <- df$ELEVATION[m4]
+    d4 <- abs(pe - e4)
+    
+    # get max elevation change between points
+    a <- c(d1,d2,d3,d4)
+    max_d <- max(a,na.rm=TRUE)
+    print(pm)
+    print(max_d)
+    elevation_change[n] <- max_d
+  }
+  # convert all -Inf values to 0
+  elevation_change[elevation_change == -Inf] <- 0
+  elevation_change
 }
 
-model_points
 
-melevation <- c()
-for(i in 1:nrow(model_points)){
-  max_d <- modelElevationChange(i)
-  melevation[i] <- max_d
-}
-melevation
-melevation[melevation == -Inf] <- 0
-
-model_points$ELEVATION_CHANGE <- melevation
+# degrees between points
+factor <- 20 / 66
+model_points$ev <- modelElevationChange(factor)
 
 
 
-
+# save elevation change plot
+png("plots/elevation_change.png")
+map <- ggplot() + borders('world', xlim = c(-125,-65), ylim = c(20, 50), color ='black', fill='lightblue')
+map <- map + geom_point(data = model_points, mapping = aes(x=LON, y=LAT, color=ELEVATION_CHANGE)) + 
+  scale_color_gradientn(colours = c("blue", "green", "yellow", "orange", "red"))
+print(map)
+dev.off()
 
 
 
 
 # run parallel clusters
-library(parallel)
-library(tidyverse)
+# library(parallel)
+# library(tidyverse)
 
-cl <- parallel::makeCluster(8, setup_strategy = "sequential")
-clusterExport(cl, list("model_points"))
-Ns <- 1:nrow(model_points)
-sim_data <- parLapply(cl, Ns, modelElevationChange)
-sim_data <- bind_rows(sim_data)
-sim_data
+# cl <- parallel::makeCluster(8, setup_strategy = "sequential")
+# clusterExport(cl, list("model_points"))
+# Ns <- 1:nrow(model_points)
+# sim_data <- parLapply(cl, Ns, modelElevationChange)
+# sim_data <- bind_rows(sim_data)
+# sim_data
 
-stopCluster(cl)
+# stopCluster(cl)
 
 
