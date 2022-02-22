@@ -1,0 +1,465 @@
+Delivered-To: darrinmspeegle@gmail.com
+Received: by 2002:a50:d75a:0:0:0:0:0 with SMTP id i26csp1056581edj;
+        Fri, 10 Sep 2021 04:00:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwryl4yjevag4kf8AVDv5AmlkxCWecdDcyppK/3IzX3a196UfYD6x7ExTbo6IwA1PnHlA+k
+X-Received: by 2002:a25:d091:: with SMTP id h139mr9834906ybg.83.1631271656052;
+        Fri, 10 Sep 2021 04:00:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1631271656; cv=none;
+        d=google.com; s=arc-20160816;
+        b=kZLDAHlS35Q8/WV7OwAlNnIsc9MufXr/dvVsE2VjFzNUq+Vg0NnUBB4MtbM4udmD3a
+         /NxVCQS58O6zeevyprB4BToATGciWEsWhy8cBG2XGgZ3KX6EUi9bDSTPBz2KAuCn6stI
+         LSq74dxQKJ0I4roNt/k0zyVKPUWe0KEu9u4DdfoWSv+b9TItVMdkATbtsd2PXhT4JntR
+         rHUmXOq/iZcyiHbYZ/Iyt4Et/z4t9uT2ha0e9pqHHE0WX+M8BX0j7p1uHwb1uhvtVtdo
+         SwPXxTMWXm2qKTzP8jAcqg+lSbrpJccA8VwOt9nvXfy5/msR0aGqvJdpOLeNbtOoSpE3
+         VK9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:reply-to:to:from:auto-submitted:content-transfer-encoding
+         :mime-version:date:message-id:dkim-signature;
+        bh=6v/UdZUQQ330mDfNwmpkMYpVw2mRskvK4xR3BHsOS0Q=;
+        b=ad3H0Pt1uiETNK3MoKXxO7e4akbn2SCGxJgh4HEgaOJLHt7wmzRFjN6aU8LYta89vD
+         LMSBObn4KiNBK88kvH650+RAkTs7FWtEfsBCbFMZo863g2LPpmwb3A/nTjIDPbYJlvae
+         ejW9PRzq29zW702DonfAbT+9p90dsZ3MUIk7yiOgXgHbxA9qYvmrknpI+d9funRIkbF0
+         Gh1I4kLUhrYoyZbQQEBHlXtin5pz2h+UtYpJtesfOwEi9UNwEW1w9OK1LArLm3z/NQm7
+         nS9aAr9fSUnKccn4eQRjVk7+YktE+FFHzdIIRtfi5nHm8Zdvla0U9tybjf1HPGTs3Jkk
+         KReg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=IgUxqq3L;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Return-Path: <wx-natnl-owner@lists.illinois.edu>
+Received: from mx0b-00007101.pphosted.com (mx0b-00007101.pphosted.com. [148.163.139.28])
+        by mx.google.com with ESMTPS id m16si5617348ybp.436.2021.09.10.04.00.55
+        for <darrinmspeegle@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 10 Sep 2021 04:00:56 -0700 (PDT)
+Received-SPF: pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) client-ip=148.163.139.28;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=IgUxqq3L;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Received: from pps.filterd (m0166259.ppops.net [127.0.0.1])
+	by mx0b-00007101.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 18AAwf5M016003
+	for <darrinmspeegle@gmail.com>; Fri, 10 Sep 2021 11:00:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=message-id : date :
+ mime-version : content-type : content-transfer-encoding : from : to :
+ reply-to : subject; s=campusrelays;
+ bh=6v/UdZUQQ330mDfNwmpkMYpVw2mRskvK4xR3BHsOS0Q=;
+ b=IgUxqq3L17SkCdquNPQIUvL2CAAKsXBuKYlcbBZ9wlodMxPM8XVqpxR9WqeIxBfcYeTR
+ Kb3YmD9qf2mgYq52S4uioUbGxiB6V5bPiZoWRYVKfUHQA3j20yoHcUIs6SCfzv3wjb0w
+ X0I0fhhIJjZEGglCKG2Ahu2O+ZbICvi1U8hd4gzr87a2Wii8lDGNSEXSu2QWqMaI7MKV
+ CVgpEkKwIMN7bSWk0FQGpZSwQmcy3PZ8el0uAu69AWBmW/yhuLJbppUzZ1cPSr935MjH
+ OLkb5LgWyFQz2YeJqhOSIfD9XIzvCW3ROC2XtPXzHc55xiyVt5/WQtKQyH7QvV4T/UiE tQ== 
+Received: from lists.illinois.edu (lists.illinois.edu [192.17.172.63])
+	by mx0b-00007101.pphosted.com with ESMTP id 3aytfg30ck-18
+	for <darrinmspeegle@gmail.com>; Fri, 10 Sep 2021 11:00:55 +0000
+Received: by lists.illinois.edu (Postfix, from userid 50033)
+	id F19D5EEE80; Fri, 10 Sep 2021 06:00:45 -0500 (CDT)
+Message-Id: <sympa.1631271629.33894.238@lists.illinois.edu>
+Date: Fri, 10 Sep 2021 06:00:29 -0500
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7BIT
+Auto-Submitted: auto-forwarded
+From: wx-natnl-request@lists.illinois.edu
+To: wx-natnl@lists.illinois.edu
+Reply-to: wx-natnl-request@lists.illinois.edu
+Subject: wx-natnl Digest Fri, 10 Sep 2021 (2/2)
+X-Mailer: Sympa 6.1.23
+X-Proofpoint-ORIG-GUID: XPMR8P6iexpa19XHSZmkOLUlvr9mcKhX
+X-Proofpoint-GUID: XPMR8P6iexpa19XHSZmkOLUlvr9mcKhX
+X-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0 mlxscore=0
+ phishscore=0 mlxlogscore=999 malwarescore=0 clxscore=1031
+ priorityscore=1501 spamscore=0 suspectscore=0 bulkscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2109030001 definitions=main-2109100069
+X-Spam-Score: 0
+X-Spam-OrigSender: wx-natnl-owner@lists.illinois.edu
+X-Spam-Bar:
+MIME-Version: 1.0
+
+wx-natnl Digest Fri, 10 Sep 2021
+
+Table of contents:
+
+* 26 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 27 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 28 - FIRE: Day 2 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 29 - FIRE: Day 1 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 30 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+
+----------------------------------------------------------------------
+
+Message-ID: <26>
+Date: Fri, 10 Sep 2021 05:42:46 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 100542
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+142 AM EDT Fri Sep 10 2021
+
+Valid 12Z Mon Sep 13 2021 - 12Z Fri Sep 17 2021
+
+...Potential Heavy Rain Threat for Western Gulf Region early next
+week...
+
+
+...Overview and Guidance Evaluation and Preferences...
+
+Fast, quasi-zonal flow across the northern tier of the U.S. will
+keep fronts progressive and the majority of the CONUS in a drier
+weather pattern. The latest suite of 12z/18z guidance shows good
+enough agreement days 3-4 (Mon-Tues) to warrant a purely
+deterministic model blend (favored more heavily towards the
+ECMWF/GFS). After mid-week though, some timing and intensity
+differences begin to arise, especially with a pair of shortwaves
+entering the West Coast on Wednesday and again Friday. The 00z CMC
+is more amplified than the ECMWF and GFS and thus, slower with the
+first shortwave, but is flatter and faster with the second. So by
+late period, it quickly gets out of phase from the better
+consensus. The ECMWF and GFS are more consistent with the ensemble
+means, but also continue to show some run to run variability. As a
+result, the WPC forecast leans more towards the ensemble means the
+second half of the period with minor contributions from the ECMWF
+and GFS just for a little added system definition. This maintains
+good WPC continuity for days 3-6, with some slightly faster
+frontal speed.
+
+In the western Gulf of Mexico, a broad tropical plume of moisture
+associated with a weak disturbance will gradually lift
+north-northwest toward the TX/LA coasts late this weekend and into
+early/middle of next week. There remains considerable uncertainty
+in the potential strength, development, and track of this feature
+but the latest guidance is in reasonable agreement for the
+potential of heavy rainfall along the immediate coasts that could
+reach several inches or more over the multi-day period. The
+National Hurricane Center is currently monitoring this disturbance
+for possible development over the coming days.
+
+...Weather/Hazard Highlights...
+
+The eventual track and evolution of a tropical disturbance in the
+western Gulf late this weekend into the early/middle portions of
+next week may bring multiple rounds of heavy rainfall along the
+immediate Texas and southwest Louisiana coasts. Several inches of
+rainfall is possible over multiple days and this could lead to
+some flooding concerns, especially in areas that have already seen
+above normal rainfall over the past couple of weeks. Otherwise,
+mostly lighter rainfall will follow frontal passages through the
+central and northeastern parts of the CONUS with some potential
+for isolated/localized pockets of heavier amounts. Temperatures
+across the Western and northern tiers should be near or below
+normal, while periods of above normal temperatures shift across
+the Southwest/Central U.S. into the East ahead of a couple frontal
+passages. Expect the western Gulf Coast to be below normal through
+much of next week as well associated with clouds and ample
+tropical moisture.
+
+Santorelli/Taylor
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!p7AegjUN36BP0ZcvGH7UddyizrkGEUgtVLUDnqS7j7j_4PYhDaW_6odc9HTv7tYRysRxcqmp$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!p7AegjUN36BP0ZcvGH7UddyizrkGEUgtVLUDnqS7j7j_4PYhDaW_6odc9HTv7tYRymb0l3xZ$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!p7AegjUN36BP0ZcvGH7UddyizrkGEUgtVLUDnqS7j7j_4PYhDaW_6odc9HTv7tYRynsMc08m$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!p7AegjUN36BP0ZcvGH7UddyizrkGEUgtVLUDnqS7j7j_4PYhDaW_6odc9HTv7tYRykZTNN-k$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!p7AegjUN36BP0ZcvGH7UddyizrkGEUgtVLUDnqS7j7j_4PYhDaW_6odc9HTv7tYRyuFfossE$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!p7AegjUN36BP0ZcvGH7UddyizrkGEUgtVLUDnqS7j7j_4PYhDaW_6odc9HTv7tYRyh6QR2T4$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!p7AegjUN36BP0ZcvGH7UddyizrkGEUgtVLUDnqS7j7j_4PYhDaW_6odc9HTv7tYRysegG8wF$
+
+
+$$
+
+
+------------------------------
+Message-ID: <27>
+Date: Fri, 10 Sep 2021 05:42:46 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+335
+FXUS02 KWBC 100542
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+142 AM EDT Fri Sep 10 2021
+
+Valid 12Z Mon Sep 13 2021 - 12Z Fri Sep 17 2021
+
+...Potential Heavy Rain Threat for Western Gulf Region early next
+week...
+
+
+...Overview and Guidance Evaluation and Preferences...
+
+Fast, quasi-zonal flow across the northern tier of the U.S. will
+keep fronts progressive and the majority of the CONUS in a drier
+weather pattern. The latest suite of 12z/18z guidance shows good
+enough agreement days 3-4 (Mon-Tues) to warrant a purely
+deterministic model blend (favored more heavily towards the
+ECMWF/GFS). After mid-week though, some timing and intensity
+differences begin to arise, especially with a pair of shortwaves
+entering the West Coast on Wednesday and again Friday. The 00z CMC
+is more amplified than the ECMWF and GFS and thus, slower with the
+first shortwave, but is flatter and faster with the second. So by
+late period, it quickly gets out of phase from the better
+consensus. The ECMWF and GFS are more consistent with the ensemble
+means, but also continue to show some run to run variability. As a
+result, the WPC forecast leans more towards the ensemble means the
+second half of the period with minor contributions from the ECMWF
+and GFS just for a little added system definition. This maintains
+good WPC continuity for days 3-6, with some slightly faster
+frontal speed.
+
+In the western Gulf of Mexico, a broad tropical plume of moisture
+associated with a weak disturbance will gradually lift
+north-northwest toward the TX/LA coasts late this weekend and into
+early/middle of next week. There remains considerable uncertainty
+in the potential strength, development, and track of this feature
+but the latest guidance is in reasonable agreement for the
+potential of heavy rainfall along the immediate coasts that could
+reach several inches or more over the multi-day period. The
+National Hurricane Center is currently monitoring this disturbance
+for possible development over the coming days.
+
+...Weather/Hazard Highlights...
+
+The eventual track and evolution of a tropical disturbance in the
+western Gulf late this weekend into the early/middle portions of
+next week may bring multiple rounds of heavy rainfall along the
+immediate Texas and southwest Louisiana coasts. Several inches of
+rainfall is possible over multiple days and this could lead to
+some flooding concerns, especially in areas that have already seen
+above normal rainfall over the past couple of weeks. Otherwise,
+mostly lighter rainfall will follow frontal passages through the
+central and northeastern parts of the CONUS with some potential
+for isolated/localized pockets of heavier amounts. Temperatures
+across the Western and northern tiers should be near or below
+normal, while periods of above normal temperatures shift across
+the Southwest/Central U.S. into the East ahead of a couple frontal
+passages. Expect the western Gulf Coast to be below normal through
+much of next week as well associated with clouds and ample
+tropical moisture.
+
+Santorelli/Taylor
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!pYd8jEJMARnSCUKiVj44K39vvaz_mEwIRVC-Jz9gR7_DsPgO247j28Xvs4wyUNuCm62vGvms$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!pYd8jEJMARnSCUKiVj44K39vvaz_mEwIRVC-Jz9gR7_DsPgO247j28Xvs4wyUNuCm3sjB-7R$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!pYd8jEJMARnSCUKiVj44K39vvaz_mEwIRVC-Jz9gR7_DsPgO247j28Xvs4wyUNuCm5e_u-9-$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!pYd8jEJMARnSCUKiVj44K39vvaz_mEwIRVC-Jz9gR7_DsPgO247j28Xvs4wyUNuCm8jpeU95$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!pYd8jEJMARnSCUKiVj44K39vvaz_mEwIRVC-Jz9gR7_DsPgO247j28Xvs4wyUNuCmzjzagzj$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!pYd8jEJMARnSCUKiVj44K39vvaz_mEwIRVC-Jz9gR7_DsPgO247j28Xvs4wyUNuCm32HwRmi$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!pYd8jEJMARnSCUKiVj44K39vvaz_mEwIRVC-Jz9gR7_DsPgO247j28Xvs4wyUNuCm3y_-1jt$
+
+
+$$
+
+
+------------------------------
+Message-ID: <28>
+Date: Fri, 10 Sep 2021 06:11:32 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 2 Fire Weather Outlook
+
+FNUS22 KWNS 100611
+FWDDY2
+
+Day 2 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0110 AM CDT Fri Sep 10 2021
+
+Valid 111200Z - 121200Z
+
+...NO CRITICAL AREAS...
+
+...Synopsis...
+On Saturday, strengthening cyclogenesis is forecast across the
+northern Plains. As a result, increased surface flow is forecast
+across portions of the central and southern Plains. Currently, fuels
+are not quite to critical thresholds and thus an elevated
+delineation has not been added. However, an increase in initial
+attack may be seen across portions of the Texas Panhandle,
+western/central Oklahoma, much of Kansas and far southern Nebraska,
+where surface winds of 20 to 25 mph are expected with relative
+humidity of 15 to 20 percent.
+
+The only other area of concern could be portions of southeast
+Wyoming into the NE Panhandle. ERCs are near the 90th percentile in
+this area and stronger northwest surface flow is expected as the
+surface low deepens. However, cooler air is also forecast to move
+into the region, and thus relative humidity is currently forecast to
+stay above 25 percent. However, if drier surface conditions appear
+more likely, an elevated delineation may need to be added at a later
+time.
+
+..Bentley.. 09/10/2021
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!sM8e61qmFXyjZkW4qZJ67-39oNQSOg3cuoazzh08zSmn17zhFhgUXNkKpmz19TZLBlUNznbj$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <29>
+Date: Fri, 10 Sep 2021 06:11:32 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 1 Fire Weather Outlook
+
+FNUS21 KWNS 100611
+FWDDY1
+
+Day 1 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0110 AM CDT Fri Sep 10 2021
+
+Valid 101200Z - 111200Z
+
+...Synopsis...
+A large upper-level ridge will persist across the Southwest on
+Friday with a large amplitude upper-level trough in the eastern
+CONUS and a compact shortwave trough across the Northwest.
+Increasing mid-level flow is expected across the northern Great
+Basin and portions of the Northwest ahead of the aforementioned
+shortwave trough. This will lead to some strengthening downslope
+flow in the lee of the Sierra in northwest Nevada.
+
+Farther east, weak lee cyclogenesis is forecast in western South
+Dakota during the afternoon with a strengthening pressure gradient
+across Wyoming. Westerly winds are forecast to increase to around 15
+to 20 mph across central and eastern Wyoming into far southwest
+South Dakota where relative humidity is forecast to be around 15 to
+20 percent.
+
+Scattered thunderstorms are expected across much of the Great Basin
+and Northwest. PWAT values are quite high, especially across
+Northeast Oregon, northern Idaho, and eastern Washington, but
+farther south, PWAT values are forecast between 0.75 and 1 inch.
+This would generally promote more wet than dry storms. However, the
+stronger tropospheric flow will lead to storm motions in excess of
+30 mph which should increase the chance for dry thunderstorms in a
+region with critically dry fuels.
+
+..Bentley.. 09/10/2021
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!sZtN34uLyKOP468BqJkQ3diKxrbu4cQ43gVvAIobNDjW18T_et47M-Fd26OkLohU4reUUWAF$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <30>
+Date: Fri, 10 Sep 2021 07:25:18 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 100725
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+324 AM EDT Fri Sep 10 2021
+
+Valid 12Z Fri Sep 10 2021 - 12Z Sun Sep 12 2021
+
+...Mid-September heat wave in the Nation's Heartland lasting into
+the upcoming weekend...
+
+...Red Flag Warnings and Elevated Fire Weather Conditions in parts
+of the Northwest and eastern Wyoming; wildfire smoke to become
+widespread throughout the Plains...
+
+...Showers and storms in Florida today, followed by the central
+Plains and Great Lakes Saturday; keeping a watchful eye on
+tropical activity in the western Gulf of Mexico this weekend...
+
+A generally tranquil weather pattern is in store across the
+majority of the Lower 48 to close out the work-week and kickoff
+the upcoming weekend. This is due to a pair of strengthening upper
+level ridges of high pressure: one over the Southeast and one in
+the Southwest. There are still a handful of hazards of note in the
+short term across the country, however. The first is stifling heat
+from the Rockies to the Plains. High temps today look to soar into
+the triple digits for parts of the central and northern High
+Plains. High temperature anomalies are forecast to range between
+15-25F above normal with quite a few locations potentially tying
+or breaking daily record highs. Plus, much of the western third of
+the country will start today on a mild note with many daily record
+warm minimum temps possible. On Saturday, the core of the hottest
+temperatures versus normal shift a little farther east into the
+central Plains and Midwest where more daily record warm highs and
+lows are possible. The coolest regions through Saturday night are
+forecast to take shape along the East Coast and in the Pacific
+Northwest. However, after a seasonally cool and comfortable
+Friday, temperatures will warm-up throughout the weekend along the
+East Coast, culminating in the return of typical summer-time
+warmth in the Mid-Atlantic and Northeast by Sunday.
+
+The second hazard involves favorable fire weather conditions for
+parts of the West. Wildfires continue to rage, producing large
+plumes of smoke overspreading the West and the Nation's Heartland.
+Some locations have Air Quality Alerts in place over parts of the
+Pacific Northwest, the northern Rockies, and central Rockies.
+There is also the expectation for breezy winds and dry
+thunderstorms in parts of the Northwest, prompting the SPC to
+issue a couple Elevated Risks for fire weather conditions today.
+Red Flag Warnings are in place for much of Northern California,
+central Oregon, and as far east as eastern Wyoming.
+
+The third hazard deals with areas of precipitation through early
+morning Sunday. The first is in the Northwest where much above
+normal atmospheric moisture content aloft and an approaching upper
+level disturbance should trigger numerous showers and
+thunderstorms. Some thunderstorms could produce locally heavy
+downpours and may result in flash flooding, especially in burn
+scar areas. There are Marginal Risks for both severe weather and
+Excessive Rainfall for portions of the Northwest today. Also, a
+frontal boundary draped over Florida will lead to daily rounds of
+showers and storms in the Sunshine State, while a passing frontal
+system Saturday potentially brings strong-to-severe thunderstorms
+from the central High Plains to the Great Lakes. Lastly, a
+tropical disturbance near the Yucatan Peninsula has a 60% chance
+of development over the next 5 days in the Bay of Campeche and
+northwestern Gulf of Mexico. Interests along the western Gulf
+Coast should monitor this tropical feature closely as it could
+bring significant rainfall totals to the region beginning Sunday
+and lasting into the first half of next week.
+
+Mullinax
+
+Graphics are available at
+https://urldefense.com/v3/__http://www.wpc.ncep.noaa.gov/basicwx/basicwx__;!!DZ3fjg!tZuU7CCUkCmFWPdojPzUhX-n5JBm9Am-bW8lQtpzEOJpTxwzJnkD-ERkQwO95ZGiAbDNpKFc$
+ndfd.php
+
+
+$$
+
+
+------------------------------
+
+*********************************************
+
+End of wx-natnl Digest Fri, 10 Sep 2021
+
