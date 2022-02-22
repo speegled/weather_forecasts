@@ -20,14 +20,5 @@ koppen_classification <- function(df,
   }
   
   # return classifications
-  koppen
+  as.character(koppen)
 }
-
-
-cities <- read.csv("data/cities.csv")
-cities$k <- koppen_classification(cities)
-# manually add missing koppen values
-cities[c(138,223),]
-cities[138,10] <- "Dfa"
-cities[223,10] <- "Af"
-unique(cities$k)

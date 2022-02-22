@@ -9,7 +9,7 @@ lonlat_to_state <- function(df,
                             name_col = "NAME") {
 
   # convert df to sf, coords are first two columns
-  pts <- st_as_sf(df, coords = 1:2, crs = 4326)
+  pts <- st_as_sf(df, coords = c("LON", "LAT"), crs = 4326)
   
   # transform to 3857 coord ref system
   states <- st_transform(states, crs = 3857)
@@ -27,8 +27,8 @@ lonlat_to_state <- function(df,
 # all points are in the contenental US
 latlon_grid <- function(miles) {
   
-  # each mile is 1/69 of a lat / lon degree
-  step <- 1/69 * miles
+  # each mile is 1/66 of a lat / lon degree
+  step <- 1/66 * miles
   
   # get a grid of lat / lon values inside the box corners
   # the distance between points is given number of miles
@@ -41,11 +41,11 @@ latlon_grid <- function(miles) {
   box$STATE <- lonlat_to_state(box)
   
   # return points that are in a state (LON, LAT)
-  box[!is.na(box$STATE),1:2]
+  box[!is.na(box$STATE),c("LON", "LAT")]
 }
 
 
-grid <- latlon_grid(20)
+
 
 
 

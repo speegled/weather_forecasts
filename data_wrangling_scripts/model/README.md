@@ -1,0 +1,7 @@
+Purpose: Gather data on cities and create a dataframe of lat / lon points to interpolate findings across the continental United States.
+1. model_points.R contains the function latlon_grid that creates a dataframe of lat / lon points a given miles apart that are in the continental US.
+2. koppen.R contains the function koppen_classification that extracts the koppen classifications for a dataframe of lat / lon points from the kgc package. 
+3. elevation.R contains the function elevation that gathers the elevations in meters for a dataframe of lat / lon coordinates from the elevatr package. 
+4. elevation_change.R contains functions citiesElevationChange and modelElevationChange. The former calculates the greatest absolute elevation change for each city lat / lon point from the closest n points in the model_points.csv. The latter calculates the greatest absolute elevation change from the four closest points in the model_points.csv file for each model point. Both functions use the euclidian distance formula and output the distance in miles.
+5. distance_to_coast.R contains the function distanceToCoast which uses the gDistance function from the rgeos package to calculate the minimum distance between each of the lat / lon coordinates in the given dataframe. A coastline shapefile was used from Natural Earth database and the measurement is in miles.
+6. wind.R contains meanWindSpeed which uses the raster package to extract the mean wind speed from a TIF file from the Global Wind Atlas database. 

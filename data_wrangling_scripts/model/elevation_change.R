@@ -14,6 +14,8 @@ findClosestPoints <- function(df, p, n) {
     # point coordinates
     mp <- c(df[i,1], df[i,2]) 
     # calculate points distance to p
+    print(p)
+    print(mp)
     d <- euclidean(p, mp)
     # save distance
     dist[i] <- d
@@ -32,7 +34,7 @@ findClosestPoints <- function(df, p, n) {
 }
 
 
-citiesElevationChange <- function(n, 
+citiesElevationChange <- function(n = 4, 
                                   df1 = cities,
                                   df2 = model_points) {
   # calculate the greatest change in elevation for df1 using points in df2
@@ -59,10 +61,9 @@ citiesElevationChange <- function(n,
     # save greatest elevation change
     elevation_change[c] <- max_d
   }
-  elevation_change
+  round(elevation_change, 2)
 }
 
-citiesElevationChange(4)
 
 
 
@@ -100,29 +101,24 @@ modelElevationChange <- function(factor,
     # get max elevation change between points
     a <- c(d1,d2,d3,d4)
     max_d <- max(a,na.rm=TRUE)
-    print(pm)
-    print(max_d)
     elevation_change[n] <- max_d
   }
   # convert all -Inf values to 0
   elevation_change[elevation_change == -Inf] <- 0
-  elevation_change
+  round(elevation_change, 2)
 }
 
-
-# degrees between points
-factor <- 20 / 66
-model_points$ev <- modelElevationChange(factor)
-
-
+new <- modelElevationChange(20 / 66, model_points_testing)
+max(new[which(new != model_points_og$ELEVATION_CHANGE)] - model_points_og$ELEVATION_CHANGE[which(model_points_og$ELEVATION_CHANGE != new)])
+model_points_testing$ELEVATION_CHANGE == new
 
 # save elevation change plot
-png("plots/elevation_change.png")
-map <- ggplot() + borders('world', xlim = c(-125,-65), ylim = c(20, 50), color ='black', fill='lightblue')
-map <- map + geom_point(data = model_points, mapping = aes(x=LON, y=LAT, color=ELEVATION_CHANGE)) + 
-  scale_color_gradientn(colours = c("blue", "green", "yellow", "orange", "red"))
-print(map)
-dev.off()
+# png("plots/elevation_change.png")
+# map <- ggplot() + borders('world', xlim = c(-125,-65), ylim = c(20, 50), color ='black', fill='lightblue')
+# map <- map + geom_point(data = model_points, mapping = aes(x=LON, y=LAT, color=ELEVATION_CHANGE)) + 
+#  scale_color_gradientn(colours = c("blue", "green", "yellow", "orange", "red"))
+# print(map)
+# dev.off()
 
 
 
@@ -130,14 +126,33 @@ dev.off()
 # run parallel clusters
 # library(parallel)
 # library(tidyverse)
-
 # cl <- parallel::makeCluster(8, setup_strategy = "sequential")
 # clusterExport(cl, list("model_points"))
 # Ns <- 1:nrow(model_points)
 # sim_data <- parLapply(cl, Ns, modelElevationChange)
 # sim_data <- bind_rows(sim_data)
 # sim_data
-
 # stopCluster(cl)
 
 
+
+
+# 8 closest points instead of 4
+cities <- read.csv('data/cities.csv')
+model_points <- read.csv('data/model_points.csv')
+
+eight_nearest <- citiesElevationChange(8, cities, model_points)
+cities$ELEVATION_CHANGE_EIGHT <- eight_nearest
+cities$EC_DIFF <- abs(cities$ELEVATION_CHANGE - cities$ELEVATION_CHANGE_EIGHT)
+select_elevation <- cities[,c("CITY", "STATE", "ELEVATION", "ELEVATION_CHANGE", "ELEVATION_CHANGE_EIGHT", "EC_DIFF")]
+select_elevation <- select_elevation[-(select_elevation$STATE %in% c("AK", "HI")),]
+select_elevation
+
+library(tidyverse)
+select_elevation %>% 
+  arrange(desc(EC_DIFF)) %>% 
+  head()
+
+colnames(cities) <- c("city", "state", "lon", "lat", "koppen", "elevation", "elevation_change",
+                      "distance_to_coast", "wind", "elevation_change_eight", "ec_diff")
+head(cities)

@@ -15,6 +15,16 @@ meanWindSpeed <- function(df,
 
 
 
+# save mean wind speed plot
+# png("plots/mean_wind_speed.png")
+# map <- ggplot() + borders('world', xlim = c(-125,-65), ylim = c(20, 50), color ='black', fill='lightblue')
+# map <- map + geom_point(data = model_points, mapping = aes(x=LON, y=LAT, color=WIND)) + 
+#   scale_color_gradientn(colours = c("blue", "green", "yellow", "orange", "red"))
+# print(map)
+# dev.off()
+
+
+
 
 # return the wind speed for points in df on a given date and time
 # df must have LON and LAT columns
