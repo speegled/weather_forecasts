@@ -1,0 +1,211 @@
+---
+title: "Model"
+author: "Sai Shreyas Bhavanasi"
+date: "2/18/2022"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("visualization_and_analysis_scripts/functions.R")
+errs = create_error_df()
+library(tidyverse)
+library(lubridate)
+```
+
+Compare scraped data to email data. 
+
+Add city in city_inp
+
+```{r}
+city_inp = "SAN FRANCISCO"
+# scraped data
+df <- read.csv("data/weather_data.csv")
+df$Time <- lubridate::hms(df$Time)
+df$Date <- lubridate::date(df$Date)
+df <- df %>% filter(City == city_inp,
+                    hour(Time) < 12) %>%
+  select(D1_Lo, Date)
+df
+# email data
+data <- read.csv("data/email_data.csv")
+data$date = lubridate::date(data$date_and_time)
+data <- data %>%  filter(city == city_inp,
+                         lubridate::hour(data$date_and_time) < 12) %>%
+  select(tomorrow_lo, date)
+head(df)
+head(data)
+df2 = inner_join(df, data, by = c("Date" = "date"))
+
+colors <-
+  c("Email" = "blue",
+    "Scraper" = "red")
+ggplot(df2) +
+  geom_line(aes(x = Date, y = D1_Lo, color = "Email"), alpha = .8) +
+  geom_line(aes(x = Date, y = tomorrow_lo, color = "Scraper"), alpha = .8) +
+  scale_color_manual(values = colors) +
+  labs(y = "Temp (F)", x = "Date", colour = "Source") + theme(
+    panel.grid.major = element_blank(),
+    text = element_text(size = 12),
+    panel.grid = element_blank(),
+    panel.background  = element_blank(),
+    panel.border = element_rect(fill = NA),
+    panel.spacing = unit(0, "mm"),
+    legend.key = element_rect(fill = NA),
+    legend.position = c(0.01, 0.01),
+    legend.justification = c("left", "bottom"))
+
+```
+
+
+Model weather on Elevation
+
+```{r}
+normalize <- function(x, na.rm = TRUE) {
+  return((x- min(x)) /(max(x)-min(x)))
+}
+
+func <- function(city_inp) {
+  # errDf = create_error_df()
+  errs2 <-
+    errs %>%
+    filter(city == city_inp,!is.na(error_hi_2_prev_PM)) %>%
+    select(date, error_hi_prev_AM)
+  
+  y = errs2[, 2]
+  x = errs2[, 1]
+  
+  errs2$date
+  
+  dates = seq.Date(date(errs2$date[1]), date(errs2$date[length(errs2$date)]), by = 7)
+  
+  wt <- data.frame(matrix(ncol = 4, nrow = 0))
+  names(wt) = c("start", "avgTemp","city", "east_west")
+  # wt
+  
+  for (i in 1:(length(dates) - 1)) {
+    # get weekly mean
+    t = abs(errs2[errs2$date >= dates[i] & errs2$date < dates[i + 1], 2])
+    t = mean(t, na.rm = T)
+    
+    city_inp_lon = cities[as.character(cities$CITY) == as.character(city_inp),]$ELEVATION  
+    city_inp_lon
+    if(length(city_inp_lon) > 0 && city_inp_lon>summary(cities$ELEVATION)[5]){
+      coast = "> 375ft"
+    }else if(length(city_inp_lon) > 0 && city_inp_lon < summary(cities$ELEVATION)[2]){
+      coast = "< 45 ft"
+    }else{
+      coast = "45 - 375 ft"
+    }
+    wt = rbind(wt,
+               data.frame(start = dates[i],
+                          avgTemp = t,
+                          city = city_inp,
+                          east_west = coast))
+  }
+  wt$avgTemp <- normalize(wt$avgTemp)
+  wt
+}
+
+cities <- read.csv("data/cities.csv")
+mid_pt = mean(c(min(cities$ELEVATION, na.rm = T), max(cities$ELEVATION, na.rm = T)))
+
+unq_cities = unique(errs$city)
+
+df = func(unq_cities[1])
+for(i in 2:length(unq_cities)){
+  df = rbind(df, func(unq_cities[i]))
+}
+
+ggplot()+
+  geom_smooth( data = df, aes(x = start, y = avgTemp, group = east_west, color = east_west), alpha = .4, se = T)+
+  theme(        panel.grid.major = element_blank(),
+                text = element_text(size = 12),
+                panel.grid = element_blank(),
+                panel.background  = element_blank(),
+                panel.border = element_rect(fill = NA),
+                panel.spacing = unit(0, "mm"))+
+  labs(x = "Time", y = "Avg. Weekly Scaled Error", color = "Elevation")+
+  coord_cartesian(expand = F)
+  
+```
+
+Model weather on Elevation
+
+```{r}
+func <- function(city_inp) {
+  # errDf = create_error_df()
+  errs2 <-
+    errs %>%
+    filter(city == city_inp,!is.na(error_hi_2_prev_PM)) %>%
+    select(date, error_hi_prev_AM)
+  
+  y = errs2[, 2]
+  x = errs2[, 1]
+  
+  errs2$date
+  
+  dates = seq.Date(date(errs2$date[1]), date(errs2$date[length(errs2$date)]), by = 7)
+  
+  wt <- data.frame(matrix(ncol = 4, nrow = 0))
+  names(wt) = c("start", "avgTemp","city", "east_west")
+  # wt
+  # print(unq_cities[i])
+
+  for (i in 1:(length(dates) - 1)) {
+    # get weekly mean
+    t = abs(errs2[errs2$date >= dates[i] & errs2$date < dates[i + 1], 2])
+    t = mean(t, na.rm = T)
+    
+    city_inp_lon = cities[as.character(cities$CITY) == as.character(city_inp),]$CLIMATE  
+    city_inp_lon
+    # print(as.character(city_inp))
+    # if(length(city_inp_lon) > 0 && city_inp_lon>summary(cities$ELEVATION)[5]){
+    #   coast = "> 375ft"
+    # }else if(length(city_inp_lon) > 0 && city_inp_lon < summary(cities$ELEVATION)[2]){
+    #   coast = "< 45 ft"
+    # }else{
+    #   coast = "45 - 375 ft"
+    # }
+    wt = rbind(wt,
+               data.frame(start = dates[i],
+                          avgTemp = t,
+                          city = city_inp,
+                          east_west = city_inp_lon))
+  }
+  wt$avgTemp <- normalize(wt$avgTemp)
+  wt
+}
+
+cities <- read.csv("data/cities.csv")
+# mid_pt = mean(c(min(cities$ELEVATION, na.rm = T), max(cities$ELEVATION, na.rm = T)))
+
+unq_cities = unique(errs$city)
+cities$CITY = stringr::str_replace_all(cities$CITY, "_", " ")
+df = func(unq_cities[1])
+for(i in 2:length(unq_cities)){
+  if(unq_cities[i] %in% cities$CITY)
+  { 
+    df = rbind(df, func(unq_cities[i]))
+  }
+  else{
+    print(unq_cities[i])
+  }
+}
+
+ggplot()+
+  geom_smooth( data = df, aes(x = start, y = avgTemp, group = east_west, color = east_west), alpha = .4, se = T)+
+
+
+  theme(        panel.grid.major = element_blank(),
+                text = element_text(size = 12),
+                panel.grid = element_blank(),
+                panel.background  = element_blank(),
+                panel.border = element_rect(fill = NA),
+                panel.spacing = unit(0, "mm"))+
+  labs(x = "Time", y = "Avg. Weekly Scaled Error", color = "Elevation")+
+  coord_cartesian(expand = F)
+  
+```
