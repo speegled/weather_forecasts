@@ -4,17 +4,17 @@
 
 `functions.R` contains functions that are helpful in error analysis:
 
-1. The function `create_error_df` takes no input and returns the error data frame.
+1. The function `create_error_df` takes no input and returns the error data frame created using the temperature data in `data/email_data_reorganized`.
 
-2. The function `create_mean_error_df` takes as input the `errors` data frame and  returns the mean error data frame.
+2. The function `create_mean_error_df` takes as input the `errors` data frame created using the function in (1) and returns the mean error data frame.
 
-3. The function `create_mean_error_df_map_info` takes as input the `mean_errors` data frame and returns the `mean_errors` data frame with latitude, longitude, and climate data added.
+3. The function `create_mean_error_df_map_info` takes as input the `mean_errors` data frame created using the function in (2) and returns the `mean_errors` data frame with latitude, longitude, and climate data added.
 
-4. The function `plot_hist_hi_vs_lo` takes as input the `mean_errors` data frame and a boolean value `abs` that indicates whether to plot signed or absolute value errors (if `abs` = `TRUE`, then the function will plot absolute value errors.  This function returns histograms of the mean errors for high and low temperature forecasts.
+4. The function `plot_hist_hi_vs_lo` takes as input the `mean_errors` data frame created using the function in (2) and a boolean value `abs` that indicates whether to plot signed or absolute value errors (if `abs` = `TRUE`, then the function will plot absolute value errors).  This function returns histograms of the mean errors for high and low temperature forecasts.
 
-5. The function `plot_hist_diff_days` takes as input the `mean_errors` data frame and a boolean value `lo` that indicates whether to plot high or low temperature errors (if `lo` = `TRUE`, then the function will plot low temperature errors).  This function returns histograms of the mean errors for high and low temperature forecasts on different days.
+5. The function `plot_hist_diff_days` takes as input the `mean_errors` data frame created using the function in (2) and a boolean value `lo` that indicates whether to plot high or low temperature errors (if `lo` = `TRUE`, then the function will plot low temperature errors).  This function returns histograms of the mean errors for high and low temperature forecasts on different days.
 
-6. `plot_mean_errors` takes as input the `mean_errors` data frame, a boolean value `lo` (see (4)), a boolean value `abs` (see (5)), an integer `n` that indicates how many cities are labeled (the `n` cities with the smallest absolute value errors and the `n` cities with the largest absolute value errors are labeled), and an integer `day` that indicates which day's errors to plot (see below).  This function returns a map with mean errors for cities.
+6. `plot_mean_errors` takes as input the `mean_errors` data frame created using the function in (2), a boolean value `lo` (see (4)), a boolean value `abs` (see (5)), an integer `n` that indicates how many cities are labeled (the `n` cities with the smallest absolute value errors and the `n` cities with the largest absolute value errors are labeled), and an integer `day` that indicates which day's errors to plot (see below).  This function returns a map with mean errors for cities.
 
 The `day` variable is an integer in the range [0, 4]:
 

@@ -104,38 +104,14 @@ ggsave("plots/abs_mean_error_hi_diff_days.png", plot = plot_abs_hi_diff_days,
 
 # perform paired t tests and plot results
 
-#' 
-#' paired t test results:
-#' 
-#' for high temperatures: 
-#'   using actual values reported next AM:
-#'     error 2 prev PM compared to error current AM: 157/160 significant
-#'     error 2 prev PM compared to error prev PM: 103/160 significant
-#'     error 2 prev PM compared to error prev AM: 61/160 significant
-#'   all significant differences are positive (so errors get smaller over time)
-#' 
-#' for low temperatures:
-#'   using actual values reported next AM:
-#'     error 2 prev PM compared to error current AM: 160/160 significant
-#'     ***error 2 prev PM compared to error prev PM: 24/160 significant
-#'       errors are positive and negative!!!
-#'     error 2 prev PM compared to error prev AM: 159/160 significant
-#'     
-#'  PREV PM IS A PROBLEM!
-#' 
-
-summary(errors$error_lo_2_prev_PM - errors$error_lo_current_AM)
-summary(errors$error_lo_2_prev_PM - errors$error_lo_prev_PM)
-summary(errors$error_lo_2_prev_PM - errors$error_lo_prev_AM)
-
 cities <- read.csv("data/cities.csv") %>%
   mutate(CITY = str_replace_all(CITY, '_', ' '),
          city_and_state = paste0(CITY, ", ", STATE))
 
 errors %>%
   group_by(city_and_state) %>%
-  summarize(p = t.test(abs(error_lo_prev_AM), abs(error_lo_prev_PM), paired = TRUE)$p.value,
-            diff = mean(abs(error_lo_prev_AM) - abs(error_lo_prev_PM), na.rm = TRUE)) %>%
+  summarize(p = t.test(abs(error_lo_prev_PM), abs(error_lo_current_PM), paired = TRUE)$p.value,
+            diff = mean(abs(error_lo_prev_PM) - abs(error_lo_current_PM), na.rm = TRUE)) %>%
   filter(p < 0.05) %>%
   merge(cities, by = "city_and_state") %>%
   rename(city = CITY, state = STATE, lat = LAT, lon = LON, climate = CLIMATE) %>%
