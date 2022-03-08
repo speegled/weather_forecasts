@@ -16,9 +16,6 @@ df <- df %>% mutate(date = date(date_and_time),
 df <- df %>% mutate(am_or_pm = case_when(hour(time) < 12 ~ "AM",
                                          TRUE ~ "PM"))
 
-# format city variable (replace spaces with underscores)
-df$city <- str_replace(df$city, " ", "_")
-
 # remove duplicate (date, am_or_pm) pairs
 df <- df %>% group_by(city, date, am_or_pm) %>%
   filter(time_s > 60**2) %>%
@@ -128,6 +125,7 @@ colnames(new_df) <- c("date", "city", "forecast_hi_2_prev_PM", "forecast_lo_prev
 new_df <- new_df %>% arrange(date)
 write.csv(new_df, file = "data/email_data_reorganized.csv", row.names = FALSE)
 
+
 # separate state abbreviation from city names if existing and add for those not there
 state_abreviations <- c("AK","AL","AR","AZ","CA","CO","CT","DC","DE","FL","GA","GU","HI","IA","ID", "IL","IN","KS","KY","LA","MA","MD","ME","MH","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY", "OH","OK","OR","PA","PR","PW","RI","SC","SD","TN","TX","UT","VA","VI","VT","WA","WI","WV","WY")
 cities <-  read.csv("data/cities.csv", header = TRUE) %>% select(CITY, STATE) %>%
@@ -146,6 +144,9 @@ df <- df %>%
                             ifelse(! is.na(state), as.character(state), NA)) ) %>%
   select(-city,-state, -last_two, -middle_chr, -without_last_two) %>% # remove old and temp variables
   select(date, city = new_city, state = new_state, everything()) # change new_city, new_state to city, state and reorder cols
+
+# format city variable (replace spaces with underscores)
+df$city <- str_replace(df$city, " ", "_")
 
 # overwrite with city name altered and state included
 write.csv(df, file = "data/email_data_reorganized.csv", row.names = FALSE)
