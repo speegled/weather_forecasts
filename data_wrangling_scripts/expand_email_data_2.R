@@ -1,5 +1,8 @@
 library(tidyverse)
 library(lubridate)
+library(dtplyr)
+library(data.table)
+
 
 # read in email data
 df <- read.csv("data/email_data.csv")
@@ -8,11 +11,10 @@ df <- read.csv("data/email_data.csv")
 df <- filter(df, city == "ST LOUIS")
 
 # format date and time variable and add variables for time and AM or PM
-df$date_and_time <- parse_date_time(df$date_and_time, "%Y-%m-%d %H:%M:%S")
+df$date_and_time <- ymd_hms(df$date_and_time)
 df <- df %>% mutate(date = date(date_and_time),
-                    time = hms(format(date_and_time, "%H:%M:%S")),
-                    time_s = second(time) + 60 * minute(time) + 60**2 * hour(time))
-df <- df %>% mutate(am_or_pm = case_when(hour(time) < 12 ~ "AM",
+                    time_s = second(date_and_time) + 60 * minute(date_and_time) + 60**2 * hour(date_and_time))
+df <- df %>% mutate(am_or_pm = case_when(hour(date_and_time) < 12 ~ "AM",
                                          TRUE ~ "PM"))
 
 # format city variable (replace spaces with underscores)
@@ -44,7 +46,6 @@ df_all_dates <- data.frame(date_and_time = rep(seq_dates, each = n_cities),
                            tomorrow_hi = rep(NA, n_dates * n_cities),
                            tomorrow_outlook = rep(NA, n_dates * n_cities),
                            date = ymd(rep(format(seq_dates, "%Y-%m-%d"), each = n_cities)),
-                           time = rep(hms(format(seq_dates, "%H:%M:%S")), each = n_cities),
                            am_or_pm = rep(c(rep("AM", n_cities), rep("PM", n_cities)), n_dates / 2))
 
 # add rows of NAs for missing (city, date, am_or_pm) combinations in df
@@ -54,7 +55,7 @@ df_all_dates$city_date_am_or_pm <- paste(df_all_dates$city,
                                          df_all_dates$am_or_pm)
 `%notin%` <- Negate(`%in%`)
 df_missing_dates <- filter(df_all_dates, city_date_am_or_pm %notin% df$city_date_am_or_pm)
-df <- rbind(df, df_missing_dates) %>% select(-city_date_am_or_pm)
+df <- rbind(df, df_missing_dates) %>% select(-city_date_am_or_pm) %>% arrange(date_and_time)
 
 
 # find the dates in the email data that are not already in the expanded data frame
@@ -65,12 +66,13 @@ email_data_expanded <- filter(email_data_expanded, year(date) == 2021)
 existing_dates <- unique(email_data_expanded$date)
 new_dates <- ymd(setdiff(as.character(all_dates), as.character(existing_dates)))
 
-
 expand_data <- function(param) {
   # split the parameter string to get the city and date
   split <- str_split_fixed(param, "---", 2)
   current_city <- str_trim(split[1])
   current_date <- date(parse_date_time(str_trim(split[2]), "%Y-%m-%d"))
+  
+  df <- lazy_dt(df)
   
   # create data frame with data for 2 days previous, previous day, current day, next day
   data <- df %>% filter(city == current_city,
@@ -80,54 +82,57 @@ expand_data <- function(param) {
     select(city, date_and_time, date, am_or_pm,
            previous_lo, previous_hi, previous_precip,
            today_lo, today_hi, today_outlook, 
-           tomorrow_lo, tomorrow_hi, tomorrow_outlook)
+           tomorrow_lo, tomorrow_hi, tomorrow_outlook) %>% as.data.frame()
+  
+  data <- lazy_dt(data)
   
   # create data frame with data for 2 days previous
   data_2_previous <- data %>% filter(city == current_city, date == current_date - 2) %>%
     select(city, date_and_time, date, am_or_pm,
-           tomorrow_lo, tomorrow_hi, tomorrow_outlook)
+           tomorrow_lo, tomorrow_hi, tomorrow_outlook) %>% as.data.frame()
   
   # create data frame with data for previous day 
   data_previous <- data %>% filter(city == current_city, date == current_date - 1) %>%
     select(city, date_and_time, date, am_or_pm,
            tomorrow_lo, tomorrow_hi, tomorrow_outlook, 
-           today_lo, today_hi, today_outlook)
+           today_lo, today_hi, today_outlook) %>% as.data.frame()
   
   # create data frame with data for current day
   data_current <- data %>% filter(city == current_city, date == current_date) %>%
     select(city, date_and_time, date, am_or_pm,
            today_lo, today_hi, today_outlook,
-           previous_lo, previous_hi, previous_precip)
+           previous_lo, previous_hi, previous_precip) %>% as.data.frame()
   
   # create data frame with data for next day
   data_next <- data %>% filter(city == current_city, date == current_date + 1) %>%
     select(city, date_and_time, date, am_or_pm,
-           previous_lo, previous_hi, previous_precip)
+           previous_lo, previous_hi, previous_precip) %>% as.data.frame()
   
   # create a new data frame with the data for the given city and date
-  data_df <- data.frame(date = rep(current_date, 8), city = rep(current_city, 8), 
+  data_df <- data.frame(date = rep(current_date, 8),
+                        city = rep(current_city, 8), 
                         high_or_low = c(rep("high", 4), rep("low", 4)),
-                        forecast_time = rep(c(48, 36, 24, 12), 2),
-                        forecast_temp = c(data_2_previous[1, "tomorrow_hi"],
-                                          data_previous[1, "tomorrow_hi"],
-                                          data_previous[2, "today_hi"],
-                                          data_current[1, "today_hi"],
-                                          data_previous[1, "tomorrow_lo"],
-                                          data_previous[2, "tomorrow_lo"],
-                                          data_current[1, "today_lo"],
-                                          data_current[2, "today_lo"]),
-                        forecast_out = c(data_2_previous[1, "tomorrow_outlook"],
-                                         data_previous[1, "tomorrow_outlook"],
-                                         data_previous[2, "today_outlook"],
-                                         data_current[1, "today_outlook"],
-                                         data_previous[1, "tomorrow_outlook"],
-                                         data_previous[2, "tomorrow_outlook"],
-                                         data_current[1, "today_outlook"],
-                                         data_current[2, "today_outlook"]),
-                        actual_temp = c(rep(data_next[1, "previous_hi"], 4),
-                                        rep(data_next[1, "previous_lo"], 4)),
-                        actual_precip = c(rep(data_next[1, "previous_precip"], 4),
-                                          rep(data_next[1, "previous_precip"], 4)))
+                        forecast_hours_before = rep(c(48, 36, 24, 12), 2),
+                        observed_temp = c(unlist(rep(data_next[1, "previous_hi"], 4)),
+                                          unlist(rep(data_next[1, "previous_lo"], 4))),
+                        forecast_temp = c(unlist(data_2_previous[1, "tomorrow_hi"]),
+                                          unlist(data_previous[1, "tomorrow_hi"]),
+                                          unlist(data_previous[2, "today_hi"]),
+                                          unlist(data_current[1, "today_hi"]),
+                                          unlist(data_previous[1, "tomorrow_lo"]),
+                                          unlist(data_previous[2, "tomorrow_lo"]),
+                                          unlist(data_current[1, "today_lo"]),
+                                          unlist(data_current[2, "today_lo"])),
+                        observed_precip = c(unlist(rep(data_next[1, "previous_precip"], 4)),
+                                            unlist(rep(data_next[1, "previous_precip"], 4))),
+                        forecast_outlook = c(unlist(data_2_previous[1, "tomorrow_outlook"]),
+                                             unlist(data_previous[1, "tomorrow_outlook"]),
+                                             unlist(data_previous[2, "today_outlook"]),
+                                             unlist(data_current[1, "today_outlook"]),
+                                             unlist(data_previous[1, "tomorrow_outlook"]),
+                                             unlist(data_previous[2, "tomorrow_outlook"]),
+                                             unlist(data_current[1, "today_outlook"]),
+                                             unlist(data_current[2, "today_outlook"])))
   
   # return data frame (8 rows)
   return(data_df)
@@ -139,8 +144,9 @@ params <- unique((df %>% select(city, date) %>%
 
 # create expanded data frame
 new_df <- map_df(params, expand_data)
-colnames(new_df) <- c("date", "city", "high_or_low", "forecast_time", 
-                      "forecast_temp", "forecast_out", "actual_temp", "actual_precip")
+colnames(new_df) <- c("date", "city", "high_or_low", "forecast_hours_before",
+                      "observed_temp", "forecast_temp",
+                      "observed_precip", "forecast_outlook")
 new_df <- new_df %>% arrange(date)
 write.csv(new_df, file = "data/email_data_expanded.csv", row.names = FALSE)
 
@@ -164,4 +170,4 @@ df <- df %>%
   select(date, city = new_city, state = new_state, everything()) # change new_city, new_state to city, state and reorder cols
 
 # overwrite with city name altered and state included
-# write.csv(df, file = "data/email_data_expanded.csv", row.names = FALSE)
+write.csv(df, file = "data/email_data_expanded.csv", row.names = FALSE)

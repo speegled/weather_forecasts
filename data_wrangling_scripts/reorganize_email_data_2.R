@@ -8,7 +8,7 @@ library(data.table)
 df <- read.csv("data/email_data.csv")
 
 # REMOVE LATER!
-# df <- filter(df, city == "ST LOUIS")
+df <- filter(df, city == "ST LOUIS")
 
 # format date and time variable and add variables for time and AM or PM
 df$date_and_time <- ymd_hms(df$date_and_time)
@@ -57,16 +57,15 @@ df_all_dates$city_date_am_or_pm <- paste(df_all_dates$city,
 df_missing_dates <- filter(df_all_dates, city_date_am_or_pm %notin% df$city_date_am_or_pm)
 df <- rbind(df, df_missing_dates) %>% select(-city_date_am_or_pm) %>% arrange(date_and_time)
 
-
 # find the dates in the email data that are not already in the expanded data frame
 all_dates <- unique(ymd(df$date))
-email_data_expanded <- read.csv("data/email_data_expanded.csv")
-email_data_expanded$date <- ymd(email_data_expanded$date)
-email_data_expanded <- filter(email_data_expanded, year(date) == 2021)
-existing_dates <- unique(email_data_expanded$date)
+email_data_reorganized <- read.csv("data/email_data_reorganized.csv")
+email_data_reorganized$date <- ymd(email_data_reorganized$date)
+email_data_reorganized <- filter(email_data_reorganized, year(date) == 2021)
+existing_dates <- unique(email_data_reorganized$date)
 new_dates <- ymd(setdiff(as.character(all_dates), as.character(existing_dates)))
 
-expand_data <- function(param) {
+organize_data <- function(param) {
   # split the parameter string to get the city and date
   split <- str_split_fixed(param, "---", 2)
   current_city <- str_trim(split[1])
@@ -109,32 +108,21 @@ expand_data <- function(param) {
            previous_lo, previous_hi, previous_precip) %>% as.data.frame()
   
   # create a new data frame with the data for the given city and date
-  data_df <- data.frame(date = rep(current_date, 8),
-                        city = rep(current_city, 8), 
-                        high_or_low = c(rep("high", 4), rep("low", 4)),
-                        forecast_hours_before = rep(c(48, 36, 24, 12), 2),
-                        observed_temp = c(unlist(rep(data_next[1, "previous_hi"], 4)),
-                                          unlist(rep(data_next[1, "previous_lo"], 4))),
-                        forecast_temp = c(unlist(data_2_previous[1, "tomorrow_hi"]),
-                                          unlist(data_previous[1, "tomorrow_hi"]),
-                                          unlist(data_previous[2, "today_hi"]),
-                                          unlist(data_current[1, "today_hi"]),
-                                          unlist(data_previous[1, "tomorrow_lo"]),
-                                          unlist(data_previous[2, "tomorrow_lo"]),
-                                          unlist(data_current[1, "today_lo"]),
-                                          unlist(data_current[2, "today_lo"])),
-                        observed_precip = c(unlist(rep(data_next[1, "previous_precip"], 4)),
-                                            unlist(rep(data_next[1, "previous_precip"], 4))),
-                        forecast_outlook = c(unlist(data_2_previous[1, "tomorrow_outlook"]),
-                                             unlist(data_previous[1, "tomorrow_outlook"]),
-                                             unlist(data_previous[2, "today_outlook"]),
-                                             unlist(data_current[1, "today_outlook"]),
-                                             unlist(data_previous[1, "tomorrow_outlook"]),
-                                             unlist(data_previous[2, "tomorrow_outlook"]),
-                                             unlist(data_current[1, "today_outlook"]),
-                                             unlist(data_current[2, "today_outlook"])))
+  data_df <- data.frame(date = current_date, city = current_city, 
+                        forecast_hi_2_prev_PM =  data_2_previous[1, "tomorrow_hi"],
+                        forecast_lo_prev_AM = data_previous[1, "tomorrow_lo"],
+                        forecast_hi_prev_AM = data_previous[1, "tomorrow_hi"],
+                        forecast_lo_prev_PM = data_previous[2, "tomorrow_lo"],
+                        forecast_hi_prev_PM = data_previous[2, "today_hi"],
+                        forecast_lo_current_AM = data_current[1, "today_lo"],
+                        forecast_hi_current_AM = data_current[1, "today_hi"],
+                        forecast_lo_current_PM = data_current[2, "today_lo"],
+                        actual_lo_current_PM = data_current[2, "previous_lo"],
+                        actual_hi_current_PM = data_current[2, "previous_hi"],
+                        actual_lo_next_AM = data_next[1, "previous_lo"], 
+                        actual_hi_next_AM = data_next[1, "previous_hi"])
   
-  # return data frame (8 rows)
+  # return data frame (1 row)
   return(data_df)
 }
 
@@ -142,13 +130,15 @@ expand_data <- function(param) {
 params <- unique((df %>% select(city, date) %>% 
                     mutate(param = paste(city, "---", date)))$param)
 
-# create expanded data frame
-new_df <- map_df(params, expand_data)
-colnames(new_df) <- c("date", "city", "high_or_low", "forecast_hours_before",
-                      "observed_temp", "forecast_temp",
-                      "observed_precip", "forecast_outlook")
+# create reorganized data frame
+new_df <- map_df(params, organize_data)
+colnames(new_df) <- c("date", "city", "forecast_hi_2_prev_PM", "forecast_lo_prev_AM", 
+                      "forecast_hi_prev_AM", "forecast_lo_prev_PM", "forecast_hi_prev_PM", 
+                      "forecast_lo_current_AM", "forecast_hi_current_AM", "forecast_lo_current_PM", 
+                      "actual_lo_current_PM", "actual_hi_current_PM", "actual_lo_next_AM", "actual_hi_next_AM")
 new_df <- new_df %>% arrange(date)
-write.csv(new_df, file = "data/email_data_expanded.csv", row.names = FALSE)
+write.csv(new_df, file = "data/email_data_reorganized.csv", row.names = FALSE)
+
 
 # separate state abbreviation from city names if existing and add for those not there
 state_abreviations <- c("AK","AL","AR","AZ","CA","CO","CT","DC","DE","FL","GA","GU","HI","IA","ID", "IL","IN","KS","KY","LA","MA","MD","ME","MH","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY", "OH","OK","OR","PA","PR","PW","RI","SC","SD","TN","TX","UT","VA","VI","VT","WA","WI","WV","WY")
@@ -156,7 +146,7 @@ cities <-  read.csv("data/cities.csv", header = TRUE) %>% select(CITY, STATE) %>
   mutate(city = str_replace_all(CITY, '_', ' ')) %>%
   select(city, state = STATE)
 
-df <- read.csv("data/email_data_expanded.csv") # import data written above
+df <- read.csv("data/email_data_reorganized.csv") # import data written above
 df$city <- as.character(df$city)
 df <- df %>%
   mutate(last_two = substr(city, nchar(city) - 1, nchar(city)),
@@ -169,5 +159,8 @@ df <- df %>%
   select(-city,-state, -last_two, -middle_chr, -without_last_two) %>% # remove old and temp variables
   select(date, city = new_city, state = new_state, everything()) # change new_city, new_state to city, state and reorder cols
 
+# format city variable (replace spaces with underscores)
+df$city <- str_replace(df$city, " ", "_")
+
 # overwrite with city name altered and state included
-write.csv(df, file = "data/email_data_expanded.csv", row.names = FALSE)
+write.csv(df, file = "data/email_data_reorganized.csv", row.names = FALSE)
