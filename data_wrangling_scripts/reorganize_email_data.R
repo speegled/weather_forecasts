@@ -16,9 +16,6 @@ df <- df %>% mutate(date = date(date_and_time),
 df <- df %>% mutate(am_or_pm = case_when(hour(date_and_time) < 12 ~ "AM",
                                          TRUE ~ "PM"))
 
-# format city variable (replace all spaces with underscores)
-df$city <- str_replace_all(df$city, " ", "_")
-
 # remove duplicate (date, am_or_pm) pairs
 df <- df %>% group_by(city, date, am_or_pm) %>%
   filter(time_s > 60**2) %>%
@@ -150,8 +147,8 @@ df <- df %>%
   select(-city,-state, -last_two, -middle_chr, -without_last_two) %>% # remove old and temp variables
   select(date, city = new_city, state = new_state, everything()) # change new_city, new_state to city, state and reorder cols
 
-# format city variable (replace spaces with underscores)
-df$city <- str_replace(df$city, " ", "_")
+# format city variable (replace all spaces with underscores)
+df$city <- str_replace_all(df$city, " ", "_")
 
 # overwrite with city name altered and state included
 write.csv(df, file = "data/email_data_reorganized.csv", row.names = FALSE)
