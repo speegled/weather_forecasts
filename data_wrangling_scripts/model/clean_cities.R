@@ -30,3 +30,8 @@ email_cities
 cities_sample <- sample(email_cities, 80)
 cities_sample
 write.csv(cities_sample, 'data/cities_sample.csv', row.names = FALSE)
+
+
+
+
+# caribou ME

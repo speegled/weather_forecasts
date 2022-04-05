@@ -6,7 +6,7 @@ library(elevatr)
 # elevation is in meters
 elevation <- function(df, 
                       prj_dd = "EPSG:4326") {
-  val <- get_elev_point(df[,c("LON","LAT")], prj = prj_dd, src = "epqs")
+  val <- get_elev_point(df[,c("lon","lat")], prj = prj_dd, src = "epqs")
   round(val$elevation, 2)
 }
 

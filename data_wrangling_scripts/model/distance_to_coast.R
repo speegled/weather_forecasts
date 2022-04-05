@@ -26,7 +26,7 @@ distanceToCoast <- function(df,
   coast <- fortify.shape(coast)
   
   # convert coordinates to sp dfs
-  df_spdf <- SpatialPointsDataFrame(coords = df[,c("LON", "LAT")], 
+  df_spdf <- SpatialPointsDataFrame(coords = df[,c("lon", "lat")], 
                                     data = df)
   coast_spdf <- SpatialPointsDataFrame(coords = coast[,c("long","lat")], 
                                        data = coast)
@@ -35,7 +35,7 @@ distanceToCoast <- function(df,
   # distance in miles
   dist <- c()
   for (i in 1:nrow(df_spdf)) {
-    dist[i] <- gDistance(df_spdf[i,], coast_spdf) * 66
+    dist[i] <- gDistance(df_spdf[i,], coast_spdf) * 69
   }
   round(dist, 2)
 }

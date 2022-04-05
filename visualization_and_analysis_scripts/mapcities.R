@@ -32,12 +32,13 @@ print(map)
 dev.off()
 
 
+val_model <- read.csv('data/validated_model_points.csv')
 # plot model points and color by elevation
-png("plots/model_elevation.png")
+png("plots/wind_plot.png")
 map <- ggplot() + borders('world', xlim = c(-125,-65), ylim = c(20, 50), color ='black', fill='lightblue')
-map <- map + geom_point(data = model_points, mapping = aes(x=LON, y=LAT, color=ELEVATION)) + 
+map <- map + geom_point(data = val_model, mapping = aes(x=lon, y=lat, color=wind)) +
              scale_color_gradientn(colours = c("blue", "green", "yellow", "orange", "red"))
-print(map)
+map
 dev.off()
 
 

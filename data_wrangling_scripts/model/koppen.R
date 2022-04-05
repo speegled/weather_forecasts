@@ -6,8 +6,8 @@ library(kgc)
 koppen_classification <- function(df,
                                   res = "course") {
   # round coords for kgc package
-  df$rndCoord.lon <- RoundCoordinates(df$LON, res=res, latlong="lon")
-  df$rndCoord.lat <- RoundCoordinates(df$LAT, res=res, latlong="lat")
+  df$rndCoord.lon <- RoundCoordinates(df$lon, res=res, latlong="lon")
+  df$rndCoord.lat <- RoundCoordinates(df$lat, res=res, latlong="lat")
   
   # get koppen classifications for the rounded cords
   koppen <- LookupCZ(df[,c("rndCoord.lon","rndCoord.lat")], res=res)

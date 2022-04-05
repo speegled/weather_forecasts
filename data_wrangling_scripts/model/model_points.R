@@ -27,8 +27,8 @@ lonlat_to_state <- function(df,
 # all points are in the contenental US
 latlon_grid <- function(miles) {
   
-  # each mile is 1/66 of a lat / lon degree
-  step <- 1/66 * miles
+  # each mile is 1/69 of a lat / lon degree
+  step <- 1/69 * miles
   
   # get a grid of lat / lon values inside the box corners
   # the distance between points is given number of miles

@@ -2,13 +2,16 @@
 # df must have LON and LAT columns
 # extracts data from file at given location
 # USE FOR CITIES AND MODEL POINTS
+
+# INFO ABOUT DATA:
+# https://globalwindatlas.info/about/ReleaseNotes
 library(raster)
 
 meanWindSpeed <- function(df, 
                           file = 'data/USA_wind-speed_10m.tif') {
   imported_raster <- raster(file)
   # extract wind speed at given points from file
-  wind <- extract(imported_raster, df[,c("LON", "LAT")], df=TRUE)
+  wind <- extract(imported_raster, df[,c("lon", "lat")], df=TRUE)
   # return rounded mean wind speed values
   round(wind[,2], 2)
 }
