@@ -122,3 +122,9 @@ write.csv(val_model, 'data/validated_model_points.csv', row.names = FALSE)
 
 max(abs(val_cities$elevation_change_four - val_cities$elevation_change_eight))
 
+
+cities <- read.csv('data/cities.csv')
+cities$city <- as.character(cities$city)
+cities <- cities[order(cities$city),]
+cities
+write.csv(cities, 'data/cities.csv', row.names = FALSE)
