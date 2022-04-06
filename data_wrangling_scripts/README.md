@@ -74,7 +74,20 @@ This script creates a new R data frame and writes it to the file `email_data_reo
 
 14. `actual_lo_next_AM`: the actual low temperature reported for `date` in `city` the day after `date` in the AM
 
-15. `actual_hi_next_AM`: the actual high temperature reported for `date` in `city` the day after `date` in the AM
+15. `forecast_out_current_AM`: the outlook forecast for `date` on `date` in the AM
+
+16. `actual_lo_current_PM`: the actual low temperature reported for `date` on `date` in the PM
+
+17. `actual_hi_current_PM`: the actual high temperature reported for `date` on `date` in the PM
+
+18. `actual_precip_current_PM`: the actual precipitation reported for `date` on `date` in the PM
+
+19. `actual_lo_next_AM`: the actual low temperature reported for `date` the day after `date` in the AM
+
+20. `actual_hi_next_AM`: the actual high temperature reported for `date` the day after `date` in the AM
+
+21. `actual_precip_next_AM`: the actual precipitation reported for `date` the day after `date` in the AM
+
 
 * * * 
  

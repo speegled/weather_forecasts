@@ -1,0 +1,376 @@
+---
+title: "Model"
+author: "Sai Shreyas Bhavanasi"
+date: "2/18/2022"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("visualization_and_analysis_scripts/functions.R")
+errs_ = create_error_df()
+library(tidyverse)
+library(lubridate)
+library(randomForest)
+```
+
+Compare scraped data to email data. 
+
+Add city in city_inp
+
+```{r}
+city_inp = "SAN FRANCISCO"
+# scraped data
+df <- read.csv("data/weather_data.csv")
+df$Time <- lubridate::hms(df$Time)
+df$Date <- lubridate::date(df$Date)
+df <- df %>% filter(City == city_inp,
+                    hour(Time) < 12) %>%
+  select(D1_Lo, Date)
+df
+# email data
+data <- read.csv("data/email_data.csv")
+data$date = lubridate::date(data$date_and_time)
+data <- data %>%  filter(city == city_inp,
+                         lubridate::hour(data$date_and_time) < 12) %>%
+  select(tomorrow_lo, date)
+head(df)
+head(data)
+df2 = inner_join(df, data, by = c("Date" = "date"))
+
+colors <-
+  c("Email" = "blue",
+    "Scraper" = "red")
+ggplot(df2) +
+  geom_line(aes(x = Date, y = D1_Lo, color = "Email"), alpha = .8) +
+  geom_line(aes(x = Date, y = tomorrow_lo, color = "Scraper"), alpha = .8) +
+  scale_color_manual(values = colors) +
+  labs(y = "Temp (F)", x = "Date", colour = "Source") + theme(
+    panel.grid.major = element_blank(),
+    text = element_text(size = 12),
+    panel.grid = element_blank(),
+    panel.background  = element_blank(),
+    panel.border = element_rect(fill = NA),
+    panel.spacing = unit(0, "mm"),
+    legend.key = element_rect(fill = NA),
+    legend.position = c(0.01, 0.01),
+    legend.justification = c("left", "bottom"))
+
+```
+
+
+Model weather on Elevation
+
+```{r}
+normalize <- function(x, na.rm = TRUE) {
+  return((x- min(x)) /(max(x)-min(x)))
+}
+
+func <- function(city_inp) {
+  # errDf = create_error_df()
+  errs2 <-
+    errs %>%
+    filter(city == city_inp,!is.na(error_hi_2_prev_PM)) %>%
+    select(date, error_hi_prev_AM)
+  
+  y = errs2[, 2]
+  x = errs2[, 1]
+  
+  errs2$date
+  
+  dates = seq.Date(date(errs2$date[1]), date(errs2$date[length(errs2$date)]), by = 7)
+  
+  wt <- data.frame(matrix(ncol = 4, nrow = 0))
+  names(wt) = c("start", "avgTemp","city", "east_west")
+  # wt
+  
+  for (i in 1:(length(dates) - 1)) {
+    # get weekly mean
+    t = abs(errs2[errs2$date >= dates[i] & errs2$date < dates[i + 1], 2])
+    t = mean(t, na.rm = T)
+    
+    city_inp_lon = cities[as.character(cities$CITY) == as.character(city_inp),]$ELEVATION  
+    city_inp_lon
+    if(length(city_inp_lon) > 0 && city_inp_lon>summary(cities$ELEVATION)[5]){
+      coast = "> 375ft"
+    }else if(length(city_inp_lon) > 0 && city_inp_lon < summary(cities$ELEVATION)[2]){
+      coast = "< 45 ft"
+    }else{
+      coast = "45 - 375 ft"
+    }
+    wt = rbind(wt,
+               data.frame(start = dates[i],
+                          avgTemp = t,
+                          city = city_inp,
+                          east_west = coast))
+  }
+  wt$avgTemp <- normalize(wt$avgTemp)
+  wt
+}
+
+cities <- read.csv("data/cities.csv")
+mid_pt = mean(c(min(cities$ELEVATION, na.rm = T), max(cities$ELEVATION, na.rm = T)))
+
+unq_cities = unique(errs$city)
+
+df = func(unq_cities[1])
+for(i in 2:length(unq_cities)){
+  df = rbind(df, func(unq_cities[i]))
+}
+
+ggplot()+
+  geom_smooth( data = df, aes(x = start, y = avgTemp, group = east_west, color = east_west), alpha = .4, se = T)+
+  theme(        panel.grid.major = element_blank(),
+                text = element_text(size = 12),
+                panel.grid = element_blank(),
+                panel.background  = element_blank(),
+                panel.border = element_rect(fill = NA),
+                panel.spacing = unit(0, "mm"))+
+  labs(x = "Time", y = "Avg. Weekly Scaled Error", color = "Elevation")+
+  coord_cartesian(expand = F)
+  
+```
+
+Model weather on Elevation
+
+```{r}
+func <- function(city_inp) {
+  # errDf = create_error_df()
+  errs2 <-
+    errs %>%
+    filter(city == city_inp,!is.na(error_hi_2_prev_PM)) %>%
+    select(date, error_hi_prev_AM)
+  
+  y = errs2[, 2]
+  x = errs2[, 1]
+  
+  errs2$date
+  
+  dates = seq.Date(date(errs2$date[1]), date(errs2$date[length(errs2$date)]), by = 7)
+  
+  wt <- data.frame(matrix(ncol = 4, nrow = 0))
+  names(wt) = c("start", "avgTemp","city", "east_west")
+  # wt
+  # print(unq_cities[i])
+
+  for (i in 1:(length(dates) - 1)) {
+    # get weekly mean
+    t = abs(errs2[errs2$date >= dates[i] & errs2$date < dates[i + 1], 2])
+    t = mean(t, na.rm = T)
+    
+    city_inp_lon = cities[as.character(cities$CITY) == as.character(city_inp),]$CLIMATE  
+    city_inp_lon
+    # print(as.character(city_inp))
+    # if(length(city_inp_lon) > 0 && city_inp_lon>summary(cities$ELEVATION)[5]){
+    #   coast = "> 375ft"
+    # }else if(length(city_inp_lon) > 0 && city_inp_lon < summary(cities$ELEVATION)[2]){
+    #   coast = "< 45 ft"
+    # }else{
+    #   coast = "45 - 375 ft"
+    # }
+    wt = rbind(wt,
+               data.frame(start = dates[i],
+                          avgTemp = t,
+                          city = city_inp,
+                          east_west = city_inp_lon))
+  }
+  wt$avgTemp <- normalize(wt$avgTemp)
+  wt
+}
+
+cities <- read.csv("data/cities.csv")
+# mid_pt = mean(c(min(cities$ELEVATION, na.rm = T), max(cities$ELEVATION, na.rm = T)))
+
+unq_cities = unique(errs$city)
+cities$CITY = stringr::str_replace_all(cities$CITY, "_", " ")
+df = func(unq_cities[1])
+for(i in 2:length(unq_cities)){
+  if(unq_cities[i] %in% cities$CITY)
+  { 
+    df = rbind(df, func(unq_cities[i]))
+  }
+  else{
+    print(unq_cities[i])
+  }
+}
+
+ggplot()+
+  geom_smooth( data = df, aes(x = start, y = avgTemp, group = east_west, color = east_west), alpha = .4, se = T)+
+
+
+  theme(        panel.grid.major = element_blank(),
+                text = element_text(size = 12),
+                panel.grid = element_blank(),
+                panel.background  = element_blank(),
+                panel.border = element_rect(fill = NA),
+                panel.spacing = unit(0, "mm"))+
+  labs(x = "Time", y = "Avg. Weekly Scaled Error", color = "Elevation")+
+  coord_cartesian(expand = F)
+  
+```
+
+Modeling using cities
+
+```{r}
+get_rmse <- function(mod, test_data,y){
+  
+  preds <- predict(mod, newdata = test_data, na.rm = T)
+  sqrt(mean((preds - y)^2, na.rm = T))
+}
+```
+
+```{r}
+cities <- read.csv("data/cities.csv")
+names(cities) = tolower(names(cities))
+
+# get mainland cities
+cities <- cities %>% filter(lon > -150 & lon < -50 & lat > 20 & lat< 50)
+
+
+cities$city = stringr::str_replace_all(cities$city, "_", " ")
+
+# function returns a dataframe with mean abs error for each city given the input month
+get_df <- function(month){
+  # get errors for yesterday's high
+  errs <- errs_ %>%
+    filter(!is.na(error_hi_prev_AM), month(date) == month) %>%
+    select(date, error_hi_prev_AM, city)
+  unq_cities <- unique(errs$city)
+  
+  # combine city with error df
+  # cities has city predictors
+  # errs has city forecases
+  new_df <- suppressMessages(dplyr::left_join(errs, cities,  by.x = "city", by.y = "city"))
+  
+  # want mean absolute error for a given month for each city
+  smr_df = suppressMessages(new_df %>% group_by(city, elevation, wind, lat, distance_to_coast,koppen, lon, elevation_change_four,elevation_change_eight, state) %>% 
+                              summarize(mean_temp = mean(abs(error_hi_prev_AM))))
+  
+  #remove na values
+  smr_df <- as.data.frame(smr_df)
+  smr_df <- smr_df[!is.na(smr_df$elevation_change_four),]
+  smr_df <- smr_df[!is.na(smr_df$mean_temp ),]
+  
+  
+  # convert koppen to A,B,C,D,E groups for fewer groups 
+  # with more data
+  smr_df$kopGrp <- stringr::str_extract(smr_df$koppen, ".")
+  
+  # remove state, city, and koppen from predictors
+  smr_df <- smr_df %>% select_if(!names(.) %in% c("state","city","koppen"))
+  
+  smr_df
+}
+
+smr_df = get_df(2)
+# split into test/train
+ind_train <- sample(1:nrow(smr_df), .85 * nrow(smr_df))
+ind_test <- setdiff(1:nrow(smr_df), ind_train)
+dd_train <- smr_df[ind_train,]
+dd_test <- smr_df[ind_test,]
+
+```
+
+step AIC
+```{r}
+mod <- lm(mean_temp ~ . , data = dd_train)
+get_rmse(mod,dd_test, dd_test$mean_temp)
+summary(mod)
+mod_aic <- MASS::stepAIC(mod, direction = "both", trace = 0)
+get_rmse(mod_aic,dd_test, dd_test$mean_temp)
+summary(mod_aic)
+```
+
+
+Get the error for each month
+
+```{r}
+
+
+res_df = data.frame()
+predictors = list()
+for (j in 1:1) {
+  ind_train <- sample(1:nrow(smr_df), .85 * nrow(smr_df))
+  ind_test <- setdiff(1:nrow(smr_df), ind_train)
+  for (i in 1:12) {
+    smr_df = get_df(i)
+    dd_train <- smr_df[ind_train, ]
+    dd_test <- smr_df[ind_test, ]
+    mod <- lm(mean_temp ~ . , data = dd_train)
+    mod_aic <- MASS::stepAIC(mod, direction = "both", trace = 0)
+    res = get_rmse(mod_aic, dd_test, dd_test$mean_temp)
+    res_df = rbind(res_df,
+                   data.frame(
+                     month = i,
+                     rmse = res,
+                     adj_r2 = summary(mod_aic)$adj.r.squared))
+      predictors = append(predictors, list(names(mod_aic$coefficients)))
+
+  }
+}
+
+results <- res_df %>% group_by(month) %>% summarize(
+  lower_rmse = mean(rmse) - (2*sd(rmse)),
+  mean_rmse = mean(rmse),
+  upper_rmse = mean(rmse) + (2*sd(rmse)),
+  lower_adj_r2 =  mean(adj_r2) - (2*sd(adj_r2)),
+  mean_adj_r2 = mean(adj_r2),
+  upper_adj_r2 = mean(adj_r2) + (2*sd(adj_r2)))
+
+as.data.frame(results)
+
+mean(results$mean_rmse)
+mean(results$mean_adj_r2)
+
+```
+
+
+Frequency of predictors across the months according to stepAIC
+                     Var1 Freq
+1             (Intercept)   12
+9                     lat   11
+2       distance_to_coast   10
+10                    lon    8
+3               elevation    4
+6                 kopGrpB    4
+7                 kopGrpC    4
+8                 kopGrpD    4
+11                   wind    4
+5   elevation_change_four    3
+4  elevation_change_eight    2
+
+Results after running stepaic 50 times.
+
+   month lower_rmse mean_rmse upper_rmse lower_adj_r2
+1      1  0.5655403 0.7899490  1.0143578   0.21700663
+2      2  0.6330356 0.9970278  1.3610201   0.33582166
+3      3  0.3808489 0.5359191  0.6909894   0.33232014
+4      4  0.3896248 0.5690769  0.7485290   0.08559992
+5      5  0.3772287 0.5322062  0.6871836   0.19552374
+6      6  0.3319311 0.4466488  0.5613664   0.07587275
+7      7  0.2782489 0.4242117  0.5701745   0.21486350
+8      8  0.3392265 0.4917794  0.6443323   0.09976164
+9      9  0.2665732 0.4078467  0.5491201   0.19736553
+10    10  0.2962184 0.4424104  0.5886025   0.39565044
+11    11  0.3694955 0.5575143  0.7455330   0.20216894
+12    12  0.3959256 0.6035745  0.8112234   0.17284282
+   mean_adj_r2 upper_adj_r2
+1    0.2673685    0.3177303
+2    0.3839360    0.4320504
+3    0.3977495    0.4631788
+4    0.1430028    0.2004058
+5    0.2557883    0.3160529
+6    0.1373210    0.1987692
+7    0.2648093    0.3147551
+8    0.1604088    0.2210560
+9    0.2485308    0.2996961
+10   0.4381561    0.4806617
+11   0.2650332    0.3278975
+12   0.2424824    0.3121220
+
+mean(results$mean_rmse)
+[1] 0.5665137
+mean(results$mean_adj_r2)
+[1] 0.2670489
