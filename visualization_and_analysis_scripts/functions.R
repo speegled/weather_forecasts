@@ -24,11 +24,12 @@ create_error_df <- function() {
            error_lo_current_AM = actual_lo_next_AM - forecast_lo_current_AM,
            error_hi_current_AM = actual_hi_next_AM - forecast_hi_current_AM,
            error_lo_current_PM = actual_lo_next_AM - forecast_lo_current_PM) %>%
-    select(date, city, 
+    select(date, city, state,
            error_hi_2_prev_PM, error_lo_prev_AM, error_hi_prev_AM,
            error_lo_prev_PM, error_hi_prev_PM, error_lo_current_AM, 
-           error_hi_current_AM, error_lo_current_PM, state)
+           error_hi_current_AM, error_lo_current_PM)
   errors$city_and_state <- paste0(errors$city, ", ", errors$state)
+  errors <- errors[, c(1, 2, 3, 12, 4:11)]
   
   return(errors)
 }
