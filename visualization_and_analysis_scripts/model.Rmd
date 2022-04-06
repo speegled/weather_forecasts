@@ -211,6 +211,8 @@ ggplot()+
   
 ```
 
+Modeling using cities
+
 ```{r}
 get_rmse <- function(mod, test_data,y){
   
@@ -219,126 +221,156 @@ get_rmse <- function(mod, test_data,y){
 }
 ```
 
-
-Modeling using cities
-
 ```{r}
-library(dplyr)
-library(lubridate)
-r2s <- c()
-coeffs = c()
-ind_train <- sample(1:nrow(smr_df), .85 * nrow(smr_df))
-ind_test <- setdiff(1:nrow(smr_df), ind_train)
 cities <- read.csv("data/cities.csv")
 names(cities) = tolower(names(cities))
 
+# get mainland cities
 cities <- cities %>% filter(lon > -150 & lon < -50 & lat > 20 & lat< 50)
+
 
 cities$city = stringr::str_replace_all(cities$city, "_", " ")
 
-errs <- errs_ %>%
-    filter(!is.na(error_hi_prev_PM), month(date) == 5) %>%
+# function returns a dataframe with mean abs error for each city given the input month
+get_df <- function(month){
+  # get errors for yesterday's high
+  errs <- errs_ %>%
+    filter(!is.na(error_hi_prev_AM), month(date) == month) %>%
     select(date, error_hi_prev_AM, city)
-unq_cities <- unique(errs$city)
-
-new_df <- suppressMessages(dplyr::left_join(errs, cities,  by.x = "city", by.y = "city"))
-
-
-smr_df = suppressMessages(new_df %>% group_by(city, elevation, wind, lat, distance_to_coast,koppen, lon, elevation_change, state) %>% 
-  summarize(mean_temp = mean(abs(error_hi_prev_AM))))
-smr_df <- as.data.frame(smr_df)
-smr_df <- smr_df[!is.na(smr_df$elevation_change ),]
-smr_df <- smr_df[!is.na(smr_df$mean_temp ),]
-
-smr_df$kopGrp <- stringr::str_extract(smr_df$koppen, ".")
-smr_df <- smr_df %>% select_if(!names(.) %in% c("state","city","koppen"))
-
-
-
-dd_train <- smr_df[ind_train,]
-dd_test <- smr_df[ind_test,]
-
-mod <- lm(mean_temp ~ . , data = dd_train)
-get_rmse(mod,dd_test, dd_test$mean_temp)
-
-mod_aic <- MASS::stepAIC(mod, direction = "both", trace = 0)
-a = summary(mod_aic)$adj.r.squared
-r2s <- append(r2s,a)
-get_rmse(mod_aic,dd_test, dd_test$mean_temp)
-summary(mod_aic)
-
-```
-
-
-
-```{r}
-library(dplyr)
-library(lubridate)
-r2s <- c()
-coeffs = c()
-ind_train <- sample(1:nrow(smr_df), .85 * nrow(smr_df))
-ind_test <- setdiff(1:nrow(smr_df), ind_train)
-for(i in 1:12){
-cities <- read.csv("data/cities.csv")
-names(cities) = tolower(names(cities))
-
-cities <- cities %>% filter(lon > -150 & lon < -50 & lat > 20 & lat< 50)
-
-cities$city = stringr::str_replace_all(cities$city, "_", " ")
-
-errs <- errs_ %>%
-    filter(!is.na(error_hi_prev_PM), month(date) == i) %>%
-    select(date, error_hi_prev_AM, city)
-unq_cities <- unique(errs$city)
-
-new_df <- suppressMessages(dplyr::left_join(errs, cities,  by.x = "city", by.y = "city"))
-
-
-smr_df = suppressMessages(new_df %>% group_by(city, elevation, wind, lat, distance_to_coast,koppen, lon, elevation_change, state) %>% 
-  summarize(mean_temp = mean(abs(error_hi_prev_AM))))
-smr_df <- as.data.frame(smr_df)
-smr_df <- smr_df[!is.na(smr_df$elevation_change ),]
-smr_df <- smr_df[!is.na(smr_df$mean_temp ),]
-smr_df <- smr_df %>% select_if(!names(.) %in% c("state","city","koppen"))
-smr_df$kopGrp <- stringr::str_extract(smr_df$koppen, ".")
-smr_df <- smr_df %>% select_if(!names(.) %in% c("state","city","koppen"))
-
-
-
-dd_train <- smr_df[ind_train,]
-dd_test <- smr_df[ind_test,]
-
-mod <- lm(mean_temp ~ . , data = dd_train)
-get_rmse(mod,dd_test, dd_test$mean_temp)
-
-mod_aic <- MASS::stepAIC(mod, direction = "both", trace = 0)
-a = summary(mod_aic)$adj.r.squared
-r2s <- append(r2s,a)
-get_rmse(mod_aic,dd_test, dd_test$mean_temp)
-summary(mod_aic)
-print(summary(mod_aic))
-print(mod_aic$coefficients)
-
-print("----------------------")
+  unq_cities <- unique(errs$city)
+  
+  # combine city with error df
+  # cities has city predictors
+  # errs has city forecases
+  new_df <- suppressMessages(dplyr::left_join(errs, cities,  by.x = "city", by.y = "city"))
+  
+  # want mean absolute error for a given month for each city
+  smr_df = suppressMessages(new_df %>% group_by(city, elevation, wind, lat, distance_to_coast,koppen, lon, elevation_change_four,elevation_change_eight, state) %>% 
+                              summarize(mean_temp = mean(abs(error_hi_prev_AM))))
+  
+  #remove na values
+  smr_df <- as.data.frame(smr_df)
+  smr_df <- smr_df[!is.na(smr_df$elevation_change_four),]
+  smr_df <- smr_df[!is.na(smr_df$mean_temp ),]
+  
+  
+  # convert koppen to A,B,C,D,E groups for fewer groups 
+  # with more data
+  smr_df$kopGrp <- stringr::str_extract(smr_df$koppen, ".")
+  
+  # remove state, city, and koppen from predictors
+  smr_df <- smr_df %>% select_if(!names(.) %in% c("state","city","koppen"))
+  
+  smr_df
 }
 
+smr_df = get_df(2)
+# split into test/train
+ind_train <- sample(1:nrow(smr_df), .85 * nrow(smr_df))
+ind_test <- setdiff(1:nrow(smr_df), ind_train)
+dd_train <- smr_df[ind_train,]
+dd_test <- smr_df[ind_test,]
+
 ```
+
+step AIC
+```{r}
+mod <- lm(mean_temp ~ . , data = dd_train)
+get_rmse(mod,dd_test, dd_test$mean_temp)
+summary(mod)
+mod_aic <- MASS::stepAIC(mod, direction = "both", trace = 0)
+get_rmse(mod_aic,dd_test, dd_test$mean_temp)
+summary(mod_aic)
+```
+
+
+Get the error for each month
 
 ```{r}
-# stepAIC
-library(tidyverse)
-ggplot()+
-  geom_point(aes(y = r2s, x = 1:length(r2s)))+
-    geom_smooth(aes(y = r2s, x = 1:length(r2s)))
 
 
+res_df = data.frame()
+predictors = list()
+for (j in 1:1) {
+  ind_train <- sample(1:nrow(smr_df), .85 * nrow(smr_df))
+  ind_test <- setdiff(1:nrow(smr_df), ind_train)
+  for (i in 1:12) {
+    smr_df = get_df(i)
+    dd_train <- smr_df[ind_train, ]
+    dd_test <- smr_df[ind_test, ]
+    mod <- lm(mean_temp ~ . , data = dd_train)
+    mod_aic <- MASS::stepAIC(mod, direction = "both", trace = 0)
+    res = get_rmse(mod_aic, dd_test, dd_test$mean_temp)
+    res_df = rbind(res_df,
+                   data.frame(
+                     month = i,
+                     rmse = res,
+                     adj_r2 = summary(mod_aic)$adj.r.squared))
+      predictors = append(predictors, list(names(mod_aic$coefficients)))
+
+  }
+}
+
+results <- res_df %>% group_by(month) %>% summarize(
+  lower_rmse = mean(rmse) - (2*sd(rmse)),
+  mean_rmse = mean(rmse),
+  upper_rmse = mean(rmse) + (2*sd(rmse)),
+  lower_adj_r2 =  mean(adj_r2) - (2*sd(adj_r2)),
+  mean_adj_r2 = mean(adj_r2),
+  upper_adj_r2 = mean(adj_r2) + (2*sd(adj_r2)))
+
+as.data.frame(results)
+
+mean(results$mean_rmse)
+mean(results$mean_adj_r2)
 
 ```
 
 
-```{r}
-mod_nn <- caret::train(mean_temp ~ . , data = dd_train, method = "nnet",trace=F )
-get_rmse(mod_nn,dd_test, dd_test$mean_temp)
-```
+Frequency of predictors across the months according to stepAIC
+                     Var1 Freq
+1             (Intercept)   12
+9                     lat   11
+2       distance_to_coast   10
+10                    lon    8
+3               elevation    4
+6                 kopGrpB    4
+7                 kopGrpC    4
+8                 kopGrpD    4
+11                   wind    4
+5   elevation_change_four    3
+4  elevation_change_eight    2
 
+Results after running stepaic 50 times.
 
+   month lower_rmse mean_rmse upper_rmse lower_adj_r2
+1      1  0.5655403 0.7899490  1.0143578   0.21700663
+2      2  0.6330356 0.9970278  1.3610201   0.33582166
+3      3  0.3808489 0.5359191  0.6909894   0.33232014
+4      4  0.3896248 0.5690769  0.7485290   0.08559992
+5      5  0.3772287 0.5322062  0.6871836   0.19552374
+6      6  0.3319311 0.4466488  0.5613664   0.07587275
+7      7  0.2782489 0.4242117  0.5701745   0.21486350
+8      8  0.3392265 0.4917794  0.6443323   0.09976164
+9      9  0.2665732 0.4078467  0.5491201   0.19736553
+10    10  0.2962184 0.4424104  0.5886025   0.39565044
+11    11  0.3694955 0.5575143  0.7455330   0.20216894
+12    12  0.3959256 0.6035745  0.8112234   0.17284282
+   mean_adj_r2 upper_adj_r2
+1    0.2673685    0.3177303
+2    0.3839360    0.4320504
+3    0.3977495    0.4631788
+4    0.1430028    0.2004058
+5    0.2557883    0.3160529
+6    0.1373210    0.1987692
+7    0.2648093    0.3147551
+8    0.1604088    0.2210560
+9    0.2485308    0.2996961
+10   0.4381561    0.4806617
+11   0.2650332    0.3278975
+12   0.2424824    0.3121220
+
+mean(results$mean_rmse)
+[1] 0.5665137
+mean(results$mean_adj_r2)
+[1] 0.2670489
