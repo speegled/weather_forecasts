@@ -13,6 +13,7 @@ source("visualization_and_analysis_scripts/functions.R")
 errs_ = create_error_df()
 library(tidyverse)
 library(lubridate)
+library(randomForest)
 ```
 
 Compare scraped data to email data. 
@@ -210,10 +211,24 @@ ggplot()+
   
 ```
 
+```{r}
+get_rmse <- function(mod, test_data,y){
+  
+  preds <- predict(mod, newdata = test_data, na.rm = T)
+  sqrt(mean((preds - y)^2, na.rm = T))
+}
+```
+
 
 Modeling using cities
 
 ```{r}
+library(dplyr)
+library(lubridate)
+r2s <- c()
+coeffs = c()
+ind_train <- sample(1:nrow(smr_df), .85 * nrow(smr_df))
+ind_test <- setdiff(1:nrow(smr_df), ind_train)
 cities <- read.csv("data/cities.csv")
 names(cities) = tolower(names(cities))
 
@@ -226,146 +241,104 @@ errs <- errs_ %>%
     select(date, error_hi_prev_AM, city)
 unq_cities <- unique(errs$city)
 
-new_df <- dplyr::left_join(errs, cities,  by.x = "city", by.y = "city")
+new_df <- suppressMessages(dplyr::left_join(errs, cities,  by.x = "city", by.y = "city"))
 
 
-```
-
-```{r}
-# summary(lm(error_hi_prev_AM ~ elevation, data = new_df))
-
-smr_df = new_df %>% group_by(city, elevation, wind, lat, distance_to_coast,koppen, lon, elevation_change, state) %>% 
-  summarize(mean_temp = mean(abs(error_hi_prev_AM)))
-
-summary(lm(mean_temp ~ koppen+wind, data = smr_df))
-# plot(lm(mean_temp ~ wind+elevation+distance_to_coast, data = smr_df))
-
-# plot(mean_temp ~ wind+elevation+distance_to_coast, data = smr_df)
-```
-
-
-LGOCV
-
-```{r}
-# set.seed(4870)
-preds = c()
-rmse_age = c()
-for(i in 1:100){
-  ind_train <- sample(1:nrow(smr_df), .9 * nrow(smr_df))
-  ind_test <- setdiff(1:nrow(smr_df), ind_train)
-  dd_train <- smr_df[ind_train,]
-  dd_test <- smr_df[ind_test,]
-  mod <- lm(mean_temp ~ distance_to_coast+wind, data = dd_train)
-  preds = append(preds, predict(mod, newdata = dd_test))
-  errs <- predict(mod, newdata = dd_test) - dd_test$mean_temp
-  rmse_age = append(rmse_age, sqrt(mean(errs^2, na.rm = T)))
-  # length(preds)
-}
-
-mean(rmse_age)
-quantile(rmse_age, c(.025, .975))
-```
-
-```{r}
-# set.seed(4870)
-preds = c()
-rmse_age = c()
-for(i in 1:300){
-  ind_train <- sample(1:nrow(smr_df), .85 * nrow(smr_df))
-  ind_test <- setdiff(1:nrow(smr_df), ind_train)
-  dd_train <- smr_df[ind_train,]
-  dd_test <- smr_df[ind_test,]
-  mod <- lm(mean_temp ~ distance_to_coast+wind+elevation, data = dd_train)
-  preds = append(preds, predict(mod, newdata = dd_test))
-  errs <- predict(mod, newdata = dd_test) - dd_test$mean_temp
-  rmse_age = append(rmse_age, sqrt(mean(errs^2, na.rm = T)))
-  # length(preds)
-}
-
-mean(rmse_age)
-quantile(rmse_age, c(.025, .975))
-```
-
-
-```{r}
-preds2 = c()
-rmse_age2 = c()
-for(i in 1:100){
-  ind_train <- sample(1:nrow(smr_df), .8 * nrow(smr_df))
-  ind_test <- setdiff(1:nrow(smr_df), ind_train)
-  dd_train <- smr_df[ind_train,]
-  dd_test <- smr_df[ind_test,]
-  mod <- lm(mean_temp ~ distance_to_coast+wind, data = dd_train)
-  preds_ <- replicate(length(dd_test$mean_temp), mean(dd_test$mean_temp, na.rm=T))
-  preds2 = append(preds2, preds_)
-  errs <- preds_ - dd_test$mean_temp
-  rmse_age2 = append(rmse_age2, sqrt(mean(errs^2, na.rm = T)))
-}
-
-mean(rmse_age2)
-quantile(rmse_age2, c(.025, .975))
-```
-
-```{r}
-
-plot.df = data.frame(x = preds, technique = "lm")
-plot.df = rbind(plot.df, data.frame(x = preds2, technique = "mean"))
-plot.df = rbind(plot.df, data.frame(x = smr_df$mean_temp, technique = "actual"))
-
-col_leg = c(
-  lm = "blue",
-  mean = "red",
-  actual = "green"
-)
-
-ggplot() +
-  geom_histogram(aes(
-    x = preds,
-    y = (..count..) / sum(..count..), fill = "red"  ), alpha = .5) +
-  geom_histogram(aes(
-    x = preds2,
-    y = (..count..) / sum(..count..),fill = "blue"  ), alpha = .5) +
-  geom_histogram(aes(
-    x = smr_df$mean_temp,
-    y = (..count..) / sum(..count..),fill = "green"  ), alpha = .5) +
-  labs(fill = "Technique")
-
-
-
-ggplot(data = plot.df)+
-  geom_boxplot(aes(y = x,x = technique))
-
-
-
-```
-
-
-```{r}
-# random forest
-
+smr_df = suppressMessages(new_df %>% group_by(city, elevation, wind, lat, distance_to_coast,koppen, lon, elevation_change, state) %>% 
+  summarize(mean_temp = mean(abs(error_hi_prev_AM))))
 smr_df <- as.data.frame(smr_df)
-smr_df <- smr_df %>% select(-state)
-smr_df <- smr_df[!is.na(smr_df$koppen),]
-smr_df <- smr_df[!is.na(smr_df$mean_temp),]
+smr_df <- smr_df[!is.na(smr_df$elevation_change ),]
+smr_df <- smr_df[!is.na(smr_df$mean_temp ),]
 
-preds_rf = c()
-
-for(i in 1:200){
-
-  ind_train <- sample(1:nrow(smr_df), .8 * nrow(smr_df))
-  ind_test <- setdiff(1:nrow(smr_df), ind_train)
-  dd_train <- smr_df[ind_train,]
-  dd_test <- smr_df[ind_test,]
+smr_df$kopGrp <- stringr::str_extract(smr_df$koppen, ".")
+smr_df <- smr_df %>% select_if(!names(.) %in% c("state","city","koppen"))
 
 
-mod <- randomForest(mean_temp ~ wind+distance_to_coast+elevation, data = dd_train, ntree = 300)
-preds_ = predict(mod,dd_test)
-errs <- preds_ - dd_test$mean_temp
-preds_rf = append(preds_rf , sqrt(mean(errs^2)))
+
+dd_train <- smr_df[ind_train,]
+dd_test <- smr_df[ind_test,]
+
+mod <- lm(mean_temp ~ . , data = dd_train)
+get_rmse(mod,dd_test, dd_test$mean_temp)
+
+mod_aic <- MASS::stepAIC(mod, direction = "both", trace = 0)
+a = summary(mod_aic)$adj.r.squared
+r2s <- append(r2s,a)
+get_rmse(mod_aic,dd_test, dd_test$mean_temp)
+summary(mod_aic)
+
+```
+
+
+
+```{r}
+library(dplyr)
+library(lubridate)
+r2s <- c()
+coeffs = c()
+ind_train <- sample(1:nrow(smr_df), .85 * nrow(smr_df))
+ind_test <- setdiff(1:nrow(smr_df), ind_train)
+for(i in 1:12){
+cities <- read.csv("data/cities.csv")
+names(cities) = tolower(names(cities))
+
+cities <- cities %>% filter(lon > -150 & lon < -50 & lat > 20 & lat< 50)
+
+cities$city = stringr::str_replace_all(cities$city, "_", " ")
+
+errs <- errs_ %>%
+    filter(!is.na(error_hi_prev_PM), month(date) == i) %>%
+    select(date, error_hi_prev_AM, city)
+unq_cities <- unique(errs$city)
+
+new_df <- suppressMessages(dplyr::left_join(errs, cities,  by.x = "city", by.y = "city"))
+
+
+smr_df = suppressMessages(new_df %>% group_by(city, elevation, wind, lat, distance_to_coast,koppen, lon, elevation_change, state) %>% 
+  summarize(mean_temp = mean(abs(error_hi_prev_AM))))
+smr_df <- as.data.frame(smr_df)
+smr_df <- smr_df[!is.na(smr_df$elevation_change ),]
+smr_df <- smr_df[!is.na(smr_df$mean_temp ),]
+smr_df <- smr_df %>% select_if(!names(.) %in% c("state","city","koppen"))
+smr_df$kopGrp <- stringr::str_extract(smr_df$koppen, ".")
+smr_df <- smr_df %>% select_if(!names(.) %in% c("state","city","koppen"))
+
+
+
+dd_train <- smr_df[ind_train,]
+dd_test <- smr_df[ind_test,]
+
+mod <- lm(mean_temp ~ . , data = dd_train)
+get_rmse(mod,dd_test, dd_test$mean_temp)
+
+mod_aic <- MASS::stepAIC(mod, direction = "both", trace = 0)
+a = summary(mod_aic)$adj.r.squared
+r2s <- append(r2s,a)
+get_rmse(mod_aic,dd_test, dd_test$mean_temp)
+summary(mod_aic)
+print(summary(mod_aic))
+print(mod_aic$coefficients)
+
+print("----------------------")
 }
 
+```
 
-mean(preds_rf)
+```{r}
+# stepAIC
+library(tidyverse)
+ggplot()+
+  geom_point(aes(y = r2s, x = 1:length(r2s)))+
+    geom_smooth(aes(y = r2s, x = 1:length(r2s)))
+
+
+
+```
+
+
+```{r}
+mod_nn <- caret::train(mean_temp ~ . , data = dd_train, method = "nnet",trace=F )
+get_rmse(mod_nn,dd_test, dd_test$mean_temp)
 ```
 
 
