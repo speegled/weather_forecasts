@@ -413,25 +413,175 @@ ggsave("SLU_Shit/Senior/weather_forecasts/plots/model_plots/model_wind.png")
 
 
 ## PLOT ERROR AGAINST CITY VARIABLES
-cities
-email <- read.csv('data/email_data_expanded.csv')
+head(cities)
+email <- read.csv('SLU_Shit/Senior/weather_forecasts/data/email_data_expanded.csv')
+email <- email[email$possible_error == 'none',]
+email <- email[!is.na(email$observed_temp),]
+email <- email[!is.na(email$forecast_temp),]
+email <- left_join(email, cities, by = c("city","state"))
 head(email)
 
+email$koppen <- as.factor(substring(email$koppen, 1, 1))
+
 library(ggplot2)
-library(mapproj)
 
-email <- email[email$high_or_low == 'high' & email$forecast_hours_before == 24,]
-new <- left_join(email, cities, by = c("city","state"))
+high <- email[email$high_or_low == 'high',]
+high_12 <- high[high$forecast_hours_before == 12,]
+high_24 <- high[high$forecast_hours_before == 24,]
+high_36 <- high[high$forecast_hours_before == 36,]
+high_48 <- high[high$forecast_hours_before == 48,]
 
-head(new)
-new$error <- abs(new$observed_temp - new$forecast_temp)
+low <- email[email$high_or_low == 'low',]
+low_12 <- low[low$forecast_hours_before == 12,]
+low_24 <- low[low$forecast_hours_before == 24,]
+low_36 <- low[low$forecast_hours_before == 36,]
+low_48 <- low[low$forecast_hours_before == 48,]
 
-new %>% as.data.frame %>%
-  ggplot(aes(x=distance_to_coast, y=error)) +
-  geom_point() 
-ggsave("plots/high_24hr_error_vs_distance_to_coast.png")
+## HIGH PLOTS - DISTANCE TO COAST
 
-new[!is.na(new$error),]
+high_12_plot <- high_12 %>% as.data.frame %>%
+  ggplot(aes(x=observed_temp, y=forecast_temp)) +
+  geom_tile(alpha=.3, aes(fill=avg_annual_precip)) +
+  geom_abline(linetype = 'dashed', alpha = .5, size = .25) + 
+  ggtitle("High - 12 Hours") + 
+  scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        axis.title.x = element_blank(),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        legend.position = 'none')
+
+high_24_plot <- high_24 %>% as.data.frame %>%
+  ggplot(aes(x=observed_temp, y=forecast_temp)) +
+  geom_tile(alpha=.3, aes(fill=avg_annual_precip)) +
+  geom_abline(linetype = 'dashed', alpha = .5, size = .25) + 
+  ggtitle("High - 24 Hours") + 
+  scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        axis.title.x = element_blank(),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        legend.position = 'none')
+
+high_36_plot <- high_36 %>% as.data.frame %>%
+  ggplot(aes(x=observed_temp, y=forecast_temp)) +
+  geom_tile(alpha=.3, aes(fill=avg_annual_precip)) +
+  geom_abline(linetype = 'dashed', alpha = .5, size = .25) + 
+  ggtitle("High - 36 Hours") + 
+  scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        axis.title.x = element_blank(),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        legend.position = 'none')
+
+high_48_plot <- high_48 %>% as.data.frame %>%
+  ggplot(aes(x=observed_temp, y=forecast_temp)) +
+  geom_tile(alpha=.3, aes(fill=avg_annual_precip)) +
+  geom_abline(linetype = 'dashed', alpha = .5, size = .25) + 
+  ggtitle("High - 48 Hours") + 
+  scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        legend.position = 'none')
+
+## LOW PLOTS _ DISTANCE TO COAST
+
+low_12_plot <- low_12 %>% as.data.frame %>%
+  ggplot(aes(x=observed_temp, y=forecast_temp)) +
+  geom_tile(alpha=.3, aes(fill=avg_annual_precip)) +
+  geom_abline(linetype = 'dashed', alpha = .5, size = .25) + 
+  ggtitle("Low - 12 Hours") + 
+  scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        legend.position = 'none')
+
+low_24_plot <- low_24 %>% as.data.frame %>%
+  ggplot(aes(x=observed_temp, y=forecast_temp)) +
+  geom_tile(alpha=.3, aes(fill=avg_annual_precip)) +
+  geom_abline(linetype = 'dashed', alpha = .5, size = .25) + 
+  ggtitle("Low - 24 Hours") + 
+  scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        legend.position = 'none')
+
+low_36_plot <- low_36 %>% as.data.frame %>%
+  ggplot(aes(x=observed_temp, y=forecast_temp)) +
+  geom_tile(alpha=.3, aes(fill=avg_annual_precip)) +
+  geom_abline(linetype = 'dashed', alpha = .5, size = .25) + 
+  ggtitle("Low - 36 Hours") + 
+  scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        legend.position = 'none')
+
+low_48_plot <- low_48 %>% as.data.frame %>%
+  ggplot(aes(x=observed_temp, y=forecast_temp)) +
+  geom_tile(alpha=.3, aes(fill=avg_annual_precip)) +
+  geom_abline(linetype = 'dashed', alpha = .5, size = .25) + 
+  ggtitle("Low - 48 Hours") + 
+  scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        axis.title.y = element_blank(),
+        legend.position = 'none')
+
+require(gridExtra)
+pdf("SLU_Shit/Senior/weather_forecasts/plots/error_vs_avg_annual_precip.pdf")
+grid.arrange(high_12_plot, low_12_plot, 
+             high_24_plot, low_24_plot, 
+             high_36_plot, low_36_plot, 
+             high_48_plot, low_48_plot,
+             nrow=4, ncol=2)
+dev.off()
+#ggsave("SLU_Shit/Senior/weather_forecasts/plots/error_vs_distance_to_coast.png")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
