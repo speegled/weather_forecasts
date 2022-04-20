@@ -3,28 +3,100 @@ title: "model_seasons"
 author: "Sai Shreyas Bhavanasi"
 date: '2022-04-19'
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
 ```
 
-## R Markdown
+```{r}
+df = read.csv("data/email_data_expanded.csv")
+df$city = as.factor(df$city)
+df$state = as.factor(df$state)
+df$high_or_low = as.factor(df$high_or_low)
+df$forecast_outlook = as.factor(df$forecast_outlook)
+df$forecast_hours_before = as.factor(df$forecast_hours_before)
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+df$date = as.Date(df$date)
+str(df)
+df <- df %>% filter(forecast_hours_before == 24, high_or_low == "high")
+df %>% group_by(forecast_outlook) %>% summarise(count = n())
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+```{r}
+df <- df %>% filter(city == "ST_LOUIS")
+levels(df$forecast_outlook)<- fct_collapse(df$forecast_outlook,
+                    SNOW = c("BLGSNO", "BLZZRD","FZDRZL", "FZRAIN","FLRRYS","RNSNOW","SLEET", "SNOSHW"),
+                    RAIN = c("CLOUDY", "DRZL","SHWRS","RAIN","TSTRMS" ),
+                    CLOUDY = c("MOCLDY", "PTCLDY", "CLOUDY"),
+                    NULL = "H")
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+df <- df %>% mutate(error = observed_temp - forecast_temp)
+
+df %>% group_by(forecast_outlook) %>% summarise(count = n())
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+cities <- read.csv("data/cities.csv")
+names(cities) = tolower(names(cities))
+
+# get mainland cities
+cities <- cities %>% filter(lon > -150 & lon < -50 & lat > 20 & lat< 50)
+new_df <- suppressMessages(dplyr::left_join(df, cities,  by.x = "city", by.y = "city"))
+
+new_df = new_df %>% filter((year(date) == 2021 & month(date) %in% 3:12 )|(year(date) == 2022 & month(date) %in% 1:2 ))
+
+```
+
+```{r}
+winter = c(12,1,2)
+spring = c(3,4,5)
+summer = c(6,7,8)
+fall = c(9,10,11)
+new_df$season <-sapply(month(new_df$date), FUN = function(x)
+       if(x %in% spring){"spring"}
+       else if(x %in% summer){"summer"}
+       else if(x %in% winter){"winter"}
+       else if(x %in% fall){"fall"}
+  )
+new_df$season <- as.factor(new_df$season)
+new_df$kopGrp <- stringr::str_extract(new_df$koppen, ".")
+
+```
+
+```{r}
+# train = new_df %>% 
+#   select(-date, -city, -state, -high_or_low,
+#          -forecast_hours_before, -observed_temp, -forecast_temp,
+#          -lon, -koppen, -kopGrp)
+train = new_df %>% select(season,error,observed_precip, forecast_outlook)
+train = train %>% mutate(error = abs(error))
+train = na.omit(train)
+
+mod <- lm(error ~ ., data = train)
+summary(mod)
+names(mod$coefficients)
+
+mod_aic <- MASS::stepAIC(mod, direction = "both", trace = 0)
+summary(mod_aic)
+```
+
+2021 - march-december [spring,summer,fall,winter]
+2022 - jan-feb [winter]
+feb has only till feb 1st, need to update data.
+
+outlook - combined all snowy stuff into one.
+          rainy stuff into one
+          cloudy into one.
+          
+
+r2 of 0.05 when considering rain and season
+stepAIC removed forecast kept rain and season
+only winter was a significant predictor.
+precip was also significant.
+
+Error is not dependant on time based on acf plot.
