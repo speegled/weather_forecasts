@@ -118,3 +118,7 @@ This script creates a new R data frame and writes it to the file `email_data_exp
 * * * 
  
 `check_reorganize_expand.R` checks that `reorganize_email_data.R` and `expand_email_data.R` create data frames with identical temperature information.  It tests whether or not the forecast errors obtained from the temperature values in the data frames created in each file are identical.
+
+* * * 
+
+`add_possible_errors.R` adds a `possible_error` column to `email_data_expanded`.  For each row in the data, this variable is either (1) "none" if the row contains no potential errors or (2) the name of the variable that is the cause of the potential error.
