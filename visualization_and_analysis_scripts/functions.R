@@ -59,11 +59,9 @@ create_mean_error_df <- function(errors) {
 # function that adds the lat, long, and climate data to the mean_errors data frame
 create_mean_error_df_map_info <- function(mean_errors) {
   cities <- read.csv("data/cities.csv") %>%
-    mutate(CITY = str_replace_all(CITY, '_', ' '),
-           city_and_state = paste0(CITY, ", ", STATE))
+    mutate(city_and_state = paste0(city, ", ", state))
   mean_errors <- mean_errors %>%
     merge(cities, by = "city_and_state") %>%
-    rename(city = CITY, state = STATE, lat = LAT, lon = LON, climate = CLIMATE) %>%
     filter(state %in% state.abb & state != "AK" & state != "HI")
   return(mean_errors)
 }
