@@ -372,7 +372,11 @@ library(ggplot2)
 state <- map_data("state")
 model <- read.csv('SLU_Shit/Senior/weather_forecasts/data/model_points.csv')
 cities <- read.csv('SLU_Shit/Senior/weather_forecasts/data/cities.csv')
-cont_cities <- cities %>% filter(!(state %in% c("AK", "HI", "PR", "VI")))
+email <- read.csv('SLU_Shit/Senior/weather_forecasts/data/email_data_expanded.csv')
+email
+email_cities <- cities[paste(cities$city, cities$state) %in% unique(paste(email$city, email$state)),]
+cont_cities <- email_cities %>% filter(!(state %in% c("AK", "HI", "PR", "VI")))
+
 
 model[as.character(model$koppen) == 'Climate Zone info missing',3]
 model[as.character(model$koppen) == 'Climate Zone info missing',3] <- NA
@@ -383,32 +387,33 @@ model <- model[!is.na(model$koppen), ]
 model$koppen
 
 cities
-pdf("SLU_Shit/Senior/weather_forecasts/plots/cities.pdf")
-cont_cities %>% as.data.frame %>%
+
+
+model %>% as.data.frame %>%
   ggplot(aes(x=lon, y=lat)) + 
-  
-  #geom_tile(aes(fill=koppen)) +
-  ggtitle("Cities") + 
+  geom_tile(aes(fill=distance_to_coast)) +
+  ggtitle("Distance to Coastline (miles)") + 
   labs(x ="Longitude", y = "Latitude") + 
   coord_equal() +
   #guides(fill=guide_legend(ncol=2)) + 
-  #scale_fill_gradient(limits = c(0, 8), low = "yellow", high="red") +
+  # limits = c(0,8)
+  scale_fill_gradient(low = "yellow", high="red") +
   geom_map(data=state, map=state,
            aes(long, lat, map_id=region),
-           color="black", fill='light blue', size=0.1) + 
-  geom_point(size = 1) + 
+           color="black", fill=NA, size=0.1) + 
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5, size = 8,face = "bold"),
         legend.title = element_text(size=6),
         legend.text = element_text(size=6),
         legend.key.size = unit(.35, 'cm'), #change legend key size
         legend.key.height = unit(.35, 'cm'), #change legend key height
-        legend.key.width = unit(.35, 'cm'),
+        legend.key.width = unit(.5, 'cm'),
+        legend.position = 'bottom',
         axis.text=element_text(size=6),
         axis.title=element_text(size=6)) 
   #geom_point(data = data.frame(cont_cities), aes(x=lon, y=lat), alpha = 1/10) 
 
-ggsave("SLU_Shit/Senior/weather_forecasts/plots/cities.png")
+ggsave("SLU_Shit/model_distance.png")
 
 # cities plot only for cities in email data
 
