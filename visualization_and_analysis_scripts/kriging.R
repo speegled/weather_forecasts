@@ -2,7 +2,7 @@
 #' 
 
 library(tidyverse)
-library(sp)
+library(sp) 
 library(gstat)
 library(automap) #used for another kriging method
 
