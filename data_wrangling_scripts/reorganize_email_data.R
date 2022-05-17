@@ -130,9 +130,9 @@ write.csv(org_df, file = "data/email_data_reorganized.csv", row.names = FALSE)
 
 # separate state abbreviation from city names if existing and add for those not there
 state_abreviations <- c("AK","AL","AR","AZ","CA","CO","CT","DC","DE","FL","GA","GU","HI","IA","ID", "IL","IN","KS","KY","LA","MA","MD","ME","MH","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY", "OH","OK","OR","PA","PR","PW","RI","SC","SD","TN","TX","UT","VA","VI","VT","WA","WI","WV","WY")
-cities <-  read.csv("data/cities.csv", header = TRUE) %>% select(CITY, STATE) %>%
-  mutate(city = str_replace_all(CITY, '_', ' ')) %>%
-  select(city, state = STATE)
+cities <-  read.csv("data/cities.csv", header = TRUE) %>% select(city, state) %>%
+  mutate(city = str_replace_all(city, '_', ' ')) %>%
+  select(city, state)
 
 df <- read.csv("data/email_data_reorganized.csv") # import data written above
 df$city <- as.character(df$city)

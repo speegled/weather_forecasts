@@ -362,3 +362,248 @@ mp = ggplot() +
 print(mp)
 dev.off()
 
+
+
+# PLOT MODEL POINTS USING NEW METHOD
+
+library(tidyverse)
+library(ggplot2)
+
+state <- map_data("state")
+model <- read.csv('SLU_Shit/Senior/weather_forecasts/data/model_points.csv')
+cities <- read.csv('SLU_Shit/Senior/weather_forecasts/data/cities.csv')
+email <- read.csv('SLU_Shit/Senior/weather_forecasts/data/email_data_expanded.csv')
+email
+email_cities <- cities[paste(cities$city, cities$state) %in% unique(paste(email$city, email$state)),]
+cont_cities <- email_cities %>% filter(!(state %in% c("AK", "HI", "PR", "VI")))
+
+
+model[as.character(model$koppen) == 'Climate Zone info missing',3]
+model[as.character(model$koppen) == 'Climate Zone info missing',3] <- NA
+
+model$koppen <- droplevels(model$koppen)
+model$koppen <- as.factor(substring(model$koppen, 1, 1))
+model <- model[!is.na(model$koppen), ]
+model$koppen
+
+cities
+
+
+model %>% as.data.frame %>%
+  ggplot(aes(x=lon, y=lat)) + 
+  geom_tile(aes(fill=distance_to_coast)) +
+  ggtitle("Distance to Coastline (miles)") + 
+  labs(x ="Longitude", y = "Latitude") + 
+  coord_equal() +
+  #guides(fill=guide_legend(ncol=2)) + 
+  # limits = c(0,8)
+  scale_fill_gradient(low = "yellow", high="red") +
+  geom_map(data=state, map=state,
+           aes(long, lat, map_id=region),
+           color="black", fill=NA, size=0.1) + 
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5, size = 8,face = "bold"),
+        legend.title = element_text(size=6),
+        legend.text = element_text(size=6),
+        legend.key.size = unit(.35, 'cm'), #change legend key size
+        legend.key.height = unit(.35, 'cm'), #change legend key height
+        legend.key.width = unit(.5, 'cm'),
+        legend.position = 'bottom',
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6)) 
+  #geom_point(data = data.frame(cont_cities), aes(x=lon, y=lat), alpha = 1/10) 
+
+ggsave("SLU_Shit/model_distance.png")
+
+# cities plot only for cities in email data
+
+
+
+
+
+
+## PLOT ERROR AGAINST CITY VARIABLES
+head(cities)
+email <- read.csv('SLU_Shit/Senior/weather_forecasts/data/email_data_expanded.csv')
+email <- email[email$possible_error == 'none',]
+email <- email[!is.na(email$observed_temp),]
+email <- email[!is.na(email$forecast_temp),]
+head(email)
+email$koppen <- as.factor(substring(email$koppen, 1, 1))
+
+
+
+
+# average error for each city over all df
+email$error <- abs(email$observed_temp - email$forecast_temp)
+email <- email %>%
+  group_by(city, state, high_or_low, forecast_hours_before) %>% 
+  summarise_at(vars("error"), mean)
+
+email <- left_join(email, cities, by = c("city","state"))
+head(email)
+
+library(ggplot2)
+
+high <- email[email$high_or_low == 'high',]
+high <- na.omit(high)
+high_12 <- high[high$forecast_hours_before == 12,]
+high_24 <- high[high$forecast_hours_before == 24,]
+high_36 <- high[high$forecast_hours_before == 36,]
+high_48 <- high[high$forecast_hours_before == 48,]
+
+low <- email[email$high_or_low == 'low',]
+low <- na.omit(low)
+low_12 <- low[low$forecast_hours_before == 12,]
+low_24 <- low[low$forecast_hours_before == 24,]
+low_36 <- low[low$forecast_hours_before == 36,]
+low_48 <- low[low$forecast_hours_before == 48,]
+
+z_score <- function(x) {
+  (x - mean(x)) / sd(x)
+}
+
+## HIGH PLOTS - DISTANCE TO COAST
+
+high_12_plot <- high_12 %>% as.data.frame %>%
+  ggplot(aes(x=koppen, y=z_score(error))) +
+  geom_violin(alpha = .5) +
+  ggtitle("High - 12 Hours") + 
+  #scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        axis.title.x = element_blank(),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        legend.position = 'none')
+
+
+high_24_plot <- high_24 %>% as.data.frame %>%
+  ggplot(aes(x=koppen, y=z_score(error))) +
+  geom_violin(alpha = .5) +
+  ggtitle("High - 24 Hours") + 
+  #scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        axis.title.x = element_blank(),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        legend.position = 'none')
+
+
+high_36_plot <- high_36 %>% as.data.frame %>%
+  ggplot(aes(x=koppen, y=z_score(error))) +
+  geom_violin(alpha = .5) +
+  ggtitle("High - 36 Hours") + 
+  #scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        axis.title.x = element_blank(),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        legend.position = 'none')
+
+high_48_plot <- high_48 %>% as.data.frame %>%
+  ggplot(aes(x=koppen, y=z_score(error))) +
+  geom_violin(alpha = .5) +
+  ggtitle("High - 48 Hours") + 
+  #scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        #axis.title.x = element_blank(),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        legend.position = 'none')
+
+
+## LOW PLOTS _ DISTANCE TO COAST
+
+low_12_plot <- low_12 %>% as.data.frame %>%
+  ggplot(aes(x=koppen, y=z_score(error))) +
+  geom_violin(alpha = .5) +
+  ggtitle("Low - 12 Hours") + 
+  #scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        axis.title.x = element_blank(),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        legend.position = 'none')
+
+low_24_plot <- low_24 %>% as.data.frame %>%
+  ggplot(aes(x=koppen, y=z_score(error))) +
+  geom_violin(alpha = .5) +
+  ggtitle("Low - 24 Hours") + 
+  #scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        axis.title.x = element_blank(),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        legend.position = 'none')
+
+low_36_plot <- low_36 %>% as.data.frame %>%
+  ggplot(aes(x=koppen, y=z_score(error))) +
+  geom_violin(alpha = .5) +
+  ggtitle("Low - 36 Hours") + 
+  #scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        axis.title.x = element_blank(),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        legend.position = 'none')
+
+low_48_plot <- low_48 %>% as.data.frame %>%
+  ggplot(aes(x=koppen, y=z_score(error))) +
+  geom_violin(alpha = .5) +
+  ggtitle("Low - 48 Hours") + 
+  #scale_fill_gradient(low = "yellow", high="red") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 8),
+        #axis.title.x = element_blank(),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=6),
+        legend.position = 'none')
+
+require(gridExtra)
+pdf("SLU_Shit/Senior/weather_forecasts/plots/avg_error_vs_koppen.pdf")
+grid.arrange(high_12_plot, low_12_plot, 
+             high_24_plot, low_24_plot, 
+             high_36_plot, low_36_plot, 
+             high_48_plot, low_48_plot,
+             nrow=4, ncol=2)
+dev.off()
+#ggsave("SLU_Shit/Senior/weather_forecasts/plots/error_vs_distance_to_coast.png")
+
+
+
+
+
+
+head(high)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

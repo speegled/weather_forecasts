@@ -3,6 +3,8 @@ title: "error_modeling"
 author: "Sai Shreyas Bhavanasi"
 date: '2022-04-06'
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -93,7 +95,7 @@ Get the error for each month
 
 res_df = data.frame()
 predictors = list()
-for (j in 1:1) {
+for (j in 1:50) {
   ind_train <- sample(1:nrow(smr_df), .85 * nrow(smr_df))
   ind_test <- setdiff(1:nrow(smr_df), ind_train)
   for (i in 1:12) {
@@ -126,6 +128,25 @@ as.data.frame(results)
 mean(results$mean_rmse)
 mean(results$mean_adj_r2)
 
+```
+```{r}
+ggplot()+
+  geom_line(aes(y = results$mean_rmse, x = 1:12))+
+    geom_line(aes(y = results$upper_rmse, x = 1:12), color = "blue")+
+  geom_line(aes(y = results$lower_rmse, x = 1:12), color = "blue")+
+  xlim(c(1,12))+
+  coord_cartesian(expand = F)+
+  xlab("Month")+
+  ylab("RMSE")
+
+ggplot()+
+  geom_line(aes(y = results$mean_adj_r2, x = 1:12))+
+    geom_line(aes(y = results$upper_adj_r2, x = 1:12), color = "blue")+
+  geom_line(aes(y = results$lower_adj_r2, x = 1:12), color = "blue")+
+  xlim(c(1,12))+
+  coord_cartesian(expand = F)+
+  xlab("Month")+
+  ylab("Adj R2")
 ```
 
 
@@ -176,4 +197,181 @@ mean(results$mean_rmse)
 [1] 0.5665137
 mean(results$mean_adj_r2)
 [1] 0.2670489
+
+```{r}
+  predictors = c()
+  ind_train <- sample(1:nrow(smr_df), .85 * nrow(smr_df))
+  ind_test <- setdiff(1:nrow(smr_df), ind_train)
+  for (i in 1:12) {
+    smr_df = get_df(i)
+    dd_train <- smr_df[ind_train, ]
+    dd_test <- smr_df[ind_test, ]
+    mod <- lm(mean_temp ~ . , data = dd_train)
+    mod_aic <- MASS::stepAIC(mod, direction = "both", trace = 0)
+    res = get_rmse(mod_aic, dd_test, dd_test$mean_temp)
+    res_df = rbind(res_df,
+                   data.frame(
+                     month = i,
+                     rmse = res,
+                     adj_r2 = summary(mod_aic)$adj.r.squared))
+      predictors = append(predictors, list(names(mod_aic$coefficients)))
+
+  }
+
+preds = c(
+"(Intercept)",
+"lat"   ,
+"distance_to_coast",
+"lon",    
+"elevation",    
+"kopGrpB",    
+"kopGrpC",    
+"kopGrpD",    
+"wind",    
+"elevation_change_four",    
+"elevation_change_eight")
+df = data.frame()
+for(i in 1:12){
+df = rbind(df, matrix(preds %in% predictors[[i]], ncol = 11 ))
+}
+names(df) = preds
+```
+
+
+```{r}
+cities <- read.csv("data/cities.csv")
+names(cities) = tolower(names(cities))
+
+# get mainland cities
+cities <- cities %>% filter(lon > -150 & lon < -50 & lat > 20 & lat< 50)
+
+
+cities$city = stringr::str_replace_all(cities$city, "_", " ")
+
+# function returns a dataframe with mean abs error for each city given the input month
+
+get_df <- function(season){
+  # get errors for yesterday's high
+  errs <- errs_ %>%
+    filter(!is.na(error_hi_prev_AM), month(date) %in% winter ) %>%
+    select(date, error_hi_prev_AM, city)
+  unq_cities <- unique(errs$city)
+  
+  # combine city with error df
+  # cities has city predictors
+  # errs has city forecases
+  new_df <- suppressMessages(dplyr::left_join(errs, cities,  by.x = "city", by.y = "city"))
+  
+  # want mean absolute error for a given month for each city
+  smr_df = suppressMessages(new_df %>% group_by(city, elevation, wind, lat, distance_to_coast,koppen, elevation_change_four,elevation_change_eight, state) %>% 
+                              summarize(mean_temp = mean(abs(error_hi_prev_AM))))
+  
+  #remove na values
+  smr_df <- as.data.frame(smr_df)
+  smr_df <- smr_df[!is.na(smr_df$elevation_change_four),]
+  smr_df <- smr_df[!is.na(smr_df$mean_temp ),]
+  
+  
+  # convert koppen to A,B,C,D,E groups for fewer groups 
+  # with more data
+  smr_df$kopGrp <- stringr::str_extract(smr_df$koppen, ".")
+  
+  # remove state, city, and koppen from predictors
+  smr_df <- smr_df %>% select_if(!names(.) %in% c("state","city","koppen"))
+  
+  smr_df
+}
+
+smr_df = get_df(2)
+# split into test/train
+ind_train <- sample(1:nrow(smr_df), .85 * nrow(smr_df))
+ind_test <- setdiff(1:nrow(smr_df), ind_train)
+dd_train <- smr_df[ind_train,]
+dd_test <- smr_df[ind_test,]
+
+```
+
+
+```{r}
+
+res_df = data.frame()
+seasons = list( c(3,4,5),c(9,10,11),c(6,7,8),c(1,2))
+  for(k in 1:4){
+      predictors = c()
+
+    for (j in 1:50) {
+  ind_train <- sample(1:nrow(smr_df), .85 * nrow(smr_df))
+  ind_test <- setdiff(1:nrow(smr_df), ind_train)
+    smr_df = get_df(as.vector(seasons[[k]]))
+    dd_train <- smr_df[ind_train, ]
+    dd_test <- smr_df[ind_test, ]
+    mod <- lm(mean_temp ~ . , data = dd_train)
+    mod_aic <- MASS::stepAIC(mod, direction = "both", trace = 0)
+    res = get_rmse(mod_aic, dd_test, dd_test$mean_temp)
+    # res_df = rbind(res_df,
+    #                data.frame(
+    #                  rmse = res,
+    #                  adj_r2 = summary(mod_aic)$adj.r.squared))
+      predictors = append(predictors, list(names(mod_aic$coefficients)))
+    }
+      temp_df = as.data.frame(table(unlist(predictors))/50)
+      temp_df$season = k
+    res_df = rbind(res_df, temp_df)
+    
+}
+
+# mean(res_df[,1]) 
+# quantile(res_df[,1], probs = c(.025, .975))
+# winter_preds = table(unlist(predictors))/50
+```
+SPRING
+> mean(res_df[,1]) 
+[1] 0.3907053
+> quantile(res_df[,1], probs = c(.025, .975))
+     2.5%     97.5% 
+0.2490855 0.5250925 
+
+SUMMER
+> mean(res_df[,1]) 
+[1] 0.2912825
+> quantile(res_df[,1], probs = c(.025, .975))
+     2.5%     97.5% 
+0.2072269 0.3669929 
+
+FALL
+> mean(res_df[,1]) 
+[1] 0.3824958
+> quantile(res_df[,1], probs = c(.025, .975))
+     2.5%     97.5% 
+0.2531523 0.5402776 
+
+WINTER
+> mean(res_df[,1]) 
+[1] 0.5795069
+> quantile(res_df[,1], probs = c(.025, .975))
+     2.5%     97.5% 
+0.4001793 0.7527326 
+
+```{r}
+plot.df = data.frame(
+  season = c("winter", "spring", "fall", "summer"),
+  lower = c(.4,.24,.2,.25),
+  upper = c(.75,.52,.36,.54),
+  mean = c(.57, .39, .29,.38)
+)
+plot.df$season = factor(plot.df$season, ordered = T, levels =c( "spring", "summer", "fall","winter") )
+
+ggplot(data = plot.df)+
+  geom_point(aes(x = season, y = mean))+
+  geom_errorbar(aes(x = season, ymin = lower, ymax = upper))+
+  theme_classic()+
+  ylab(label= "RMSE")
+```
+
+```{r}
+ggplot()+
+  geom_jitter(data = res_df, aes(x = Var1, y = Freq, color = season), width = 0.1, size = 3)
+res_df$season <- as.factor(res_df$season)
+levels(res_df$season) <- c("spring","fall","summer", "winter")
+```
 

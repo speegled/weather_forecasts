@@ -105,20 +105,18 @@ ggsave("plots/abs_mean_error_hi_diff_days.png", plot = plot_abs_hi_diff_days,
 # perform paired t tests and plot results
 
 cities <- read.csv("data/cities.csv") %>%
-  mutate(CITY = str_replace_all(CITY, '_', ' '),
-         city_and_state = paste0(CITY, ", ", STATE))
+  mutate(city_and_state = paste0(city, ", ", state))
 
 errors %>%
   group_by(city_and_state) %>%
-  summarize(p = t.test(abs(error_lo_prev_PM), abs(error_lo_current_PM), paired = TRUE)$p.value,
-            diff = mean(abs(error_lo_prev_PM) - abs(error_lo_current_PM), na.rm = TRUE)) %>%
-  filter(p < 0.05) %>%
+  summarize(p = t.test(abs(error_lo_current_AM), abs(error_lo_current_PM), paired = TRUE)$p.value,
+            diff = mean(abs(error_lo_current_AM) - abs(error_lo_current_PM), na.rm = TRUE)) %>%
   merge(cities, by = "city_and_state") %>%
-  rename(city = CITY, state = STATE, lat = LAT, lon = LON, climate = CLIMATE) %>%
   filter(state %in% state.abb & state != "AK" & state != "HI") %>%
   select(city_and_state, p, diff) %>%
-  summarize(better = sum(diff > 0),
-            worse = sum(diff < 0))
+  summarize(better = sum(diff > 0 & p < 0.05),
+            worse = sum(diff < 0 & p < 0.05),
+            total = n())
 
 ggsave("plots/p_vals_lo_sig.png", plot = plot_p_vals(errors_p_map, TRUE, TRUE),
        width = unit(12, "in"), height = unit(4, "in"))
