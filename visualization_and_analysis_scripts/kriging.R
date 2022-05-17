@@ -3,7 +3,7 @@
 
 library(tidyverse)
 library(sp) 
-library(gstat)
+library(gstat) 
 library(automap) #used for another kriging method
 
 #### KRIG 1:  TEMPERATURE PREDICTION ERROR (HI) ####
