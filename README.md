@@ -19,3 +19,7 @@ The functions used to gather city level features are in `data_wrangling_scripts/
 * meanWindSpeed in `wind.R` extracts the mean wind speed for a dataframe of latitude and longitude points from a 10m resolution tif file from the Global Wind Atlas.
 * citiesElevationChange in `elevation_change.R` calculates the greatest change in elevation for latitude and longitude points in the input dataframe using the model_points.csv. The function finds the closest n points in the model_points dataframe, computes the elevation change between each and the given latitude and longitude points, and saves the maximum change.
 * avg_annual_precipitation was calculated in `data_wrangling_scripts/noaa_extraction.R`. The script pulls data downloaded from NOAA and takes the average annual precipitation in inches for a city or for an average value within a given radius if the city is not present in their data.
+
+### Poster
+
+<image src = "plots/capstone_poster.png">
