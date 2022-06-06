@@ -53,6 +53,9 @@ df_all_dates$city_date_am_or_pm <- paste(df_all_dates$city,
 df_missing_dates <- filter(df_all_dates, city_date_am_or_pm %notin% df$city_date_am_or_pm)
 df <- rbind(df, df_missing_dates) %>% select(-city_date_am_or_pm) %>% arrange(date_and_time)
 
+df <- df %>% 
+  select(-city_date_am_or_pm)
+
 # expand email data
 cities <- unique(df$city)
 date <- unique(df$date)
