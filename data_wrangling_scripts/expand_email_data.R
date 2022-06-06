@@ -157,5 +157,10 @@ df <- df %>%
 # format city variable (replace all spaces with underscores)
 df$city <- str_replace_all(df$city, " ", "_")
 
+# Change HOUSTON_INTCL to just HOUSTON
+df <- df %>% 
+  mutate(city = ifelse(str_detect(city, "HOU"), "HOUSTON", city),
+         state = ifelse(str_detect(city, "HOU"), "TX", state)) 
+
 # overwrite with city name altered and state included
 write.csv(df, file = "data/email_data_expanded.csv", row.names = FALSE)
