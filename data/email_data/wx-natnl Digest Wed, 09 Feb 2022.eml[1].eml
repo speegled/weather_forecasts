@@ -1,0 +1,1577 @@
+Delivered-To: darrinmspeegle@gmail.com
+Received: by 2002:a05:6a11:d08:0:0:0:0 with SMTP id sd8csp1646456pxb;
+        Wed, 9 Feb 2022 04:00:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwJaxV+v8OyONLzPA3Vq3qEBAHIP85Ebx4VMmmQewDDu5xtdmYdk6bFdBaooAU0XCseOM1/
+X-Received: by 2002:a0d:f801:: with SMTP id i1mr1605191ywf.491.1644408031928;
+        Wed, 09 Feb 2022 04:00:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644408031; cv=none;
+        d=google.com; s=arc-20160816;
+        b=ohVDCbtBN0qLPSBH+MsxixL0U8HQxfBHYvSaMsoHXYRxzRuPer+C06atfU/BwpKQJw
+         jnFbpFP6eXia0NksrPZBu+xRbkHJnB1h/gfByFmvjn/pCFCnTAHR28m58/XurfbMHaBq
+         QJyCxO99CfBvFymMZUQTspfLwIcRgJoXJHj/brS3BJLrLE0OOymgY9j+M6+pPMVwFoXa
+         QszpmgdAlUCYdY4b1ACIzjnDD0Et1STgqc7EqNBGHePijLMvztQZxUdZEQ8rTxHJckNG
+         w4nkVb7paIE77a8jipMPYFyEAdgCFy+VcChr5IPlj8Re1DmQxbFInA0XMZImuhogeeXy
+         aydA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:reply-to:to:from:auto-submitted:content-transfer-encoding
+         :mime-version:date:message-id:dkim-signature;
+        bh=uIq5OzCRoAGr4VhCF4h1gAwi/XJAajplKUPGesA9oUI=;
+        b=eyT1j3wPDV/ZAtgg5BMFqm6/wacOeG0NmRIVB+pzFFy8yLjpQDkKUZZpV5303HfVJ0
+         ktdiFglZwCu4A+dt7TO7xDppGJN7MzzR9IwrSAJYeXzzrbX7FtJX5GmT/zYwl4X2vKg3
+         sZP4j0hMGOI3yti1vInkeZCQ6KnaPsV3HSnJY1ltRiUhUCVYjv16hBCmXNUlMPDvqkar
+         5Wm7Os2582Gbgqaxw8dAtvhHulOfghPhilErSRG5BDhASyrbWGZ5Tqxa+0w5ijZxn0Hr
+         Uxf3QpFU+5P2RxLLrWXdUD8sqV/e589KNksXevxsPKqKRZQ3Z+lei7ycCU8Ho3NErU30
+         kiFg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=l5+4AdCO;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Return-Path: <wx-natnl-owner@lists.illinois.edu>
+Received: from mx0b-00007101.pphosted.com (mx0b-00007101.pphosted.com. [148.163.139.28])
+        by mx.google.com with ESMTPS id z125si4130407ywz.496.2022.02.09.04.00.30
+        for <darrinmspeegle@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 09 Feb 2022 04:00:31 -0800 (PST)
+Received-SPF: pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) client-ip=148.163.139.28;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=l5+4AdCO;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Received: from pps.filterd (m0272703.ppops.net [127.0.0.1])
+	by mx0b-00007101.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 219BdMmw020120
+	for <darrinmspeegle@gmail.com>; Wed, 9 Feb 2022 12:00:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=message-id : date :
+ mime-version : content-type : content-transfer-encoding : from : to :
+ reply-to : subject; s=campusrelays;
+ bh=uIq5OzCRoAGr4VhCF4h1gAwi/XJAajplKUPGesA9oUI=;
+ b=l5+4AdCOB8opSDFh5KJFBGChxHb9Zj2duRQVXXWcc+wz0Wikm8GdEfibns+ezKLgrA57
+ OZnH8XnG8mt4Fg46I9FRuozHxrWxz653pfzk4Uk5IsM6ul7WlvtkRvU9lKClaaX5EOzJ
+ hOCJX4JFMME2+Dnq0i0kekXVOFHZiWKvL1dOW3QkAzIkABtI/RuL+qwR1DoMjAvgtgoq
+ MLzvCFYs2IAKnQJPQa8KnJQRUmCDKRYEZYwjgXeVfxDOpEGmpLYDCybAz68ZgiwDkrLA
+ 294D+kUj7JsQarVXZq/nknDBb/Jv0etUFFo795iTUkDVngevX4cM/p0jmzi/OsA5gO1S yw== 
+Received: from lists.illinois.edu (lists.illinois.edu [192.17.172.63])
+	by mx0b-00007101.pphosted.com (PPS) with ESMTP id 3e3bm36aft-18
+	for <darrinmspeegle@gmail.com>; Wed, 09 Feb 2022 12:00:29 +0000
+Received: by lists.illinois.edu (Postfix, from userid 50033)
+	id 3FA77E2FFC; Wed,  9 Feb 2022 06:00:29 -0600 (CST)
+Message-Id: <sympa.1644408015.26211.446@lists.illinois.edu>
+Date: Wed, 09 Feb 2022 06:00:15 -0600
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7BIT
+Auto-Submitted: auto-forwarded
+From: wx-natnl-request@lists.illinois.edu
+To: wx-natnl@lists.illinois.edu
+Reply-to: wx-natnl-request@lists.illinois.edu
+Subject: wx-natnl Digest Wed, 09 Feb 2022
+X-Mailer: Sympa 6.1.23
+X-Proofpoint-ORIG-GUID: VODyjyty-DDo1r5RTj5V10wAgNumoEcL
+X-Proofpoint-GUID: VODyjyty-DDo1r5RTj5V10wAgNumoEcL
+X-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0
+ suspectscore=0 adultscore=0 spamscore=0 mlxscore=0 clxscore=1031
+ impostorscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 mlxlogscore=999 phishscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202090071
+X-Spam-Score: 0
+X-Spam-OrigSender: wx-natnl-owner@lists.illinois.edu
+X-Spam-Bar:
+MIME-Version: 1.0
+
+wx-natnl Digest Wed, 09 Feb 2022
+
+Table of contents:
+
+* 1 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 2 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 3 - FIRE: Day 1 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 4 - OUTLOOK: Nws Climate Prediction Center College Park Md  - COD Weather
+  Processor <ldm@weather.cod.edu>
+* 5 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 6 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 7 - HAZARDS: Us Hazards Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 8 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 9 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 10 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 11 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 12 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 13 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 14 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 15 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 16 - FIRE: Day 2 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+
+----------------------------------------------------------------------
+
+Message-ID: <1>
+Date: Tue, 8 Feb 2022 12:51:16 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+357
+FPUS20 KWBN 081250
+SCS02
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 2 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 AM EST TUE FEB 08 2022
+
+TEMPERATURES INDICATE DAYTIME HIGH...NIGHTTIME LOW
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 AM EST
+
+                                FORECAST        FORECAST
+                 MON...FEB 07   TUE....FEB 08   WED....FEB 09
+CITY             HI/LO   PCPN   WEA     HI/LO   WEA     HI/LO
+
+CONCORD NH       29  27   .40   RAIN    36/16   SUNNY   41/25
+CORPUS CHRISTI   69  35         SUNNY   66/38   SUNNY   71/44
+DALLAS FT WORTH  59  34         SUNNY   67/37   SUNNY   67/39
+DAYTON           32  08         MOCLDY  37/34   MOCLDY  42/29
+DAYTONA BEACH    60  50         SHWRS   55/47   PTCLDY  64/43
+DENVER           50  34         SUNNY   52/25   MOCLDY  50/26
+DES MOINES       33  21         MOCLDY  48/29   MOCLDY  41/18
+DETROIT          31  22         MOCLDY  31/28   SNOSHW  39/27
+DULUTH           17  09         MOCLDY  34/22   SNOW    25/03
+EL PASO          53  25         SUNNY   57/34   SUNNY   60/33
+ELKINS           48  20         SNOSHW  37/23   SUNNY   53/30
+ERIE             42  28   .01   SNOSHW  27/24   RNSNOW  37/31
+EUGENE           61  35         FOG     52/36   PTCLDY  56/40
+EVANSVILLE       34  21         SUNNY   48/32   MOCLDY  49/29
+FAIRBANKS        00  07B        SNOW    00/13B  SNOW    01/14B
+FARGO            19  16         RNSNOW  37/19   MOCLDY  24/03
+FLAGSTAFF        45  13         SUNNY   51/22   SUNNY   54/25
+FLINT            32  21         MOCLDY  32/28   SNOSHW  38/24
+FORT SMITH       54  28         SUNNY   65/33   SUNNY   63/34
+FORT WAYNE       26  05         PTCLDY  34/29   MOCLDY  36/25
+FRESNO           72  41         SUNNY   70/41   SUNNY   71/42
+GOODLAND         54  31         WINDY   53/24   PTCLDY  52/26
+GRAND JUNCTION   45  20         SUNNY   45/19   PTCLDY  45/25
+GRAND RAPIDS     30  20   .01   PTCLDY  34/30   DRZL    37/26
+GREAT FALLS      60  33         WINDY   47/32   MOCLDY  50/34
+GREEN BAY        26  16         PTCLDY  35/29   SNOSHW  37/18
+GREENSBORO       36  32   .38   PTCLDY  50/28   SUNNY   56/32
+HARRISBURG       43  25         PTCLDY  38/25   SUNNY   49/33
+HARTFORD SPGFLD  34  34   .33   PTCLDY  44/23   SUNNY   44/31
+HELENA           50  33         PTCLDY  44/31   MOCLDY  45/30
+HONOLULU         83  72         SUNNY   84/68   PTCLDY  84/67
+HOUSTON INTCNTL  64  34         SUNNY   64/39   SUNNY   68/41
+HUNTSVILLE AL    53  25         SUNNY   56/33   SUNNY   61/34
+INDIANAPOLIS     24  08         PTCLDY  39/33   MOCLDY  39/27
+JACKSON MS       57  25         SUNNY   59/35   SUNNY   65/36
+JACKSONVILLE     51  46   .32   SHWRS   54/39   SUNNY   64/37
+JUNEAU           42  35   .73   RAIN    43/40   RAIN    42/34
+KANSAS CITY      55  29         PTCLDY  59/34   PTCLDY  56/28
+KEY WEST         75  68         PTCLDY  78/65   SHWRS   75/63
+KNOXVILLE        50  25         SUNNY   50/31   SUNNY   57/34
+LAKE CHARLES     62  34         SUNNY   61/38   SUNNY   65/40
+LANSING          32  22         MOCLDY  34/30   DRZL    38/27
+LAS VEGAS        65  43         SUNNY   71/46   SUNNY   71/49
+LEXINGTON        45  18         SUNNY   46/33   PTCLDY  51/30
+
+
+$$
+
+
+------------------------------
+Message-ID: <2>
+Date: Tue, 8 Feb 2022 12:51:24 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+779
+FPUS20 KWBN 081250
+SCS04
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 4 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 AM EST TUE FEB 08 2022
+
+TEMPERATURES INDICATE DAYTIME HIGH...NIGHTTIME LOW
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 AM EST
+
+                                FORECAST        FORECAST
+                 MON...FEB 07   TUE....FEB 08   WED....FEB 09
+CITY             HI/LO   PCPN   WEA     HI/LO   WEA     HI/LO
+
+SALEM OR         56  35         FOG     52/38   PTCLDY  56/40
+SALT LAKE CITY   47  26         SUNNY   45/26   PTCLDY  44/26
+SAN ANGELO       57  25         SUNNY   67/30   SUNNY   65/32
+SAN ANTONIO      64  32         SUNNY   65/40   SUNNY   68/41
+SAN DIEGO        74  46         SUNNY   77/52   SUNNY   80/53
+SAN FRANCISCO    68  45         SUNNY   66/48   SUNNY   71/50
+SAN JOSE         69  42         SUNNY   73/44   SUNNY   75/45
+SAN JUAN PR      81  71   .28   SHWRS   84/73   SHWRS   85/74
+SANTA FE         42  19         PTCLDY  49/21   PTCLDY  49/21
+ST STE MARIE     27  17   .01   MOCLDY  26/22   RNSNOW  32/16
+SAVANNAH         47  44   .08   MOCLDY  56/35   SUNNY   62/38
+SEATTLE          52  40         MOCLDY  48/41   MOCLDY  51/41
+SHREVEPORT       61  29         SUNNY   63/39   SUNNY   66/39
+SIOUX CITY       60  23         WINDY   58/31   PTCLDY  45/16
+SIOUX FALLS      55  26         SHWRS   54/30   MOCLDY  39/15
+SOUTH BEND       27  12         SUNNY   35/28   MOCLDY  35/26
+SPOKANE          45  30         MOCLDY  40/29   MOCLDY  40/30
+SPRINGFIELD IL   23  19         PTCLDY  45/30   MOCLDY  41/22
+SPRINGFIELD MO   42  29         SUNNY   59/30   SUNNY   55/29
+SYRACUSE         42  19         SNOSHW  32/17   SHWRS   44/33
+TALLAHASSEE      52  46   .08   MOCLDY  57/33   SUNNY   64/36
+TAMPA            70  54         SHWRS   57/49   PTCLDY  64/45
+TOLEDO           32  20         PTCLDY  29/28   CLOUDY  35/29
+TOPEKA           58  25         SUNNY   61/32   SUNNY   58/28
+TUCSON           68  44         SUNNY   72/41   SUNNY   75/41
+TULSA            55  39         SUNNY   67/33   SUNNY   64/36
+TUPELO           56  28         SUNNY   59/35   SUNNY   62/35
+WACO             61  25         SUNNY   66/34   SUNNY   68/36
+WASHINGTON DC    44  31   .07   SUNNY   44/29   SUNNY   53/35
+W PALM BEACH     82  67         SHWRS   75/59   SHWRS   70/56
+WICHITA          58  24         SUNNY   63/28   SUNNY   62/29
+WICHITA FALLS    57  34         SUNNY   70/30   SUNNY   66/33
+WILKES BARRE     39  28         MOCLDY  33/20   SUNNY   46/32
+WILMINGTON DE    40  31   .05   SUNNY   43/26   SUNNY   50/33
+YAKIMA           59  27         MOCLDY  45/32   PTCLDY  51/32
+YOUNGSTOWN       41  23         MOCLDY  26/23   SHWRS   39/29
+YUMA             77  54         SUNNY   76/52   SUNNY   80/52
+
+NATIONAL TEMPERATURE EXTREMES
+
+HIGH MON...84 AT CAMP PENDLETON MCAS CA AND BIG CYPRESS RESERVATION FL AND 7
+MILES NORTHEAST OF MILES CITY FL
+
+LOW  TUE...17 BELOW ZERO AT ANGEL FIRE NM
+
+
+$$
+
+
+------------------------------
+Message-ID: <3>
+Date: Tue, 8 Feb 2022 16:59:25 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 1 Fire Weather Outlook
+
+FNUS21 KWNS 081655
+FWDDY1
+
+Day 1 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+1054 AM CST Tue Feb 08 2022
+
+Valid 081700Z - 091200Z
+
+...CRITICAL FIRE WEATHER AREA FOR PORTIONS OF THE CENTRAL PLAINS...
+
+The primary changes with this update were to connect the two
+Elevated areas and slightly expand the Critical area in the central
+Plains. Latest mesoanalysis depicts a surface cold front extending
+from northeastern NM northeastward across parts of south-central KS.
+The front slopes northward with height into north-central NE, with
+the strongest low-level cold air advection now overspreading
+southern NE. Here, visible satellite imagery and surface
+observations depict a scattered to broken altostratus cloud deck
+advancing southeastward, and these clouds should generally continue
+eroding from north to south with daytime heating and strengthening
+downslope flow off the Rockies. As the cold advection regime
+continues to move southward and weaken with time, RAP forecast
+soundings depict deep boundary-layer mixing extending into the
+2-4-km layer, where 12Z soundings show 40-50 mph winds across the
+post-frontal airmass. Therefore, these winds will likely mix down to
+the surface during the afternoon hours today, where RH reductions
+into the upper teens to lower/middle 20s (based on modified 12Z
+soundings) overlap very dry fuels (ERCs in the 80th-95th
+percentile).
+
+Farther south across the TX/OK Panhandles and TX South Plains, clear
+skies ahead of the approaching cold front should also favor a deeply
+mixed boundary layer and minimum afternoon RH in the lower/middle
+teens. Sustained west-southwesterly surface winds near 15-20 mph are
+expected to coincide with the critically low RH, though the lack of
+a stronger pressure gradient and modest lower tropospheric flow
+should mitigate a higher-end fire-weather threat. With that said,
+spotty and brief critical conditions cannot be ruled out. A rapid
+wind shift to the north behind the previously mentioned boundary
+could potentially re-direct any fires across the area by the late
+afternoon/early evening timeframe.
+
+..Weinman.. 02/08/2022
+
+.PREV DISCUSSION... /ISSUED 0205 AM CST Tue Feb 08 2022/
+
+...Synopsis...
+A progressive mid-level trough will move southeast across the
+central Plains today, accompanied by 60+ kt 500 mb flow which will
+overspread a dry, well-mixed boundary layer this afternoon. Broad
+surface lee-troughing across the central Plains will foster dry
+westerly surface winds extending from southern South Dakota into
+western Texas, where wildfire-spread concerns exist.
+
+...Central Plains...
+As the upper trough overspreads the region during the afternoon,
+widespread 25+ mph sustained northwesterly surface winds will
+coincide with 20-25 percent RH for at least a couple hours during
+the afternoon. Fuels remain quite dry across the area, with Critical
+highlights introduced mainly due to the combination of very dry
+fuels and strong winds.
+
+...Western Texas...
+Downslope flow and surface lee troughing will encourage 15 mph
+sustained southwesterly surface winds by afternoon peak heating,
+when RH is also expected to drop to 15 percent. Given the presence
+of at least modestly dry fuels, Elevated highlights have been
+introduced.
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!qTJwWDoWsD6J_4aPNBAObk9Ngn-gljQ5iHrJG-0I1v075YzMS9Gy0dXXF6EPc7TOYYyd0F-j$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <4>
+Date: Tue, 8 Feb 2022 17:42:55 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Nws Climate Prediction Center College Park Md
+
+AEUS41 KWBC 081734
+UVICAC
+
+NOAA/EPA ULTRAVIOLET INDEX /UVI/ FORECAST
+NWS CLIMATE PREDICTION CENTER COLLEGE PARK MD
+534 PM  TUE FEB 8 2022
+
+VALID FEB 9 2022 AT SOLAR NOON /APPROXIMATELY NOON
+LOCAL STANDARD TIME OR 100 PM LOCAL DAYLIGHT TIME/
+
+THE UV INDEX IS CATEGORIZED BY THE WORLD HEALTH ORGANIZATION
+AS FOLLOWS:
+           UVI             EXPOSURE LEVEL
+           0 1 2              LOW
+           3 4 5              MODERATE
+           6 7                HIGH
+           8 9 10             VERY HIGH
+           11 AND GREATER     EXTREME
+
+FOR HEALTH RELATED ISSUES GO TO
+https://urldefense.com/v3/__http://WWW.EPA.GOV/SUNSAFETY__;!!DZ3fjg!vP-uC6TJk7GsU9Ok02deWQ1c5onTR6KiiGUqCesMeaGbDHkzmHPy5J1qkJ66TC755kX1-b6w$
+FOR TECHNICAL INFORMATION ABOUT THE UV INDEX....
+GO TO THE NATIONAL WEATHER SERVICE UV INDEX WEB PAGE:
+https://urldefense.com/v3/__http://WWW.CPC.NCEP.NOAA.GOV/PRODUCTS/STRATOSPHERE/UV_INDEX__;!!DZ3fjg!vP-uC6TJk7GsU9Ok02deWQ1c5onTR6KiiGUqCesMeaGbDHkzmHPy5J1qkJ66TC755nI0vjdx$
+
+CITY               STATE  UVI       CITY               STATE  UVI
+ALBUQUERQUE          NM     4       LITTLE ROCK          AR     3
+ANCHORAGE            AK     0       LOS ANGELES          CA     4
+ATLANTIC CITY        NJ     3       LOUISVILLE           KY     2
+ATLANTA              GA     4       MEMPHIS              TN     3
+BALTIMORE            MD     3       MIAMI                FL     3
+BILLINGS             MT     2       MILWAUKEE            WI     2
+BISMARCK             ND     2       MINNEAPOLIS          MN     2
+BOISE                ID     2       MOBILE               AL     5
+BOSTON               MA     2       NEW ORLEANS          LA     5
+BUFFALO              NY     1       NEW YORK             NY     3
+BURLINGTON           VT     2       NORFOLK              VA     4
+CHARLESTON           WV     2       OKLAHOMA CITY        OK     3
+CHARLESTON           SC     5       OMAHA                NE     2
+CHEYENNE             WY     2       PHILADELPHIA         PA     3
+CHICAGO              IL     2       PHOENIX              AZ     4
+CLEVELAND            OH     1       PITTSBURGH           PA     2
+CONCORD              NH     2       PORTLAND             ME     2
+DALLAS               TX     4       PORTLAND             OR     1
+DENVER               CO     3       PROVIDENCE           RI     2
+DES MOINES           IA     2       RALEIGH              NC     4
+DETROIT              MI     1       SALT LAKE CITY       UT     3
+DOVER                DE     3       SAN FRANCISCO        CA     3
+HARTFORD             CT     2       SAN JUAN             PU     8
+HONOLULU             HI     8       SEATTLE              WA     1
+HOUSTON              TX     5       SIOUX FALLS          SD     1
+INDIANAPOLIS         IN     2       ST. LOUIS            MO     2
+JACKSON              MS     4       TAMPA                FL     6
+JACKSONVILLE         FL     5       WASHINGTON           DC     3
+LAS VEGAS            NV     3       WICHITA              KS     3
+
+
+------------------------------
+Message-ID: <5>
+Date: Tue, 8 Feb 2022 19:10:29 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+105
+FXUS02 KWBC 081900
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+159 PM EST Tue Feb 08 2022
+
+Valid 12Z Fri Feb 11 2022 - 12Z Tue Feb 15 2022
+
+...Weather Pattern Overview...
+
+Guidance continues to advertise persistence of an amplified East
+Pacific/West Coast upper ridge and downstream mean trough through
+the weekend, followed by a significant pattern change early next
+week as a trough initially tracking across the North Pacific drops
+into the West ahead of a newly building Pacific upper ridge.  This
+evolution will ultimately lead to a flatter trend for downstream
+flow, with the initial western ridge migrating through the
+western/central U.S. and the eastern trough departing from the
+East Coast by next Tuesday.  The forecast pattern will tend to
+favor below-average coverage and intensity of precipitation over
+the lower 48.  Parts of the West will see well above normal
+temperatures late this week into the weekend before a cooling
+trend while some areas farther to the east may see some notable
+temperature swings over the course of the period.
+
+...Guidance Evaluation/Predictability Assessment...
+
+Models and ensembles agree on the large scale pattern evolution
+but embedded detail uncertainties persist.  These issues involve
+specifics of initial upper trough energy crossing the eastern half
+of the country/eventual western Atlantic surface development,
+upstream energy dropping into the mean trough/associated surface
+pattern, and distribution/timing of North Pacific shortwave energy
+expected to push into the West next week.  Thus far the consensus
+indicates that the eastern trough aloft will remain sufficiently
+open to keep a potential western Atlantic system far enough
+offshore not to bring meaningful precipitation to the Mid-Atlantic
+and Northeast around Sunday-Monday.  However a minority of
+ensemble members could still suggest a lingering low-end potential
+for moisture to extend farther westward.  Meanwhile models have
+been varying considerably for specifics of the surface pattern
+over the central/eastern U.S. behind this system.  At least the
+06Z GFS/GEFS and 00Z ECMWF/ECMWF mean runs arrived at similar
+ideas for the next wave so their scenario provides the most likely
+option at this time.  Operational model runs have also been
+erratic with the details of Pacific energy coming into the West.
+Again the aforementioned models/means showed reasonable agreement
+in principle, bringing an open shortwave into the West, while
+individual stray runs such as the 00Z CMC pulled off a low
+offshore.  The 00Z ECMWF could be a little too amplified though.
+The new 12Z CMC has adjusted to the model/mean consensus and the
+12Z ECMWF has toned down its trough amplitude.
+
+Based on the guidance comparisons through 06Z data, an operational
+model blend with greater emphasis on the 06Z GFS/00Z ECMWF
+transitioned to a model/mean mix among the GFS/ECMWF and their
+respective means.  Maintaining continuity, QPF stayed closer to
+the operational model scenario near the East Coat around
+Sunday-Monday.  PoPs represented a compromise between the wetter
+ensemble means and fairly dry operational guidance.
+
+...Weather Highlights/Threats...
+
+A strong but progressive clipper type low pressure system will
+cross the northern Great Lakes on Friday and then track into
+northern New England/eastern Canada by Saturday, spreading snow
+across the Great Lakes and mostly light rain farther south and
+east.  Expect breezy to windy conditions across the Upper Midwest
+and Great Lakes region as this low moves through the region.
+Parts of the Plains/Rockies could also see a brief period of brisk
+winds as a couple cold fronts push southward.  Trailing Canadian
+surface high pressure dropping southward across the central U.S.
+will deliver dry conditions to much of the nation for the upcoming
+weekend.  It appears likely that low pressure will develop off the
+East Coast Sunday-Monday but the system is likely to be far enough
+offshore to keep most of the precipitation and wind away from
+land.  The upper trough and leading front reaching the West early
+next week should bring an area of precipitation (mostly light to
+moderate) and possibly strengthening winds to the region.
+Coverage and timing of rain and mountain snow will depend on
+system details that remain somewhat uncertain.
+
+A majority of the West will see above normal temperatures from
+late this week through the weekend.  Expect the warmest anomalies
+(plus 10-15F and locally higher) to be centered over and near
+California where high temperatures may challenge or exceed daily
+record values.  Then the upper trough/leading cold front moving
+into the West early next week will bring a cooling trend,
+ultimately leading to highs within a few degrees F on either side
+of normal by next Tuesday.  Farther to the east, the Plains should
+see plus 10-20F anomalies for max and/or min temperatures on
+Friday.  Frontal passage will bring a brief cooler period during
+the weekend followed by temperatures rebounding to 5-20F above
+normal early next week.  The eastern U.S. will see its warmest
+temperatures of the period Friday-Saturday ahead of the
+approaching front.  Plus 5-15F anomalies will be common and parts
+of the Northeast could see lows 20F or more above normal on one or
+both days.  The cold surge behind the front will reach the
+Mississippi Valley by Saturday and then continue toward the East
+Coast, leading to one or more days of max/min readings of 10-20F
+below normal with coldest anomalies tending to focus over the
+northern half of the East.
+
+Rausch/Hamrick
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!rbIAkM83ohCzdubKt4chwkekGk2rory1DqQ21-hb75aV6mieOv6skfjBObKttlyGQkaNxxPa$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!rbIAkM83ohCzdubKt4chwkekGk2rory1DqQ21-hb75aV6mieOv6skfjBObKttlyGQozhtvDK$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!rbIAkM83ohCzdubKt4chwkekGk2rory1DqQ21-hb75aV6mieOv6skfjBObKttlyGQq53AqaP$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!rbIAkM83ohCzdubKt4chwkekGk2rory1DqQ21-hb75aV6mieOv6skfjBObKttlyGQrqqmvig$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!rbIAkM83ohCzdubKt4chwkekGk2rory1DqQ21-hb75aV6mieOv6skfjBObKttlyGQoooBw0U$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!rbIAkM83ohCzdubKt4chwkekGk2rory1DqQ21-hb75aV6mieOv6skfjBObKttlyGQrxbFWaB$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!rbIAkM83ohCzdubKt4chwkekGk2rory1DqQ21-hb75aV6mieOv6skfjBObKttlyGQrfGXNAb$
+
+$$
+
+
+$$
+
+
+------------------------------
+Message-ID: <6>
+Date: Tue, 8 Feb 2022 19:10:29 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 081900
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+159 PM EST Tue Feb 08 2022
+
+Valid 12Z Fri Feb 11 2022 - 12Z Tue Feb 15 2022
+
+...Weather Pattern Overview...
+
+Guidance continues to advertise persistence of an amplified East
+Pacific/West Coast upper ridge and downstream mean trough through
+the weekend, followed by a significant pattern change early next
+week as a trough initially tracking across the North Pacific drops
+into the West ahead of a newly building Pacific upper ridge.  This
+evolution will ultimately lead to a flatter trend for downstream
+flow, with the initial western ridge migrating through the
+western/central U.S. and the eastern trough departing from the
+East Coast by next Tuesday.  The forecast pattern will tend to
+favor below-average coverage and intensity of precipitation over
+the lower 48.  Parts of the West will see well above normal
+temperatures late this week into the weekend before a cooling
+trend while some areas farther to the east may see some notable
+temperature swings over the course of the period.
+
+...Guidance Evaluation/Predictability Assessment...
+
+Models and ensembles agree on the large scale pattern evolution
+but embedded detail uncertainties persist.  These issues involve
+specifics of initial upper trough energy crossing the eastern half
+of the country/eventual western Atlantic surface development,
+upstream energy dropping into the mean trough/associated surface
+pattern, and distribution/timing of North Pacific shortwave energy
+expected to push into the West next week.  Thus far the consensus
+indicates that the eastern trough aloft will remain sufficiently
+open to keep a potential western Atlantic system far enough
+offshore not to bring meaningful precipitation to the Mid-Atlantic
+and Northeast around Sunday-Monday.  However a minority of
+ensemble members could still suggest a lingering low-end potential
+for moisture to extend farther westward.  Meanwhile models have
+been varying considerably for specifics of the surface pattern
+over the central/eastern U.S. behind this system.  At least the
+06Z GFS/GEFS and 00Z ECMWF/ECMWF mean runs arrived at similar
+ideas for the next wave so their scenario provides the most likely
+option at this time.  Operational model runs have also been
+erratic with the details of Pacific energy coming into the West.
+Again the aforementioned models/means showed reasonable agreement
+in principle, bringing an open shortwave into the West, while
+individual stray runs such as the 00Z CMC pulled off a low
+offshore.  The 00Z ECMWF could be a little too amplified though.
+The new 12Z CMC has adjusted to the model/mean consensus and the
+12Z ECMWF has toned down its trough amplitude.
+
+Based on the guidance comparisons through 06Z data, an operational
+model blend with greater emphasis on the 06Z GFS/00Z ECMWF
+transitioned to a model/mean mix among the GFS/ECMWF and their
+respective means.  Maintaining continuity, QPF stayed closer to
+the operational model scenario near the East Coat around
+Sunday-Monday.  PoPs represented a compromise between the wetter
+ensemble means and fairly dry operational guidance.
+
+...Weather Highlights/Threats...
+
+A strong but progressive clipper type low pressure system will
+cross the northern Great Lakes on Friday and then track into
+northern New England/eastern Canada by Saturday, spreading snow
+across the Great Lakes and mostly light rain farther south and
+east.  Expect breezy to windy conditions across the Upper Midwest
+and Great Lakes region as this low moves through the region.
+Parts of the Plains/Rockies could also see a brief period of brisk
+winds as a couple cold fronts push southward.  Trailing Canadian
+surface high pressure dropping southward across the central U.S.
+will deliver dry conditions to much of the nation for the upcoming
+weekend.  It appears likely that low pressure will develop off the
+East Coast Sunday-Monday but the system is likely to be far enough
+offshore to keep most of the precipitation and wind away from
+land.  The upper trough and leading front reaching the West early
+next week should bring an area of precipitation (mostly light to
+moderate) and possibly strengthening winds to the region.
+Coverage and timing of rain and mountain snow will depend on
+system details that remain somewhat uncertain.
+
+A majority of the West will see above normal temperatures from
+late this week through the weekend.  Expect the warmest anomalies
+(plus 10-15F and locally higher) to be centered over and near
+California where high temperatures may challenge or exceed daily
+record values.  Then the upper trough/leading cold front moving
+into the West early next week will bring a cooling trend,
+ultimately leading to highs within a few degrees F on either side
+of normal by next Tuesday.  Farther to the east, the Plains should
+see plus 10-20F anomalies for max and/or min temperatures on
+Friday.  Frontal passage will bring a brief cooler period during
+the weekend followed by temperatures rebounding to 5-20F above
+normal early next week.  The eastern U.S. will see its warmest
+temperatures of the period Friday-Saturday ahead of the
+approaching front.  Plus 5-15F anomalies will be common and parts
+of the Northeast could see lows 20F or more above normal on one or
+both days.  The cold surge behind the front will reach the
+Mississippi Valley by Saturday and then continue toward the East
+Coast, leading to one or more days of max/min readings of 10-20F
+below normal with coldest anomalies tending to focus over the
+northern half of the East.
+
+Rausch/Hamrick
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!qCbJ0zkiRITXV_BhHTxz9Tb0hvCB5E_gpm_TcQ_wZ-3wdYkPccIieqADAQfztAtEEVMM58Kb$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!qCbJ0zkiRITXV_BhHTxz9Tb0hvCB5E_gpm_TcQ_wZ-3wdYkPccIieqADAQfztAtEEVkiF1l4$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!qCbJ0zkiRITXV_BhHTxz9Tb0hvCB5E_gpm_TcQ_wZ-3wdYkPccIieqADAQfztAtEEcR6R_mZ$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!qCbJ0zkiRITXV_BhHTxz9Tb0hvCB5E_gpm_TcQ_wZ-3wdYkPccIieqADAQfztAtEEVpaxu-u$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!qCbJ0zkiRITXV_BhHTxz9Tb0hvCB5E_gpm_TcQ_wZ-3wdYkPccIieqADAQfztAtEEasLmwai$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!qCbJ0zkiRITXV_BhHTxz9Tb0hvCB5E_gpm_TcQ_wZ-3wdYkPccIieqADAQfztAtEESaaFE_j$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!qCbJ0zkiRITXV_BhHTxz9Tb0hvCB5E_gpm_TcQ_wZ-3wdYkPccIieqADAQfztAtEEXHfEhve$
+
+$$
+
+
+$$
+
+
+------------------------------
+Message-ID: <7>
+Date: Tue, 8 Feb 2022 19:14:02 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: HAZARDS: Us Hazards Outlook
+
+FXUS21 KWNC 081908
+PMDTHR
+US Hazards Outlook
+NWS Climate Prediction Center College Park MD
+300 PM EST February 08 2022
+
+SYNOPSIS: There is good agreement in the dynamical models favoring the
+development of mid-level low pressure over the southwestern CONUS to induce
+surface low formation over the Great Plains early in the period. This
+predicted
+surface feature has the potential for triggering heavy precipitation across
+portions of the Southern Plains, Mississippi, Ohio and Tennessee Valleys and
+the Southeast, as well as heavy snow across the higher elevations of the
+Rockies and over portions of the Central Plains and Midwest. Over Alaska, the
+prevailing mid-level height pattern supports the potential for below-normal
+temperatures across the western and northern Mainland with possible heavy
+precipitation and high elevation snow across the Southeast and the Panhandle
+early in week-2.
+
+HAZARDS
+
+Slight risk of heavy snow for the Central and Southern Rockies, the Central
+and
+Southern High Plains, and portions of the Mississippi Valley, Wed-Fri, Feb
+16-18.
+
+Slight risk of heavy snow for the Alaska Panhandle, Wed-Fri, Feb 16-18.
+
+Slight risk of heavy precipitation over portions of the Southern Plains,
+Mississippi, Tennessee and Ohio Valleys and the Southeast, Wed-Fri, Feb 16-18.
+
+Slight risk of heavy precipitation for the Alaska Panhandle, Wed-Fri, Feb
+16-18.
+
+Slight risk of high winds for portions of the southwestern and south-central
+CONUS, Wed-Fri, Feb 16-18.
+
+Slight risk of much below normal temperatures for western Mainland and the
+Northern Slope of Alaska, Wed-Fri, Feb 16-18.
+
+DETAILED SUMMARY
+
+FOR FRIDAY FEBRUARY 11 - TUESDAY FEBRUARY 15:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!pnG2RzKOUPlIrk9Rc1CIv8zBEokzvJDjO2wSSe07mXV8rB3pvPqXHbPNYaFf3e8TvmGGU6kh$
+
+FOR WEDNESDAY FEBRUARY 16 - TUESDAY FEBRUARY 22: By the start of the period,
+this morning's 0z GEFS, ECMWF, and Canadian 500-hPa height forecasts continue
+to feature highly amplified ridging over the northeastern Pacific, with the
+development of downstream troughing over the southwestern CONUS. Similar to
+previous ensemble runs, the ECMWF remains more pronounced with this shortwave
+disturbance compared to the GEFS, favoring a deeper trough axis extending into
+northern Mexico and a larger distribution of negative height departures over
+the higher elevations of the West and Great Plains early in the period.
+Despite
+these differences in strength, surface low formation remains favored over the
+High Plains associated with this mid-level feature, which looks to be the
+focal
+point for potentially heavy precipitation and snowfall in today's outlook over
+the CONUS. Towards the middle of the period, the ensemble mean solutions begin
+to diverge on the evolution of the mid-level pattern leading to uncertainty in
+the outlook later in February.  The GEFS remains bullish on the return of full
+latitude troughing over eastern North America, whereas the ECMWF and Canadian
+favor more anomalous ridging extending from the western Atlantic into the
+eastern U.S., resulting in conflicting perspectives in regards to anomalous
+temperatures over the eastern CONUS through the end of the period.
+
+
+
+There is good agreement in the ensembles featuring surface low formation over
+the High Plains with surface high pressure situated over the eastern CONUS to
+promote return flow and the advection of Gulf moisture into the Great Plains
+and Mississippi Valley early in the period.  Although the GEFS remains
+comparably weaker to the ECMWF in terms of the spatial extent and magnitude of
+total precipitation, both reforecast tools indicate at least a 20% chance of
+3-day precipitation accumulations exceeding the 85th percentile and 1 inch,
+supporting the continuation of a slight risk of heavy precipitation from Feb
+16
+to 18 over the Southern Plains, Mississippi, Tennessee and Ohio Valleys and
+the
+Southeast.  While the highest precipitation amounts are favored in the warm
+sector of the predicted surface low, higher probabilities (>40%) for 3-day
+totals exceeding the 85th percentile are indicated in the ECMWF reforecast
+tool
+across the Southern and Central Rockies and the Central Plains. Here, cold air
+advection is likely on the backside of the low as supported by strengthening
+negative 850-hPa temperature departures depicted in the GEFS and ECMWF
+ensembles in the region. Thus, a slight risk of heavy snow remains issued from
+Feb 16 to 18 and is expanded eastward into the Middle Mississippi Valley
+relative to yesterday's outlook. Heavy snowfall is possible across other
+portions of the Midwest and Great Lakes as the low tracks eastward with time,
+however there is still a good deal of uncertainty as to the details on timing,
+location, and strength of the potential storm track later in the period.
+
+
+
+Additionally, the deep trough axis favored aloft is expected to be conducive
+for elevated winds across the southwestern and south-central CONUS. This
+continues to be evidenced by strong surface pressure gradients in the
+deterministic and ensemble guidance early in the period, and a slight risk of
+high winds is issued from the Four Corners region to the Mississippi Valley.
+The potential for high winds over parts of the Southwest and Great Basin
+increases the risk of wildfires and dust storms given low soil moisture
+content
+and the widespread severe to extreme drought conditions currently registered
+in
+the region.
+
+
+
+Over Alaska, both the GEFS and ECMWF ensembles continue to feature 500-hPa
+troughing over the Chukchi Sea early in the period which is expected to
+promote
+the advection of arctic air into many parts of the western and northern
+Mainland. Although the ECMWF reforecast tool depicts a warmer scenario
+compared
+to yesterday, the GEFS reforecast tool depicts stronger chances for minimum
+temperatures falling below the 15th percentile with increased chances for
+temperatures reaching hazard thresholds over the Northern Slope. Thus, a
+slight
+risk of much below normal temperatures remains issued early in the period, and
+is expanded northward in the updated outlook.
+
+
+
+Across the southern Mainland and Panhandle, increased onshore flow is expected
+to promote above-normal precipitation over the region. Compared to yesterday,
+higher total precipitation amounts are favored in the uncalibrated guidance
+early in the period and the GEFS reforecast tool indicates at least a 20%
+chance of 3-day totals exceeding the 85th percentile and two inches to support
+the addition of a slight risk of heavy precipitation. The favored increase in
+moisture also increases the potential for locally heavy snowfall over the
+higher elevations, prompting a corresponding hazard covering the southeastern
+Mainland through the Panhandle for Feb 16 to 18.  Due to antecedent wet
+conditions in southeastern Alaska, where several locations have experienced
+near or more than twice of their normal precipitation accumulation for the
+year, the continuation of above-normal precipitation during week-2 is expected
+to adversely affect the highlighted region and raises the concern for
+landslides in the low elevations.
+
+FORECASTER: Nick Novella
+
+$$
+
+
+------------------------------
+Message-ID: <8>
+Date: Tue, 8 Feb 2022 20:10:55 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 082001
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+300 PM EST Tue Feb 08 2022
+
+Valid 00Z Wed Feb 09 2022 - 00Z Fri Feb 11 2022
+
+...Early taste of spring spreading east across much of the
+continental U.S.; record warmth possible in California; Critical
+Risk of fire in the central Plains...
+
+...Snow departing Maine as damp and cloudy weather in Florida will
+be followed by slow clear on Wednesday...
+
+...Periods of mixed rain and snow expected from the northern
+Plains to the Great Lakes the next couple of days...
+
+As the main jet stream is forecast to retreat slightly further
+north during the next couple of days, much of the continental U.S.
+will experience a gradual warm up, leading to a gradual expansion
+of above normal temperatures from west to east.  Mild and dry
+conditions across the northern/central Plains today will be
+replaced by slightly cooler air tomorrow behind a cold front, but
+milder than normal conditions for early February persists.  Fire
+danger is forecast to be at critical levels over good portion of
+the central Plains through tonight due to gusty downslope winds
+and dry conditions.  By Wednesday, the focus of warm weather will
+shift to the immediate coastal areas of California where high
+temperatures are forecast to climb into the mid to upper 80s in
+parts of southern California.  In advance of this anomalous
+February heat, an Excessive Heat Watch that includes the Los
+Angeles metro area has been issued from late Wednesday into
+Friday. The West Coast is not the only region expected to see
+temperatures resembling more like spring rather than winter.  Even
+much of the eastern U.S. will witness high temperatures reaching
+into the 50s and 60s over the Mid-Atlantic, which are levels
+normally seen in March.
+
+Precipitation-wise, snow associated with a quick-hitting coastal
+storm that has already resulted in more than a foot of snow inland
+is expected to taper off by Wednesday morning as the storm moves
+further into the Canadian Maritimes.  Farther south, the Sunshine
+State will see more widespread showers and plenty of clouds
+through tonight.  Drier conditions and sunshine are forecast to
+progress from north to south across the state on Wednesday.
+Elsewhere, a wave of low pressure is set to track through southern
+Canada today and end up in the upper Great Lakes by Wednesday.
+Periods of snow are likely in northern Minnesota and Wisconsin
+tonight.  By Wednesday, rain and snow showers will envelope much
+of the Great Lakes with the heaviest snowfall accumulations
+confined to areas along the northern coast of Michigan's Upper
+Peninsula where there will be a little more lake enhancement.
+Some rain and snow showers may make their way into the northern
+Mid-Atlantic and interior Northeast Wednesday night.  Lastly, an
+upper level disturbance diving south through the northern High
+Plains on Wednesday will produce periods of snow in the Black
+Hills and central Rockies.
+
+Kong/Mullinax
+
+
+Graphics are available at
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/basicwx/basicwx_ndfd.php__;!!DZ3fjg!sKkiwe6gy0ZjrLTKjdgjAm7cYeHp62ieKuQnWlrOMMB5blnQk7M_zDUWVYbU-7uQUGgeQD3f$
+$$
+
+
+------------------------------
+Message-ID: <9>
+Date: Tue, 8 Feb 2022 20:26:58 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 082024
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+323 PM EST Tue Feb 08 2022
+
+Valid 00Z Wed Feb 09 2022 - 00Z Fri Feb 11 2022
+
+...Early taste of spring spreading east across much of the
+continental U.S.; record warmth possible in California; Critical
+Risk of fire in the central Plains...
+
+...Snow departing Maine as damp and cloudy weather in Florida will
+be followed by slow clearing on Wednesday...
+
+...Periods of mixed rain and snow expected from the northern
+Plains to the Great Lakes the next couple of days...
+
+As the main jet stream is forecast to retreat slightly further
+north during the next couple of days, much of the continental U.S.
+will experience a gradual warm up, leading to a gradual expansion
+of above normal temperatures from west to east.  Mild and dry
+conditions across the northern/central Plains today will be
+replaced by slightly cooler air on Wednesday behind a cold front,
+but milder than normal conditions for early February persists.
+Fire danger is forecast to be at critical levels over a good
+portion of the central Plains through tonight due to gusty
+downslope winds and dry conditions.  By Wednesday, the focus of
+warm weather will shift to the immediate coastal areas of
+California where high temperatures are forecast to climb into the
+mid to upper 80s in parts of southern California.  These
+temperatures will challenge high temperature records for the day.
+In advance of this anomalous February heat, an Excessive Heat
+Watch that includes the Los Angeles metro area has been issued
+from late Wednesday into Friday.  The West Coast is not the only
+region expected to see temperatures resembling more like spring
+rather than winter.  Even much of the eastern U.S. will witness
+high temperatures reaching into the 50s and 60s over the
+Mid-Atlantic, which are levels normally seen in March.
+
+Precipitation-wise, snow associated with a quick-hitting coastal
+storm that has already resulted in more than a foot of snow across
+interior northern New England is expected to taper off by
+Wednesday morning as the storm moves further away into the
+Canadian Maritimes.  Farther south, the Sunshine State will see
+more widespread showers and plenty of clouds through tonight.
+Drier conditions along with sunshine are forecast to progress from
+north to south across the state on Wednesday.  Elsewhere, a low
+pressure system is tracking slowly through southern Canada through
+tonight and then across the Great Lakes on Wednesday.  Periods of
+snow and mixed precipitation at some locations are likely across
+these areas through Wednesday.  The heaviest snowfall is expected
+to be confined to areas along the northern coast of Michigan's
+Upper Peninsula where there will be a little more lake
+enhancement.  Some rain and snow showers are forecast to make
+their way across the central Appalachians  Wednesday night into
+Thursday morning followed by New England on Thursday.  Meanwhile,
+an upper level disturbance diving south through the northern High
+Plains on Wednesday will produce periods of snow in the Black
+Hills and central Rockies.  By Thursday, a developing clipper low
+pressure system dipping through the Canadian prairies is forecast
+to bring another round of light to moderate snow into the upper
+Midwest as mild and dry weather once again expands eastward from
+the northern High Plains.
+
+Kong/Mullinax
+
+
+Graphics are available at
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/basicwx/basicwx_ndfd.php__;!!DZ3fjg!tr62m7yOUXHPzEzmXLmiYrdTOcO_D148OdZ_QcLYOwZk8P4se8TORCqq8WIRe-98BrdWgCrR$
+$$
+
+
+------------------------------
+Message-ID: <10>
+Date: Tue, 8 Feb 2022 20:29:50 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 082028
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+327 PM EST Tue Feb 08 2022
+
+Valid 12Z Fri Feb 11 2022 - 12Z Tue Feb 15 2022
+
+...Weather Pattern Overview...
+
+Guidance continues to advertise persistence of an amplified East
+Pacific/West Coast upper ridge and downstream mean trough through
+the weekend, followed by a significant pattern change early next
+week as a trough initially tracking across the North Pacific drops
+into the West ahead of a newly building Pacific upper ridge.  This
+evolution will ultimately lead to a flatter trend for downstream
+flow, with the initial western ridge migrating through the
+western/central U.S. and the eastern trough departing from the
+East Coast by next Tuesday.  The forecast pattern will tend to
+favor below-average coverage and intensity of precipitation over
+the lower 48.  Parts of the West will see well above normal
+temperatures late this week into the weekend before a cooling
+trend while some areas farther to the east may see some notable
+temperature swings over the course of the period.
+
+...Guidance Evaluation/Predictability Assessment...
+
+Models and ensembles agree on the large scale pattern evolution
+but embedded detail uncertainties persist.  These issues involve
+specifics of initial upper trough energy crossing the eastern half
+of the country/eventual western Atlantic surface development,
+upstream energy dropping into the mean trough/associated surface
+pattern, and distribution/timing of North Pacific shortwave energy
+expected to push into the West next week.  Thus far the consensus
+indicates that the eastern trough aloft will remain sufficiently
+open to keep a potential western Atlantic system far enough
+offshore not to bring meaningful precipitation to the Mid-Atlantic
+and Northeast around Sunday-Monday.  However a minority of
+ensemble members could still suggest a lingering low-end potential
+for moisture to extend farther westward.  Meanwhile models have
+been varying considerably for specifics of the surface pattern
+over the central/eastern U.S. behind this system.  At least the
+06Z GFS/GEFS and 00Z ECMWF/ECMWF mean runs arrived at similar
+ideas for the next wave so their scenario provides the most likely
+option at this time.  Operational model runs have also been
+erratic with the details of Pacific energy coming into the West.
+Again the aforementioned models/means showed reasonable agreement
+in principle, bringing an open shortwave into the West, while
+individual stray runs such as the 00Z CMC pulled off a low
+offshore.  The 00Z ECMWF could be a little too amplified though.
+The new 12Z CMC has adjusted to the model/mean consensus and the
+12Z ECMWF has toned down its trough amplitude.
+
+Based on the guidance comparisons through 06Z data, an operational
+model blend with greater emphasis on the 06Z GFS/00Z ECMWF
+transitioned to a model/mean mix among the GFS/ECMWF and their
+respective means.  Maintaining continuity, QPF stayed closer to
+the operational model scenario near the East Coat around
+Sunday-Monday.  PoPs represented a compromise between the wetter
+ensemble means and fairly dry operational guidance.
+
+...Weather Highlights/Threats...
+
+A strong but progressive clipper type low pressure system will
+cross the northern Great Lakes on Friday and then track into
+northern New England/eastern Canada by Saturday, spreading snow
+across the Great Lakes and mostly light rain farther south and
+east.  Expect breezy to windy conditions across the Upper Midwest
+and Great Lakes region as this low moves through the region.
+Parts of the Plains/Rockies could also see a brief period of brisk
+winds as a couple cold fronts push southward.  Trailing Canadian
+surface high pressure dropping southward across the central U.S.
+will deliver dry conditions to much of the nation for the upcoming
+weekend.  It appears likely that low pressure will develop off the
+East Coast Sunday-Monday but the system is likely to be far enough
+offshore to keep most of the precipitation and wind away from
+land.  The upper trough and leading front reaching the West early
+next week should bring an area of precipitation (mostly light to
+moderate) and possibly strengthening winds to the region.
+Coverage and timing of rain and mountain snow will depend on
+system details that remain somewhat uncertain.
+
+A majority of the West will see above normal temperatures from
+late this week through the weekend.  Expect the warmest anomalies
+(plus 10-15F and locally higher) to be centered over and near
+California where high temperatures may challenge or exceed daily
+record values.  Then the upper trough/leading cold front moving
+into the West early next week will bring a cooling trend,
+ultimately leading to highs within a few degrees F on either side
+of normal by next Tuesday.  Farther to the east, the Plains should
+see plus 10-20F anomalies for max and/or min temperatures on
+Friday.  Frontal passage will bring a brief cooler period during
+the weekend followed by temperatures rebounding to 5-20F above
+normal early next week.  The eastern U.S. will see its warmest
+temperatures of the period Friday-Saturday ahead of the
+approaching front.  Plus 5-15F anomalies will be common and parts
+of the Northeast could see lows 20F or more above normal on one or
+both days.  The cold surge behind the front will reach the
+Mississippi Valley by Saturday and then continue toward the East
+Coast, leading to one or more days of max/min readings of 10-20F
+below normal with coldest anomalies tending to focus over the
+northern half of the East.
+
+Rausch/Hamrick
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!qGV2s_c4rUbvJvBV8ruEu8PAD317zzLdWlNWYI93N7qQJMOG_-S6R4jWpo1n2ZDv497t991N$
+
+Hazards:
+- Heavy precipitation across portions of the Alaska Panhandle,
+Fri-Sat, Feb 11-Feb 12.
+- Much below normal temperatures across portions of mainland
+Alaska, Fri-Mon, Feb 11-Feb 14.
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!qGV2s_c4rUbvJvBV8ruEu8PAD317zzLdWlNWYI93N7qQJMOG_-S6R4jWpo1n2ZDv429o3_bQ$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!qGV2s_c4rUbvJvBV8ruEu8PAD317zzLdWlNWYI93N7qQJMOG_-S6R4jWpo1n2ZDv44gbAbl7$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!qGV2s_c4rUbvJvBV8ruEu8PAD317zzLdWlNWYI93N7qQJMOG_-S6R4jWpo1n2ZDv4yHtqsVK$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!qGV2s_c4rUbvJvBV8ruEu8PAD317zzLdWlNWYI93N7qQJMOG_-S6R4jWpo1n2ZDv4_4oBykH$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!qGV2s_c4rUbvJvBV8ruEu8PAD317zzLdWlNWYI93N7qQJMOG_-S6R4jWpo1n2ZDv496BHqAC$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!qGV2s_c4rUbvJvBV8ruEu8PAD317zzLdWlNWYI93N7qQJMOG_-S6R4jWpo1n2ZDv4xWXyX0h$
+
+$$
+
+
+$$
+
+
+------------------------------
+Message-ID: <11>
+Date: Tue, 8 Feb 2022 20:29:51 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+284
+FXUS02 KWBC 082028
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+327 PM EST Tue Feb 08 2022
+
+Valid 12Z Fri Feb 11 2022 - 12Z Tue Feb 15 2022
+
+...Weather Pattern Overview...
+
+Guidance continues to advertise persistence of an amplified East
+Pacific/West Coast upper ridge and downstream mean trough through
+the weekend, followed by a significant pattern change early next
+week as a trough initially tracking across the North Pacific drops
+into the West ahead of a newly building Pacific upper ridge.  This
+evolution will ultimately lead to a flatter trend for downstream
+flow, with the initial western ridge migrating through the
+western/central U.S. and the eastern trough departing from the
+East Coast by next Tuesday.  The forecast pattern will tend to
+favor below-average coverage and intensity of precipitation over
+the lower 48.  Parts of the West will see well above normal
+temperatures late this week into the weekend before a cooling
+trend while some areas farther to the east may see some notable
+temperature swings over the course of the period.
+
+...Guidance Evaluation/Predictability Assessment...
+
+Models and ensembles agree on the large scale pattern evolution
+but embedded detail uncertainties persist.  These issues involve
+specifics of initial upper trough energy crossing the eastern half
+of the country/eventual western Atlantic surface development,
+upstream energy dropping into the mean trough/associated surface
+pattern, and distribution/timing of North Pacific shortwave energy
+expected to push into the West next week.  Thus far the consensus
+indicates that the eastern trough aloft will remain sufficiently
+open to keep a potential western Atlantic system far enough
+offshore not to bring meaningful precipitation to the Mid-Atlantic
+and Northeast around Sunday-Monday.  However a minority of
+ensemble members could still suggest a lingering low-end potential
+for moisture to extend farther westward.  Meanwhile models have
+been varying considerably for specifics of the surface pattern
+over the central/eastern U.S. behind this system.  At least the
+06Z GFS/GEFS and 00Z ECMWF/ECMWF mean runs arrived at similar
+ideas for the next wave so their scenario provides the most likely
+option at this time.  Operational model runs have also been
+erratic with the details of Pacific energy coming into the West.
+Again the aforementioned models/means showed reasonable agreement
+in principle, bringing an open shortwave into the West, while
+individual stray runs such as the 00Z CMC pulled off a low
+offshore.  The 00Z ECMWF could be a little too amplified though.
+The new 12Z CMC has adjusted to the model/mean consensus and the
+12Z ECMWF has toned down its trough amplitude.
+
+Based on the guidance comparisons through 06Z data, an operational
+model blend with greater emphasis on the 06Z GFS/00Z ECMWF
+transitioned to a model/mean mix among the GFS/ECMWF and their
+respective means.  Maintaining continuity, QPF stayed closer to
+the operational model scenario near the East Coat around
+Sunday-Monday.  PoPs represented a compromise between the wetter
+ensemble means and fairly dry operational guidance.
+
+...Weather Highlights/Threats...
+
+A strong but progressive clipper type low pressure system will
+cross the northern Great Lakes on Friday and then track into
+northern New England/eastern Canada by Saturday, spreading snow
+across the Great Lakes and mostly light rain farther south and
+east.  Expect breezy to windy conditions across the Upper Midwest
+and Great Lakes region as this low moves through the region.
+Parts of the Plains/Rockies could also see a brief period of brisk
+winds as a couple cold fronts push southward.  Trailing Canadian
+surface high pressure dropping southward across the central U.S.
+will deliver dry conditions to much of the nation for the upcoming
+weekend.  It appears likely that low pressure will develop off the
+East Coast Sunday-Monday but the system is likely to be far enough
+offshore to keep most of the precipitation and wind away from
+land.  The upper trough and leading front reaching the West early
+next week should bring an area of precipitation (mostly light to
+moderate) and possibly strengthening winds to the region.
+Coverage and timing of rain and mountain snow will depend on
+system details that remain somewhat uncertain.
+
+A majority of the West will see above normal temperatures from
+late this week through the weekend.  Expect the warmest anomalies
+(plus 10-15F and locally higher) to be centered over and near
+California where high temperatures may challenge or exceed daily
+record values.  Then the upper trough/leading cold front moving
+into the West early next week will bring a cooling trend,
+ultimately leading to highs within a few degrees F on either side
+of normal by next Tuesday.  Farther to the east, the Plains should
+see plus 10-20F anomalies for max and/or min temperatures on
+Friday.  Frontal passage will bring a brief cooler period during
+the weekend followed by temperatures rebounding to 5-20F above
+normal early next week.  The eastern U.S. will see its warmest
+temperatures of the period Friday-Saturday ahead of the
+approaching front.  Plus 5-15F anomalies will be common and parts
+of the Northeast could see lows 20F or more above normal on one or
+both days.  The cold surge behind the front will reach the
+Mississippi Valley by Saturday and then continue toward the East
+Coast, leading to one or more days of max/min readings of 10-20F
+below normal with coldest anomalies tending to focus over the
+northern half of the East.
+
+Rausch/Hamrick
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.php__;!!DZ3fjg!uzifRyC-XbjfS1Yc6_y4Jpe2lLhIPvrbDXlstBli_dUGGFTb8xX4PS7Ke5kZWWKzY0yiCQKM$
+
+Hazards:
+- Heavy precipitation across portions of the Alaska Panhandle,
+Fri-Sat, Feb 11-Feb 12.
+- Much below normal temperatures across portions of mainland
+Alaska, Fri-Mon, Feb 11-Feb 14.
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_wbg.gif__;!!DZ3fjg!uzifRyC-XbjfS1Yc6_y4Jpe2lLhIPvrbDXlstBli_dUGGFTb8xX4PS7Ke5kZWWKzY0rGw7Dp$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg_conus.gif__;!!DZ3fjg!uzifRyC-XbjfS1Yc6_y4Jpe2lLhIPvrbDXlstBli_dUGGFTb8xX4PS7Ke5kZWWKzY2-OQjfN$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gridsbody.html__;!!DZ3fjg!uzifRyC-XbjfS1Yc6_y4Jpe2lLhIPvrbDXlstBli_dUGGFTb8xX4PS7Ke5kZWWKzYyOlS1H4$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml__;!!DZ3fjg!uzifRyC-XbjfS1Yc6_y4Jpe2lLhIPvrbDXlstBli_dUGGFTb8xX4PS7Ke5kZWWKzY_gzkB6q$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf_medr.php?day=4__;!!DZ3fjg!uzifRyC-XbjfS1Yc6_y4Jpe2lLhIPvrbDXlstBli_dUGGFTb8xX4PS7Ke5kZWWKzY-xRva8K$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml__;!!DZ3fjg!uzifRyC-XbjfS1Yc6_y4Jpe2lLhIPvrbDXlstBli_dUGGFTb8xX4PS7Ke5kZWWKzYzLspgf-$
+
+$$
+
+
+$$
+
+
+------------------------------
+Message-ID: <12>
+Date: Wed, 9 Feb 2022 00:50:44 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+119
+FPUS20 KWBN 090050
+SCS01
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 1 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 PM EST TUE FEB 08 2022
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 PM EST
+
+                                FORECAST        FORECAST
+                 TUE...FEB 08   WED....FEB 09   THU....FEB 10
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+ABILENE TX       32  67         SUNNY   30/65   PTCLDY  35/66
+AKRON CANTON     19  29   .02   RNSNOW  27/42   SNOSHW  29/35
+ALBANY NY        33  37         SUNNY   20/40   RNSNOW  30/43
+ALBUQUERQUE      23  53         SUNNY   26/51   SUNNY   26/53
+ALLENTOWN        24  38   .01   SUNNY   22/46   MOCLDY  30/47
+AMARILLO         21  63         SUNNY   27/62   PTCLDY  30/56
+ANCHORAGE        22  33   .07   SNOW    23/25   PTCLDY  17/22
+ASHEVILLE        30  49         SUNNY   27/55   SUNNY   30/55
+ATLANTA          35  55         SUNNY   34/61   SUNNY   39/63
+ATLANTIC CITY    35  46   .33   SUNNY   25/46   PTCLDY  33/53
+AUSTIN           25  66         SUNNY   37/67   SUNNY   37/69
+BALTIMORE        31  47   .03   SUNNY   27/52   SUNNY   35/53
+BATON ROUGE      34  63         SUNNY   36/65   SUNNY   40/68
+BILLINGS         38  52         WINDY   32/54   WINDY   37/59
+BIRMINGHAM       28  58         SUNNY   34/62   SUNNY   36/63
+BISMARCK         37  43         MOCLDY  27/37   RNSNOW  21/48
+BOISE            19  39         PTCLDY  23/44   PTCLDY  25/45
+BOSTON           36  42   .88   SUNNY   26/40   MOCLDY  32/48
+BRIDGEPORT       36  46   .28   SUNNY   25/42   MOCLDY  31/47
+BROWNSVILLE      50  70         SUNNY   41/71   MOCLDY  49/72
+BUFFALO          29  31   .01   SHWRS   21/43   SNOSHW  32/37
+BURLINGTON VT    23  33         PTCLDY  18/38   RNSNOW  32/39
+CARIBOU          24  33   .47   SNOSHW  23/34   SNOSHW  23/36
+CASPER           20  47         MOCLDY  27/49   WINDY   30/50
+CHARLESTON SC    44  52   .02   SUNNY   35/62   SUNNY   39/66
+CHARLESTON WV    23  45         PTCLDY  31/57   MOCLDY  35/47
+CHARLOTTE        33  56         SUNNY   31/57   SUNNY   35/61
+CHATTANOOGA      28  56         SUNNY   31/60   SUNNY   35/60
+CHEYENNE         33  45         WINDY   26/45   WINDY   27/50
+CHICAGO          18  37         SNOSHW  30/38   MOCLDY  24/30
+CINCINNATI       15  45         MOCLDY  34/47   MOCLDY  30/40
+CLEVELAND        21  30         RNSNOW  28/41   SNOSHW  30/35
+COLORADO SPGS    27  51         PTCLDY  20/49   SUNNY   22/51
+COLUMBIA SC      41  53         PTCLDY  32/60   SUNNY   37/66
+COLUMBUS GA      39  60         SUNNY   32/63   SUNNY   36/66
+COLUMBUS OH      17  33         SHWRS   30/43   MOCLDY  31/36
+
+
+$$
+
+
+------------------------------
+Message-ID: <13>
+Date: Wed, 9 Feb 2022 00:50:49 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+341
+FPUS20 KWBN 090050
+SCS02
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 2 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 PM EST TUE FEB 08 2022
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 PM EST
+
+                                FORECAST        FORECAST
+                 TUE...FEB 08   WED....FEB 09   THU....FEB 10
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+CONCORD NH       27  40   .45   SUNNY   20/39   SHWRS   24/44
+CORPUS CHRISTI   35  68         SUNNY   39/71   PTCLDY  43/70
+DALLAS FT WORTH  34  68         SUNNY   37/70   PTCLDY  38/69
+DAYTON           08  39         MOCLDY  34/43   MOCLDY  30/35
+DAYTONA BEACH    50  54   .25   PTCLDY  46/64   SUNNY   43/66
+DENVER           34  50         MOCLDY  24/49   PTCLDY  24/55
+DES MOINES       21  47         MOCLDY  31/41   SUNNY   20/39
+DETROIT          19  27         SNOSHW  25/38   MOCLDY  28/33
+DULUTH           09  33         SNOW    23/26   SNOW    03/27
+EL PASO          25  61         SUNNY   34/63   SUNNY   35/62
+ELKINS           20  39         PTCLDY  21/55   SNOW    30/42
+ERIE             27  28   .18   RNSNOW  24/42   SNOSHW  31/35
+EUGENE           35  47         PTCLDY  34/56   PTCLDY  36/54
+EVANSVILLE       21  49         MOCLDY  34/49   PTCLDY  28/43
+FAIRBANKS       B12  06         SNOSHW B09/02B  VRYCLD B15/03B
+FARGO            16  38         MOCLDY  19/25   SNOW    03/38
+FLAGSTAFF        13  53         SUNNY   20/54   SUNNY   24/52
+FLINT            21  29         SNOSHW  25/37   MOCLDY  25/31
+FORT SMITH       28  65         SUNNY   34/64   MOCLDY  35/61
+FORT WAYNE       05  31         MOCLDY  29/36   MOCLDY  25/30
+FRESNO           41  71         SUNNY   40/71   SUNNY   42/74
+GOODLAND         31  54         PTCLDY  25/53   SUNNY   29/56
+GRAND JUNCTION   20  47         PTCLDY  21/46   SUNNY   25/48
+GRAND RAPIDS     20  32   .01   RNSNOW  29/36   MOCLDY  27/30
+GREAT FALLS      30  52         MOCLDY  32/50   WINDY   35/55
+GREEN BAY        16  37         SNOSHW  30/39   MOCLDY  18/27
+GREENSBORO       32  52         SUNNY   28/55   SUNNY   32/56
+HARRISBURG       25  39         SUNNY   23/49   PTCLDY  33/48
+HARTFORD SPGFLD  34  45   .20   SUNNY   23/42   MOCLDY  30/48
+HELENA           33  45         MOCLDY  31/45   PTCLDY  30/51
+HONOLULU         70  83         PTCLDY  68/84   PTCLDY  67/83
+HOUSTON INTCNTL  34  65         SUNNY   38/69   SUNNY   40/70
+HUNTSVILLE AL    25  55         SUNNY   32/61   SUNNY   34/59
+INDIANAPOLIS     08  45         MOCLDY  32/41   MOCLDY  26/34
+JACKSON MS       25  61         SUNNY   33/65   SUNNY   35/69
+JACKSONVILLE     46  54   .52   SUNNY   38/64   SUNNY   36/67
+JUNEAU           35  43  1.00   RAIN    40/42   RNSNOW  34/38
+KANSAS CITY      29  61         PTCLDY  33/56   SUNNY   28/50
+KEY WEST         68  79         SHWRS   65/75   PTCLDY  63/74
+KNOXVILLE        25  51         SUNNY   30/57   SUNNY   34/55
+LAKE CHARLES     33  63         SUNNY   37/66   SUNNY   41/68
+LANSING          21  32         RNSNOW  26/38   MOCLDY  28/32
+LAS VEGAS        42  73         SUNNY   45/72   SUNNY   49/71
+LEXINGTON        18  49         PTCLDY  34/51   PTCLDY  30/44
+
+
+$$
+
+
+------------------------------
+Message-ID: <14>
+Date: Wed, 9 Feb 2022 01:00:03 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+687
+FPUS20 KWBN 090050
+SCS03
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 3 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 PM EST TUE FEB 08 2022
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 PM EST
+
+                                FORECAST        FORECAST
+                 TUE...FEB 08   WED....FEB 09   THU....FEB 10
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+LINCOLN          32  63         PTCLDY  33/54   SUNNY   22/51
+LITTLE ROCK      32  64         SUNNY   36/63   MOCLDY  36/61
+LOS ANGELES      52  79         SUNNY   58/87   SUNNY   55/89
+LOUISVILLE       23  55         PTCLDY  37/53   PTCLDY  30/46
+LUBBOCK          26  68         SUNNY   24/65   PTCLDY  29/60
+MACON            37  57         SUNNY   31/64   SUNNY   35/68
+MADISON          18  38         RNSNOW  30/37   MOCLDY  18/27
+MEDFORD          28  61         SUNNY   26/65   SUNNY   31/71
+MEMPHIS          26  58         SUNNY   37/61   PTCLDY  35/57
+MIAMI BEACH      67  82   .05   SHWRS   63/73   SHWRS   59/75
+MIDLAND ODESSA   24  64         SUNNY   30/64   SUNNY   31/66
+MILWAUKEE        21  42         RNSNOW  31/38   MOCLDY  22/29
+MPLS ST PAUL     12  43         CLOUDY  31/33   SNOW    09/36
+MISSOULA         25  45         MOCLDY  29/41   MOCLDY  29/45
+MOBILE           34  61         SUNNY   32/65   SUNNY   38/66
+MONTGOMERY       31  61         SUNNY   31/64   SUNNY   35/67
+NASHVILLE        24  58         PTCLDY  36/60   PTCLDY  34/55
+NEW ORLEANS      44  59         SUNNY   39/62   SUNNY   42/64
+NEW YORK CITY    35  45   .12   SUNNY   28/46   MOCLDY  33/50
+NEWARK           35  46   .08   SUNNY   28/47   MOCLDY  32/52
+NORFOLK VA       37  47   .23   SUNNY   31/53   SUNNY   36/59
+NORTH PLATTE     19  59         PTCLDY  24/54   PTCLDY  24/58
+OKLAHOMA CITY    29  65         SUNNY   31/65   PTCLDY  36/59
+OMAHA            29  60         MOCLDY  33/49   SUNNY   23/48
+ORLANDO          52  58   .26   MOCLDY  48/68   SUNNY   44/70
+PADUCAH          30  52         PTCLDY  34/53   PTCLDY  29/48
+PENDLETON        32  57         SUNNY   36/56   SUNNY   35/60
+PEORIA           18  42         MOCLDY  28/40   PTCLDY  21/32
+PHILADELPHIA     34  44   .02   SUNNY   29/49   PTCLDY  35/52
+PHOENIX          47  76         SUNNY   48/78   SUNNY   50/80
+PITTSBURGH       20  30         MOCLDY  23/45   SNOW    32/36
+POCATELLO        06  33         FOG     15/33   MOCLDY  17/37
+PORTLAND ME      32  38   .59   SUNNY   24/38   SHWRS   29/42
+PORTLAND OR      37  47         MOCLDY  36/56   PTCLDY  37/55
+PROVIDENCE       36  45  1.16   SUNNY   26/41   PTCLDY  32/49
+PUEBLO           23  55         PTCLDY  18/54   SUNNY   22/56
+RALEIGH DURHAM   34  50   .04   SUNNY   29/56   SUNNY   35/60
+RAPID CITY       32  52         SHWRS   31/48   MOCLDY  27/58
+RENO             26  62         SUNNY   29/59   SUNNY   31/61
+RICHMOND         31  51   .01   SUNNY   27/58   SUNNY   35/60
+ROANOKE          26  51         SUNNY   28/56   SUNNY   35/53
+ROCHESTER NY     26  31   .02   SHWRS   19/45   SNOSHW  32/39
+ROCKFORD         18  40         SNOSHW  29/38   MOCLDY  21/29
+SACRAMENTO       36  69         SUNNY   39/73   SUNNY   45/73
+ST LOUIS         27  59         PTCLDY  34/51   SUNNY   27/43
+ST PETERSBURG    54  56   .31   PTCLDY  52/64   SUNNY   52/67
+ST THOMAS VI     72  83         SHWRS   72/85   SHWRS   73/82
+
+
+$$
+
+
+------------------------------
+Message-ID: <15>
+Date: Wed, 9 Feb 2022 01:00:11 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+109
+FPUS20 KWBN 090050
+SCS04
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 4 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 PM EST TUE FEB 08 2022
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 PM EST
+
+                                FORECAST        FORECAST
+                 TUE...FEB 08   WED....FEB 09   THU....FEB 10
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+SALEM OR         35  51         PTCLDY  36/56   PTCLDY  37/55
+SALT LAKE CITY   26  47         PTCLDY  28/45   PTCLDY  27/45
+SAN ANGELO       25  68         SUNNY   29/66   SUNNY   32/67
+SAN ANTONIO      32  66         SUNNY   39/69   SUNNY   39/69
+SAN DIEGO        44  76         SUNNY   52/81   SUNNY   53/79
+SAN FRANCISCO    45  71         SUNNY   49/71   SUNNY   50/74
+SAN JOSE         38  74         SUNNY   43/75   SUNNY   45/78
+SAN JUAN PR      71  82   .20   SHWRS   73/85   SHWRS   74/84
+SANTA FE         18  51         PTCLDY  19/46   SUNNY   20/48
+ST STE MARIE     15  29   .01   SNOSHW  22/32   MOCLDY  16/25
+SAVANNAH         44  55   .08   SUNNY   34/63   SUNNY   38/67
+SEATTLE          40  47         MOCLDY  41/51   MOCLDY  41/50
+SHREVEPORT       28  67         SUNNY   38/68   SUNNY   41/69
+SIOUX CITY       23  61         WINDY   32/45   PTCLDY  19/49
+SIOUX FALLS      26  57         WINDY   31/38   SNOW    15/45
+SOUTH BEND       12  32         RNSNOW  28/35   SNOW    25/29
+SPOKANE          30  43         MOCLDY  29/40   MOCLDY  30/43
+SPRINGFIELD IL   19  50         MOCLDY  30/41   PTCLDY  22/34
+SPRINGFIELD MO   28  56         SUNNY   30/55   PTCLDY  29/51
+SYRACUSE         19  35         MOCLDY  18/43   SHWRS   35/41
+TALLAHASSEE      46  54   .03   SUNNY   32/64   SUNNY   35/68
+TAMPA            54  56   .28   PTCLDY  50/66   SUNNY   46/69
+TOLEDO           20  28         CLOUDY  28/38   SNOSHW  29/33
+TOPEKA           25  61         SUNNY   34/59   SUNNY   30/51
+TUCSON           44  73         SUNNY   41/75   SUNNY   40/76
+TULSA            37  67         SUNNY   34/64   MOCLDY  36/59
+TUPELO           28  61         SUNNY   36/63   SUNNY   35/63
+WACO             25  68         SUNNY   34/70   SUNNY   34/71
+WASHINGTON DC    31  50   .03   SUNNY   31/54   SUNNY   38/56
+W PALM BEACH     66  78         SHWRS   60/70   PTCLDY  55/72
+WICHITA          23  62         SUNNY   29/62   PTCLDY  31/57
+WICHITA FALLS    33  68         SUNNY   31/67   PTCLDY  34/66
+WILKES BARRE     28  33         SUNNY   22/45   MOCLDY  33/44
+WILMINGTON DE    31  44   .03   SUNNY   26/48   PTCLDY  32/52
+YAKIMA           26  47         PTCLDY  31/52   PTCLDY  31/54
+YOUNGSTOWN       23  28         RNSNOW  24/41   SNOSHW  30/35
+YUMA             49  78         SUNNY   51/80   SUNNY   52/82
+
+NATIONAL TEMPERATURE EXTREMES
+
+HIGH TUE...87 AT ANAHEIM CA
+
+LOW  TUE...19 BELOW ZERO AT ANGEL FIRE NM
+
+
+$$
+
+
+------------------------------
+Message-ID: <16>
+Date: Wed, 9 Feb 2022 07:42:36 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 2 Fire Weather Outlook
+
+FNUS22 KWNS 090742
+FWDDY2
+
+Day 2 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0141 AM CST Wed Feb 09 2022
+
+Valid 101200Z - 111200Z
+
+...NO CRITICAL AREAS...
+
+...Synopsis...
+Broad northwesterly mid-level flow will persist across the central
+U.S. as one embedded 500 mb trough ejects into the Atlantic and a
+second trough approaches from the northern Rockies/Plains
+tomorrow/Thursday. Given the northward displacement of the upper
+trough and accompanying surface cold front in the north-central
+U.S., a relative lull in the more substantial wildfire-spread
+potential is likely across the central Plains into the southern High
+Plains, with modestly dry conditions but overall weaker surface flow
+expected.
+
+Surface high pressure will also remain in place across the Interior
+West, with Elevated to Critically dry and breezy surface conditions
+persisting across southern California. However, marginally receptive
+fuels should limit widespread significant wildfire-spread potential.
+
+..Squitieri.. 02/09/2022
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!unrNImo1zeH5V9jGeMygAGuCzwBZzm-cBrBVVUfGsxQXsU8qm9uonH3Hc7-UupBxLz6nqH2M$
+for graphic product...
+
+$$
+
+
+------------------------------
+
+*********************************************
+
+End of wx-natnl Digest Wed, 09 Feb 2022
+

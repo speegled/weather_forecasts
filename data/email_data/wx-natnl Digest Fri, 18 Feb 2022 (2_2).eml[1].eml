@@ -1,0 +1,911 @@
+Delivered-To: darrinmspeegle@gmail.com
+Received: by 2002:a05:6a10:27b0:0:0:0:0 with SMTP id ia48csp1210594pxb;
+        Fri, 18 Feb 2022 04:00:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxXzIZnc2POLCazr88irgMpyBwO9AUxFCexMXmsWGeHsgp9ldNABNuM3GrmYeskbFgdg5Md
+X-Received: by 2002:a81:5c83:0:b0:2d2:c136:70f3 with SMTP id q125-20020a815c83000000b002d2c13670f3mr7600953ywb.404.1645185643333;
+        Fri, 18 Feb 2022 04:00:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1645185643; cv=none;
+        d=google.com; s=arc-20160816;
+        b=W5oiaI0nrDF8bx7tBX9CnRuNPcg0XzyRvJDoXsK97+sCSefSmeKpvz/9VeG1JcIbLp
+         WTGxikxWoP5EoXFSi8FNIgiY7kR+natO+ATSNyS74FcHrJLVoCGqtx0X7XJNMiYhbNoK
+         UhIvu5+AqMfivy04w01r83dm0rgTEyA5wXT9FcimMKr38rZOPFrUmitHOGcnqEFX2OgV
+         HijY7lmDKvBpsjvIS8ubScLNTIZ4lD0+r5vMCEET15Mu2AFOHxNa0icN8dEK/VnpvV3R
+         5GRJ1nIV8y3nGxZzupDwh+nlEyZb5FVHJjZfDlD6z6+gn6viwm1SzcSblWWr/c+D0CIA
+         NR/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:reply-to:to:from:auto-submitted:content-transfer-encoding
+         :mime-version:date:message-id:dkim-signature;
+        bh=dSP14SlOm03givRx9yiB42ndA3AoFCeAY5U602KBMX0=;
+        b=H5t/L30/Ka3BS8F5MqMkw5i8jPxG1qasY0e8tlq19d6sf+Q3H0uaLjo0Z6gBV/omwc
+         W2ESnsCxic/Jt5g4gVAv3nx4Yoy4xGYooFnVLF0cgalFqHnSTLj5aveorm0xNdHeYtnY
+         9Lqkdwzqn7cnlE7OJ13WIWlFuHvnm+OKYExroC1b/yoNHpjKu3LMz6V5NeaiOVa9n+qW
+         b0KwK+3ZEtHs8md3f9+2IVZOrmN5+QoWgZ+Mord3XSQdaRMsdtxjsg2n2QxnR4I1MWOE
+         b4Wvj7ea2iZQYNut3ebVTYgnTLJoCIBTvqDpgk9Eq9xNKOqLdybozd+Q/1HySXLHaOBy
+         FY0Q==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=IQN7TvIJ;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Return-Path: <wx-natnl-owner@lists.illinois.edu>
+Received: from mx0a-00007101.pphosted.com (mx0a-00007101.pphosted.com. [148.163.135.28])
+        by mx.google.com with ESMTPS id m127si2770634ywd.522.2022.02.18.04.00.42
+        for <darrinmspeegle@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 18 Feb 2022 04:00:43 -0800 (PST)
+Received-SPF: pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) client-ip=148.163.135.28;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=IQN7TvIJ;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.135.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Received: from pps.filterd (m0166257.ppops.net [127.0.0.1])
+	by mx0a-00007101.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 21IARgZV001917
+	for <darrinmspeegle@gmail.com>; Fri, 18 Feb 2022 12:00:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=message-id : date :
+ mime-version : content-type : content-transfer-encoding : from : to :
+ reply-to : subject; s=campusrelays;
+ bh=dSP14SlOm03givRx9yiB42ndA3AoFCeAY5U602KBMX0=;
+ b=IQN7TvIJ18BdyCCBe0jl7wqfn1du4qaCbtjP6EHLdM8ioEYAlCXqKvuhG1gr7kPJiJKs
+ 7NNlQ1gMZ2gMFJMQM3SwvI4AwSErSBlXAVWJ+JGvNtHSx1SOwDYgVfRmDonbyis5EUEH
+ bx6BMpvgGXqd3cMpBTI8oPjIUcSO8B25sr8Srhiv9QMa4A0ve8tA9g6ReC+bDhSjySCV
+ LvSRF2Qu5hDFmALVb2TNEC2WNBoTYpWZz+g+PNygDd/H47HasImyUjLDNLB+QcMvmjTm
+ MS+uS0Bj1og2q6jPEinDEPGQRA6E69qOkkCkElu4Rzi8J7AtWAabor3pTHd4JtD/ljSZ Gw== 
+Received: from lists.illinois.edu (lists.illinois.edu [192.17.172.63])
+	by mx0a-00007101.pphosted.com (PPS) with ESMTP id 3ea0cqu82e-24
+	for <darrinmspeegle@gmail.com>; Fri, 18 Feb 2022 12:00:41 +0000
+Received: by lists.illinois.edu (Postfix, from userid 50033)
+	id 76477E25B0; Fri, 18 Feb 2022 06:00:41 -0600 (CST)
+Message-Id: <sympa.1645185640.112669.766@lists.illinois.edu>
+Date: Fri, 18 Feb 2022 06:00:40 -0600
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Auto-Submitted: auto-forwarded
+From: wx-natnl-request@lists.illinois.edu
+To: wx-natnl@lists.illinois.edu
+Reply-to: wx-natnl-request@lists.illinois.edu
+Subject: wx-natnl Digest Fri, 18 Feb 2022 (2/2)
+X-Mailer: Sympa 6.1.23
+X-Proofpoint-GUID: ELjcLlJ5Eph3OJ0kACn8RnpFYKZWI0Iw
+X-Proofpoint-ORIG-GUID: ELjcLlJ5Eph3OJ0kACn8RnpFYKZWI0Iw
+X-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0
+ suspectscore=0 mlxlogscore=999 clxscore=1031 bulkscore=0 impostorscore=0
+ phishscore=0 malwarescore=0 adultscore=0 spamscore=0 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2201110000 definitions=main-2202180077
+X-Spam-Score: 0
+X-Spam-OrigSender: wx-natnl-owner@lists.illinois.edu
+X-Spam-Bar:
+MIME-Version: 1.0
+
+wx-natnl Digest Fri, 18 Feb 2022
+
+Table of contents:
+
+* 26 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 27 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 28 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 29 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 30 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 31 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 32 - FIRE: Day 1 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 33 - FIRE: Day 2 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 34 - OUTLOOK: Short Range Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+
+----------------------------------------------------------------------
+
+Message-ID: <26>
+Date: Fri, 18 Feb 2022 07:13:31 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+757
+FXUS02 KWBC 180712
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+212 AM EST Fri Feb 18 2022
+
+Valid 12Z Mon Feb 21 2022 - 12Z Fri Feb 25 2022
+
+...Early-mid next week heavy snow threat from the central Great
+Basin/Rockies to the northern plains/Upper Midwest and northern
+Northeast...
+
+...Heavy rain/runoff threat from the Lower Mississippi/Tennessee
+Valleys to the Mid-Atlantic Monday-Friday, with a heavy snow/ice
+threat from the southern plains and Mid-Mississippi/Ohio Valleys
+to the Northeast Wednesday-Friday as an early week central U.S.
+Arctic surge spreads eastward...
+
+
+...Pattern Overview...
+
+An active weather pattern will develop next week as upper troughs
+dig over a cooling West and as ejecting energies and induced
+frontal waves progress downstream over a Canadian high pressure
+cooled central to eastern U.S. and a warming Southeast/East upper
+ridge.
+
+
+...Guidance Evaluation/Predictability Assessment...
+
+Models and ensembles offer a quite similar mid-larger scale flow
+evolution next week in a pattern with above normal predictability.
+A composite of overall well clustered guidance from the
+GFS/ECMWF/UKMET/Canadian and GEFS/ECMWF ensemble means along with
+the National Blend of Models provides a seemingly good forecast
+basis that tends to mitigate lingering smaller scale system
+variances while maintaining good WPC product continuity.
+
+
+...Weather Highlights/Threats...
+
+Moderate to heavy mountain snows are likely to focus early to mid
+next week across the Great Basin and Rockies as ample trough
+energies dig into a amplified western U.S. trough position. A wavy
+front on the leading edge of an Arctic surge set to dig through
+the Northern Rockies and central U.S. early next week with have
+upper support to favor a swath of heavy snow from the northern
+plains/Upper Midwest to the northern Northeast. Meanwhile, ample
+upper energies working downstream from the West next week will
+also act to induce waves along a lead front and tap deepening
+moisture from the Gulf of Mexico moisture. This is expected to
+fuel a heavy rain and runoff threat from the Lower
+Mississippi/Tennessee Valleys to the Mid-Atlantic starting early
+next week along with potential for re-development along the
+wavy/slowed trailing front later next week. This may also support
+a heavy snow/ice threat from the southern plains and
+Mid-Mississippi/Ohio Valleys to the Northeast Wednesday-Friday as
+the early week central U.S. Arctic blast spreads eastward. Expect
+a few record cold temps over the northern Rockies/plains to
+starkly contrast a few record warm pre-frontal temperatures under
+the Southeast/East upper ridge.
+
+Schichtel
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.p=
+hp__;!!DZ3fjg!orEJzsyRI_46jEVGIl4kyyNLJRy5lPmZDup1hxXp32v72JaaCsAM_rAojdvt-=
+mip6GcixLzF$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_=
+wbg.gif__;!!DZ3fjg!orEJzsyRI_46jEVGIl4kyyNLJRy5lPmZDup1hxXp32v72JaaCsAM_rAo=
+jdvt-mip6PXtmb6k$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg=
+_conus.gif__;!!DZ3fjg!orEJzsyRI_46jEVGIl4kyyNLJRy5lPmZDup1hxXp32v72JaaCsAM_=
+rAojdvt-mip6IBh8h5H$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gri=
+dsbody.html__;!!DZ3fjg!orEJzsyRI_46jEVGIl4kyyNLJRy5lPmZDup1hxXp32v72JaaCsAM=
+_rAojdvt-mip6FPlVHma$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml_=
+_;!!DZ3fjg!orEJzsyRI_46jEVGIl4kyyNLJRy5lPmZDup1hxXp32v72JaaCsAM_rAojdvt-mip=
+6Nv86-3B$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf=
+_medr.php?day=3D4__;!!DZ3fjg!orEJzsyRI_46jEVGIl4kyyNLJRy5lPmZDup1hxXp32v72J=
+aaCsAM_rAojdvt-mip6F_EBVnd$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml_=
+_;!!DZ3fjg!orEJzsyRI_46jEVGIl4kyyNLJRy5lPmZDup1hxXp32v72JaaCsAM_rAojdvt-mip=
+6EvtrRjP$
+
+$$
+
+
+$$
+
+
+------------------------------
+Message-ID: <27>
+Date: Fri, 18 Feb 2022 07:13:30 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 180712
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+212 AM EST Fri Feb 18 2022
+
+Valid 12Z Mon Feb 21 2022 - 12Z Fri Feb 25 2022
+
+...Early-mid next week heavy snow threat from the central Great
+Basin/Rockies to the northern plains/Upper Midwest and northern
+Northeast...
+
+...Heavy rain/runoff threat from the Lower Mississippi/Tennessee
+Valleys to the Mid-Atlantic Monday-Friday, with a heavy snow/ice
+threat from the southern plains and Mid-Mississippi/Ohio Valleys
+to the Northeast Wednesday-Friday as an early week central U.S.
+Arctic surge spreads eastward...
+
+
+...Pattern Overview...
+
+An active weather pattern will develop next week as upper troughs
+dig over a cooling West and as ejecting energies and induced
+frontal waves progress downstream over a Canadian high pressure
+cooled central to eastern U.S. and a warming Southeast/East upper
+ridge.
+
+
+...Guidance Evaluation/Predictability Assessment...
+
+Models and ensembles offer a quite similar mid-larger scale flow
+evolution next week in a pattern with above normal predictability.
+A composite of overall well clustered guidance from the
+GFS/ECMWF/UKMET/Canadian and GEFS/ECMWF ensemble means along with
+the National Blend of Models provides a seemingly good forecast
+basis that tends to mitigate lingering smaller scale system
+variances while maintaining good WPC product continuity.
+
+
+...Weather Highlights/Threats...
+
+Moderate to heavy mountain snows are likely to focus early to mid
+next week across the Great Basin and Rockies as ample trough
+energies dig into a amplified western U.S. trough position. A wavy
+front on the leading edge of an Arctic surge set to dig through
+the Northern Rockies and central U.S. early next week with have
+upper support to favor a swath of heavy snow from the northern
+plains/Upper Midwest to the northern Northeast. Meanwhile, ample
+upper energies working downstream from the West next week will
+also act to induce waves along a lead front and tap deepening
+moisture from the Gulf of Mexico moisture. This is expected to
+fuel a heavy rain and runoff threat from the Lower
+Mississippi/Tennessee Valleys to the Mid-Atlantic starting early
+next week along with potential for re-development along the
+wavy/slowed trailing front later next week. This may also support
+a heavy snow/ice threat from the southern plains and
+Mid-Mississippi/Ohio Valleys to the Northeast Wednesday-Friday as
+the early week central U.S. Arctic blast spreads eastward. Expect
+a few record cold temps over the northern Rockies/plains to
+starkly contrast a few record warm pre-frontal temperatures under
+the Southeast/East upper ridge.
+
+Schichtel
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.p=
+hp__;!!DZ3fjg!tad_WV0vJqYeRDCBO6KM9vXBlnZz1mh5P4qiwUZTeu89zT9hA-0QB3YAyXzxs=
+b-PDyxf1HVD$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_=
+wbg.gif__;!!DZ3fjg!tad_WV0vJqYeRDCBO6KM9vXBlnZz1mh5P4qiwUZTeu89zT9hA-0QB3YA=
+yXzxsb-PD3HqaUMU$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg=
+_conus.gif__;!!DZ3fjg!tad_WV0vJqYeRDCBO6KM9vXBlnZz1mh5P4qiwUZTeu89zT9hA-0QB=
+3YAyXzxsb-PDxolPHm1$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gri=
+dsbody.html__;!!DZ3fjg!tad_WV0vJqYeRDCBO6KM9vXBlnZz1mh5P4qiwUZTeu89zT9hA-0Q=
+B3YAyXzxsb-PD7Tg2nCv$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml_=
+_;!!DZ3fjg!tad_WV0vJqYeRDCBO6KM9vXBlnZz1mh5P4qiwUZTeu89zT9hA-0QB3YAyXzxsb-P=
+DzAvthQd$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf=
+_medr.php?day=3D4__;!!DZ3fjg!tad_WV0vJqYeRDCBO6KM9vXBlnZz1mh5P4qiwUZTeu89zT=
+9hA-0QB3YAyXzxsb-PD4ug9eV2$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml_=
+_;!!DZ3fjg!tad_WV0vJqYeRDCBO6KM9vXBlnZz1mh5P4qiwUZTeu89zT9hA-0QB3YAyXzxsb-P=
+DzciNUjz$
+
+$$
+
+
+$$
+
+
+------------------------------
+Message-ID: <28>
+Date: Fri, 18 Feb 2022 07:20:24 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 180720
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+219 AM EST Fri Feb 18 2022
+
+Valid 12Z Mon Feb 21 2022 - 12Z Fri Feb 25 2022
+
+...Early-mid next week heavy snow threat from the central Great
+Basin/Rockies to the northern plains/Upper Midwest and northern
+Northeast...
+
+...Heavy rain/runoff threat from the Lower Mississippi/Tennessee
+Valleys to the Mid-Atlantic Monday-Friday, with a heavy snow/ice
+threat from the southern plains and Mid-Mississippi/Ohio Valleys
+to the Northeast Wednesday-Friday as an early week central U.S.
+Arctic Blast spreads eastward...
+
+
+...Pattern Overview...
+
+An active weather pattern will develop next week as upper troughs
+dig over a cooling West and as ejecting energies and induced
+frontal waves progress downstream over a Canadian high pressure
+cooled central to eastern U.S. and a warming Southeast/East upper
+ridge.
+
+
+...Guidance Evaluation/Predictability Assessment...
+
+Models and ensembles offer a quite similar mid-larger scale flow
+evolution next week in a pattern with above normal predictability.
+A composite of overall well clustered guidance from the
+GFS/ECMWF/UKMET/Canadian and GEFS/ECMWF ensemble means along with
+the National Blend of Models provides a seemingly good forecast
+basis that tends to mitigate lingering smaller scale system
+variances while maintaining good WPC product continuity.
+
+
+...Weather Highlights/Threats...
+
+Moderate to heavy mountain snows are likely to focus early to mid
+next week across the cooling West/Rockies as potent trough
+energies dig into an amplified western U.S. upper trough position.
+A wavy front on the leading edge of a cold surge set to dig into
+the central U.S. early-mid next week will have upper support to
+favor a swath of heavy snow from the northern plains/Upper Midwest
+to the northern Northeast. Meanwhile, ample upper energies working
+downstream from the West next week will also act to induce waves
+along a lead front and tap deepening moisture from the Gulf of
+Mexico moisture. This is expected to fuel a heavy rain and runoff
+threat from the Lower Mississippi/Tennessee Valleys to the
+Mid-Atlantic starting early next week along with potential for
+re-development along the wavy/slowed trailing front later next
+week. This may also support a heavy snow/ice threat from the
+southern plains and Mid-Mississippi/Ohio Valleys to a cold air
+dammed Northeast Wednesday-Friday as the early week central U.S.
+Arctic surge spreads eastward. Some record cold temps developing
+into the West and over the Plains will starkly contrast record
+warm pre-frontal temperatures under the Southeast/East upper ridge.
+
+Schichtel
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.p=
+hp__;!!DZ3fjg!toMY7Aj5r8FbOnsNLn_C7ErM_MNNJAYt8H76jyEuIB-bPMmPiRhNIWvONIErG=
+-Wpe59hcDNL$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_=
+wbg.gif__;!!DZ3fjg!toMY7Aj5r8FbOnsNLn_C7ErM_MNNJAYt8H76jyEuIB-bPMmPiRhNIWvO=
+NIErG-Wpe8lQiS8N$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg=
+_conus.gif__;!!DZ3fjg!toMY7Aj5r8FbOnsNLn_C7ErM_MNNJAYt8H76jyEuIB-bPMmPiRhNI=
+WvONIErG-Wpe67Cdccj$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gri=
+dsbody.html__;!!DZ3fjg!toMY7Aj5r8FbOnsNLn_C7ErM_MNNJAYt8H76jyEuIB-bPMmPiRhN=
+IWvONIErG-WpezHLkfiI$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml_=
+_;!!DZ3fjg!toMY7Aj5r8FbOnsNLn_C7ErM_MNNJAYt8H76jyEuIB-bPMmPiRhNIWvONIErG-Wp=
+ewwKp5FR$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf=
+_medr.php?day=3D4__;!!DZ3fjg!toMY7Aj5r8FbOnsNLn_C7ErM_MNNJAYt8H76jyEuIB-bPM=
+mPiRhNIWvONIErG-Wpe3OgavAV$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml_=
+_;!!DZ3fjg!toMY7Aj5r8FbOnsNLn_C7ErM_MNNJAYt8H76jyEuIB-bPMmPiRhNIWvONIErG-Wp=
+ex1FIlEI$
+
+$$
+
+
+$$
+
+
+------------------------------
+Message-ID: <29>
+Date: Fri, 18 Feb 2022 07:20:24 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+991
+FXUS02 KWBC 180720
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+219 AM EST Fri Feb 18 2022
+
+Valid 12Z Mon Feb 21 2022 - 12Z Fri Feb 25 2022
+
+...Early-mid next week heavy snow threat from the central Great
+Basin/Rockies to the northern plains/Upper Midwest and northern
+Northeast...
+
+...Heavy rain/runoff threat from the Lower Mississippi/Tennessee
+Valleys to the Mid-Atlantic Monday-Friday, with a heavy snow/ice
+threat from the southern plains and Mid-Mississippi/Ohio Valleys
+to the Northeast Wednesday-Friday as an early week central U.S.
+Arctic Blast spreads eastward...
+
+
+...Pattern Overview...
+
+An active weather pattern will develop next week as upper troughs
+dig over a cooling West and as ejecting energies and induced
+frontal waves progress downstream over a Canadian high pressure
+cooled central to eastern U.S. and a warming Southeast/East upper
+ridge.
+
+
+...Guidance Evaluation/Predictability Assessment...
+
+Models and ensembles offer a quite similar mid-larger scale flow
+evolution next week in a pattern with above normal predictability.
+A composite of overall well clustered guidance from the
+GFS/ECMWF/UKMET/Canadian and GEFS/ECMWF ensemble means along with
+the National Blend of Models provides a seemingly good forecast
+basis that tends to mitigate lingering smaller scale system
+variances while maintaining good WPC product continuity.
+
+
+...Weather Highlights/Threats...
+
+Moderate to heavy mountain snows are likely to focus early to mid
+next week across the cooling West/Rockies as potent trough
+energies dig into an amplified western U.S. upper trough position.
+A wavy front on the leading edge of a cold surge set to dig into
+the central U.S. early-mid next week will have upper support to
+favor a swath of heavy snow from the northern plains/Upper Midwest
+to the northern Northeast. Meanwhile, ample upper energies working
+downstream from the West next week will also act to induce waves
+along a lead front and tap deepening moisture from the Gulf of
+Mexico moisture. This is expected to fuel a heavy rain and runoff
+threat from the Lower Mississippi/Tennessee Valleys to the
+Mid-Atlantic starting early next week along with potential for
+re-development along the wavy/slowed trailing front later next
+week. This may also support a heavy snow/ice threat from the
+southern plains and Mid-Mississippi/Ohio Valleys to a cold air
+dammed Northeast Wednesday-Friday as the early week central U.S.
+Arctic surge spreads eastward. Some record cold temps developing
+into the West and over the Plains will starkly contrast record
+warm pre-frontal temperatures under the Southeast/East upper ridge.
+
+Schichtel
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.p=
+hp__;!!DZ3fjg!p7Krh47EpWqo7bkuoAoplfy26bMlLAcSCKExnmBJiwRS-qygK2CHQIGlP8jHt=
+aMbcrP2_c_a$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_=
+wbg.gif__;!!DZ3fjg!p7Krh47EpWqo7bkuoAoplfy26bMlLAcSCKExnmBJiwRS-qygK2CHQIGl=
+P8jHtaMbckaUxqDW$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg=
+_conus.gif__;!!DZ3fjg!p7Krh47EpWqo7bkuoAoplfy26bMlLAcSCKExnmBJiwRS-qygK2CHQ=
+IGlP8jHtaMbcszfTapp$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gri=
+dsbody.html__;!!DZ3fjg!p7Krh47EpWqo7bkuoAoplfy26bMlLAcSCKExnmBJiwRS-qygK2CH=
+QIGlP8jHtaMbcu6raYi8$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml_=
+_;!!DZ3fjg!p7Krh47EpWqo7bkuoAoplfy26bMlLAcSCKExnmBJiwRS-qygK2CHQIGlP8jHtaMb=
+cqzrsnCN$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf=
+_medr.php?day=3D4__;!!DZ3fjg!p7Krh47EpWqo7bkuoAoplfy26bMlLAcSCKExnmBJiwRS-q=
+ygK2CHQIGlP8jHtaMbckT-JSk3$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml_=
+_;!!DZ3fjg!p7Krh47EpWqo7bkuoAoplfy26bMlLAcSCKExnmBJiwRS-qygK2CHQIGlP8jHtaMb=
+clfV9XyU$
+
+$$
+
+
+$$
+
+
+------------------------------
+Message-ID: <30>
+Date: Fri, 18 Feb 2022 07:24:55 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 180724
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+224 AM EST Fri Feb 18 2022
+
+Valid 12Z Fri Feb 18 2022 - 12Z Sun Feb 20 2022
+
+...A strong winter storm will impact the Great Lakes and Northeast
+on Friday...
+
+...Moderate snow for Midwest on Friday...
+
+...Pockets of rain/freezing rain from parts of the Ohio Valley to
+the Northeast on Friday...
+
+A front extending from the Lower Great Lakes/Northeast
+southwestward to the Central Gulf Coast will move eastward off the
+East Coast by Friday evening. The system will produce showers and
+thunderstorms over the Central Gulf Coast to rain along most of
+the East Coast to snow and rain/freezing rain from the Ohio Valley
+to the Northeast. On Friday, the strong winter storm will impact
+the Great Lakes to Northern New England, producing wintry hazards
+of moderate to heavy snow, sleet, and freezing rain. A swath of
+moderate snow is expected across far northern New York and
+northern Maine by Friday morning, with the highest snowfall totals
+likely just north of the Canadian border. The combination of wet
+snow and strong, gusty winds will lead to reduced visibility and
+hazardous travel conditions, particularly for untreated roads. A
+corridor of light freezing rain and sleet are likely just to the
+south of the heavy snow axis, with more than 0.1 inches of
+freezing rain likely for portions of northern New York. Some
+impacts to travel and power are possible in these areas.
+Temperatures are expected to drop quickly behind the front. Any
+untreated wet surfaces could freeze quickly. The rain and snow
+will end over the Northeast by Friday evening and over the
+Mid-Atlantic/Southeast later Friday night. High wind will be
+associated with the low moving across the Northeast as High Wind
+Warnings and Wind Advisories are posted from the Northeast to the
+Mid-Atlantic through mid-morning on Friday.
+
+Meanwhile, a fast-moving area of low pressure over Western Canada
+will move into the Upper Great Lakes by Friday evening and into
+Northern New England by Saturday evening. The system will produce
+light to moderate snow over the Upper Midwest into the Upper Great
+Lakes on Friday morning into Friday evening. Along and behind this
+front, narrow bands of snow squalls are likely to move rapidly
+from northwest to southeast. These bands will be accompanied by
+heavy snowfall rates of 1=EF=BF=BD=EF=BF=BD/hr or more, gusty winds which m=
+ay
+exceed 50 mph and extremely limited visibility. This heavy snow
+and wind combination will likely create dangerous travel and
+slippery roads and may impact the evening rush hour around Duluth,
+Minneapolis, and Green Bay. In addition, temperatures are likely
+to crash rapidly behind the front leading to a rapid refreeze of
+wet roadways. This front and accompanying intense snow squalls may
+spread across Lower Michigan Friday night and into parts of the
+Northeast, Mid-Atlantic, and New England on Saturday. In addition,
+Blizzard Warnings are up over parts of the Upper Mississippi
+Valley through 6 Pm local time on Friday. Light snow will also
+develop over parts of the Northern Rockies and Northern High
+Plains ending by Friday evening. Overnight Friday, the low will
+cross Ontario, Canada, crossing into the Northeast on Saturday
+afternoon. The system will produce light snow over parts of the
+Northeast into the Central Appalachians on Saturday. The snow will
+end over the Northeast by Sunday morning.
+
+Furthermore, another area of low pressure will move along the U.
+S./Canadian border on Saturday evening into Sunday morning. As a
+result, light snow will develop along the border from Saturday
+evening into Sunday morning. Additionally, a weak front will move
+into the Pacific Northwest also on Saturday evening into Sunday
+morning. The system will produce coastal rain and higher elevation
+snow from late Saturday afternoon into Sunday.
+
+
+Ziegenfelder
+
+
+Graphics are available at
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/basicwx/basicwx_n=
+dfd.php__;!!DZ3fjg!tWsHGBuyW-dC8CAD71Lg3tyiy756zX9KEK076Wr3wlgdnW5jWGBHshIR=
+BFQMu2uv_caXXolx$
+$$
+
+
+------------------------------
+Message-ID: <31>
+Date: Fri, 18 Feb 2022 08:00:25 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 180800
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+259 AM EST Fri Feb 18 2022
+
+Valid 12Z Fri Feb 18 2022 - 12Z Sun Feb 20 2022
+
+...Pockets of rain/freezing rain from parts of the Ohio Valley to
+the Northeast on Friday...
+
+...A strong winter storm will be exiting the Northeast on Friday...
+
+...Strong winds and snow squalls expected for the Upper Midwest...
+
+A front extending from the Lower Great Lakes/Northeast
+southwestward to the Central Gulf Coast will move eastward off the
+East Coast by Friday evening. The system will produce showers and
+thunderstorms over the Central Gulf Coast to rain along most of
+the East Coast to snow and rain/freezing rain from the Ohio Valley
+to the Northeast. On Friday, the strong winter storm will impact
+the Lower Great Lakes to Northern New England, producing wintry
+hazards of moderate to heavy snow, sleet, and freezing rain. A
+swath of moderate snow is expected across far northern New York
+and northern Maine by Friday morning, with the highest snowfall
+totals likely just north of the Canadian border. The combination
+of wet snow and strong, gusty winds will lead to reduced
+visibility and hazardous travel conditions, particularly for
+untreated roads. A corridor of light freezing rain and sleet are
+likely just to the south of the heavy snow axis, with more than
+0.1 inches of freezing rain likely for portions of northern New
+York. Some impacts to travel and power are possible in these
+areas. Temperatures are expected to drop quickly behind the front.
+Any untreated wet surfaces could freeze quickly. The rain and snow
+will end over the Northeast by Friday afternoon and over the
+Mid-Atlantic/Southeast Friday night. High wind will be associated
+with the low moving across the Northeast as High Wind Warnings and
+Wind Advisories are posted from the Northeast to the Mid-Atlantic
+through mid-morning on Friday.
+
+Meanwhile, a fast-moving area of low pressure over Western Canada
+will move into the Upper Great Lakes by Friday evening and into
+Northern New England by Saturday evening. The system will produce
+light to moderate snow over the Upper Midwest into the Upper Great
+Lakes on Friday morning into Friday evening. Along and behind this
+front, narrow bands of snow squalls are likely to move rapidly
+from northwest to southeast. These bands will be accompanied by
+heavy snowfall rates of 1=EF=BF=BD=EF=BF=BD/hr or more, gusty winds which m=
+ay
+exceed 50 mph and extremely limited visibility. This heavy snow
+and wind combination will likely create dangerous travel and
+slippery roads and may impact the evening rush hour around Duluth,
+Minneapolis, and Green Bay. In addition, temperatures are likely
+to crash rapidly behind the front leading to a rapid refreeze of
+wet roadways. This front and accompanying intense snow squalls may
+spread across Lower Michigan Friday night and into parts of the
+Northeast, Mid-Atlantic, and New England on Saturday. In addition,
+Blizzard Warnings are up over parts of the Upper Mississippi
+Valley through 6 PM local time on Friday. Light snow will also
+develop over parts of the Northern Rockies and Northern High
+Plains ending by Friday evening. Overnight Friday, the low will
+cross Ontario, Canada, crossing into the Northeast on Saturday
+afternoon. The system will produce light snow over parts of the
+Northeast into the Central Appalachians on Saturday. The snow will
+end over the Northeast by Sunday morning.
+
+Furthermore, another area of low pressure will move along the U.
+S./Canadian border on Saturday evening into Sunday morning. As a
+result, light snow will develop along the border from Saturday
+evening into Sunday morning. Additionally, a weak front will move
+into the Pacific Northwest also on Saturday evening into Sunday
+morning. The system will produce coastal rain and higher elevation
+snow from late Saturday afternoon into Sunday.
+
+
+Ziegenfelder
+
+
+Graphics are available at
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/basicwx/basicwx_n=
+dfd.php__;!!DZ3fjg!t_1cw6hPThc7r0yZ-v6VG2u7g6R3f8EuCqe3_AnTnP2Xs-ADl3uws4en=
+9ncDGhISFThUzBLH$
+$$
+
+
+------------------------------
+Message-ID: <32>
+Date: Fri, 18 Feb 2022 08:00:32 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 1 Fire Weather Outlook
+
+FNUS21 KWNS 180752
+FWDDY1
+
+Day 1 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0152 AM CST Fri Feb 18 2022
+
+Valid 181200Z - 191200Z
+
+...NO CRITICAL AREAS...
+
+...Synopsis...
+Within the northwesterly flow aloft across the western 2/3 of the
+CONUS, a shortwave trough is forecast to traverse the Rockies and
+move over the Plains by early this evening. At the surface, a weak
+cold front will meander southward across the central High Plains
+with westerly downslope flow developing behind it. While dry and
+breezy conditions appear possible across portions of the High
+Plains, uncertainty remains high regarding the potential for
+sustained fire weather conditions.
+
+...High Plains...
+Westerly downslope flow will accompany a weak frontal passage early
+in the day across portions of eastern CO, southern NE, and western
+KS. 15-20 mph surface winds may briefly coincide with 25% surface RH
+within the modest downslope flow regime. However, model guidance
+shows the brunt of stronger winds will likely remain behind the
+front, displaced from the lowest surface humidity. In addition to
+concerns on the overlap of gusty winds and dry surface conditions,
+recent snowfall may limit the availability of fine fuels. As such,
+only brief, locally elevated fire weather conditions appear likely.
+Fire weather concerns should remain local in nature.
+
+..Lyons.. 02/18/2022
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!rxBNL3W=
+CvzaPbxNKlBoEpi0II5xzWwxdWqNlxkCyZ0iFPDdjgooYGh4ona61caxKFQG9g5a7$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <33>
+Date: Fri, 18 Feb 2022 08:03:48 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 2 Fire Weather Outlook
+
+FNUS22 KWNS 180755
+FWDDY2
+
+Day 2 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0154 AM CST Fri Feb 18 2022
+
+Valid 191200Z - 201200Z
+
+...Synopsis...
+Northwesterly flow aloft across the CONUS will give way to more
+zonal flow Saturday. A series of low-amplitude shortwave troughs
+will cross the Rockies, enhancing lee troughing and forcing surface
+high pressure eastward into the Ohio Valley. At the surface,
+southerly return flow will strengthen, drawing a warm and dry
+airmass northward across the Plains. Dry and breezy conditions will
+favor elevated fire weather potential across portions of the High
+Plains Saturday.
+
+...High Plains...
+Southerly surface winds will strengthen across the central and
+southern High Plains Saturday in response to a deepening lee trough
+and surface high pressure over the Ohio Valley. Efficient diurnal
+heating/mixing and downslope flow will support RH minimums of 15-20
+percent, where sustained southerly winds of 15-25 mph are expected.
+This will likely result in elevated meteorological conditions across
+a narrow strip of the central High Plains west of cooler
+temperatures and returning surface moisture. Some uncertainty exists
+regarding the availability of fine fuels across eastern CO given
+recent light snowfall. While some fuels may be impacted, finer fuels
+should recover quickly given the dry surface conditions and gusty
+winds. As such, elevated highlights had been added for the expected
+dry and breezy conditions supportive of fire weather concerns
+Saturday afternoon.
+
+...Mid-Atlantic...
+A mid-level shortwave trough and accompanying strong flow aloft will
+overspread the Mid-Atlantic with breezy/gusty westerly surface winds
+likely across parts of VA, MD, and NC. Here, temperatures will climb
+into the upper 40s to lower/middle 50s, and downslope trajectories
+off the central Appalachians, combined with diurnal heating/mixing
+could support minimum RH of 25-35 percent. Confidence is limited
+regarding the temporal overlap of the breezy surface winds and low
+RH minimums. A strong cold front will rapidly approach in the
+afternoon potentially limiting the window for sustained fire weather
+conditions. Recent precipitation may also limit fuel availability,
+but at least brief locally elevated conditions may occur within the
+drier fuels.
+
+..Lyons.. 02/18/2022
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!rEN5fmc=
+XuwzAwMM-qtH2Dn0ir5Mn3Sps3TAZPTLBlVqdYWPo7LgkFD2UFUZIFkftLFJUCMi2$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <34>
+Date: Fri, 18 Feb 2022 08:53:55 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: OUTLOOK: Short Range Forecast Discussion
+
+FXUS01 KWBC 180853
+PMDSPD
+
+Short Range Forecast Discussion
+NWS Weather Prediction Center College Park MD
+353 AM EST Fri Feb 18 2022
+
+Valid 12Z Fri Feb 18 2022 - 12Z Sun Feb 20 2022
+
+...A strong winter storm will be exiting the Northeast this
+morning...
+
+...Strong winds and snow squalls expected today and tonight for
+the Upper Midwest and Great Lakes...
+
+...Storm system to bring rain to the Pacific Northwest Sunday with
+higher elevation snowfall from the Cascades to the Northern
+Rockies...
+
+A strong winter storm will gradually be exiting the Northeast this
+morning, but not before some light snowfall accumulations and some
+light icing from freezing rain occurs across portions of northern
+New England. High winds though will be a concern this morning as
+low pressure advances across the region, and there are High Wind
+Warnings and Wind Advisories in effect through early to
+mid-morning for the Northeast and the Mid-Atlantic. Meanwhile, a
+strong cold front associated with the departing low center will
+approach the East Coast and move offshore by this afternoon. The
+front will produce showers and thunderstorms across the Southeast
+this morning with much colder and drier conditions arriving this
+afternoon behind the front.
+
+Meanwhile, a fast-moving area of low pressure and attendant cold
+front over Western Canada will move into the Upper Great Lakes
+through this evening, and into northern New England on Saturday.
+Ahead of the low center, an area of light to moderate snow is
+expected to overspread parts of the Upper Midwest and the Upper
+Great Lakes. However, along and behind the cold front, narrow
+bands of snow squalls are likely to move rapidly from northwest to
+southeast. These bands will be accompanied by heavy snowfall rates
+of 1=EF=BF=BD=EF=BF=BD/hour or more, gusty winds which may exceed 50 mph an=
+d
+extremely limited visibility. This heavy snow and wind combination
+will likely create dangerous travel and slippery roads and may
+impact the evening rush hour for several major cities including
+Duluth, Minneapolis, and Green Bay. In addition, temperatures are
+likely to crash rapidly behind the front leading to a rapid
+refreeze of any wet roadways. This front and accompanying intense
+snow squalls may spread across Lower Michigan Friday night and
+into parts of the Mid-Atlantic and Northeast on Saturday. The
+approach of this system has necessitated the issuance of Blizzard
+Warnings for parts of eastern North Dakota and northwest
+Minnesota, with Winter Weather Advisories in effect elsewhere
+across much of the Upper Midwest and Upper Great Lakes. This
+entire system will exit the Northeast by Sunday morning.
+
+Elsewhere, a storm system and associated front will arrive across
+the Pacific Northwest by Saturday evening and advance inland
+across the Northwest on Sunday. This will produce rain for the
+coastal ranges, but there will be enough cold air for heavy
+snowfall over the higher elevations of the Cascades. This heavy
+snowfall will spread east across the northern Rockies on Sunday.
+
+Ziegenfelder/Orrison
+
+Graphics are available at
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/basicwx/basicwx_n=
+dfd.php__;!!DZ3fjg!uQsPBfZAQ5fBe2Kqf76-o2dGPh0Obqm2UhuaPLnzT01NCz1RL7yIU--C=
+8V46uCq8twc250d8$
+$$
+
+
+------------------------------
+
+*********************************************
+
+End of wx-natnl Digest Fri, 18 Feb 2022
+

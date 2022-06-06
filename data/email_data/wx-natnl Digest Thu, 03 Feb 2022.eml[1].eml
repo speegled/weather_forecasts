@@ -1,0 +1,962 @@
+Delivered-To: darrinmspeegle@gmail.com
+Received: by 2002:a05:6a11:d08:0:0:0:0 with SMTP id sd8csp2238135pxb;
+        Thu, 3 Feb 2022 04:00:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVOWKycogXZ10uPxVRFrTBeaFRiGBflRhaK3dX868QMh8FYmQihOpDpsAFqqqLw6vokPs6
+X-Received: by 2002:a81:6f56:: with SMTP id k83mr3856190ywc.58.1643889633955;
+        Thu, 03 Feb 2022 04:00:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1643889633; cv=none;
+        d=google.com; s=arc-20160816;
+        b=iG5SVfyBMqtkz38BNDHz3ZA3B6ApGxomUr6VR1TGHcJyGAhSjbmOtRuLDemdS3ioP6
+         qU78+bSGD7Yt/ZMl2btxso5Q1rVXtvVuCp/GZ/UqOpOZKgYztnMqG848opUV6Zvbsuvr
+         u4/JxdBCp+8epxCDyPwF238Ad78Pn34vmcVihRA5kzHhtuTlPX68+JjDY9lmsGsFiFvO
+         XiCfB/SbHem8U0pYQwNkUpWO1zHY7oroTXU6XfxUKGR794mCasui9y1dS3c4cuTBL7Y+
+         9E08/jhU+IpTfB1evk3ldCZmRA0TfYTWKuWQl5ZnEriGU7R1Alr7PPfqUcoG8zcJs2u7
+         YHag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:reply-to:to:from:auto-submitted:content-transfer-encoding
+         :mime-version:date:message-id:dkim-signature;
+        bh=0EEpmGJNrpEWhkOPMoDz9xR09lr8IpB7Bhg1m5U6Jbs=;
+        b=pC0G1f9AbuqyWzfZO4nuvomdWT6efr8+l0AtpeRFfp5SxO+ZoxPdokteEnw5/soaMf
+         yC0o8tyicJOlQB1MTuYxhDbwXNrITFCaouuLQJKv30hetDbR/BC4/UWFkGQWSgM0Agnc
+         Zl+RRtbxUMFuyS8MwLuL9qpf3YYGB/8okI0cD1Wd5AYEkmnEfbRTFq8YCWcODMXnqMuU
+         BYWPibxGOLE0+KHwd09R4WRW6a7j3qs5YQ3+zvVs+NBSZsEeCjrdItfmCooZ/gqfSQKC
+         /Z1wAYWbRFp9RyGMkdsACLGA/vD6b0BHTBFVekcAA8v1OD6CxnSchPZpRxOD8eCpg0qo
+         dhuA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=akADfLsH;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Return-Path: <wx-natnl-owner@lists.illinois.edu>
+Received: from mx0b-00007101.pphosted.com (mx0b-00007101.pphosted.com. [148.163.139.28])
+        by mx.google.com with ESMTPS id p64si1339598ywf.303.2022.02.03.04.00.33
+        for <darrinmspeegle@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 03 Feb 2022 04:00:33 -0800 (PST)
+Received-SPF: pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) client-ip=148.163.139.28;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@illinois.edu header.s=campusrelays header.b=akADfLsH;
+       spf=pass (google.com: domain of wx-natnl-owner@lists.illinois.edu designates 148.163.139.28 as permitted sender) smtp.mailfrom=wx-natnl-owner@lists.illinois.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=illinois.edu
+Received: from pps.filterd (m0166258.ppops.net [127.0.0.1])
+	by mx0b-00007101.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 213BhWnM027636
+	for <darrinmspeegle@gmail.com>; Thu, 3 Feb 2022 12:00:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=message-id : date :
+ mime-version : content-type : content-transfer-encoding : from : to :
+ reply-to : subject; s=campusrelays;
+ bh=0EEpmGJNrpEWhkOPMoDz9xR09lr8IpB7Bhg1m5U6Jbs=;
+ b=akADfLsHcdZ7Tv9RTDTN5cBBBHC9snQqMngGeiOckbNTcKyOEYsuqHf20CXJ9CFwkpek
+ p0J8LLOOvisaKECAtXSzsyhOZ3oCp6nM7NaurNAuNBkORdgKAINx4qCzoN9v6ABxf/Sk
+ FcISCGpv8cUjoLpRQfBAq1+0mPcaOYrTGvHh1CeMVjaXm4vy+rNEO5ubndIrUXolecpg
+ HQKvNaQkDz0ZpOcrcMY9tf2lh2KlCb1IZgbR/o9qWPQasTlIYUfSGn1Hty5CebX+Jopm
+ yVovDsBydw8v9vemqXywckOHhV55GFqbtsPnWVOME90ibhbqoYG9lusDX+FWxhC3ZfBo dQ== 
+Received: from lists.illinois.edu (lists.illinois.edu [192.17.172.63])
+	by mx0b-00007101.pphosted.com (PPS) with ESMTP id 3dymgatme0-17
+	for <darrinmspeegle@gmail.com>; Thu, 03 Feb 2022 12:00:33 +0000
+Received: by lists.illinois.edu (Postfix, from userid 50033)
+	id 1CC0EE2B0F; Thu,  3 Feb 2022 06:00:33 -0600 (CST)
+Message-Id: <sympa.1643889632.49151.833@lists.illinois.edu>
+Date: Thu, 03 Feb 2022 06:00:32 -0600
+Content-Type: text/plain; charset="US-ASCII"
+Auto-Submitted: auto-forwarded
+From: wx-natnl-request@lists.illinois.edu
+To: wx-natnl@lists.illinois.edu
+Reply-to: wx-natnl-request@lists.illinois.edu
+Subject: wx-natnl Digest Thu, 03 Feb 2022
+X-Mailer: Sympa 6.1.23
+X-Proofpoint-GUID: T0rG4C8DQg-Lw5mwZiAVw-pfiBB7iTlh
+X-Proofpoint-ORIG-GUID: T0rG4C8DQg-Lw5mwZiAVw-pfiBB7iTlh
+X-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0
+ impostorscore=0 phishscore=0 adultscore=0 mlxscore=0 mlxlogscore=999
+ malwarescore=0 spamscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
+ clxscore=1031 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2201110000 definitions=main-2202030075
+X-Spam-Score: 0
+X-Spam-OrigSender: wx-natnl-owner@lists.illinois.edu
+X-Spam-Bar:
+Content-Transfer-Encoding: Quoted-printable
+MIME-Version: 1.0
+
+wx-natnl Digest Thu, 03 Feb 2022
+
+Table of contents:
+
+* 1 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 2 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 3 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 4 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 5 - FIRE: Day 1 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 6 - LONGRANGE: 3-7 Day Outlook (Automatic) - <no-reply@weather.cod.edu>
+* 7 - LONGRANGE: Extended Forecast Discussion  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 8 - FIRE: Day 2 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 9 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 10 - SELECTED: Selected Cities Outlook (Automatic) - <no-
+  reply@weather.cod.edu>
+* 11 - HAZARDS: Public Tsunami Statement-Western US - <no-
+  reply@weather.cod.edu>
+* 12 - FIRE: Day 1 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+* 13 - FIRE: Day 2 Fire Weather Outlook  - COD Weather Processor
+  <ldm@weather.cod.edu>
+
+----------------------------------------------------------------------
+
+Message-ID: <1>
+Date: Wed, 2 Feb 2022 12:51:12 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+883
+FPUS20 KWBN 021250
+SCS01
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 1 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 AM EST WED FEB 02 2022
+
+TEMPERATURES INDICATE DAYTIME HIGH...NIGHTTIME LOW
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 AM EST
+
+                                FORECAST        FORECAST
+                 TUE...FEB 01   WED....FEB 02   THU....FEB 03
+CITY             HI/LO   PCPN   WEA     HI/LO   WEA     HI/LO
+
+ABILENE TX       71  39         RNSNOW  37/14   SNOW    21/09
+AKRON CANTON     48  38         RAIN    41/27   SNOW    29/17
+ALBANY NY        36  28         MOCLDY  42/33   RNSNOW  37/23
+ALBUQUERQUE      48  38         SNOW    37/12   MOCLDY  27/09
+ALLENTOWN        38  18         MOCLDY  41/35   RAIN    42/31
+AMARILLO         47  22         SNOW    21/06   SNOW    16/01
+ANCHORAGE        18  16   .15   MOCLDY  25/21   SNOW    26/25
+ASHEVILLE        51  27         RAIN    47/41   RAIN    57/48
+ATLANTA          60  44         MOCLDY  60/52   SHWRS   70/51
+ATLANTIC CITY    38  19         MOCLDY  46/39   RAIN    50/44
+AUSTIN           66  47         SHWRS   61/30   FZRAIN  31/20
+BALTIMORE        41  21         MOCLDY  43/37   RAIN    54/36
+BATON ROUGE      63  60   .22   SHWRS   74/63   SHWRS   73/36
+BILLINGS         18  03B  .06   VRYCLD  10/00   PTCLDY  32/20
+BIRMINGHAM       67  53         SHWRS   63/59   SHWRS   69/39
+BISMARCK         08  07B        VRYCLD  01/17B  PTCLDY  17/03B
+BOISE            35  22         PTCLDY  32/23   MOCLDY  33/22
+BOSTON           35  31         CLOUDY  40/34   RAIN    44/29
+BRIDGEPORT       36  32         MOCLDY  40/32   SHWRS   44/30
+BROWNSVILLE      72  62         MOCLDY  81/55   SHWRS   57/35
+BUFFALO          45  35         RAIN    44/28   SNOW    28/16
+BURLINGTON VT    33  29         CLOUDY  40/33   SNOW    34/12
+CARIBOU          11  03         MOCLDY  34/34   SNOW    34/06
+CASPER           19  01   .02   SNOW    08/08B  WINDY   15/09
+CHARLESTON SC    61  41         MOCLDY  67/54   MOCLDY  76/60
+CHARLESTON WV    59  38         RAIN    52/46   RAIN    52/27
+CHARLOTTE        54  27         MOCLDY  58/48   RAIN    66/58
+CHATTANOOGA      62  44         SHWRS   54/49   RAIN    65/40
+CHEYENNE         24  04   .12   SNOW    09/08B  SUNNY   21/04
+CHICAGO          46  24   .16   SNOW    22/18   SNOW    23/11
+CINCINNATI       61  45         RAIN    45/29   SNOW    32/18
+CLEVELAND        48  41         RAIN    41/24   SNOW    26/15
+COLORADO SPGS    37  11   .19   SNOW    17/04B  PTCLDY  18/01B
+COLUMBIA SC      59  29         MOCLDY  63/50   MOCLDY  73/60
+COLUMBUS GA      67  48         MOCLDY  70/56   SHWRS   74/55
+COLUMBUS OH      51  31         RAIN    42/28   RNSNOW  30/16
+
+
+$$
+
+
+------------------------------
+Message-ID: <2>
+Date: Wed, 2 Feb 2022 12:51:12 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+892
+FPUS20 KWBN 021250
+SCS02
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 2 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 AM EST WED FEB 02 2022
+
+TEMPERATURES INDICATE DAYTIME HIGH...NIGHTTIME LOW
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 AM EST
+
+                                FORECAST        FORECAST
+                 TUE...FEB 01   WED....FEB 02   THU....FEB 03
+CITY             HI/LO   PCPN   WEA     HI/LO   WEA     HI/LO
+
+CONCORD NH       31  25         MOCLDY  39/30   RAIN    42/25
+CORPUS CHRISTI   73  55         SHWRS   77/43   SHWRS   46/28
+DALLAS FT WORTH  73  51         RAIN    50/20   SNOW    25/18
+DAYTON           59  46         RAIN    43/25   SNOW    27/13
+DAYTONA BEACH    70  48         PTCLDY  76/58   PTCLDY  78/61
+DENVER           30  12   .12   SNOW    15/11B  SUNNY   19/01B
+DES MOINES       36  07         MOCLDY  14/02   PTCLDY  13/01B
+DETROIT          46  37   .08   SNOW    36/19   SNOW    23/08
+DULUTH           26  09B        VRYCLD  02/21B  VRYCLD  01/12B
+EL PASO          64  52         RAIN    57/23   SNOW    33/21
+ELKINS           51  23         PTCLDY  50/40   RAIN    54/29
+ERIE             46  38         RAIN    41/25   SNOW    29/16
+EUGENE           46  38   .01   RAIN    47/39   MOCLDY  51/34
+EVANSVILLE       64  44   .50   RAIN    47/24   RNSNOW  27/18
+FAIRBANKS       B13  32B        VRYCLD B12/25B  VRYCLD B04/15B
+FARGO            13  10B        VRYCLD B05/30B  VRYCLD B03/09B
+FLAGSTAFF        42  22         PTCLDY  26/06   SUNNY   28/05
+FLINT            47  32   .20   SNOW    31/16   SNOW    20/04
+FORT SMITH       65  45   .15   RAIN    45/20   SNOW    25/16
+FORT WAYNE       51  36   .03   SNOW    35/18   SNOW    21/07
+FRESNO           55  37         SUNNY   56/33   SUNNY   58/35
+GOODLAND         35  10   .03   SNOW    14/06B  PTCLDY  14/00
+GRAND JUNCTION   38  18         SUNNY   32/06   PTCLDY  31/09
+GRAND RAPIDS     46  28   .24   SNOW    29/15   SNOW    21/04
+GREAT FALLS      08  20B  .12   VRYCLD  10/01   BLGSNO  30/18
+GREEN BAY        42  13         MOCLDY  16/02   PTCLDY  13/02B
+GREENSBORO       48  25         MOCLDY  55/45   RAIN    60/58
+HARRISBURG       41  22         MOCLDY  44/36   RAIN    46/31
+HARTFORD SPGFLD  34  29         MOCLDY  42/32   RAIN    44/30
+HELENA           18  07B  .04   PTCLDY  11/01B  MOCLDY  30/14
+HONOLULU         83  69         SUNNY   81/67   SUNNY   81/67
+HOUSTON INTCNTL  67  54         SHWRS   75/42   SHWRS   48/29
+HUNTSVILLE AL    64  50   .01   SHWRS   57/52   SHWRS   64/34
+INDIANAPOLIS     59  42   .08   RAIN    43/22   SNOW    24/11
+JACKSON MS       67  53   .10   SHWRS   69/59   TSTRMS  69/31
+JACKSONVILLE     69  43         MOCLDY  73/55   PTCLDY  75/60
+JUNEAU           24  21   .32   RNSNOW  28/28   SNOW    33/33
+KANSAS CITY      48  17   .09   SNOW    21/08   MOCLDY  20/02
+KEY WEST         72  67         SHWRS   77/71   PTCLDY  79/72
+KNOXVILLE        62  33         SHWRS   53/46   RAIN    62/36
+LAKE CHARLES     74  60   .01   SHWRS   75/53   SHWRS   64/35
+LANSING          50  33   .34   SNOW    31/15   SNOW    20/04
+LAS VEGAS        59  40         WINDY   49/32   SUNNY   52/34
+LEXINGTON        60  41   .12   RAIN    48/38   FZRAIN  39/20
+
+
+$$
+
+
+------------------------------
+Message-ID: <3>
+Date: Wed, 2 Feb 2022 12:52:03 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+206
+FPUS20 KWBN 021250
+SCS03
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 3 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 AM EST WED FEB 02 2022
+
+TEMPERATURES INDICATE DAYTIME HIGH...NIGHTTIME LOW
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 AM EST
+
+                                FORECAST        FORECAST
+                 TUE...FEB 01   WED....FEB 02   THU....FEB 03
+CITY             HI/LO   PCPN   WEA     HI/LO   WEA     HI/LO
+
+LINCOLN          38  14         CLOUDY  20/02B  SUNNY   19/02
+LITTLE ROCK      70  56   .01   RAIN    58/28   RNSNOW  30/22
+LOS ANGELES      63  46         SUNNY   66/42   SUNNY   66/45
+LOUISVILLE       65  46   .07   RAIN    51/33   RNSNOW  33/22
+LUBBOCK          56  32         SNOW    31/11   SNOW    19/06
+MACON            67  43         MOCLDY  70/54   MOCLDY  77/60
+MADISON          44  11         MOCLDY  16/03   PTCLDY  13/02B
+MEDFORD          47  31         FOG     51/29   PTCLDY  53/23
+MEMPHIS          70  52   .41   SHWRS   59/31   FZRAIN  37/24
+MIAMI BEACH      75  67         PTCLDY  77/68   PTCLDY  79/69
+MIDLAND ODESSA   68  39         RAIN    38/14   SNOW    24/08
+MILWAUKEE        46  20         SNOW    21/11   SNOW    19/11
+MPLS ST PAUL     25  01B        VRYCLD  06/10B  VRYCLD  03/09B
+MISSOULA         27  05   .05   MOCLDY  14/07   SNOW    29/19
+MOBILE           68  58   .06   SHWRS   67/61   SHWRS   72/44
+MONTGOMERY       70  46         SHWRS   70/61   SHWRS   74/48
+NASHVILLE        67  48   .14   RAIN    56/45   RAIN    53/26
+NEW ORLEANS      70  62   .24   SHWRS   73/63   SHWRS   75/41
+NEW YORK CITY    36  32         MOCLDY  40/35   SHWRS   44/32
+NEWARK           35  24         MOCLDY  42/37   SHWRS   47/33
+NORFOLK VA       41  33         MOCLDY  50/40   MOCLDY  64/54
+NORTH PLATTE     34  09         CLOUDY  15/02B  PTCLDY  22/04
+OKLAHOMA CITY    63  28         SNOW    27/10   SNOW    17/08
+OMAHA            37  14         CLOUDY  19/00   SUNNY   18/05
+ORLANDO          75  50         SUNNY   79/58   PTCLDY  82/63
+PADUCAH          66  47   .64   RAIN    48/24   RNSNOW  27/19
+PENDLETON        44  27   .02   MOCLDY  34/29   MOCLDY  43/28
+PEORIA           50  19   .71   SNOW    20/13   SNOW    20/03
+PHILADELPHIA     40  25         MOCLDY  46/39   RAIN    50/39
+PHOENIX          70  52         SUNNY   62/39   SUNNY   60/39
+PITTSBURGH       47  29         RAIN    44/33   RAIN    37/22
+POCATELLO        23  10         MOCLDY  16/02   MOCLDY  20/07
+PORTLAND ME      27  25         SHWRS   38/33   RAIN    42/22
+PORTLAND OR      47  41   .03   RAIN    43/40   RAIN    48/37
+PROVIDENCE       34  31         CLOUDY  41/34   RAIN    46/32
+PUEBLO           41  16   .04   SNOW    21/02B  PTCLDY  20/03B
+RALEIGH DURHAM   52  25         PTCLDY  59/43   SHWRS   69/60
+RAPID CITY       22  00         SNOW    06/02B  SUNNY   30/10
+RENO             41  18         SUNNY   40/20   SUNNY   47/20
+RICHMOND         48  25         PTCLDY  53/38   RAIN    63/55
+ROANOKE          43  22         PTCLDY  49/38   RAIN    53/47
+ROCHESTER NY     39  33         RAIN    43/28   SNOW    29/16
+ROCKFORD         43  19   .01   SNOW    20/10   MOCLDY  18/03
+SACRAMENTO       59  41         WINDY   61/37   PTCLDY  59/35
+ST LOUIS         63  25   .81   SNOW    26/17   SNOW    21/09
+ST PETERSBURG    70  58         SUNNY   76/63   SUNNY   78/66
+ST THOMAS VI     83  74         SHWRS   83/72   SHWRS   82/70
+
+
+$$
+
+
+------------------------------
+Message-ID: <4>
+Date: Wed, 2 Feb 2022 12:52:19 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+442
+FPUS20 KWBN 021250
+SCS04
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 4 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 AM EST WED FEB 02 2022
+
+TEMPERATURES INDICATE DAYTIME HIGH...NIGHTTIME LOW
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 AM EST
+
+                                FORECAST        FORECAST
+                 TUE...FEB 01   WED....FEB 02   THU....FEB 03
+CITY             HI/LO   PCPN   WEA     HI/LO   WEA     HI/LO
+
+SALEM OR         46  41   .02   RAIN    46/40   RAIN    50/36
+SALT LAKE CITY   33  22   .04   SNOW    29/14   SUNNY   31/16
+SAN ANGELO       73  44         SLEET   42/17   SNOW    24/12
+SAN ANTONIO      72  51         SHWRS   62/33   FZRAIN  35/21
+SAN DIEGO        63  48         SUNNY   67/41   SUNNY   63/42
+SAN FRANCISCO    60  53         WINDY   60/45   PTCLDY  60/44
+SAN JOSE         62  44         SUNNY   62/36   PTCLDY  63/39
+SAN JUAN PR      83  72   .02   SHWRS   83/74   SHWRS   80/73
+SANTA FE         45  25   .01   SNOW    29/05   MOCLDY  23/02
+ST STE MARIE     42  22         SNOSHW  21/02   VRYCLD  10/11B
+SAVANNAH         65  44         MOCLDY  69/56   MOCLDY  76/60
+SEATTLE          45  35         RNSNOW  42/39   RAIN    47/41
+SHREVEPORT       71  59   .08   CLOUDY  68/38   RAIN    41/29
+SIOUX CITY       30  07         MOCLDY  14/04B  SUNNY   18/02
+SIOUX FALLS      25  01B        VRYCLD  09/09B  SUNNY   13/04
+SOUTH BEND       46  30   .50   SNOW    29/17   SNOW    21/04
+SPOKANE          34  16         MOCLDY  22/19   MOCLDY  32/27
+SPRINGFIELD IL   52  21    MM   SNOW    23/16   SNOW    21/06
+SPRINGFIELD MO   63  26  1.74   SLEET   26/11   SNOW    19/07
+SYRACUSE         39  31         MOCLDY  42/32   RNSNOW  33/17
+TALLAHASSEE      68  46         PTCLDY  73/55   PTCLDY  75/60
+TAMPA            76  57         SUNNY   80/62   SUNNY   82/65
+TOLEDO           48  38   .04   SNOW    38/21   SNOW    24/09
+TOPEKA           47  18   .20   SNOW    21/06   PTCLDY  20/02
+TUCSON           66  50         PTCLDY  61/27   SUNNY   56/31
+TULSA            61  31   .15   SNOW    30/13   SNOW    20/09
+TUPELO           70  51   .33   SHWRS   60/43   SHWRS   60/29
+WACO             71  50         RAIN    53/23   RNSNOW  29/19
+WASHINGTON DC    44  29         MOCLDY  46/40   RAIN    57/38
+W PALM BEACH     73  67         PTCLDY  77/67   PTCLDY  78/66
+WICHITA          49  20   .29   SNOW    20/07   MOCLDY  18/02
+WICHITA FALLS    71  34         RNSNOW  36/12   SNOW    22/09
+WILKES BARRE     37  24         MOCLDY  42/36   RAIN    40/27
+WILMINGTON DE    40  22         MOCLDY  45/38   RAIN    51/38
+YAKIMA           42  23         MOCLDY  32/22   MOCLDY  36/26
+YOUNGSTOWN       45  33         RAIN    40/27   SNOW    30/17
+YUMA             72  54         DUST    61/42   SUNNY   62/40
+
+NATIONAL TEMPERATURE EXTREMES
+
+HIGH TUE...86 AT FALCON LAKE TX
+
+LOW  WED...27 BELOW ZERO AT WILLOW CITY ND
+
+
+$$
+
+
+------------------------------
+Message-ID: <5>
+Date: Wed, 2 Feb 2022 15:54:44 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 1 Fire Weather Outlook
+
+FNUS21 KWNS 021554
+FWDDY1
+
+Day 1 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0953 AM CST Wed Feb 02 2022
+
+Valid 021700Z - 031200Z
+
+...NO CRITICAL AREAS...
+
+No changes will be made to the ongoing forecast. Fire weather
+concerns are low, see the previous discussion.
+
+..Lyons.. 02/02/2022
+
+.PREV DISCUSSION... /ISSUED 0113 AM CST Wed Feb 02 2022/
+
+...Synopsis...
+A broad mid-level trough will eject into the Plains states today,
+reinforcing the southward surge of cold and/or wintry conditions
+across the central and southern CONUS, limiting the threat for
+wildfire development. Critical meteorological surface conditions are
+expected to accompany a strong offshore flow event across southern
+California, as surface high pressure intensifies across the Interior
+West. However, fuels remain poorly receptive to fire spread across
+southern California, precluding fire weather highlights.
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!sS8XyRL=
+JJDEY9_Ooa0o-mE31N9K0tZvMlqtAL8HqycPcJVVk1dEISJqQvRHpYBhyI4LoAXYH$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <6>
+Date: Wed, 2 Feb 2022 18:27:22 +0000
+From: <no-reply@weather.cod.edu>
+Subject: LONGRANGE: 3-7 Day Outlook (Automatic)
+
+678
+FXUS02 KWBC 021827
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+126 PM EST Wed Feb 02 2022
+
+Valid 12Z Sat Feb 05 2022 - 12Z Wed Feb 09 2022
+
+...Overview...
+
+The medium range period starts out Saturday with broad troughing
+across much of the CONUS, sandwiched between a building east
+Pacific ridge and a retreating ridge into the west-central
+Atlantic. Within the mean flow to begin the period, multiple
+northern-stream shortwaves should be present -- one exiting the
+Northeast, another weakening over the Deep South, and a third
+diving into the northern Rockies. The last shortwave should
+amplify by early next week with a positively tilted trough
+stretched from the Great Lakes to the Southern Plains, which is
+forecast to translate eastward and initiate modest cyclogenesis
+off the East Coast. Meanwhile, strong ridging will build in across
+the West before dropping southward as the next shortwave moves
+across the northern tier by the midweek.
+
+...Guidance Evaluation/Predictability Assessment...
+
+The latest suite of models and ensembles continue to show enough
+agreement for a general deterministic model blend for the day 3-4
+(Saturday-Sunday) time period. Afterwards, growing shortwave
+timing and phasing differences between the northern and southern
+streams over the Southwest U.S. and northern Plains prompted a
+mean ensemble approach to the forecast, which maintained decent
+continuity with the overnight medium range forecast.
+
+...Weather Highlights/Threats...
+
+Much of the CONUS should be uneventful and mostly dry through
+early next week at least in terms of any notable weather threats.
+Periodic shower activity is possible across the Southeast
+associated with an offshore frontal wave to close out the weekend.
+However, continued guidance differences leads to low confidence in
+the coverage and amounts of precipitation over the region. Enough
+cold air however does offer the potential for some swaths of
+wintry weather on the inland northwest periphery of any kind of
+surface low development off the east coast, with the best
+potential for any kind of light activity on Sunday over the
+Carolinas or southern Mid-Atlantic. Elsewhere, northern tier
+systems will bring periods of light and scattered snow from the
+upper Midwest to Great Lakes while mostly light rain/mountain snow
+should accompany a couple of systems brushing the Pacific
+Northwest and northern Rockies.
+
+Much below normal temperatures, with daytime highs as much as 10
+to 20 degrees below normal, will continue through the weekend
+across parts of Texas, with less extreme, but still below normal,
+values extending eastward to the East Coast. Single digit lows
+over the Southern Plains could challenge a few longstanding
+records on Saturday. After Sunday, temperatures across this region
+should moderate back towards normal. A welcome relief from the
+cold in the short range period, the northern to central Plains
+should remain above normal through the entire medium range period,
+with the warmest anomalies (+20-25F) during the first half of next
+week as upper level ridging moves in. Meanwhile, the western U.S.
+should trend warmer as well under the influence of eastern Pacific
+ridging making its way onshore.
+
+Asherman/Santorelli
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.p=
+hp__;!!DZ3fjg!oxcdEdrGIrqfwlh8K_q832PUo9I3lw153QTLjvkHdxvmEnlHVj55nuxe5D4m9=
+xLk-713IAuM$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_=
+wbg.gif__;!!DZ3fjg!oxcdEdrGIrqfwlh8K_q832PUo9I3lw153QTLjvkHdxvmEnlHVj55nuxe=
+5D4m9xLk-6Yi91hT$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg=
+_conus.gif__;!!DZ3fjg!oxcdEdrGIrqfwlh8K_q832PUo9I3lw153QTLjvkHdxvmEnlHVj55n=
+uxe5D4m9xLk-zD31mw_$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gri=
+dsbody.html__;!!DZ3fjg!oxcdEdrGIrqfwlh8K_q832PUo9I3lw153QTLjvkHdxvmEnlHVj55=
+nuxe5D4m9xLk-9NYQoqu$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml_=
+_;!!DZ3fjg!oxcdEdrGIrqfwlh8K_q832PUo9I3lw153QTLjvkHdxvmEnlHVj55nuxe5D4m9xLk=
+-9-e6Xxr$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf=
+_medr.php?day=3D4__;!!DZ3fjg!oxcdEdrGIrqfwlh8K_q832PUo9I3lw153QTLjvkHdxvmEn=
+lHVj55nuxe5D4m9xLk-zheWCPg$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml_=
+_;!!DZ3fjg!oxcdEdrGIrqfwlh8K_q832PUo9I3lw153QTLjvkHdxvmEnlHVj55nuxe5D4m9xLk=
+-4HciiJP$
+
+$$
+
+
+$$
+
+
+------------------------------
+Message-ID: <7>
+Date: Wed, 2 Feb 2022 18:27:22 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: LONGRANGE: Extended Forecast Discussion
+
+FXUS02 KWBC 021827
+PMDEPD
+
+Extended Forecast Discussion
+NWS Weather Prediction Center College Park MD
+126 PM EST Wed Feb 02 2022
+
+Valid 12Z Sat Feb 05 2022 - 12Z Wed Feb 09 2022
+
+...Overview...
+
+The medium range period starts out Saturday with broad troughing
+across much of the CONUS, sandwiched between a building east
+Pacific ridge and a retreating ridge into the west-central
+Atlantic. Within the mean flow to begin the period, multiple
+northern-stream shortwaves should be present -- one exiting the
+Northeast, another weakening over the Deep South, and a third
+diving into the northern Rockies. The last shortwave should
+amplify by early next week with a positively tilted trough
+stretched from the Great Lakes to the Southern Plains, which is
+forecast to translate eastward and initiate modest cyclogenesis
+off the East Coast. Meanwhile, strong ridging will build in across
+the West before dropping southward as the next shortwave moves
+across the northern tier by the midweek.
+
+...Guidance Evaluation/Predictability Assessment...
+
+The latest suite of models and ensembles continue to show enough
+agreement for a general deterministic model blend for the day 3-4
+(Saturday-Sunday) time period. Afterwards, growing shortwave
+timing and phasing differences between the northern and southern
+streams over the Southwest U.S. and northern Plains prompted a
+mean ensemble approach to the forecast, which maintained decent
+continuity with the overnight medium range forecast.
+
+...Weather Highlights/Threats...
+
+Much of the CONUS should be uneventful and mostly dry through
+early next week at least in terms of any notable weather threats.
+Periodic shower activity is possible across the Southeast
+associated with an offshore frontal wave to close out the weekend.
+However, continued guidance differences leads to low confidence in
+the coverage and amounts of precipitation over the region. Enough
+cold air however does offer the potential for some swaths of
+wintry weather on the inland northwest periphery of any kind of
+surface low development off the east coast, with the best
+potential for any kind of light activity on Sunday over the
+Carolinas or southern Mid-Atlantic. Elsewhere, northern tier
+systems will bring periods of light and scattered snow from the
+upper Midwest to Great Lakes while mostly light rain/mountain snow
+should accompany a couple of systems brushing the Pacific
+Northwest and northern Rockies.
+
+Much below normal temperatures, with daytime highs as much as 10
+to 20 degrees below normal, will continue through the weekend
+across parts of Texas, with less extreme, but still below normal,
+values extending eastward to the East Coast. Single digit lows
+over the Southern Plains could challenge a few longstanding
+records on Saturday. After Sunday, temperatures across this region
+should moderate back towards normal. A welcome relief from the
+cold in the short range period, the northern to central Plains
+should remain above normal through the entire medium range period,
+with the warmest anomalies (+20-25F) during the first half of next
+week as upper level ridging moves in. Meanwhile, the western U.S.
+should trend warmer as well under the influence of eastern Pacific
+ridging making its way onshore.
+
+Asherman/Santorelli
+
+
+Additional 3-7 Day Hazard information can be found on the WPC
+medium range hazards outlook chart at:
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/threats/threats.p=
+hp__;!!DZ3fjg!sufF8lXz4FCuw2KClFqNE6eyy7HDnY5wKFd4haQBZubnEbMD8BqHbqQI8MuYJ=
+S1QgpxiE2t_$
+
+WPC medium range 500mb heights, surface systems, weather grids,
+quantitative precipitation, winter weather outlook probabilities
+and heat indices are at:
+
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst500_=
+wbg.gif__;!!DZ3fjg!sufF8lXz4FCuw2KClFqNE6eyy7HDnY5wKFd4haQBZubnEbMD8BqHbqQI=
+8MuYJS1Qgvsolqf7$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/medr/5dayfcst_wbg=
+_conus.gif__;!!DZ3fjg!sufF8lXz4FCuw2KClFqNE6eyy7HDnY5wKFd4haQBZubnEbMD8BqHb=
+qQI8MuYJS1QgnB0tZuv$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/5km_grids/5km_gri=
+dsbody.html__;!!DZ3fjg!sufF8lXz4FCuw2KClFqNE6eyy7HDnY5wKFd4haQBZubnEbMD8BqH=
+bqQI8MuYJS1QgpJbD5RS$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/qpf/day4-7.shtml_=
+_;!!DZ3fjg!sufF8lXz4FCuw2KClFqNE6eyy7HDnY5wKFd4haQBZubnEbMD8BqHbqQI8MuYJS1Q=
+gosOTqXn$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/wwd/pwpf_d47/pwpf=
+_medr.php?day=3D4__;!!DZ3fjg!sufF8lXz4FCuw2KClFqNE6eyy7HDnY5wKFd4haQBZubnEb=
+MD8BqHbqQI8MuYJS1QgsxAyAem$
+https://urldefense.com/v3/__https://www.wpc.ncep.noaa.gov/heat_index.shtml_=
+_;!!DZ3fjg!sufF8lXz4FCuw2KClFqNE6eyy7HDnY5wKFd4haQBZubnEbMD8BqHbqQI8MuYJS1Q=
+gizBkjSg$
+
+$$
+
+
+$$
+
+
+------------------------------
+Message-ID: <8>
+Date: Wed, 2 Feb 2022 19:50:15 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 2 Fire Weather Outlook
+
+FNUS22 KWNS 021950
+FWDDY2
+
+Day 2 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+0149 PM CST Wed Feb 02 2022
+
+Valid 031200Z - 041200Z
+
+...NO CRITICAL AREAS...
+
+Fire weather concerns will be minimal through the forecast period.
+The previous discussion is valid with no changes.
+
+..Lyons.. 02/02/2022
+
+.PREV DISCUSSION... /ISSUED 0141 AM CST Wed Feb 02 2022/
+
+...Synopsis...
+A broad longwave mid-level trough will meander eastward across the
+central CONUS, with surface cold/wintry conditions persisting across
+much of the central/south-central U.S. tomorrow/Thursday. Dry
+offshore flow with Elevated to locally Critical surface
+meteorological conditions should continue across southern
+California, where fuels are poorly receptive to fire spread (hence
+no fire weather highlights).
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!s3aGm-c=
+oxvmBHh9oArx38FTkLfiz6r-J6toeFHGhD7MC_EyUPhusq_GNGn8BE-wDHEXdDfoF$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <9>
+Date: Thu, 3 Feb 2022 00:50:49 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+027
+FPUS20 KWBN 030050
+SCS02
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 2 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 PM EST WED FEB 02 2022
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 PM EST
+
+                                FORECAST        FORECAST
+                 WED...FEB 02   THU....FEB 03   FRI....FEB 04
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+CONCORD NH       25  41         RAIN    34/41   SNOW    26/30
+CORPUS CHRISTI   55  76         RAIN    42/44   MISG    29/39
+DALLAS FT WORTH  50  50   .12   SNOW    20/27   MOCLDY  16/31
+DAYTON           43  46   .95   SNOW    25/28   MOCLDY  15/23
+DAYTONA BEACH    48  77         PTCLDY  58/79   PTCLDY  61/81
+DENVER           11  14   .19   SUNNY  B13/20   SUNNY  B01/36
+DES MOINES       05  11         SUNNY   01/12   SUNNY  B02/26
+DETROIT          36  37   .60   SNOW    20/23   MOCLDY  10/21
+DULUTH          B11  01         VRYCLD B21/01   SNOW   B12/07
+EL PASO          49  58         SNOSHW  23/35   SUNNY   20/38
+ELKINS           23  51         RAIN    39/55   SNOW    29/31
+ERIE             38  46   .17   SNOW    26/27   SNOSHW  16/20
+EUGENE           38  49   .02   RAIN    39/48   MOCLDY  34/48
+EVANSVILLE       44  48  1.26   RNSNOW  28/29   PTCLDY  18/27
+FAIRBANKS       B35  15B        FOG    B30/11B  SNOW   B18/04
+FARGO           B14  01B        VRYCLD B30/01B  VRYCLD B08/01B
+FLAGSTAFF        16  29         SUNNY   12/30   SUNNY   05/36
+FLINT            32  32   .80   SNOW    16/19   MOCLDY  03/18
+FORT SMITH       41  42   .26   SNOW    20/24   PTCLDY  18/34
+FORT WAYNE       35  36   .71   SNOW    19/20   PTCLDY  06/17
+FRESNO           37  58         SUNNY   34/59   SUNNY   36/63
+GOODLAND         08  10   .24   SUNNY  B06/13   SUNNY   00/36
+GRAND JUNCTION   17  30         PTCLDY  06/30   SUNNY   08/33
+GRAND RAPIDS     27  28   .54   CLOUDY  16/19   MOCLDY  04/20
+GREAT FALLS     B20  01   .06   BLGSNO  03/28   BLGSNO  16/43
+GREEN BAY        12  16         PTCLDY  02/13   SNOW    00/16
+GREENSBORO       25  54         RAIN    44/63   SHWRS   59/62
+HARRISBURG       22  47         RAIN    36/42   FZRAIN  31/38
+HARTFORD SPGFLD  29  44         RAIN    34/45   RAIN    31/36
+HELENA          B08  04   .02   MOCLDY B04/25   MOCLDY  14/38
+HONOLULU         67  82         SUNNY   67/81   SUNNY   67/81
+HOUSTON INTCNTL  54  71         SHWRS   42/46   MOCLDY  29/42
+HUNTSVILLE AL    50  55   .32   SHWRS   52/66   MOCLDY  33/40
+INDIANAPOLIS     42  44  1.11   SNOW    20/24   PTCLDY  13/22
+JACKSON MS       53  68   .17   SHWRS   59/66   CLOUDY  30/40
+JACKSONVILLE     43  75         PTCLDY  56/77   SHWRS   60/80
+JUNEAU           21  28   .56   SNOW    26/33   RAIN    33/39
+KANSAS CITY      16  19   .16   MOCLDY  07/20   SUNNY   04/32
+KEY WEST         67  75         PTCLDY  72/79   PTCLDY  72/79
+KNOXVILLE        33  61   .02   SHWRS   48/63   SHWRS   38/44
+LAKE CHARLES     60  75         SHWRS   62/65   CLOUDY  34/45
+LANSING          31  33   .95   SNOSHW  16/18   MOCLDY  03/19
+LAS VEGAS        39  49         SUNNY   32/53   SUNNY   34/56
+LEXINGTON        41  47   .62   FZRAIN  38/41   RNSNOW  20/28
+
+
+$$
+
+
+------------------------------
+Message-ID: <10>
+Date: Thu, 3 Feb 2022 00:50:49 +0000
+From: <no-reply@weather.cod.edu>
+Subject: SELECTED: Selected Cities Outlook (Automatic)
+
+024
+FPUS20 KWBN 030050
+SCS03
+SELECTED CITIES WEATHER SUMMARY AND FORECASTS...PART 3 OF 4
+NWS/NDFD TELECOMMUNICATION OPERATIONS CENTER SILVER SPRING MD
+750 PM EST WED FEB 02 2022
+
+TEMPERATURES INDICATE NIGHTTIME LOW...DAYTIME HIGH
+B INDICATES TEMPERATURES BELOW ZERO
+PRECIPITATION FOR 24 HOURS ENDING AT 7 PM EST
+
+                                FORECAST        FORECAST
+                 WED...FEB 02   THU....FEB 03   FRI....FEB 04
+CITY             LO/HI   PCPN   WEA     LO/HI   WEA     LO/HI
+
+LINCOLN          11  18         SUNNY   00/19   SUNNY   03/39
+LITTLE ROCK      56  61   .06   FZRAIN  27/30   MOCLDY  22/36
+LOS ANGELES      45  65         SUNNY   46/64   SUNNY   43/69
+LOUISVILLE       45  52   .50   RNSNOW  33/35   MISG    22/30
+LUBBOCK          28  30   .04   SNOW    11/19   SUNNY   07/34
+MACON            43  69         SHWRS   55/77   SHWRS   60/67
+MADISON          09  15         MOCLDY  04/13   SNOW   B03/18
+MEDFORD          30  51         PTCLDY  28/53   MOCLDY  23/56
+MEMPHIS          52  61   .45   FZRAIN  33/34   MOCLDY  24/35
+MIAMI BEACH      67  78         PTCLDY  68/79   SUNNY   69/79
+MIDLAND ODESSA   37  38   .02   MOCLDY  14/24   SUNNY   09/32
+MILWAUKEE        18  21         SNOW    13/21   MOCLDY  11/23
+MPLS ST PAUL    B01  07         VRYCLD B12/02   VRYCLD B08/10
+MISSOULA         03  12         SNOW    08/29   MOCLDY  20/38
+MOBILE           58  64   .61   SHWRS   62/73   SHWRS   43/49
+MONTGOMERY       46  70   .07   SHWRS   60/74   SHWRS   50/51
+NASHVILLE        48  51  1.18   SHWRS   45/51   CLOUDY  28/35
+NEW ORLEANS      62  68   .35   SHWRS   63/75   SHWRS   41/47
+NEW YORK CITY    32  47         RAIN    38/44   RAIN    32/38
+NEWARK           24  44         RAIN    36/45   RAIN    34/39
+NORFOLK VA       33  41         MOCLDY  39/64   RAIN    55/68
+NORTH PLATTE     07  16         PTCLDY B03/21   SUNNY   05/43
+OKLAHOMA CITY    26  27   .07   SNOSHW  10/18   SUNNY   08/27
+OMAHA            11  19         SUNNY   00/18   SUNNY   05/35
+ORLANDO          50  81         SUNNY   59/83   SUNNY   63/84
+PADUCAH          47  50   .99   RNSNOW  28/28   MOCLDY  20/30
+PENDLETON        25  37   .02   MOCLDY  30/44   MOCLDY  28/46
+PEORIA           17  18   .97   SNOW    13/19   SUNNY   02/20
+PHILADELPHIA     25  46         RAIN    39/50   RAIN    39/44
+PHOENIX          50  62         SUNNY   38/59   SUNNY   38/65
+PITTSBURGH       29  48   .01   FZRAIN  36/37   SNOSHW  23/26
+POCATELLO        09  16    MM   FOG     04/20   FOG     08/26
+PORTLAND ME      25  40         RAIN    36/41   SNOW    22/25
+PORTLAND OR      40  41   .06   RAIN    41/47   RAIN    36/47
+PROVIDENCE       31  44         RAIN    35/48   RAIN    34/42
+PUEBLO           14  16   .19   PTCLDY B04/20   SUNNY  B04/38
+RALEIGH DURHAM   25  60         RAIN    47/68   SHWRS   62/68
+RAPID CITY       00  08   .01   SUNNY  B07/29   SUNNY   11/39
+RENO             17  40         SUNNY   20/46   SUNNY   21/50
+RICHMOND         25  55         RAIN    38/63   RAIN    58/60
+ROANOKE          22  48         RAIN    38/53   RAIN    51/54
+ROCHESTER NY     33  43         SNOW    27/29   SNOW    15/18
+ROCKFORD         17  20   .01   MOCLDY  12/18   PTCLDY  03/20
+SACRAMENTO       40  59         PTCLDY  36/59   SUNNY   36/63
+ST LOUIS         22  23  1.04   SNOW    17/22   PTCLDY  10/26
+ST PETERSBURG    58  77         SUNNY   63/78   SUNNY   65/77
+ST THOMAS VI     74  85   .19   SHWRS   72/82   SHWRS   71/82
+
+
+$$
+
+
+------------------------------
+Message-ID: <11>
+Date: Thu, 3 Feb 2022 06:31:10 +0000
+From: <no-reply@weather.cod.edu>
+Subject: HAZARDS: Public Tsunami Statement-Western US
+
+432
+WEAK53 PAAQ 030630
+TIBAK1
+
+Tsunami Information Statement Number 1
+NWS National Tsunami Warning Center Palmer AK
+930 PM AKST Wed Feb 2 2022
+
+...THIS IS A TSUNAMI INFORMATION STATEMENT...
+
+EVALUATION
+----------
+ * There is NO tsunami danger from this earthquake.
+
+
+PRELIMINARY EARTHQUAKE PARAMETERS
+---------------------------------
+
+ * The following parameters are based on a rapid preliminary
+   assessment of the earthquake and changes may occur.
+
+ * Magnitude      4.8
+ * Origin Time    2125 AKST Feb 02 2022
+                  2225  PST Feb 02 2022
+                  0625  UTC Feb 03 2022
+ * Coordinates    55.8 North 149.2 West
+ * Depth          6 miles
+ * Location       185 miles SE of Kodiak City, Alaska
+                  375 miles S of Anchorage, Alaska
+
+
+ADDITIONAL INFORMATION AND NEXT UPDATE
+--------------------------------------
+ * Further information will be issued by the United States
+   Geological Survey (https://urldefense.com/v3/__http://earthquake.usgs.go=
+v__;!!K543PA!PTXyv0LfXqTA2t84sTfswVbaDF6igoWjIVfKXP1ldbvL3k8gLWEbYJQsP3JIL-=
+PZFz8uSKM3YjNu5cLS6AX6SI7P055C$ ) or the appropriate
+   regional seismic network.
+
+ * This will be the only U.S. National Tsunami Warning Center
+   message issued for this event unless additional information
+   becomes available.
+
+$$
+
+
+------------------------------
+Message-ID: <12>
+Date: Thu, 3 Feb 2022 06:36:20 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 1 Fire Weather Outlook
+
+FNUS21 KWNS 030636
+FWDDY1
+
+Day 1 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+1235 AM CST Thu Feb 03 2022
+
+Valid 031200Z - 041200Z
+
+...NO CRITICAL AREAS...
+
+...Synopsis...
+Cold and wintry conditions will persist across the central and
+southern CONUS as a longwave mid-level trough continues to meander
+across the central U.S. today. Persistent surface high pressure
+across the Interior West will continue to support a pressure
+gradient and associated offshore flow across California. However,
+fuels across this region remain moist, so significant
+wildfire-spread conditions are not anticipated.
+
+..Squitieri.. 02/03/2022
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!upMVmVk=
+naYagCGPICYsYXEDqRGxwH7EDUNVd1hBXEZ6SiQsynowzY-6rJs0FRf3eh62dFu-0$
+for graphic product...
+
+$$
+
+
+------------------------------
+Message-ID: <13>
+Date: Thu, 3 Feb 2022 06:36:20 +0000
+From: COD Weather Processor <ldm@weather.cod.edu>
+Subject: FIRE: Day 2 Fire Weather Outlook
+
+FNUS22 KWNS 030636
+FWDDY2
+
+Day 2 Fire Weather Outlook
+NWS Storm Prediction Center Norman OK
+1235 AM CST Thu Feb 03 2022
+
+Valid 041200Z - 051200Z
+
+...NO CRITICAL AREAS...
+
+...Synopsis...
+Large-scale mid-level cyclonic flow will continue to dominate the
+CONUS through tomorrow/Friday, with surface high pressure and
+associated cold conditions persisting across the Interior West into
+the central and eastern CONUS. Significant wildfire-spread potential
+will remain negligible across the CONUS. While dry offshore flow is
+expected to continue across southern California, relatively moist
+fuels should inhibit significant wildfire growth.
+
+..Squitieri.. 02/03/2022
+
+...Please see
+https://urldefense.com/v3/__http://www.spc.noaa.gov/fire__;!!DZ3fjg!v4qoO0k=
+mWDN4HL58xM9F1O4M5Dm6W3lW4gcp_w2UK-HLjzBz7IOR6RJldQNcUhn7Q5vHhuLK$
+for graphic product...
+
+$$
+
+
+------------------------------
+
+*********************************************
+
+End of wx-natnl Digest Thu, 03 Feb 2022
+
