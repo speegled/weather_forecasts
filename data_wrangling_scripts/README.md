@@ -42,7 +42,7 @@ Also note that
  
 `reorganize_email_data.R` reorganizes the data in `email_data.csv` into a more convenient format.
 The reorganized data has a row for each unique (`date`, `city`) pair that includes all of the relevant temperature observations and forecasts for that pair.
-This script creates a new R data frame and writes it to the file `email_data_reorganized.csv` in the `data` folder.
+This script creates a new R data frame and writes it to the file `email_data_reorganized.csv` in the `data` folder. This step can be skipped.
 
 **`email_data_reorganized.csv` has 15 columns:**
 
